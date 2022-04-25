@@ -5,11 +5,11 @@
 
 <nav>
   <ul>
-    <li><img src="./juice_logo-ol.png" /></li>
-    <li><a href="">Projects</a></li>
-    <li><a href="">FAQ</a></li>
-    <li><a href="">Discord</a></li>
-    <li><a href="">Resources </a></li>
+    <li><img src="./juice_logo-ol.png" alt="Juicebox logo" /></li>
+    <li><a href="/">Projects</a></li>
+    <li><a href="/">FAQ</a></li>
+    <li><a href="/">Discord</a></li>
+    <li><a href="/">Resources </a></li>
   </ul>
 
   <ul>
@@ -28,12 +28,13 @@
   }
 
   img {
-    height: 45px;
+    max-height: 45px;
   }
 
   ul {
     display: flex;
     align-items: center;
+    padding-inline-start: 0px;
   }
 
   li {
@@ -43,5 +44,7 @@
 
   a {
     color: var(--text-color);
+    font-weight: 600;
+    font-size: 14px;
   }
 </style>
