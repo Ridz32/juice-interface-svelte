@@ -20,8 +20,8 @@
         href="https://ethereum.org/en/what-is-ethereum/">Ethereum.</a
       >
     </p>
-    <p>Built for:</p>
-    <!-- For each item in list -->
+    <br />
+    <p class="sub-header">Built for:</p>
     {#each list as item}
       <div class="item">
         <img src="./bolt.png" alt="⚡️" />
@@ -64,6 +64,7 @@
     font-weight: 500;
     line-height: 1.57;
   }
+
   #banny {
     min-height: 300px;
     /* max-width: 100%; */
@@ -71,6 +72,11 @@
     display: block;
     flex: 0 0 46%;
     max-width: 46%;
+  }
+
+  .sub-header {
+    color: var(--text-header);
+    font-size: 14px;
   }
 
   .item {
