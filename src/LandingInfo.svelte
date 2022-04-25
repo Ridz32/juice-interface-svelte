@@ -9,7 +9,7 @@
 
 <section>
   <article>
-    <h1>Community funding for people and projects!</h1>
+    <h1>Community funding for people and projects</h1>
     <p>
       Build a community around a project, fund it, and program its spending.
       Light enough for a group of friends, powerful enough for a global network
@@ -28,6 +28,7 @@
         <p>{item}</p>
       </div>
     {/each}
+    <button>Design your project</button>
   </article>
   <img id="banny" src="./banny.png" alt="Banny partying with code" />
 </section>
@@ -65,6 +66,23 @@
     line-height: 1.57;
   }
 
+  button {
+    margin-top: 2rem;
+    background: var(--background-action-primary);
+    border-color: transparent;
+    box-shadow: 0 6px 10px rgb(0 0 0 / 8%);
+    border-radius: var(--radius-sm);
+    color: var(--text-over-action-primary);
+    font-weight: 500;
+    height: 40px;
+    padding: 6.4px 15px;
+    font-size: 16px;
+  }
+
+  button:hover {
+    box-shadow: 0 8px 12px rgb(0 0 0 / 12%);
+  }
+
   #banny {
     min-height: 300px;
     /* max-width: 100%; */
@@ -82,7 +100,7 @@
   .item {
     display: flex;
     align-items: center;
-    margin: 0px 20px;
+    margin: 0px 10px;
   }
 
   .item img {
@@ -93,6 +111,7 @@
   .item p {
     font-style: italic;
     font-weight: 600;
+    font-size: 14px;
     margin: 0.2em;
   }
 </style>
