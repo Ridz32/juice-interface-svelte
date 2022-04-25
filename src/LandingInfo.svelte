@@ -1,4 +1,6 @@
 <script>
+  import { Link } from "svelte-navigator";
+
   const list = [
     "Indie artists, devs, creators",
     "Ethereum protocols and DAOs",
@@ -28,7 +30,9 @@
         <p>{item}</p>
       </div>
     {/each}
-    <button>Design your project</button>
+    <Link to="/create">
+      <button>Design your project</button>
+    </Link>
   </article>
   <img id="banny" src="./banny.png" alt="Banny partying with code" />
 </section>
