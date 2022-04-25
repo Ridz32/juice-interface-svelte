@@ -47,4 +47,8 @@
     font-weight: 600;
     font-size: 14px;
   }
+
+  a:hover {
+      opacity: 0.7;
+  }
 </style>
