@@ -1,6 +1,7 @@
 <script>
   import CreateProjectButton from "./CreateProjectButton.svelte";
   import InfoBox from "./InfoBox.svelte";
+  import Input from "./Input.svelte";
   import { Tab, Tabs, TabList, TabPanel } from "./Tabs";
 
   const items = [
@@ -45,6 +46,7 @@
           <InfoBox
             info="You can edit your project details later on at any time."
           />
+          <Input label="Project name" placeholder="Peach's Juicebox Stand" required />
         </TabPanel>
       </section>
       <section />
@@ -75,6 +77,7 @@
   section:first-of-type {
     flex: 0 0 42%;
     max-width: 42%;
+    margin-right: 40px;
   }
 
   section:last-of-type {
