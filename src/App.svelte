@@ -11,7 +11,7 @@
     <Route path="/">
       <LandingInfo />
     </Route>
-    <Route path="/create">
+    <Route path="create">
       <CreateProject />
     </Route>
   </main>
