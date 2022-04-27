@@ -1,5 +1,6 @@
 <script>
   import CreateProjectButton from "./CreateProjectButton.svelte";
+  import { Tab, Tabs, TabList, TabPanel } from "./Tabs";
 
   const items = [
     {
@@ -30,25 +31,33 @@
 </script>
 
 <div id="create">
-  <div class="row">
-    <section>
-      <h1>Design your project 🎨</h1>
-      {#each items as item, index}
-        <CreateProjectButton
-          title={item.title}
-          description={item.description}
-          number={index + 1}
-        />
-      {/each}
-    </section>
-    <section />
-  </div>
+  <h1>Design your project 🎨</h1>
+  <Tabs>
+    <TabList>
+      <Tab>1. Project details</Tab>
+      <Tab>2. Funding cycle</Tab>
+      <Tab>3. Review and deploy</Tab>
+    </TabList>
+    <div class="row">
+      <section>
+        <TabPanel>
+          {#each items as item, index}
+            <CreateProjectButton
+              title={item.title}
+              description={item.description}
+              number={index + 1}
+            />
+          {/each}
+        </TabPanel>
+      </section>
+      <section />
+    </div>
+  </Tabs>
 </div>
 
 <style>
   #create {
-    padding: 20px 40px 40px;
-    margin-top: 150px;
+    padding: 20px 80px 80px;
     margin-bottom: 40px;
     background: var(--background-l0);
   }
@@ -60,14 +69,10 @@
   }
 
   h1 {
-    font-size: 1.17em;
+    color: var(--primary-text);
+    font-size: 28px;
     font-weight: 400;
-  }
-
-  section {
-    display: block;
-    padding-left: 40px;
-    padding-right: 40px;
+    margin-bottom: 40px;
   }
 
   section:first-of-type {
