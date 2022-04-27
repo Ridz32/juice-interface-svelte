@@ -1,5 +1,6 @@
 <script>
   import CreateProjectButton from "./CreateProjectButton.svelte";
+  import InfoBox from "./InfoBox.svelte";
   import { Tab, Tabs, TabList, TabPanel } from "./Tabs";
 
   const items = [
@@ -41,13 +42,9 @@
     <div class="row">
       <section>
         <TabPanel>
-          {#each items as item, index}
-            <CreateProjectButton
-              title={item.title}
-              description={item.description}
-              number={index + 1}
-            />
-          {/each}
+          <InfoBox
+            info="You can edit your project details later on at any time."
+          />
         </TabPanel>
       </section>
       <section />
