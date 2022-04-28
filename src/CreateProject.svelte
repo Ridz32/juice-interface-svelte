@@ -15,12 +15,18 @@
       label: "Project description",
       placeholder: "1000 characters max",
       type: "textarea",
+      props: {
+        maxlength: 10000,
+      },
     },
     {
       id: "website",
       label: "Website",
       placeholder: "https://your-project.com",
       description: "Your project's website",
+      props: {
+        type: "url",
+      },
     },
     {
       id: "twitter",
@@ -34,6 +40,9 @@
       label: "Discord",
       placeholder: "https://discord.gg/abcdefgh",
       description: "An invite link to your project's Discord server",
+      props: {
+        type: "url",
+      },
     },
     {
       id: "payButtonText",

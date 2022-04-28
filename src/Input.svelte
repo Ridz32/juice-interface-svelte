@@ -11,23 +11,29 @@
     id: string;
     label: string;
     placeholder?: string;
-    required?: boolean;
     description?: string;
     prefix?: string;
     // type?: InputType;
     type?: string;
+    props?: {
+      required?: boolean;
+      maxlength?: number;
+    };
   }
 </script>
 
-<label for="name">
-  {#if field.required}<small>*</small>{/if}
+<label for={field.id}>
+  {#if field.props?.required}<small>*</small>{/if}
   {field.label}
 </label>
-{#if field.type === "input" || !field.type}
-  <input id="name" type="text" placeholder={field.placeholder} />
-{:else if field.type === "textarea"}
-  <textarea id="name" placeholder={field.placeholder} />
-{/if}
+<div class="input-container">
+  {#if field.prefix} <div class="prefix">{field.prefix}</div> {/if}
+  {#if field.type === "input" || !field.type}
+    <input id={field.id} placeholder={field.placeholder} {...field.props} />
+  {:else if field.type === "textarea"}
+    <textarea id={field.id} placeholder={field.placeholder} {...field.props} />
+  {/if}
+</div>
 {#if field.description}
   <p class="description">{field.description}</p>
 {/if}
