@@ -1,33 +1,54 @@
-<script>
-  import CreateProjectButton from "./CreateProjectButton.svelte";
+<script lang="ts">
   import InfoBox from "./InfoBox.svelte";
   import Input from "./Input.svelte";
   import { Tab, Tabs, TabList, TabPanel } from "./Tabs";
 
-  const items = [
+  const formFields = [
     {
-      title: "Project details",
-      description: "Project name, handle, links, and other details.",
+      id: "name",
+      label: "Project name",
+      required: true,
+      placeholder: "Peach's Juicebox Stand",
     },
     {
-      title: "Funding cycle",
-      description: "Your project's funding cycle target and duration.",
+      id: "description",
+      label: "Project description",
+      placeholder: "1000 characters max",
+      type: "textarea",
     },
     {
-      title: "Funding distribution",
-      description: "How your project will distribute funds.",
+      id: "website",
+      label: "Website",
+      placeholder: "https://your-project.com",
+      description: "Your project's website",
     },
     {
-      title: "Reserved tokens",
-      description: "Reward specific community members with tokens.",
+      id: "twitter",
+      label: "Twitter",
+      prefix: "@",
+      placeholder: "@your-project",
+      description: "Your project's Twitter handle",
     },
     {
-      title: "Incentives",
-      description: "Adjust incentives for paying your project.",
+      id: "discord",
+      label: "Discord",
+      placeholder: "https://discord.gg/abcdefgh",
+      description: "An invite link to your project's Discord server",
     },
     {
-      title: "Restricted actions",
-      description: "Restrict payments and printing tokens",
+      id: "payButtonText",
+      label: "Pay button text",
+      placeholder: "Pay",
+      description:
+        'Text displayed on your project\'s "pay" button. Leave this blank to use the default.',
+    },
+    {
+      id: "payDisclosure",
+      label: "Pay disclosure",
+      placeholder: "Payment disclosure",
+      description:
+        "This text will be displayed to your supporters before they complete their payment.",
+      type: "textarea",
     },
   ];
 </script>
@@ -46,7 +67,9 @@
           <InfoBox
             info="You can edit your project details later on at any time."
           />
-          <Input label="Project name" placeholder="Peach's Juicebox Stand" required />
+          {#each formFields as field}
+            <Input {field} />
+          {/each}
         </TabPanel>
       </section>
       <section />
@@ -84,5 +107,13 @@
     flex: 0 0 58%;
     max-width: 58%;
     border-left: 1px solid rgba(0, 0, 0, 0.094);
+  }
+
+  @media (max-width: 850px) {
+    section:first-of-type, section:last-of-type {
+      flex: 0 0 100%;
+      max-width: 100%;
+      margin-right: 0;
+    }
   }
 </style>
