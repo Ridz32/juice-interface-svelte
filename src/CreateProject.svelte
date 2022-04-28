@@ -2,6 +2,7 @@
   import InfoBox from "./InfoBox.svelte";
   import Input from "./Input.svelte";
   import { Tab, Tabs, TabList, TabPanel } from "./Tabs";
+  import UploadField from "./UploadField.svelte";
 
   const formFields = [
     {
@@ -79,6 +80,7 @@
           {#each formFields as field}
             <Input {field} />
           {/each}
+          <UploadField />
         </TabPanel>
       </section>
       <section />
