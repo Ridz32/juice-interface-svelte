@@ -32,7 +32,7 @@
       id: "twitter",
       label: "Twitter",
       prefix: "@",
-      placeholder: "@your-project",
+      placeholder: "your-project",
       description: "Your project's Twitter handle",
     },
     {
@@ -119,7 +119,8 @@
   }
 
   @media (max-width: 850px) {
-    section:first-of-type, section:last-of-type {
+    section:first-of-type,
+    section:last-of-type {
       flex: 0 0 100%;
       max-width: 100%;
       margin-right: 0;

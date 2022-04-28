@@ -50,7 +50,7 @@
   }
   input,
   textarea {
-    box-sizing: border-box;
+    flex-grow: 1;
     margin: 0;
     font-variant: tabular-nums;
     font-family: inherit;
@@ -61,18 +61,31 @@
     font-feature-settings: "tnum", "tnum";
     position: relative;
     display: inline-block;
-    width: 100%;
+    /* width: 100%; */
     min-width: 0;
     padding: 4px 11px;
     color: rgba(0, 0, 0, 0.85);
     font-size: 14px;
     line-height: 1.5715;
     background-color: transparent;
-    border: 1px solid #d9d9d9;
-    border-radius: 2px;
+    border: none;
     transition: all 0.3s;
   }
 
+  .input-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    box-sizing: border-box;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+  }
+
+  .prefix {
+    width: 15px;
+    text-align: center;
+  }
   .description {
     font-size: 14px;
     font-weight: 300;
