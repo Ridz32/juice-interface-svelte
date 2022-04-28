@@ -1,11 +1,17 @@
 <script lang="ts">
   export let field: FormField;
+  export let onChange: (id: string) => (e: Event) => void;
+
 
   // TODO: Why can't I export this type?
   // enum InputType {
   //   Input = "input",
   //   TextArea = "textarea",
   // }
+
+  function onFieldChange(e: Event) {
+    return onChange(field.id)(e);
+  }
 
   interface FormField {
     id: string;
@@ -29,9 +35,19 @@
 <div class="input-container">
   {#if field.prefix} <div class="prefix">{field.prefix}</div> {/if}
   {#if field.type === "input" || !field.type}
-    <input id={field.id} placeholder={field.placeholder} {...field.props} />
+    <input
+      id={field.id}
+      placeholder={field.placeholder}
+      on:blur={onFieldChange}
+      {...field.props}
+    />
   {:else if field.type === "textarea"}
-    <textarea id={field.id} placeholder={field.placeholder} {...field.props} />
+    <textarea
+      id={field.id}
+      placeholder={field.placeholder}
+      on:blur={onFieldChange}
+      {...field.props}
+    />
   {/if}
 </div>
 {#if field.description}
