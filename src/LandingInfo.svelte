@@ -81,6 +81,7 @@
     height: 40px;
     padding: 6.4px 15px;
     font-size: 16px;
+    cursor: pointer;
   }
 
   button:hover {
