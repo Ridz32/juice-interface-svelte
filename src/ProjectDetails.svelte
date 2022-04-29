@@ -13,8 +13,10 @@
     {
       id: "name",
       label: "Project name",
-      required: true,
       placeholder: "Peach's Juicebox Stand",
+      props: {
+          required: true,
+      }
     },
     {
       id: "description",
