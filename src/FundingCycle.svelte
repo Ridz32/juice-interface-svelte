@@ -1,0 +1,37 @@
+<script lang="ts">
+  import DescriptiveNumberedButton from "./DescriptiveNumberedButton.svelte";
+  import InfoBox from "./InfoBox.svelte";
+
+  const buttons = [
+    {
+      title: "Funding",
+      description: "Configure how your project will collect and spend funds",
+    },
+    {
+      title: "Token",
+      description: "Configure the dynamics of your project's token.",
+    },
+    {
+      title: "Rules",
+      description: "Configure restrictions for your funding cycles.",
+    },
+  ];
+</script>
+
+<InfoBox
+  info={`Funding Cycle #1 will start immediately after you deploy your project. Once deployed, <b>Funding Cycle #1 can't be reconfigured.</b>
+<br><br>
+You can reconfigure your project's funding cycles later on, and changes will take effect in the next funding cycle (Funding Cycle #2).`}
+/>
+
+<section class="buttons">
+  {#each buttons as button, number}
+    <DescriptiveNumberedButton {...button} number={number + 1} />
+  {/each}
+</section>
+
+<style>
+  .buttons {
+    margin-top: 40px;
+  }
+</style>

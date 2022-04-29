@@ -12,6 +12,7 @@
       {description}
     </div>
   </div>
+  <!-- TODO put svg in icon file -->
   <svg
     viewBox="0 0 1024 1024"
     xmlns="http://www.w3.org/2000/svg"
@@ -29,6 +30,7 @@
     fill: rgb(24, 180, 199);
     width: 15px;
     height: 15px;
+    padding-left: 20px;
   }
 
   .number {
@@ -36,9 +38,10 @@
   }
 
   .description {
-    color: rgba(0, 0, 0, 0.6);
-    font-weight: 400;
+    color: var(--text-primary);
+    font-weight: 300;
     font-size: 0.75rem;
+    margin-top: 10px;
   }
 
   div[role="button"] {
@@ -46,7 +49,7 @@
     cursor: pointer;
     padding: 15px;
     border-radius: 1px;
-    font-weight: 600;
+    font-weight: 500;
     color: rgb(24, 180, 199);
     border-color: rgb(24, 180, 199);
     border-style: solid;
