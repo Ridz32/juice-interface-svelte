@@ -55,6 +55,13 @@
     Overflow can be claimed by your project's token holders by redeeming their tokens.
     <a href="/">Learn more</a> about overflow.
   </p>
+  <label for="distributionLimit">Distribution limit</label>
+  <select>
+    <option>Zero, no funds can be distributed</option>
+    <option>No limit (infinite)</option>1
+    <!-- TODO specific target needs an extra input -->
+    <option>Specific target</option>
+  </select>
   <AlertText
     >With a distribution limit of Zero, no funds can be distributed by the
     project. All funds belong to token holders as overflow.</AlertText
@@ -74,5 +81,28 @@
 
   h3 {
     font-weight: 300;
+  }
+
+  label {
+      font-weight: 400;
+  }
+
+  /* TODO think of nice input/select abstraction, this css has been repeated in FundingCycleInput and FormField */
+  select {
+    display: block;
+    background: transparent;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    color: rgba(0, 0, 0, 0.85);
+    font-variant: tabular-nums;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 300;
+    width: 150px;
+    padding: 4px 11px;
+    margin-top: 10px;
+    line-height: 1.5715;
+    transition: all 0.3s;
+    width: 100%;
   }
 </style>
