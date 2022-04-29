@@ -1,28 +1,32 @@
 <script lang="ts">
-
   import { Tab, Tabs, TabList, TabPanel } from "./Tabs";
   import Preview from "./Preview.svelte";
-import ProjectDetails from "./ProjectDetails.svelte";
-import FundingCycle from "./FundingCycle.svelte";
+  import ProjectDetails from "./ProjectDetails.svelte";
+  import FundingCycle from "./FundingCycle.svelte";
+  import Button from "./Button.svelte";
 
-
+  function onClick(tabId: string) {
+    document.getElementById(tabId).click()
+  }
 </script>
 
 <div id="create">
   <h1>Design your project 🎨</h1>
   <Tabs>
     <TabList>
-      <Tab>1. Project details</Tab>
-      <Tab>2. Funding cycle</Tab>
-      <Tab>3. Review and deploy</Tab>
+      <Tab id="details">1. Project details</Tab>
+      <Tab id="funding">2. Funding cycle</Tab>
+      <Tab id="review">3. Review and deploy</Tab>
     </TabList>
     <div class="row">
       <section>
         <TabPanel>
           <ProjectDetails />
+          <Button onClick={() => onClick("funding")}>Next: Funding cycle</Button>
         </TabPanel>
         <TabPanel>
           <FundingCycle />
+          <Button onClick={() => onClick("review")}>Next: Review and deploy</Button>
         </TabPanel>
       </section>
       <section>
