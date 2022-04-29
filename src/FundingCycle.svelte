@@ -1,6 +1,10 @@
 <script lang="ts">
   import DescriptiveNumberedButton from "./DescriptiveNumberedButton.svelte";
+import Drawer from "./Drawer.svelte";
   import InfoBox from "./InfoBox.svelte";
+
+
+  let drawerOpen = false;
 
   const buttons = [
     {
@@ -16,6 +20,10 @@
       description: "Configure restrictions for your funding cycles.",
     },
   ];
+
+  function onClick(e: Event) {
+    drawerOpen = true;
+  }
 </script>
 
 <InfoBox
@@ -26,9 +34,11 @@ You can reconfigure your project's funding cycles later on, and changes will tak
 
 <section class="buttons">
   {#each buttons as button, number}
-    <DescriptiveNumberedButton {...button} number={number + 1} />
+    <DescriptiveNumberedButton {...button} number={number + 1} {onClick} />
   {/each}
 </section>
+
+<Drawer bind:shown={drawerOpen} />
 
 <style>
   .buttons {

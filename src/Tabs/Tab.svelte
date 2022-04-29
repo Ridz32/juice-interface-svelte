@@ -44,6 +44,5 @@
     left: 0;
     right: 0;
     background: var(--text-brand-primary);
-    z-index: 999;
   }
 </style>

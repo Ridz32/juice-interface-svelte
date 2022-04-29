@@ -1,10 +1,11 @@
 <script>
     export let description;
     export let number;
+    export let onClick;
     export let title;
 </script>
 
-<div role="button">
+<div role="button" on:click={onClick}>
   <div class="number">{number}</div>
   <div class="details">
     <div class="title">{title}</div>
