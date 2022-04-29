@@ -1,10 +1,14 @@
 <script lang="ts">
-  import { name, description, twitter, discord, website } from "./stores";
+  import { name, description, twitter, discord, website, logo } from "./stores";
 </script>
 
 <h1 class="title">Preview:</h1>
 <div class="info">
-  <div class="logo">🧃</div>
+  {#if $logo}
+    <img class="logo" src={$logo} alt="Uploaded logo" />
+  {:else}
+    <div class="logo-placeholder">🧃</div>
+  {/if}
   <div class="info-text">
     <h1>{$name || "Untitled project"}</h1>
     <div class="social-list">
@@ -35,8 +39,9 @@
 <style>
   .title {
     font-size: 18px;
-    color: rgba(0, 0, 0, 0.333);
+    color: rgba(0, 0, 0, 0.6);
     margin-bottom: 0px;
+    font-weight: 400;
   }
 
   .description {
@@ -50,7 +55,12 @@
     align-items: center;
     color: rgba(0, 0, 0, 0.333);
   }
+
   .logo {
+      height: 150px;
+      width: 150px;
+  }
+  .logo-placeholder {
     background-color: rgb(231, 227, 220);
     height: 150px;
     width: 150px;

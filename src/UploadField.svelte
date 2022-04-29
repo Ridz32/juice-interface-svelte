@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  export let onChange: (src: string) => void;
 
   let file: HTMLInputElement;
   let isFileSet = false;
@@ -19,8 +20,14 @@
   });
 
   var loadFile = function (file: Blob | MediaSource) {
+    // Get src url
+    const src = URL.createObjectURL(file);
+    if(onChange) {
+      onChange(src);
+    }
+    // Set preview image
     let image = document.getElementById("output") as HTMLImageElement;
-    image.src = URL.createObjectURL(file);
+    image.src = src;
     isFileSet = true;
   };
 </script>

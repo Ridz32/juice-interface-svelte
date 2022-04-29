@@ -9,14 +9,18 @@
     state[id].set(target.value);
   };
 
+  function onLogoChange(src: string) {
+    state.logo.set(src);
+  }
+
   const formFields = [
     {
       id: "name",
       label: "Project name",
       placeholder: "Peach's Juicebox Stand",
       props: {
-          required: true,
-      }
+        required: true,
+      },
     },
     {
       id: "description",
@@ -74,4 +78,4 @@
 {#each formFields as field}
   <Input {field} {onChange} />
 {/each}
-<UploadField />
+<UploadField onChange={onLogoChange} />
