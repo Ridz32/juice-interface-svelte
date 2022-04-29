@@ -2,7 +2,6 @@
   export let field: FormField;
   export let onChange: (id: string) => (e: Event) => void;
 
-
   // TODO: Why can't I export this type?
   // enum InputType {
   //   Input = "input",

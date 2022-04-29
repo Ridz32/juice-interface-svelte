@@ -1,7 +1,7 @@
 <script lang="ts">
   import * as state from "./stores";
   import InfoBox from "./InfoBox.svelte";
-  import Input from "./Input.svelte";
+  import Input from "./FormField.svelte";
   import UploadField from "./UploadField.svelte";
 
   const onChange = (id: string) => (e: Event) => {
