@@ -1,16 +1,14 @@
 <script lang="ts">
   export let field: FormField;
-  export let onChange: (id: string) => (e: Event) => void;
+  // NOTE: don't like this approach of passing around a store state, but can't seem to pass down
+  // the specific store key to bind here in the child component
+  export let dataStore: any;
 
   // TODO: Why can't I export this type?
   // enum InputType {
   //   Input = "input",
   //   TextArea = "textarea",
   // }
-
-  function onFieldChange(e: Event) {
-    return onChange(field.id)(e);
-  }
 
   interface FormField {
     id: string;
@@ -37,14 +35,14 @@
     <input
       id={field.id}
       placeholder={field.placeholder}
-      on:blur={onFieldChange}
+      bind:value={$dataStore[field.id]}
       {...field.props}
     />
   {:else if field.type === "textarea"}
     <textarea
       id={field.id}
       placeholder={field.placeholder}
-      on:blur={onFieldChange}
+      bind:value={$dataStore[field.id]}
       {...field.props}
     />
   {/if}

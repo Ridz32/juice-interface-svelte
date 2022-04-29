@@ -1,16 +1,18 @@
 import { writable, derived } from 'svelte/store';
 
-export const name = writable();
-export const description = writable();
-export const website = writable();
-export const twitter = writable();
-export const discord = writable();
-export const payButtonText = writable();
-export const payDisclosure = writable();
-export const logo = writable();
+export const projectDetails = writable({
+	name: null,
+	description: null,
+	website: null,
+	twitter: null,
+	discord: null,
+	payButtonText: 'Pay',
+	payDisclosure: null,
+	logo: null,
+});
 
 export const twitterHandle = derived(
-	twitter,
+	projectDetails['twitter'],
     // TODO: Check if it starts with @, if not prefix it
 	$twitter => `@${$twitter}!`
 );

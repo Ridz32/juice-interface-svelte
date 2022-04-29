@@ -1,16 +1,11 @@
 <script lang="ts">
-  import * as state from "./stores";
+  import { projectDetails } from "./stores";
   import InfoBox from "./InfoBox.svelte";
   import Input from "./FormField.svelte";
   import UploadField from "./UploadField.svelte";
 
-  const onChange = (id: string) => (e: Event) => {
-    const target = e.target as HTMLInputElement;
-    state[id].set(target.value);
-  };
-
   function onLogoChange(src: string) {
-    state.logo.set(src);
+    projectDetails.update((state) => ({ ...state, logo: src }));
   }
 
   const formFields = [
@@ -76,6 +71,6 @@
 
 <InfoBox info="You can edit your project details later on at any time." />
 {#each formFields as field}
-  <Input {field} {onChange} />
+  <Input {field} dataStore={projectDetails} />
 {/each}
 <UploadField onChange={onLogoChange} />
