@@ -13,11 +13,8 @@
     on:click={() => (shown = false)}
   />
 
-  <div
-    class="drawer-container"
-    in:fly={{ x: 120 }}
-    out:fly={{ x: 120 }}
-  >
+  <div class="drawer-container" in:fly={{ x: 120 }} out:fly={{ x: 120 }}>
+    <!-- TODO close button (X) in top right -->
     <slot />
   </div>
 {/if}

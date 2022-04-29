@@ -1,10 +1,14 @@
 <script lang="ts">
+  import { visitedFundingDrawers as visited } from "./stores";
   import DescriptiveNumberedButton from "./DescriptiveNumberedButton.svelte";
   import Drawer from "./Drawer.svelte";
   import FundingDrawer from "./FundingDrawer.svelte";
   import InfoBox from "./InfoBox.svelte";
+  import RulesDrawer from "./RulesDrawer.svelte";
+  import TokenDrawer from "./TokenDrawer.svelte";
 
   let drawerOpen = false;
+  let current = "";
 
   const buttons = [
     {
@@ -21,8 +25,13 @@
     },
   ];
 
-  function onClick(e: Event) {
+  function onClick(button: string) {
     drawerOpen = true;
+    current = button;
+    visited.update((state: any) => ({
+      ...state,
+      [button]: true,
+    }));
   }
 </script>
 
@@ -34,14 +43,24 @@ You can reconfigure your project's funding cycles later on, and changes will tak
 
 <section class="buttons">
   {#each buttons as button, number}
-    <!-- TODO set visited -->
-    <DescriptiveNumberedButton {...button} number={number + 1} {onClick} visited={false} />
+    <DescriptiveNumberedButton
+      {...button}
+      number={number + 1}
+      onClick={() => onClick(button.title)}
+      visited={$visited[button.title]}
+    />
   {/each}
 </section>
 
 <Drawer bind:shown={drawerOpen}>
   <div class="content">
-    <FundingDrawer />
+    {#if current === "Funding"}
+      <FundingDrawer />
+    {:else if current === "Token"}
+      <TokenDrawer />
+    {:else if current === "Rules"}
+      <RulesDrawer />
+    {/if}
   </div>
 </Drawer>
 
