@@ -2,7 +2,6 @@
   import { fly, fade } from "svelte/transition";
 
   export let shown = false;
-  console.log(shown);
 </script>
 
 {#if shown}
@@ -16,10 +15,11 @@
 
   <div
     class="drawer-container"
-    style="width: 600px;"
     in:fly={{ x: 120 }}
     out:fly={{ x: 120 }}
-  />
+  >
+    <slot />
+  </div>
 {/if}
 
 <style>
@@ -40,7 +40,7 @@
     height: 100%;
     background-color: var(--background-l0);
     z-index: 999;
-    width: 600px;
+    width: 640px;
     height: 100%;
   }
 </style>
