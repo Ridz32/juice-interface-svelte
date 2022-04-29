@@ -1,5 +1,6 @@
 <script>
   import { Link } from "svelte-navigator";
+  import Button from "./Button.svelte";
 
   const list = [
     "Indie artists, devs, creators",
@@ -31,7 +32,7 @@
       </div>
     {/each}
     <Link to="/create">
-      <button>Design your project</button>
+      <Button>Design your project</Button>
     </Link>
   </article>
   <img id="banny" src="./banny.png" alt="Banny partying with code" />
@@ -48,6 +49,7 @@
   section {
     max-width: 1080px;
     margin: 0px auto;
+    padding: 0px 40px;
     display: flex;
     align-items: center;
     flex-flow: row wrap;
@@ -68,24 +70,6 @@
     font-size: 1rem;
     font-weight: 500;
     line-height: 1.57;
-  }
-
-  button {
-    margin-top: 2rem;
-    background: var(--background-action-primary);
-    border-color: transparent;
-    box-shadow: 0 6px 10px rgb(0 0 0 / 8%);
-    border-radius: var(--radius-sm);
-    color: var(--text-over-action-primary);
-    font-weight: 500;
-    height: 40px;
-    padding: 6.4px 15px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    box-shadow: 0 8px 12px rgb(0 0 0 / 12%);
   }
 
   #banny {
