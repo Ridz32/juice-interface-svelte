@@ -6,7 +6,7 @@
   import Button from "./Button.svelte";
 
   function onClick(tabId: string) {
-    document.getElementById(tabId).click()
+    document.getElementById(tabId).click();
   }
 </script>
 
@@ -22,11 +22,14 @@
       <section>
         <TabPanel>
           <ProjectDetails />
-          <Button onClick={() => onClick("funding")}>Next: Funding cycle</Button>
+          <Button onClick={() => onClick("funding")}>Next: Funding cycle</Button
+          >
         </TabPanel>
         <TabPanel>
           <FundingCycle />
-          <Button onClick={() => onClick("review")}>Next: Review and deploy</Button>
+          <Button onClick={() => onClick("review")}
+            >Next: Review and deploy</Button
+          >
         </TabPanel>
       </section>
       <section>
@@ -45,7 +48,6 @@
 
   .row {
     display: flex;
-    flex-wrap: row wrap;
     margin-top: 40px;
   }
 
@@ -70,11 +72,19 @@
   }
 
   @media (max-width: 850px) {
+    .row {
+      flex-flow: row wrap;
+    }
     section:first-of-type,
     section:last-of-type {
       flex: 0 0 100%;
       max-width: 100%;
       margin-right: 0;
+    }
+
+    section:last-of-type {
+      border-left: none;
+      padding-left: 0;
     }
   }
 </style>
