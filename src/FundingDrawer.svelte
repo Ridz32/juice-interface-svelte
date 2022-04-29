@@ -1,25 +1,22 @@
 <script lang="ts">
   import AlertText from "./AlertText.svelte";
   import HeavyBorderBox from "./HeavyBorderBox.svelte";
-  import Input from "./Input.svelte";
+  import Input from "./FundingCycleInput.svelte";
   import Toggle from "./Toggle.svelte";
 
-  const cycleInput = {
-    id: "fundingCycleDuration",
-    label: "Funding Cycle Duration",
-    placeholder: "30",
-    props: {
-      type: "number",
-      required: true,
-    },
-  };
+  let fundingCycles = false;
+  function toggleFundingCycles(e: Event) {
+    fundingCycles = !fundingCycles;
+  }
 </script>
 
 <!-- TODO learn more links -->
 
 <h1>Funding</h1>
 <HeavyBorderBox>
-  <Toggle><h3>Funding cycles</h3></Toggle>
+  <Toggle checked={fundingCycles} onClick={toggleFundingCycles}
+    ><h3>Funding cycles</h3></Toggle
+  >
   <p>Set the length of your funding cycles, which can enable:</p>
   <ol>
     <li>
@@ -35,7 +32,9 @@
       abuse of power. <a href="/">Learn more</a>.
     </li>
   </ol>
-  <Input field={cycleInput} />
+  {#if fundingCycles}
+    <Input />
+  {/if}
 </HeavyBorderBox>
 <HeavyBorderBox>
   <h3>Distribution limit</h3>

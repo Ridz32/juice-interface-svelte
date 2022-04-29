@@ -1,5 +1,12 @@
+<script>
+  export let checked;
+  export let onClick;
+</script>
+
 <div>
-  <input type="checkbox" id="switch" /><label for="switch">Toggle</label>
+  <input type="checkbox" id="switch" {checked} on:click={onClick} /><label
+    for="switch">Toggle</label
+  >
   <slot />
 </div>
 
