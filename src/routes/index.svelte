@@ -7,8 +7,8 @@
 	import Stats from '$lib/project/Stats.svelte';
 	import Details from '$lib/project/Details.svelte';
 	import Activity from '$lib/project/Activity.svelte';
-	import '$lib/scss/index.scss';
-	import '$lib/scss/button.scss';
+	// import '$lib/scss/index.scss';
+	// import '$lib/scss/button.scss';
 </script>
 
 <section

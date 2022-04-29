@@ -75,11 +75,12 @@
 body {
 	margin: 0px;
 	padding: 0px;
-	-moz-font-feature-settings: 'ss01';
-	font-feature-settings: 'ss01';
-	text-rendering: optimizeLegibility;
-	font-family: 'Inter', sans-serif;
-	background-color: #f7f8fa;
+	background: #131115;
+	font-family: 'DM Mono', monospace;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	color: var(--text-primary);
+	background: var(--background-l0);
 }
 
 a {

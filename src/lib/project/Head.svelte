@@ -1,3 +1,9 @@
+<script>
+	import Drawer from './Drawer.svelte';
+
+	let drawerShown = false;
+</script>
+
 <div>
 	<div
 		style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start;"
@@ -29,7 +35,10 @@
 						></span
 					>
 					<div>
-						<button type="button" class="ant-btn ant-btn-text ant-btn-icon-only"
+						<button
+							type="button"
+							class="ant-btn ant-btn-text ant-btn-icon-only"
+							on:click={() => (drawerShown = !drawerShown)}
 							><span role="img" aria-label="tool" class="anticon anticon-tool"
 								><svg
 									viewBox="64 64 896 896"
@@ -120,3 +129,5 @@
 		</div>
 	</div>
 </div>
+
+<Drawer bind:shown={drawerShown} />

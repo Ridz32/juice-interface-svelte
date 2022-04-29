@@ -17,3 +17,17 @@ const ADDRESSES = {
 };
 
 export default ADDRESSES;
+
+export const CURRENCY_METADATA = {
+	MATIC: {
+		name: 'MATIC',
+		symbol: 'MATIC',
+		style: {
+			fontFamily: 'sans-serif'
+		}
+	},
+	USD: {
+		name: 'USD',
+		symbol: 'US$'
+	}
+};
