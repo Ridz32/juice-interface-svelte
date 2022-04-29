@@ -34,7 +34,8 @@ You can reconfigure your project's funding cycles later on, and changes will tak
 
 <section class="buttons">
   {#each buttons as button, number}
-    <DescriptiveNumberedButton {...button} number={number + 1} {onClick} />
+    <!-- TODO set visited -->
+    <DescriptiveNumberedButton {...button} number={number + 1} {onClick} visited={false} />
   {/each}
 </section>
 
