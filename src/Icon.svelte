@@ -2,11 +2,15 @@
   // NOTE the paths in pathsByName are the svgs that could be copied with the same viewbox, so I assume they're from antd
   import pathsByName from "./pathsByName";
   export const iconOptions = Object.keys(pathsByName);
+  export const directions = ["n", "ne", "e", "se", "s", "sw", "w", "nw"]
 </script>
 
 <script>
   export let name = "arrow";
+  export let direction = "n";
   $: paths = pathsByName[name] || [];
+  $: rotation = directions.indexOf(direction) * 45
+
 </script>
 
 {#if paths.length}
@@ -16,6 +20,7 @@
     viewBox="64 64 896 896"
     focusable="false"
     aria-hidden="true"
+    style="{`transform: rotate(${rotation}deg)`}">
   >
     {#each paths as path}
       <path d={path} />
