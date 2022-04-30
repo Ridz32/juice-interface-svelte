@@ -1,6 +1,9 @@
 <script>
   import CollapsibleSection from "../CollapsibleSection.svelte";
+  import ETH from "../Ethereum.svelte";
   import HeavyBorderBox from "../HeavyBorderBox.svelte";
+  import Icon from "../Icon.svelte";
+  import InfoSpaceBetween from "../InfoSpaceBetween.svelte";
   import PopInfo from "../PopInfo.svelte";
 
   const cycleKeyValues = [
@@ -79,10 +82,73 @@
     </div>
   </CollapsibleSection>
 </HeavyBorderBox>
-<HeavyBorderBox />
-<HeavyBorderBox />
+<HeavyBorderBox>
+  <InfoSpaceBetween>
+    <div slot="left">
+      <div class="available">
+        <p><ETH />0</p>
+        <PopInfo
+          message="The funds available to distribution for this funding cycle (before the 2.5% JBX fee is subtracted). This number won't roll over to the next funding cycle, so funds should be distributed before this funding cycle ends."
+          ><small class="upper">available</small></PopInfo
+        >
+      </div>
+      <p><small><ETH />0 distributed</small></p>
+      <p><small><ETH />0 <Icon name="crown" /> owner balance</small></p>
+    </div>
+    <div slot="right"><button disabled={true}>Distribute funds</button></div>
+  </InfoSpaceBetween>
+  <h4>
+    <PopInfo
+      message="Available funds are distributed according to the payouts below."
+      >Distribution splits</PopInfo
+    >
+  </h4>
+  <InfoSpaceBetween>
+    <p slot="left">Project owner (you) <Icon name="crown" />:</p>
+    <p slot="right">100%</p>
+  </InfoSpaceBetween>
+</HeavyBorderBox>
+<HeavyBorderBox>
+  <InfoSpaceBetween>
+    <div slot="left">
+      <div class="available">
+        <p>0</p>
+        <PopInfo
+          message="The funds available to distribution for this funding cycle (before the 2.5% JBX fee is subtracted). This number won't roll over to the next funding cycle, so funds should be distributed before this funding cycle ends."
+          ><small class="upper">Tokens reserved</small></PopInfo
+        >
+      </div>
+    </div>
+    <div slot="right"><button disabled={true}>Distribute tokens</button></div>
+  </InfoSpaceBetween>
+  <h4>
+    <PopInfo
+      message="Available funds are distributed according to the payouts below."
+      >Reserved tokens (0%)</PopInfo
+    >
+  </h4>
+  <InfoSpaceBetween>
+    <p slot="left">Project owner (you) <Icon name="crown" />:</p>
+    <p slot="right">100%</p>
+  </InfoSpaceBetween></HeavyBorderBox
+>
 
 <style>
+  button {
+    background: transparent;
+    border: 1px solid var(--stroke-disabled);
+    color: var(--text-disabled);
+  }
+  div[slot="left"] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  p[slot="left"],
+  p[slot="right"] {
+    color: var(--text-primary);
+    font-weight: 400;
+  }
   .title {
     display: flex;
     align-items: baseline;
@@ -113,6 +179,21 @@
     width: 100%;
   }
 
+  div[slot="left"] {
+    font-weight: 500;
+  }
+
+  .available {
+    display: flex;
+  }
+  .upper {
+    text-transform: uppercase;
+    font-weight: 300;
+  }
+  .available p {
+    margin-right: 5px;
+    color: rgba(0, 0, 0, 0.6);
+  }
   .collapse-header {
     margin: 0 10px;
   }
