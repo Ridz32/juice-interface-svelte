@@ -1,4 +1,6 @@
 <script>
+  import { slide } from "svelte/transition";
+
   import Icon from "./Icon.svelte";
   let expanded = true;
 </script>
@@ -9,7 +11,9 @@
 </button>
 
 {#if expanded}
-  <slot />
+  <div transition:slide>
+    <slot />
+  </div>
 {/if}
 
 <style>
