@@ -1,6 +1,7 @@
 <script lang="ts">
   import Button from "../Button.svelte";
   import Icon from "../Icon.svelte";
+  import ETH from "../Ethereum.svelte";
 
   enum Currency {
     ETH = "ETH",
@@ -34,7 +35,7 @@
   <div class="stacked">
     <Button size="md" onClick={console.log}>Pay</Button>
     {#if currency === Currency.USD}
-      <small>Paid as <span>Ξ</span>0.00071584</small>
+      <small>Paid as <ETH />0.00071584</small>
     {/if}
   </div>
 </div>
@@ -65,10 +66,6 @@
     background-color: transparent;
     border: none;
     transition: all 0.3s;
-  }
-
-  span {
-      font-family: sans-serif;
   }
 
   .input-container {

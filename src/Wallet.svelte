@@ -1,6 +1,10 @@
+<script>
+  import ETH from "./Ethereum.svelte";
+</script>
+
 <div>
   <p>some.eth</p>
-  <p><span>Ξ</span>0.5</p>
+  <p><ETH />0.5</p>
 </div>
 
 <style>
@@ -12,10 +16,6 @@
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-  }
-
-  span {
-    font-family: sans-serif;
   }
 
   p {

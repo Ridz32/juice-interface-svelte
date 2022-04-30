@@ -3,6 +3,7 @@
   import InfoSpaceBetween from "../InfoSpaceBetween.svelte";
   import PopInfo from "../PopInfo.svelte";
   import Popover from "../Popover.svelte";
+  import ETH from "../Ethereum.svelte";
 </script>
 
 <!-- TODO: rename this component, quite undescriptive given other sibling is "Funding" -->
@@ -12,7 +13,7 @@
       ><p>In juicebox</p></PopInfo
     >
   </div>
-  <p slot="right" class="money"><span>Ξ</span>0</p>
+  <p slot="right" class="money"><ETH />0</p>
 </InfoSpaceBetween>
 <InfoSpaceBetween>
   <div slot="left">
@@ -50,9 +51,6 @@
   div[slot="right"],
   p {
     color: rgba(0, 0, 0, 0.333);
-  }
-  span {
-    font-family: sans-serif;
   }
   .money {
     color: var(--text-brand-primary);
