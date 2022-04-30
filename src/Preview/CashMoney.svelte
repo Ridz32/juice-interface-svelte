@@ -17,13 +17,15 @@
 <InfoSpaceBetween>
   <div slot="left">
     <p>Distributed</p>
-    <Popover message="The amount that has been distributed from the Juicebox balance in this funding cycle, out of the current distribution limit. No more than the distribution limit can be distributed in a single funding cycle—any remaining ETH in Juicebox is overflow, until the next cycle begins."
+    <Popover
+      message="The amount that has been distributed from the Juicebox balance in this funding cycle, out of the current distribution limit. No more than the distribution limit can be distributed in a single funding cycle—any remaining ETH in Juicebox is overflow, until the next cycle begins."
       ><Icon name="questionCircle" /></Popover
     >
   </div>
   <div slot="right">
     <p>100% Overflow</p>
-    <Popover message="The target for this funding cycle is 0, meaning all funds in Juicebox are currently considered overflow. Overflow can be redeemed by token holders, but not distributed."
+    <Popover
+      message="The target for this funding cycle is 0, meaning all funds in Juicebox are currently considered overflow. Overflow can be redeemed by token holders, but not distributed."
       ><Icon name="questionCircle" /></Popover
     >
   </div>
@@ -46,7 +48,9 @@
     margin: 5px 0px;
     display: inline-block;
   }
-  div[slot="left"], div[slot="right"], p {
+  div[slot="left"],
+  div[slot="right"],
+  p {
     color: rgba(0, 0, 0, 0.333);
   }
   span {
@@ -64,11 +68,11 @@
   }
 
   progress::-webkit-progress-bar {
-  background-color: var(--background-l1);
-  border-radius: 7px;
-}
-progress::-webkit-progress-value {
-  background-color: var(--text-brand-primary);
-  border-radius: 7px;
-}
+    background-color: var(--background-l1);
+    border-radius: 7px;
+  }
+  progress::-webkit-progress-value {
+    background-color: var(--text-brand-primary);
+    border-radius: 7px;
+  }
 </style>
