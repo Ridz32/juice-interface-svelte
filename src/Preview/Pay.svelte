@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { projectDetails } from "../stores";
   import Button from "../Button.svelte";
   import Icon from "../Icon.svelte";
   import ETH from "../Ethereum.svelte";
@@ -33,7 +34,9 @@
     <small>{receiveText}</small>
   </div>
   <div class="stacked">
-    <Button size="md" onClick={console.log}>Pay</Button>
+    <Button size="md" onClick={console.log}
+      >{$projectDetails.payButtonText}</Button
+    >
     {#if currency === Currency.USD}
       <small>Paid as <ETH />0.00071584</small>
     {/if}
