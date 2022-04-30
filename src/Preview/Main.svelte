@@ -1,5 +1,6 @@
 <script lang="ts">
   import CashMoney from "./CashMoney.svelte";
+  import Funding from "./Funding.svelte";
   import InfoHeader from "./InfoHeader.svelte";
   import Pay from "./Pay.svelte";
 </script>
@@ -8,6 +9,7 @@
 <InfoHeader />
 <CashMoney />
 <Pay />
+<Funding />
 
 <style>
   .title {
