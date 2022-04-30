@@ -21,8 +21,6 @@
       ><Icon name="questionCircle" /></Popover
     >
   </div>
-  <!-- <p slot="left">Distributed</p> -->
-  <!-- <p slot="right">100% Overflow</p> -->
   <div slot="right">
     <p>100% Overflow</p>
     <Popover message="The target for this funding cycle is 0, meaning all funds in Juicebox are currently considered overflow. Overflow can be redeemed by token holders, but not distributed."
@@ -30,7 +28,7 @@
     >
   </div>
 </InfoSpaceBetween>
-<!-- TODO the overflow progress bar showing % of funding? -->
+<progress max="100" value="" />
 <InfoSpaceBetween>
   <div slot="left">
     <p>In wallet</p>
@@ -57,4 +55,20 @@
   .money {
     color: var(--text-brand-primary);
   }
+
+  progress {
+    width: 100%;
+    height: 8px;
+    background: var(--background-l0);
+    margin: 10px 0px;
+  }
+
+  progress::-webkit-progress-bar {
+  background-color: var(--background-l1);
+  border-radius: 7px;
+}
+progress::-webkit-progress-value {
+  background-color: var(--text-brand-primary);
+  border-radius: 7px;
+}
 </style>
