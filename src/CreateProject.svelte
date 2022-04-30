@@ -68,8 +68,8 @@
   }
 
   section:last-of-type {
-    flex: 0 0 58%;
-    max-width: 58%;
+    flex: 0 0 56%;
+    max-width: 56%;
     padding-left: 40px;
     border-left: 1px solid rgba(0, 0, 0, 0.094);
   }

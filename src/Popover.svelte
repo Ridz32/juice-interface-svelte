@@ -20,6 +20,7 @@
     visibility: hidden;
     position: absolute;
     top: -20px;
+    left: -170px;
     transform: translate(0, 10px);
     padding: 12px 16px;
 
