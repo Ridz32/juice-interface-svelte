@@ -17,6 +17,8 @@ export const visitedFundingDrawers = writable({
   rules: false,
 });
 
+export const isReviewPanel = writable(false);
+
 export const twitterHandle = derived(
   projectDetails["twitter"],
   // TODO: Check if it starts with @, if not prefix it

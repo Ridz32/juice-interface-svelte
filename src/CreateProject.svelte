@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { isReviewPanel } from "./stores";
   import { Tab, Tabs, TabList, TabPanel } from "./Tabs";
   import Preview from "./Preview";
   import ProjectDetails from "./ProjectDetails.svelte";
@@ -19,7 +20,7 @@
       <Tab id="review">3. Review and deploy</Tab>
     </TabList>
     <div class="row">
-      <section>
+      <section class={$isReviewPanel && "collapse"}>
         <TabPanel>
           <ProjectDetails />
           <Button onClick={() => onClick("funding")}>Next: Funding cycle</Button
@@ -32,8 +33,14 @@
           >
         </TabPanel>
       </section>
-      <section>
+      <section class={$isReviewPanel && "full"}>
+        {#if $isReviewPanel}
+          <h2>Review project configuration</h2>
+        {/if}
         <Preview />
+        {#if $isReviewPanel}
+          <Button onClick={console.log}>Connect wallet to deploy</Button>
+        {/if}
       </section>
     </div>
   </Tabs>
@@ -47,7 +54,7 @@
     background: var(--background-l0);
     max-width: 1200px;
   }
-  
+
   .row {
     display: flex;
     max-width: 1120px;
@@ -66,12 +73,20 @@
     flex: 0 0 42%;
     max-width: 42%;
   }
+  section:first-of-type.collapse {
+    display: none;
+  }
 
   section:last-of-type {
     flex: 0 0 56%;
     max-width: 56%;
     padding-left: 40px;
     border-left: 1px solid rgba(0, 0, 0, 0.094);
+  }
+
+  section:last-of-type.full {
+    border-left: none;
+    margin: 0 auto;
   }
 
   @media (max-width: 850px) {

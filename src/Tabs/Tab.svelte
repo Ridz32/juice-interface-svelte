@@ -1,15 +1,27 @@
 <script>
   import { getContext } from "svelte";
   import { TABS } from "./Tabs.svelte";
+  import { isReviewPanel } from "../stores";
+
   export let id;
 
   const tab = {};
   const { registerTab, selectTab, selectedTab } = getContext(TABS);
 
   registerTab(tab);
+
+  function onClick() {
+    selectTab(tab);
+    // NOTE: I'd rather not have this here as separation of concerns... but, it's a quick fix for now.
+    if (id === "review") {
+      isReviewPanel.set(true);
+    } else {
+      isReviewPanel.set(false);
+    }
+  }
 </script>
 
-<button {id} class:selected={$selectedTab === tab} on:click={() => selectTab(tab)}>
+<button {id} class:selected={$selectedTab === tab} on:click={onClick}>
   <slot />
 </button>
 
