@@ -1,11 +1,13 @@
 <script lang="ts">
   import CashMoney from "./CashMoney.svelte";
   import InfoHeader from "./InfoHeader.svelte";
+  import Pay from "./Pay.svelte";
 </script>
 
 <h1 class="title">Preview:</h1>
 <InfoHeader />
 <CashMoney />
+<Pay />
 
 <style>
   .title {
