@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { projectDetails } from "./stores";
+    import { projectDetails } from '../stores';
 </script>
 
-<h1 class="title">Preview:</h1>
+<!-- The top component showing the logo preview with basic treasury info -->
 <div class="info">
   {#if $projectDetails.logo}
     <img class="logo" src={$projectDetails.logo} alt="Uploaded logo" />
@@ -15,6 +15,7 @@
       <p>{$projectDetails.website || ""}</p>
       {#if $projectDetails.twitter}
         <p>
+          <!-- TODO move to svg icon component -->
           <svg
             viewBox="64 64 896 896"
             focusable="false"
@@ -30,6 +31,7 @@
           {$projectDetails.twitter}
         </p>
       {/if}
+      <!-- TODO get discord icon -->
       <p>{$projectDetails.discord || ""}</p>
     </div>
     <p class="description">{$projectDetails.description || ""}</p>
@@ -37,14 +39,7 @@
 </div>
 
 <style>
-  .title {
-    font-size: 18px;
-    color: rgba(0, 0, 0, 0.6);
-    margin-bottom: 0px;
-    font-weight: 400;
-  }
-
-  .description {
+    .description {
     color: rgba(0, 0, 0, 0.6);
     overflow-wrap: break-word;
     padding-right: 0.5rem;

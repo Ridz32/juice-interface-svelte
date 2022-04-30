@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Tab, Tabs, TabList, TabPanel } from "./Tabs";
-  import Preview from "./Preview.svelte";
+  import Preview from "./Preview";
   import ProjectDetails from "./ProjectDetails.svelte";
   import FundingCycle from "./FundingCycle.svelte";
   import Button from "./Button.svelte";
