@@ -86,6 +86,7 @@ body {
 	background: var(--background-l0);
 	transition: background-color .1s ease-in,background .1s ease-in;
     font-size: 14px;
+    font-weight: 300;
 }
 
 a {

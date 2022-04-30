@@ -26,6 +26,7 @@
     display: flex;
   }
 
+  /* TODO input abstraction */
   select,
   input {
     background: transparent;
