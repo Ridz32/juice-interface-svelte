@@ -42,13 +42,17 @@
 <style>
   #create {
     padding: 20px 80px 80px;
+    margin: 0 auto;
     margin-bottom: 40px;
     background: var(--background-l0);
+    max-width: 1200px;
   }
-
+  
   .row {
     display: flex;
+    max-width: 1120px;
     margin-top: 40px;
+    gap: 40px;
   }
 
   h1 {
@@ -61,7 +65,6 @@
   section:first-of-type {
     flex: 0 0 42%;
     max-width: 42%;
-    margin-right: 40px;
   }
 
   section:last-of-type {

@@ -58,8 +58,9 @@
   <label for="distributionLimit">Distribution limit</label>
   <select>
     <option>Zero, no funds can be distributed</option>
+    <!-- TODO no limit needs payout splits -->
     <option>No limit (infinite)</option>1
-    <!-- TODO specific target needs an extra input -->
+    <!-- TODO specific target needs an extra input and payout splits-->
     <option>Specific target</option>
   </select>
   <AlertText
