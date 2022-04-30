@@ -1,8 +1,9 @@
 <script lang="ts">
   export let onClick: (e: Event) => void;
+  export let size: "sm" | "md" | "lg" | "xl" = "lg";
 </script>
 
-<button on:click={onClick}><slot /></button>
+<button class={size} on:click={onClick}><slot /></button>
 
 <style>
   button {
@@ -17,6 +18,15 @@
     padding: 6.4px 15px;
     font-size: 16px;
     cursor: pointer;
+  }
+
+  .md {
+    height: 32px;
+    font-size: 14px;
+    font-weight: 300;
+    padding: unset;
+    width: 150px;
+    margin-top: 0;
   }
 
   button:hover {
