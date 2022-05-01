@@ -1,8 +1,7 @@
 <script lang="ts">
 	import Chart from './Chart.svelte';
 	import { onMount } from 'svelte';
-
-	let chartCanvas: HTMLCanvasElement;
+	import DropDown from './DropDown.svelte';
 	let clientWidth = 500;
 	let tab = 0;
 
@@ -58,67 +57,37 @@
 						</div>
 					</div>
 				</div>
-				<div
-					class="ant-select small ant-select-single ant-select-show-arrow"
-					style="font-size: 0.7rem; text-transform: uppercase; width: 100px;"
-				>
-					<div class="ant-select-selector">
-						<span class="ant-select-selection-search">
-							<input
-								autocomplete="off"
-								type="search"
-								class="ant-select-selection-search-input"
-								role="combobox"
-								aria-haspopup="listbox"
-								aria-owns="rc_select_1_list"
-								aria-autocomplete="list"
-								aria-controls="rc_select_1_list"
-								aria-activedescendant="rc_select_1_list_0"
-								readonly={true}
-								unselectable={true}
-								value=""
-								id="rc_select_1"
-								style="opacity: 0;"
-							/>
-						</span>
-						<span class="ant-select-selection-item">30 days</span>
-					</div>
-					<span
-						class="ant-select-arrow"
-						unselectable={true}
-						aria-hidden="true"
-						style="user-select: none;"
-					>
-						<span role="img" aria-label="down" class="anticon anticon-down ant-select-suffix">
-							<svg
-								viewBox="64 64 896 896"
-								focusable="false"
-								data-icon="down"
-								width="1em"
-								height="1em"
-								fill="currentColor"
-								aria-hidden="true"
-							>
-								<path
-									d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
-								/>
-							</svg>
-						</span>
-					</span>
-				</div>
+				<DropDown
+					options={['24 HOURS', '7 DAYS', '30 DAYS', '90 DAYS', '1 YEAR']}
+					selected="30 DAYS"
+				/>
 			</div>
 			<div style="position: relative;">
 				{#if tab === 0}
 					<Chart
 						width={clientWidth}
-						xx={['3/30', '4/03', '4/08', '4/12', '4/17', '4/21', '4/26']}
-						yy={[6030, 6040, 6835, 6858, 6249, 6868, 6878, 6891, 6925]}
+						data={Array(100)
+							.fill(0)
+							.map((_, i) => {
+								const date = new Date(i * 86400000);
+								return [
+									`${date.getMonth() + 1}/${date.getDate()}`,
+									Math.random() * i * 0.2 + i * 0.8
+								];
+							})}
 					/>
 				{:else if tab === 1}
 					<Chart
 						width={clientWidth}
-						xx={['3/30', '4/03', '4/08', '4/12', '4/17', '4/21', '4/26']}
-						yy={[5976, 5982, 6048, 6040, 6047, 5996, 5964, 5884, 5864, 5839]}
+						data={Array(100)
+							.fill(0)
+							.map((_, i) => {
+								const date = new Date(i * 86400000);
+								return [
+									`${date.getMonth() + 1}/${date.getDate()}`,
+									Math.random() * i * 0.2 + i * 0.8
+								];
+							})}
 					/>
 				{/if}
 			</div>
@@ -329,9 +298,9 @@
 										<div>
 											<span>Cycle #20</span>
 										</div>
-										<span style="color: rgba(0, 0, 0, 0.6); margin-left: 10px;"
-											>9d 19h 22m until #21</span
-										>
+										<span style="color: rgba(0, 0, 0, 0.6); margin-left: 10px;">
+											9d 19h 22m until #21
+										</span>
 									</div>
 								</div>
 							</div>

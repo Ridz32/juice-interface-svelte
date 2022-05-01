@@ -2,6 +2,8 @@
 	import MobileHeader from '$lib/components/MobileHeader.svelte';
 	import Header from '$lib/components/Header.svelte';
 	import '../app.css';
+	import '../styles/antd.css';
+	import '../styles/index.scss';
 </script>
 
 <svelte:head>

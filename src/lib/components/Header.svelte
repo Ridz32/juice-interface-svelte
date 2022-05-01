@@ -3,7 +3,7 @@
 	style="display: flex; justify-content: space-between; align-items: center; background: var(--background-l0);"
 >
 	<div
-		class="ant-space ant-space-horizontal ant-space-align-center top-left-nav"
+		class="ant-space ant-space-horizontal ant-space-align-center"
 		style="flex: 1 1 0%; gap: 24px;"
 	>
 		<div class="ant-space-item" style="">
