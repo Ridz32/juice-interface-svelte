@@ -101,7 +101,6 @@
 				.attr('stroke', '#ffffff')
 				.attr('fill', '#ff0000')
 				.attr('style', 'display: none');
-			console.log(hoverCircle);
 
 			svg.on('mousemove', function (event) {
 				const target = this as SVGElement;

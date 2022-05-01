@@ -1,6 +1,8 @@
 {
 	"extends": "./.svelte-kit/tsconfig.json",
 	"compilerOptions": {
+		"module": "ES2022",
+		"moduleResolution": "node",
 		"paths": {
 			"$env": ["src/env"],
 			"$env/*": ["src/env/*"],
@@ -13,7 +15,7 @@
 			"$assets": ["src/assets"],
 			"$assets/*": ["src/assets/*"],
 			"$constants": ["src/constants"],
-			"$constants/*": ["src/constants/*"],
+			"$constants/*": ["src/constants/*"]
 		}
 	}
 }

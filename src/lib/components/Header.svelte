@@ -1,3 +1,8 @@
+<script>
+	import { connectedAccount } from '$stores/web3';
+	import ConnectButton from './ConnectButton.svelte';
+</script>
+
 <header
 	class="ant-layout-header top-nav"
 	style="display: flex; justify-content: space-between; align-items: center; background: var(--background-l0);"
@@ -192,20 +197,9 @@
 				</div>
 			</div>
 		</div>
-		<div class="ant-space-item">
-			<div
-				class="ant-dropdown-trigger"
-				style="height: 45px; border-radius: 2px; padding: 4px 19px 7px; display: flex; flex-direction: column; align-items: center; background: rgb(243, 241, 236); cursor: default; user-select: all;"
-			>
-				<span style="cursor: default; user-select: all; line-height: 22px;">0x283e...11700c</span>
-				<div style="vertical-align: middle; line-height: 1; color: rgba(0, 0, 0, 0.333);">
-					<span style="font-family: sans-serif;">Ξ</span>0
-				</div>
-			</div>
-		</div>
+		<ConnectButton />
 	</div>
 </header>
-
 
 <style>
 	@media (max-width: 767px) {

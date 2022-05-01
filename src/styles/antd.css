@@ -7180,7 +7180,7 @@ _:-ms-fullscreen .ant-picker-range-wrapper .ant-picker-year-panel .ant-picker-ce
   padding: 4px 0;
   text-align: left;
   list-style-type: none;
-  background-color: #fff;
+  background-color: var(--background-10);
   background-clip: padding-box;
   border-radius: 2px;
   outline: none;

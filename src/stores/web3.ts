@@ -35,6 +35,9 @@ export const daiPrice = new Store(0);
 export const provider = new Store<providers.Web3Provider>();
 export const connectedAccount = new Store('');
 export const chainId = new Store<number>(0);
+export const disconnected = new Store(
+	browser ? localStorage.getItem('disconnected') === 'true' : false
+);
 
 walletName.subscribe((name) => browser && localStorage.setItem('wallet-name', name));
 
@@ -70,8 +73,6 @@ export async function disconnectWalletConnect() {
 	}
 	provider.set(null);
 }
-
-setTimeout(() => walletConnect(true));
 
 export async function initialize(_provider = browser && window['ethereum']): Promise<void> {
 	if (!_provider) return;
@@ -118,6 +119,7 @@ export async function initialize(_provider = browser && window['ethereum']): Pro
 			}
 		} catch (e) {
 			console.log('not connected');
+			connectWallet();
 		}
 	}
 	_provider.on('chainChanged', () => {
@@ -132,6 +134,7 @@ export async function getConnectedAccount(): Promise<string | null> {
 	try {
 		const address = (await provider.get().getSigner().getAddress()) as string;
 		connectedAccount.set(address);
+		disconnected.set(false);
 		return address;
 	} catch (e: any) {
 		return null;
@@ -146,4 +149,18 @@ export async function connectWallet(isWalletConnect = false): Promise<string> {
 	return (await signer.getAddress()) as string;
 }
 
-browser && getConnectedAccount();
+export async function disconnectWallet() {
+	connectedAccount.set('');
+	disconnected.set(true);
+}
+
+disconnected.subscribe((value) => {
+	if (browser) {
+		localStorage.setItem('disconnected', JSON.stringify(value));
+	}
+});
+
+if (browser && !disconnected.get()) {
+	setTimeout(() => walletConnect(true));
+	getConnectedAccount();
+}
