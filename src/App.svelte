@@ -1,8 +1,11 @@
 <script lang="ts">
   import { Router, Route } from "svelte-navigator";
-  import NavBar from "./Nav.svelte";
-  import LandingInfo from "./LandingInfo.svelte";
+import AddSplitModal from "./AddSplitModal.svelte";
   import CreateProject from "./CreateProject.svelte";
+  import LandingInfo from "./LandingInfo.svelte";
+  import Modal from "./Modal.svelte";
+  import NavBar from "./Nav.svelte";
+  import { modal } from "./stores.js";
 </script>
 
 <Router>
