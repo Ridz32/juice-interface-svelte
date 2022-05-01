@@ -19,6 +19,7 @@ import AddSplitModal from "./AddSplitModal.svelte";
     </Route>
   </main>
 </Router>
+<Modal show={$modal} />
 
 <style>
   @media (min-width: 640px) {

@@ -1,13 +1,19 @@
 <script lang="ts">
+  import AddSplitModal from "./AddSplitModal.svelte";
   import AlertText from "./AlertText.svelte";
   import HeavyBorderBox from "./HeavyBorderBox.svelte";
   import Input from "./FundingCycleInput.svelte";
   import Toggle from "./Toggle.svelte";
+  import Button from "./Button.svelte";
+  import { modal } from "./stores";
 
   let fundingCycles = false;
   function toggleFundingCycles(e: Event) {
     fundingCycles = !fundingCycles;
   }
+  const openModal = () => {
+    modal.set(AddSplitModal);
+  };
 </script>
 
 <!-- TODO learn more links -->
@@ -73,6 +79,7 @@
   <AlertText
     >Payout splits can't be scheduled when the distribution limit is Zero.</AlertText
   >
+  <Button onClick={openModal}>Add a split</Button>
 </HeavyBorderBox>
 
 <style>
@@ -85,7 +92,7 @@
   }
 
   label {
-      font-weight: 400;
+    font-weight: 400;
   }
 
   /* TODO think of nice input/select abstraction, this css has been repeated in FundingCycleInput and FormField */
