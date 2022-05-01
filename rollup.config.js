@@ -1,4 +1,5 @@
 import svelte from 'rollup-plugin-svelte';
+import alias from '@rollup/plugin-alias';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
@@ -45,6 +46,13 @@ export default {
 				// enable run-time checks when not in production
 				dev: !production
 			}
+		}),
+		alias({
+			entries: [
+				{find: 'utils', replacement: 'src/utils'},
+				{find: 'components', replacement: 'src/components'},
+				{find: 'constants', replacement: 'src/constants'}
+			]
 		}),
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
