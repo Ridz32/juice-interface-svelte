@@ -1,8 +1,9 @@
-import { CSSProperties } from 'react'
+import type * as CSS from 'csstype'
 
 import { padding } from './padding'
 
-export const layouts: Record<string, CSSProperties> = {
+// TODO probably remove this file
+export const layouts: Record<string, CSS.Properties> = {
   centered: {
     display: 'flex',
     flexDirection: 'column',
@@ -10,7 +11,7 @@ export const layouts: Record<string, CSSProperties> = {
     justifyContent: 'center',
   },
   maxWidth: {
-    maxWidth: 1080,
+    maxWidth: "1080px",
     margin: '0 auto',
     padding: padding.app,
   },

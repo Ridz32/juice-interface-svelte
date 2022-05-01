@@ -1,5 +1,5 @@
-import { CSSProperties } from 'react'
+import type * as CSS from 'csstype'
 
-export const padding: Record<string, CSSProperties['padding']> = {
-  app: 20,
+export const padding: Record<string, CSS.Properties['padding']> = {
+  app: "20px",
 }

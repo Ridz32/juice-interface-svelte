@@ -1,5 +1,5 @@
-import { SemanticColors } from './colors'
-import { SemanticRadii } from './radii'
+import type { SemanticColors } from './colors'
+import type { SemanticRadii } from './radii'
 
 export interface SemanticTheme {
   colors: SemanticColors

@@ -1,5 +1,6 @@
 import { NetworkName } from 'models/network-name'
 
+// TODO get env variables from .env file, rollup plugin
 const infuraId = process.env.REACT_APP_INFURA_ID
 
 export type NetworkInfo = {
@@ -100,6 +101,5 @@ export const NETWORKS_BY_NAME = Object.values(NETWORKS).reduce(
   {} as Record<NetworkName, NetworkInfo>,
 )
 
-console.log('readNetwork', process.env.REACT_APP_INFURA_NETWORK)
 export const readNetwork =
   NETWORKS_BY_NAME[process.env.REACT_APP_INFURA_NETWORK as NetworkName]

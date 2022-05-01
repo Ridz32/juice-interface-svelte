@@ -194,6 +194,7 @@ export const formatGraphQuery = <E extends EntityKey, K extends EntityKeys<E>>(
   )} } }`
 }
 
+// TODO env, rollup plugin
 const subgraphUrl = process.env.REACT_APP_SUBGRAPH_URL
 
 export const trimHexZero = (hexStr: string) => hexStr.replace('0x0', '0x')

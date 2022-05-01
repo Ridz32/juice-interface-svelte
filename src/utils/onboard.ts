@@ -1,11 +1,12 @@
 import Onboard from 'bnc-onboard'
-import { Subscriptions } from 'bnc-onboard/dist/src/interfaces'
+import type { Subscriptions } from 'bnc-onboard/dist/src/interfaces'
 
 import { readNetwork } from 'constants/networks'
 
 const appName = 'Juicebox'
 const networkId = readNetwork.chainId
 const rpcUrl = readNetwork.rpcUrl
+// TODO env, rollup plugin
 const dappId = process.env.REACT_APP_BLOCKNATIVE_API_KEY
 
 // TODO(odd-amphora): Add support for Formatic, Portis, etc. if requested.
