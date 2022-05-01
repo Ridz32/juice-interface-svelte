@@ -6,7 +6,8 @@
   "compilerOptions": {
     "paths": {
       "constants/*": ["./src/constants/*"],
-      "utils/*": ["./src/utils/*"]
+      "models/*": ["./src/models/*"],
+      "utils/*": ["./src/utils/*"],
     }
   }
 }

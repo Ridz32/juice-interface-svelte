@@ -1,8 +1,3 @@
-/**
- * Taken from jb-interface: src/utils/formatNumber.ts
- * Date: 2022-05-01
- */
-
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber'
 import { formatUnits, parseUnits } from '@ethersproject/units'
 
