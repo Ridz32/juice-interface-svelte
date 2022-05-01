@@ -5,11 +5,14 @@
   import Select from "./Select.svelte";
   import { splits } from "./stores";
 
+  const today = new Date().toISOString().split('T')[0];
+  
   const field = {
     id: "address",
     label: "Address",
     placeholder: "juicebox.eth / 0x0000000000000000000000000000000000000000",
   };
+
   function onClick() {
     // TODO fix linter warning
     document.querySelector("[aria-label='Close modal']").click();
@@ -32,7 +35,7 @@
     <input class="gap" type="range" id="percent" min="0" max="100" />
   </div>
   <label for="lock-date" class="small-gap">Lock until</label>
-  <input type="date" id="lock-date" placeholder="mm/dd/yyyy" />
+  <input type="date" id="lock-date" min={today} placeholder="mm/dd/yyyy" />
   <p>
     If locked, this split can't be edited or removed until the lock expires or
     the funding cycle is reconfigured.
