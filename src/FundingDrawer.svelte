@@ -5,15 +5,12 @@
   import Input from "./FundingCycleInput.svelte";
   import Toggle from "./Toggle.svelte";
   import Button from "./Button.svelte";
-  import { modal } from "./stores";
+  import { openModal } from "./Modal.svelte";
 
   let fundingCycles = false;
   function toggleFundingCycles(e: Event) {
     fundingCycles = !fundingCycles;
   }
-  const openModal = () => {
-    modal.set(AddSplitModal);
-  };
 </script>
 
 <!-- TODO learn more links -->
@@ -79,7 +76,7 @@
   <AlertText
     >Payout splits can't be scheduled when the distribution limit is Zero.</AlertText
   >
-  <Button onClick={openModal}>Add a split</Button>
+  <Button onClick={() => openModal(AddSplitModal)}>Add a split</Button>
 </HeavyBorderBox>
 
 <style>

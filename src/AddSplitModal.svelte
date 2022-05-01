@@ -3,6 +3,7 @@
   import FormField from "./FormField.svelte";
   import PopInfo from "./PopInfo.svelte";
   import Select from "./Select.svelte";
+  import { closeModal } from "./Modal.svelte";
   import { splits } from "./stores";
 
   const today = new Date().toISOString().split('T')[0];
@@ -13,10 +14,6 @@
     placeholder: "juicebox.eth / 0x0000000000000000000000000000000000000000",
   };
 
-  function onClick() {
-    // TODO fix linter warning
-    document.querySelector("[aria-label='Close modal']").click();
-  }
 </script>
 
 <h3>Add a split</h3>
@@ -42,7 +39,7 @@
   </p>
 </section>
 <div class="actions">
-  <Button {onClick} size="md" type="secondary">Cancel</Button>
+  <Button onClick={closeModal} size="md" type="secondary">Cancel</Button>
   <Button size="md">Add split</Button>
 </div>
 

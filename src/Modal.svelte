@@ -1,10 +1,16 @@
-<!-- v1.3.0 -->
+<!-- 
+Borrowed from https://svelte.dev/repl/033e824fad0a4e34907666e7196caec4?version=3.20.1
+with minor utility function addons.
+Date: 2022-05-01
+v1.3.0
+-->
 
 <script context="module">
+   import { modal } from "./stores";
     /**
      * Create a Svelte component with props bound to it.
      * @type {(component: Component, props: Record<string, any>) => Component}
-     * @example modal.set(AddSplitModal, { message: "Hello" });
+     * @example modal.set(bind(AddSplitModal, { message: "Hello" }));
      */
     export function bind(Component, props = {}) {
       return function ModalComponent(options) {
@@ -17,6 +23,22 @@
         });
       };
     }
+
+    /**
+    * Open modal
+    * @type {component: Component => void}
+    */
+   export function openModal(component) {
+     modal.set(component);
+   }
+
+   /**
+    * Open modal
+    * @type {component: Component => void}
+    */
+   export function closeModal() {
+     modal.set(null);
+   }
   </script>
   
   <script>
