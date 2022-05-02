@@ -14,6 +14,7 @@
 	import { querySubgraph } from '$utils/graph';
 	import Store from '$utils/Store';
 	import type { Project } from '$models/subgraph-entities/project';
+	import { page } from '$app/stores';
 
 	let project = new Store<Project>();
 	setContext('PROJECT', project);
@@ -35,7 +36,7 @@
 			where: [
 				{
 					key: 'id',
-					value: 1
+					value: $page.params.projectId
 				}
 			]
 		});
