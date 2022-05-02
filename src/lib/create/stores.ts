@@ -1,25 +1,14 @@
 import { writable, derived } from "svelte/store";
 import { BigNumber } from '@ethersproject/bignumber';
 import * as constants from '@ethersproject/constants'
+import Store from "$utils/Store";
+import { connectedAccount } from "$stores/web3";
+import { redemptionRateFrom } from '$utils/v2/math'
+import { V2_CURRENCY_ETH } from "$utils/v2/currency";
 import type { V2BallotState } from '$models/ballot';
 import type { ProjectMetadataV4 } from '$models/project-metadata';
 import type { V2FundingCycle, V2FundingCycleData, V2FundingCycleMetadata } from '$models/v2/fundingCycle';
 import type { Split } from '$models/v2/splits';
-import { connectedAccount } from "$stores/web3";
-import { V2_CURRENCY_ETH } from "$utils/v2/currency";
-import { DEFAULT_ISSUANCE_RATE, redemptionRateFrom } from '$utils/v2/math'
-import Store from "$utils/Store";
-
-export const projectDetails = writable({
-  name: null,
-  description: null,
-  website: null,
-  twitter: null,
-  discord: null,
-  payButtonText: "Pay",
-  payDisclosure: null,
-  logo: null,
-});
 
 export const visitedFundingDrawers = writable({
   funding: false,
@@ -30,12 +19,6 @@ export const visitedFundingDrawers = writable({
 export const modal = writable({});
 
 export const isReviewPanel = writable(false);
-
-export const twitterHandle = derived(
-  projectDetails["twitter"],
-  // TODO: Check if it starts with @, if not prefix it
-  ($twitter) => `@${$twitter}!`
-);
 
 type V2ProjectLoadingStates = {
   ETHBalanceLoading: boolean
