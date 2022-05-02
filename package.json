@@ -1,6 +1,6 @@
 {
-	"name": "banny-minter-website",
-	"version": "0.0.1",
+	"name": "juicebox-v2",
+	"version": "0.2.0",
 	"engines": {
 		"node": ">=16.0.0"
 	},
