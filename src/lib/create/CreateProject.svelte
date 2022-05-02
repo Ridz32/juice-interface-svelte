@@ -1,10 +1,11 @@
 <script lang="ts">
-  import { isReviewPanel } from "./stores";
+  import { isReviewPanel, modal } from "./stores";
   import { Tab, Tabs, TabList, TabPanel } from "./Tabs";
+  import Button from "$lib/components/Button.svelte";
+  import FundingCycle from "./FundingCycle";
   import Preview from "./Preview";
   import ProjectDetails from "./ProjectDetails.svelte";
-  import FundingCycle from "./FundingCycle";
-  import Button from "$lib/components/Button.svelte";
+  import Modal from "./Modal.svelte";
 
   function onClick(tabId: string) {
     document.getElementById(tabId).click();
@@ -45,6 +46,7 @@
     </div>
   </Tabs>
 </div>
+<Modal show={$modal}/>
 
 <style>
   #create {
