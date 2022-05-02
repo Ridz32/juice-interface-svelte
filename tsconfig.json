@@ -15,7 +15,9 @@
 			"$assets": ["src/assets"],
 			"$assets/*": ["src/assets/*"],
 			"$constants": ["src/constants"],
-			"$constants/*": ["src/constants/*"]
+			"$constants/*": ["src/constants/*"],
+			"$models": ["src/models"],
+			"$models/*": ["src/models/*"]
 		}
 	}
 }
