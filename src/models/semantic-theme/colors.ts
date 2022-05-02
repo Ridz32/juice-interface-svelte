@@ -1,4 +1,4 @@
-import { Property } from 'csstype'
+import type { Property } from 'csstype'
 
 namespace SemanticColor {
   export type Primary = { primary: Property.Color }

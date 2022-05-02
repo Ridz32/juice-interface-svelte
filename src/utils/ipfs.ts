@@ -20,14 +20,14 @@ const pinata = pinataClient(pinata_api_key, pinata_secret_api_key);
 
 export const IPFS_TAGS = {
 	[IpfsCacheName.trending]:
-		(process.env.NODE_ENV === 'production' ? 'trending_projects_' : 'DEV_trending_projects_') +
+		(import.meta.env.NODE_ENV === 'production' ? 'trending_projects_' : 'DEV_trending_projects_') +
 		readNetwork.name,
 	METADATA:
-		process.env.NODE_ENV === 'production'
+		import.meta.env.NODE_ENV === 'production'
 			? 'juicebox_project_metadata'
 			: 'DEV_juicebox_project_metadata',
 	LOGO:
-		process.env.NODE_ENV === 'production' ? 'juicebox_project_logo' : 'DEV_juicebox_project_logo'
+		import.meta.env.NODE_ENV === 'production' ? 'juicebox_project_logo' : 'DEV_juicebox_project_logo'
 };
 
 // keyvalues will be upserted to existing metadata. A null value will remove an existing keyvalue

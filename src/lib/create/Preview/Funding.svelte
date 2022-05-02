@@ -1,44 +1,90 @@
-<script>
+<script lang="ts">
+  import { t } from "@lingui/macro";
+  import type { BigNumber } from "@ethersproject/bignumber";
   import CollapsibleSection from "../CollapsibleSection.svelte";
   import ETH from "../Ethereum.svelte";
   import HeavyBorderBox from "../HeavyBorderBox.svelte";
   import Icon from "$lib/components/Icon.svelte";
   import InfoSpaceBetween from "../InfoSpaceBetween.svelte";
   import PopInfo from "../PopInfo.svelte";
+  import Popover from "../Popover.svelte";
+  import { detailedTimeUntil, detailedTimeString } from "$utils/formatTime";
+
+  import { DistributionLimit, fundingDetails } from "../stores";
+
+  export let fundingCycleNumber: BigNumber;
+  export let fundingCycleStartTime: BigNumber;
+  export let fundingCycleDurationSeconds: BigNumber;
+  export let fundingCycleRiskCount: number;
+  // export let fundingCycleDetails: BigNumber;
+  export let isFundingCycleRecurring: boolean;
+  export let expand: boolean;
+  export let isPreviewMode: boolean;
+
+  const formattedDuration = detailedTimeString({
+    timeSeconds: fundingCycleDurationSeconds.toNumber(),
+  })
+
+  function getDurationValue() {
+    console.log(fundingCycleDurationSeconds)
+    if (!fundingCycleDurationSeconds.gt(0)) {
+      return t`Not set`;
+    }
+    return formattedDuration;
+  }
+
+  let rightHeaderText: string | null = null;
+  $: {
+    if (fundingCycleDurationSeconds.gt(0)) {
+      const endTimeSeconds = fundingCycleStartTime.add(
+        fundingCycleDurationSeconds
+      );
+      const formattedTimeLeft = !isPreviewMode
+        ? detailedTimeUntil(endTimeSeconds)
+        : detailedTimeUntil(fundingCycleDurationSeconds);
+  
+      rightHeaderText = isFundingCycleRecurring
+        ? `${formattedTimeLeft} until #${fundingCycleNumber.add(1).toString()}`
+        : `{formattedTimeLeft} left`;
+    }
+
+  };
 
   const cycleKeyValues = [
-    { label: "Distribution limit", value: "Zero" },
-    { label: "Duration", value: "14d" },
-    { label: "Start", value: "2022-04-30 8:43pm" },
-    { label: "End", value: "2022-05-30 8:43pm" },
+    { label: t`Distribution limit`, value: "Zero" },
+    { label: t`Duration`, value: getDurationValue() },
+    //  TODO if duration not set then none of these
+    { label: t`Start`, value: "2022-04-30 8:43pm" },
+    { label: t`End`, value: "2022-05-30 8:43pm" },
     {
-      label: "Discount rate",
+      label: t`Discount rate`,
       value: "0%",
       info: "The ratio of tokens rewarded per payment amount will decrease by this percentage with each new funding cycle. A higher discount rate will incentivize supporters to pay your project earlier than later.",
     },
+    //
     {
-      label: "Redemption rate",
+      label: t`Redemption rate`,
       value: "100%",
       info: "This rate determines the amount of overflow that each token can be redeemed for at any given time. On a lower bonding curve, redeeming a token increases the value of each remaining token, creating an incentive to hold tokens longer than others. A redemption rate of 100% means all tokens will have equal value regardless of when they are redeemed.",
     },
     {
-      label: "Reserved tokens",
+      label: t`Reserved tokens`,
       value: "0%",
       info: 'Whenever someone pays your project, this percentage of tokens will be reserved and the rest will go to the payer. Reserve tokens are reserved for the project owner by default, but can also be allocated to other wallet addresses by the owner. Once tokens are reserved, anyone can "mint" them, which distributes them to their intended receivers.',
     },
     {
-      label: "Issuance rate",
+      label: t`Issuance rate`,
       value: "1,000,000 tokens/ETH",
       info: "Tokens received per ETH paid to the treasury. This can change over time according to the discount rate and reserved tokens amount of future funding cycles.",
     },
-    { label: "Payments", value: "Enabled" },
+    { label: t`Payments`, value: "Enabled" },
     {
-      label: "Token minting",
+      label: t`Token minting`,
       value: "Disabled",
       info: "Token minting allows the project owner to mint project tokens at any time.",
     },
     {
-      label: "Reconfiguration strategy",
+      label: t`Reconfiguration strategy`,
       value: "3-day delay",
       info: "Rules for determining how funding cycles can be reconfigured.",
     },
@@ -64,8 +110,28 @@
 <HeavyBorderBox>
   <CollapsibleSection>
     <div slot="header">
-      <h4 class="collapse-header">Cycle #1</h4>
-      <p>13d 23h 3m until #2</p>
+      <!-- TODO header changes depending on distribution limit
+      if NOT_SET then Details with popover
+      -->
+      <h4 class="collapse-header">
+        {#if fundingCycleDurationSeconds.gt(0)}
+          Cycle #{fundingCycleNumber.toString()}
+        {:else}
+          Details
+        {/if}
+        {#if fundingCycleRiskCount > 0}
+          <Popover
+            message="Some funding cycle properties may indicate risk for
+        project contributors."><Icon name="exclamationCircle" /></Popover
+          >{fundingCycleRiskCount}
+        {/if}
+      </h4>
+      {#if rightHeaderText}
+        {rightHeaderText}
+      {/if}
+      <p />
+      <!-- <h4 class="collapse-header">Cycle #1</h4>
+        <p>13d 23h 3m until #2</p> -->
     </div>
     <div class="current-cycle">
       {#each cycleKeyValues as { label, value, info }}
@@ -134,6 +200,7 @@
 >
 
 <style>
+  /* TODO these styles are a mess */
   button {
     background: transparent;
     border: 1px solid var(--stroke-disabled);
@@ -142,6 +209,7 @@
   div[slot="left"] {
     display: flex;
     flex-direction: column;
+    font-weight: 500;
   }
 
   p[slot="left"],
@@ -154,6 +222,15 @@
     align-items: baseline;
   }
 
+  .title h4 {
+    color: var(--text-header);
+    font-weight: 600;
+  }
+  
+  .title:last-of-type {
+    margin-top: 20px;
+
+  }
   .yellow {
     color: var(--text-header);
   }
@@ -178,11 +255,6 @@
     justify-content: space-between;
     width: 100%;
   }
-
-  div[slot="left"] {
-    font-weight: 500;
-  }
-
   .available {
     display: flex;
   }

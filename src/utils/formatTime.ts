@@ -1,7 +1,8 @@
-import { BigNumber, BigNumberish } from '@ethersproject/bignumber'
+import { BigNumber } from '@ethersproject/bignumber'
+import type { BigNumberish } from 'ethers'
 
 import { SECONDS_IN_DAY, SECONDS_IN_HOUR } from '$constants/numbers'
-import { DurationUnitsOption } from '$constants/time'
+import type { DurationUnitsOption } from '$constants/time'
 
 export function detailedTimeString({
   timeSeconds,
@@ -19,12 +20,10 @@ export function detailedTimeString({
 
   const daysText = `${days && days > 0 ? days.toString() + 'd ' : ''}`
   const hoursText = `${hours && hours >= 1 ? Math.floor(hours) + 'h ' : ''}`
-  const minutesText = `${
-    minutes && minutes >= 1 ? Math.floor(minutes) + 'm ' : ''
-  }`
-  const secondsText = `${
-    seconds && seconds > 0 && !roundToMinutes ? Math.floor(seconds) + 's' : ''
-  }`
+  const minutesText = `${minutes && minutes >= 1 ? Math.floor(minutes) + 'm ' : ''
+    }`
+  const secondsText = `${seconds && seconds > 0 && !roundToMinutes ? Math.floor(seconds) + 's' : ''
+    }`
 
   return `${daysText}${hoursText}${minutesText}${secondsText}`.trimEnd() || '--'
 }

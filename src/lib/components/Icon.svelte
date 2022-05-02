@@ -15,6 +15,7 @@
 
 {#if paths.length}
   <svg
+    class="antd"
     width="1em"
     height="1em"
     viewBox="64 64 896 896"
@@ -92,5 +93,9 @@
     fill: currentColor;
     transition: all 0.3s ease-out;
     overflow: visible;
+  }
+
+  .antd {
+    margin-right: 2px;
   }
 </style>
