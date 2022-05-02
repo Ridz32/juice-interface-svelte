@@ -3,14 +3,13 @@
   import type { BigNumber } from "@ethersproject/bignumber";
   import CollapsibleSection from "../CollapsibleSection.svelte";
   import ETH from "../Ethereum.svelte";
-  import HeavyBorderBox from "../HeavyBorderBox.svelte";
+  import HeavyBorderBox from "$lib/components/HeavyBorderBox.svelte";
   import Icon from "$lib/components/Icon.svelte";
   import InfoSpaceBetween from "../InfoSpaceBetween.svelte";
   import PopInfo from "../PopInfo.svelte";
   import Popover from "../Popover.svelte";
+  import { formatDate } from '$utils/formatDate'
   import { detailedTimeUntil, detailedTimeString } from "$utils/formatTime";
-
-  import { DistributionLimit, fundingDetails } from "../stores";
 
   export let fundingCycleNumber: BigNumber;
   export let fundingCycleStartTime: BigNumber;
@@ -24,9 +23,12 @@
   const formattedDuration = detailedTimeString({
     timeSeconds: fundingCycleDurationSeconds.toNumber(),
   })
+  const formattedStartTime = formatDate(fundingCycleStartTime.mul(1000))
+  const formattedEndTime = formatDate(
+    fundingCycleStartTime.add(fundingCycleDurationSeconds).mul(1000),
+  )
 
   function getDurationValue() {
-    console.log(fundingCycleDurationSeconds)
     if (!fundingCycleDurationSeconds.gt(0)) {
       return t`Not set`;
     }
@@ -47,15 +49,14 @@
         ? `${formattedTimeLeft} until #${fundingCycleNumber.add(1).toString()}`
         : `{formattedTimeLeft} left`;
     }
-
   };
 
   const cycleKeyValues = [
     { label: t`Distribution limit`, value: "Zero" },
     { label: t`Duration`, value: getDurationValue() },
     //  TODO if duration not set then none of these
-    { label: t`Start`, value: "2022-04-30 8:43pm" },
-    { label: t`End`, value: "2022-05-30 8:43pm" },
+    { label: t`Start`, value: formattedStartTime},
+    { label: t`End`, value: formattedEndTime },
     {
       label: t`Discount rate`,
       value: "0%",
@@ -229,7 +230,6 @@
   
   .title:last-of-type {
     margin-top: 20px;
-
   }
   .yellow {
     color: var(--text-header);
