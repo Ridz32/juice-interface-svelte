@@ -5,6 +5,7 @@
   import Select from "$lib/components/Select.svelte";
   import { closeModal } from "../Modal.svelte";
   import { payoutSplits } from "../stores";
+import Range from "$lib/components/Range.svelte";
 
   const today = new Date().toISOString().split('T')[0];
   
@@ -29,7 +30,7 @@
         >Percent of distribution limit</PopInfo
       >
     </label>
-    <input class="gap" type="range" id="percent" min="0" max="100" />
+    <Range />
   </div>
   <label for="lock-date" class="small-gap">Lock until</label>
   <input type="date" id="lock-date" min={today} placeholder="mm/dd/yyyy" />
