@@ -1,13 +1,30 @@
 <script type="ts">
+	import { DEFAULT_ISSUANCE_RATE } from '$utils/v2/math';
+	// import {
+	// 	FUNDING_CYCLE_WARNING_TEXT,
+	// 	RESERVED_RATE_WARNING_THRESHOLD_PERCENT
+	// } from '$constants/fundingWarningText';
 	import AlertText from '$lib/components/AlertText.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
+	import Range from '$lib/components/Range.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
+	import { formattedNum } from '$utils/formatNumber';
+
 	import InfoBox from '../InfoBox.svelte';
+
+	// TODO this component will be reused in the edit phase, but we're trying to get create ready first
+	export let value = 0;
 
 	let reservedRateActive: boolean;
 	let discountRateActive: boolean;
 	let redemptionRateActive: boolean;
+
+	// Reserved tokens received by project per ETH
+	const initialReservedTokensPerEth = DEFAULT_ISSUANCE_RATE * ((value ?? 0) / 100);
+
+	// Tokens received by contributor's per ETH
+	const initialIssuanceRate = DEFAULT_ISSUANCE_RATE - initialReservedTokensPerEth;
 </script>
 
 <h1>Token</h1>
@@ -23,8 +40,14 @@
 	<header>
 		<Toggle bind:checked={reservedRateActive}><h3>Reserved rate</h3></Toggle>
 	</header>
+	{#if reservedRateActive}
+		<!-- <input class="gap" type="range" id="percent" min="0" max="100" /> -->
+		<Range />
+	{/if}
 	<InfoBox
-		info={`Initial issuance rate will be 1,000,000 tokens / ETH for contributors. 0 tokens / ETH will be reserved by the project.`}
+		info={`Initial issuance rate will be ${formattedNum(
+			initialIssuanceRate
+		)} tokens / ETH for contributors. 0 tokens / ETH will be reserved by the project.`}
 	/>
 	<br />
 	<p>
