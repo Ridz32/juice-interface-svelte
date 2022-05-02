@@ -36,6 +36,7 @@
 	"dependencies": {
 		"@fontsource/fira-mono": "^4.5.0",
 		"@galtproject/browser-ipfs": "^0.5.4",
+		"@lingui/detect-locale": "^3.13.3",
 		"@lingui/macro": "^3.13.3",
 		"@lukeed/uuid": "^2.0.0",
 		"@pinata/sdk": "^1.1.25",
