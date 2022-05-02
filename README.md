@@ -6,9 +6,9 @@
 yarn && yarn run dev
 ```
 
----
-
-
+<p align="center" width="100%">
+    <img width="33%" src="/static/images/stoned_banny.png">
+</p>
 
 ## License
 
