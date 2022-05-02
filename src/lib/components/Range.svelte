@@ -8,10 +8,10 @@
 <div>
 	<RangeSlider range="min" step={0.5} bind:values />
 	{#if showValueBox}
-    <section class="value-box">
-        <input type="number" bind:value={values[0]} />
-        <span>%</span>
-    </section>
+		<section class="value-box">
+			<input type="number" bind:value={values[0]} />
+			<span>%</span>
+		</section>
 	{/if}
 </div>
 
@@ -29,15 +29,21 @@
 		); /* inactive floating label background color */
 		--range-float: var(--range-handle-focus); /* floating label background color */
 		--range-float-text: white; /* text color on floating label */
-	
-        flex: 1;
-    }
 
-	div {
-        display: flex;
+		flex: 1;
 	}
 
-    input {
-        max-width: 70px;
-    }
+	div {
+		display: flex;
+        align-items: center;
+	}
+
+	input {
+		max-width: 70px;
+        text-indent: 10px;
+		background: transparent;
+		border: 1px solid #d9d9d9;
+		border-radius: 2px;
+		color: rgba(0, 0, 0, 0.85);
+	}
 </style>
