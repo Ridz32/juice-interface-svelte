@@ -19,7 +19,7 @@
 		<div class="ant-space-item" style="">
 			<a
 				class="nav-menu-item hover-opacity"
-				href="/#/projects"
+				href="/projects"
 				style="cursor: pointer; display: flex; align-items: center; font-weight: 600; color: var(--text-primary);"
 				>Projects</a
 			>
