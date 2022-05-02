@@ -6,13 +6,24 @@
   import Toggle from "$lib/components/Toggle.svelte";
   import Button from "$lib/components/Button.svelte";
   import { openModal } from "../Modal.svelte";
+  import type { BigNumber } from "ethers";
+  import { fundingCycle } from "../stores";
 
-  let fundingCycles = false;
+  let fundingCyclesActive = false;
+  let duration: BigNumber;
+
+  function saveFundingConfig() {
+    <!-- TODO close modal -->
+    fundingCycle.update(fc => ({
+      ...fc,
+      duration,
+    }));
+  }
 </script>
 
 <h1>Funding</h1>
 <HeavyBorderBox>
-  <Toggle bind:checked={fundingCycles}
+  <Toggle bind:checked={fundingCyclesActive}
     ><h3>Funding cycles</h3></Toggle
   >
   <p>Set the length of your funding cycles, which can enable:</p>
@@ -30,8 +41,8 @@
       abuse of power. <a href="/">Learn more</a>.
     </li>
   </ol>
-  {#if fundingCycles}
-    <Input />
+  {#if fundingCyclesActive}
+    <Input bind:value={duration} />
   {/if}
 </HeavyBorderBox>
 <HeavyBorderBox>
@@ -71,8 +82,9 @@
   <AlertText
     >Payout splits can't be scheduled when the distribution limit is Zero.</AlertText
   >
-  <Button onClick={() => openModal(AddSplitModal)}>Add a split</Button>
+  <Button onClick={() => { openModal(AddSplitModal) }}>Add a split</Button>
 </HeavyBorderBox>
+<Button onClick={saveFundingConfig}>Save funding configuration</Button>
 
 <style>
 
