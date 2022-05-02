@@ -7,6 +7,7 @@
 	import Stats from '$lib/project/Stats.svelte';
 	import Details from '$lib/project/Details.svelte';
 	import Activity from '$lib/project/Activity.svelte';
+	import Popup from '$lib/components/Popup.svelte';
 </script>
 
 <section

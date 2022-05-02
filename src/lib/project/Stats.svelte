@@ -1,3 +1,9 @@
+<script lang="ts">
+	import Popup from '$lib/components/Popup.svelte';
+
+	let opened = false;
+</script>
+
 <div class="ant-row ant-row-bottom" style="margin-left: -20px; margin-right: -20px; row-gap: 0px;">
 	<div
 		class="ant-col ant-col-xs-24 ant-col-md-12"
@@ -195,10 +201,9 @@
 			<div style="text-align: right;">
 				<span
 					style="text-transform: uppercase; color: rgba(0, 0, 0, 0.333); font-size: 0.8rem; font-weight: 500; cursor: pointer;"
-					>All assets <span
-						role="img"
-						aria-label="right-circle"
-						class="anticon anticon-right-circle"
+					on:click={() => (opened = !opened)}
+				>
+					All assets <span role="img" aria-label="right-circle" class="anticon anticon-right-circle"
 						><svg
 							viewBox="64 64 896 896"
 							focusable="false"
@@ -211,11 +216,31 @@
 								d="M666.7 505.5l-246-178A8 8 0 00408 334v46.9c0 10.2 4.9 19.9 13.2 25.9L566.6 512 421.2 617.2c-8.3 6-13.2 15.6-13.2 25.9V690c0 6.5 7.4 10.3 12.7 6.5l246-178c4.4-3.2 4.4-9.8 0-13z"
 							/><path
 								d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"
-							/></svg
-						></span
-					></span
-				>
+							/>
+						</svg>
+					</span>
+				</span>
 			</div>
+			<Popup bind:opened>
+				<svelte:fragment slot="title">Assets</svelte:fragment>
+				<svelte:fragment slot="subtext">
+					Other assets in this project's owner's wallet.
+				</svelte:fragment>
+				<div class="ant-space ant-space-vertical" style="width: 100%; margin-top: 20px; gap: 8px;">
+					<div class="ant-space-item">
+						<div style="display: flex; justify-content: space-between;">
+							<span>167,241,605 JBX</span>
+							<a
+								class="text-primary hover-text-action-primary hover-text-decoration-underline"
+								href="#/p/juicebox"
+								style="font-weight: 500; color: rgba(0, 0, 0, 0.333);"
+							>
+								@juicebox
+							</a>
+						</div>
+					</div>
+				</div>
+			</Popup>
 		</div>
 	</div>
 	<div
