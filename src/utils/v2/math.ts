@@ -2,7 +2,7 @@ import { BigNumber } from '@ethersproject/bignumber'
 import * as constants from '@ethersproject/constants'
 import { invertPermyriad } from '$utils/bigNumbers'
 import { fromWad, percentToPermyriad } from '$utils/formatNumber'
-import { WeightFunction } from '$utils/math'
+import type { WeightFunction } from '$utils/math'
 
 const TEN_THOUSAND = 10000
 const ONE_BILLION = 1000000000

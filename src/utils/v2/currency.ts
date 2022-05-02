@@ -1,5 +1,5 @@
-import { V1CurrencyOption } from '$models/v1/currencyOption'
-import {
+import type { V1CurrencyOption } from '$models/v1/currencyOption'
+import type {
   V2CurrencyETH,
   V2CurrencyOption,
   V2CurrencyUSD,
@@ -7,9 +7,9 @@ import {
 
 import { V1_CURRENCY_ETH, V1_CURRENCY_USD } from '$constants/v1/currency'
 import {
-  CurrencyMetadata,
-  CurrencyName,
-  CurrencySymbol,
+  type CurrencyMetadata,
+  type CurrencyName,
+  type CurrencySymbol,
   CURRENCY_METADATA,
 } from '$constants/currency'
 

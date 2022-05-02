@@ -1,4 +1,4 @@
-import { BigNumber, type BigNumberish } from '@ethersproject/bignumber'
+import { BigNumber, type BigNumberish } from 'ethers'
 
 import { parseWad } from './formatNumber'
 import type { CurrencyName } from '$constants/currency'

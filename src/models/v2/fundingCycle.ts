@@ -1,4 +1,4 @@
-import { BigNumber } from '@ethersproject/bignumber'
+import type { BigNumber } from '@ethersproject/bignumber'
 
 export type V2FundingCycleData = {
   duration: BigNumber

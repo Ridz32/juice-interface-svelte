@@ -1,4 +1,4 @@
-import { BigNumber, BigNumberish } from '@ethersproject/bignumber'
+import { BigNumber, type BigNumberish } from 'ethers';
 import { formatUnits, parseUnits } from '@ethersproject/units'
 
 import { WAD_DECIMALS } from '$constants/numbers'
