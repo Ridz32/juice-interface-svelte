@@ -1,4 +1,5 @@
 <script lang="ts">
+	import CurrencyUnit from '$lib/components/CurrencyUnit.svelte';
 	import Popup from '$lib/components/Popup.svelte';
 
 	let opened = false;
@@ -320,29 +321,7 @@
 										</div>
 										<div style="margin-left: -54px; z-index: 1; font-size: 0.8rem;">
 											<div id="accessory1.0835528991799181">
-												<div
-													role="button"
-													style="cursor: pointer; color: rgb(24, 180, 199); background: rgba(50, 200, 219, 0.267); font-weight: 500; white-space: nowrap; padding: 1px 6px; margin-left: 0px; margin-right: 0px; border-radius: 1px;"
-												>
-													ETH<span
-														role="img"
-														aria-label="caret-down"
-														class="anticon anticon-caret-down"
-														style="font-size: 10px; margin-left: 4px;"
-														><svg
-															viewBox="0 0 1024 1024"
-															focusable="false"
-															data-icon="caret-down"
-															width="1em"
-															height="1em"
-															fill="currentColor"
-															aria-hidden="true"
-															><path
-																d="M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35z"
-															/></svg
-														></span
-													>
-												</div>
+												<CurrencyUnit />
 											</div>
 										</div>
 									</div>

@@ -2,8 +2,13 @@
 	import Chart from './Chart.svelte';
 	import { onMount } from 'svelte';
 	import DropDown from './DropDown.svelte';
+	import Holders from './Holders.svelte';
+	import DistributeFunds from './DistributeFunds.svelte';
 	let clientWidth = 500;
 	let tab = 0;
+
+	let holdersOpened = false;
+	let distributeOpened = false;
 
 	onMount(async () => {
 		// new Chart(chartCanvas, {
@@ -157,11 +162,14 @@
 															<div
 																style="display: flex; justify-content: space-between; align-items: baseline; width: 100%; gap: 5px; flex-wrap: wrap;"
 															>
-																2,433,212,945<button type="button" class="ant-btn ant-btn-sm"
-																	>Holders</button
+																2,433,212,945<button
+																	type="button"
+																	class="ant-btn ant-btn-sm"
+																	on:click={() => (holdersOpened = !holdersOpened)}>Holders</button
 																>
 															</div>
 														</span>
+														<Holders bind:opened={holdersOpened} />
 													</div>
 												</td>
 											</tr>
@@ -390,10 +398,14 @@
 												</div>
 											</div>
 										</div>
-										<button type="button" class="ant-btn ant-btn-ghost ant-btn-sm"
+										<button
+											type="button"
+											class="ant-btn ant-btn-ghost ant-btn-sm"
+											on:click={() => (distributeOpened = !distributeOpened)}
 											>Distribute funds</button
 										>
 									</div>
+									<DistributeFunds bind:opened={distributeOpened} />
 								</div>
 								<div class="ant-space-item">
 									<div>
