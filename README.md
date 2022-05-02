@@ -1,109 +1,58 @@
-*Psst — looking for a more complete solution? Check out [SvelteKit](https://kit.svelte.dev), the official framework for building web applications of all sizes, with a beautiful development experience and flexible filesystem-based routing.*
+# Merkle Airdrop Starter
 
-*Looking for a shareable component template instead? You can [use SvelteKit for that as well](https://kit.svelte.dev/docs#packaging) or the older [sveltejs/component-template](https://github.com/sveltejs/component-template)*
+Quickly bootstrap an ERC20 token airdrop to a Merkle tree of recipients.
 
----
+Steps:
 
-# svelte app
+1. Generate Merkle tree of recipients by following README in [generator/](https://github.com/Anish-Agnihotri/merkle-airdrop-starter/tree/master/generator)
+2. Setup and deploy MerkleClaimERC20 contracts by following README in [contracts/](https://github.com/Anish-Agnihotri/merkle-airdrop-starter/tree/master/contracts)
+3. Setup and deploy front-end by following README in [frontend/](https://github.com/Anish-Agnihotri/merkle-airdrop-starter/tree/master/frontend)
 
-This is a project template for [Svelte](https://svelte.dev) apps. It lives at https://github.com/sveltejs/template.
+## Similar work and credits
 
-To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
+- [Astrodrop](https://astrodrop.xyz/)—Simpler way to spin up a airdrop with claim page, given existing token
+- [Uniswap Merkle Distributor](https://github.com/Uniswap/merkle-distributor)—Uniswap's merkle distribution smart contracts
 
-```bash
-npx degit sveltejs/template svelte-app
-cd svelte-app
-```
+# frontend
 
-*Note that you will need to have [Node.js](https://nodejs.org) installed.*
+Accompanies [MerkleDropERC20](https://github.com/Anish-Agnihotri/merkle-airdrop-starter/tree/master/contracts) contracts; heavy similarity to the [GAS DAO airdrop frontend](https://www.gasdao.org/) (GAS DAO: implemented by [sax](https://twitter.com/0xsaxophone), originally inspired by work from [design @ens](https://twitter.com/dzneth) for the [$ENS airdrop claim](https://claim.ens.domains/)).
 
+Allows users to connect their wallet and claim airdrops, given they are part of the Merkle tree.
 
-## Get started
+## Developing
 
-Install the dependencies...
-
-```bash
-cd svelte-app
-npm install
-```
-
-...then start [Rollup](https://rollupjs.org):
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
 ```bash
 npm run dev
+
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
 ```
 
-Navigate to [localhost:8080](http://localhost:8080). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
+## Building
 
-By default, the server will only respond to requests from localhost. To allow connections from other computers, edit the `sirv` commands in package.json to include the option `--host 0.0.0.0`.
-
-If you're using [Visual Studio Code](https://code.visualstudio.com/) we recommend installing the official extension [Svelte for VS Code](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode). If you are using other editors you may need to install a plugin in order to get syntax highlighting and intellisense.
-
-## Building and running in production mode
-
-To create an optimised version of the app:
+Before creating a production version of your app, install an [adapter](https://kit.svelte.dev/docs#adapters) for your target environment. Then:
 
 ```bash
 npm run build
 ```
 
-You can run the newly built app with `npm run start`. This uses [sirv](https://github.com/lukeed/sirv), which is included in your package.json's `dependencies` so that the app will work when you deploy to platforms like [Heroku](https://heroku.com).
+> You can preview the built app with `npm run preview`, regardless of whether you installed an adapter. This should _not_ be used to serve your app in production.
 
+## Run + deploy
 
-## Single-page app mode
+The frontend is built to be fully configurable and ready-to-go in under 10 minutes of dev time. Steps to customize and deploy:
 
-By default, sirv will only respond to requests that match files in `public`. This is to maximise compatibility with static fileservers, allowing you to deploy your app anywhere.
+1. Modify `config.ts:L9` with exact config from `generator/config.json`
+2. Copy environment variables (`cp .env.sample .env.local`) and modify parameters
+3. Update the `logo.png` (recommended: 250x250) and `meta.png` (recommended: 1200x637) in `public/`
+4. Then, `npm install` (install dependencies) and `npm run dev` to run development build
 
-If you're building a single-page app (SPA) with multiple routes, sirv needs to be able to respond to requests for *any* path. You can make it so by editing the `"start"` command in package.json:
+## License
 
-```js
-"start": "sirv public --single"
-```
+[GNU Affero GPL v3.0](https://github.com/Anish-Agnihotri/merkle-airdrop-starter/blob/master/LICENSE)
 
-## Using TypeScript
+## Disclaimer
 
-This template comes with a script to set up a TypeScript development environment, you can run it immediately after cloning the template with:
-
-```bash
-node scripts/setupTypeScript.js
-```
-
-Or remove the script via:
-
-```bash
-rm scripts/setupTypeScript.js
-```
-
-If you want to use `baseUrl` or `path` aliases within your `tsconfig`, you need to set up `@rollup/plugin-alias` to tell Rollup to resolve the aliases. For more info, see [this StackOverflow question](https://stackoverflow.com/questions/63427935/setup-tsconfig-path-in-svelte).
-
-## Deploying to the web
-
-### With [Vercel](https://vercel.com)
-
-Install `vercel` if you haven't already:
-
-```bash
-npm install -g vercel
-```
-
-Then, from within your project folder:
-
-```bash
-cd public
-vercel deploy --name my-project
-```
-
-### With [surge](https://surge.sh/)
-
-Install `surge` if you haven't already:
-
-```bash
-npm install -g surge
-```
-
-Then, from within your project folder:
-
-```bash
-npm run build
-surge public my-project.surge.sh
-```
+_These smart contracts are being provided as is. No guarantee, representation or warranty is being made, express or implied, as to the safety or correctness of the user interface or the smart contracts. They have not been audited and as such there can be no assurance they will work as intended, and users may experience delays, failures, errors, omissions or loss of transmitted information. Anish Agnihotri is not liable for any of the foregoing. Users should proceed with caution and use at their own risk._

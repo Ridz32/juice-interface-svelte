@@ -1,4 +1,4 @@
-import { V1FundingCycle } from 'models/v1/fundingCycle'
+import { V1FundingCycle } from '$models/v1/fundingCycle'
 
 export const deepEqFundingCycles = (a?: V1FundingCycle, b?: V1FundingCycle) => {
   if (a && !b) return false

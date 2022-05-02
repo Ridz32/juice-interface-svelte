@@ -1,13 +1,25 @@
 {
-  "extends": "@tsconfig/svelte/tsconfig.json",
-
-  "include": ["src/**/*"],
-  "exclude": ["node_modules/*", "__sapper__/*", "public/*"],
-  "compilerOptions": {
-    "paths": {
-      "constants/*": ["./src/constants/*"],
-      "models/*": ["./src/models/*"],
-      "utils/*": ["./src/utils/*"],
-    }
-  }
+	"extends": "./.svelte-kit/tsconfig.json",
+	"compilerOptions": {
+		"module": "ES2022",
+		"moduleResolution": "node",
+		"preserveValueImports": true,
+		"isolatedModules": true,
+		"paths": {
+			"$env": ["src/env"],
+			"$env/*": ["src/env/*"],
+			"$lib": ["src/lib"],
+			"$lib/*": ["src/lib/*"],
+			"$stores": ["src/stores"],
+			"$stores/*": ["src/stores/*"],
+			"$utils": ["src/utils"],
+			"$utils/*": ["src/utils/*"],
+			"$assets": ["src/assets"],
+			"$assets/*": ["src/assets/*"],
+			"$constants": ["src/constants"],
+			"$constants/*": ["src/constants/*"],
+			"$models": ["src/models"],
+			"$models/*": ["src/models/*"]
+		}
+	}
 }

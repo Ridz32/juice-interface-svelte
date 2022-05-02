@@ -1,14 +1,11 @@
-import {
-  TrendingProject,
-  TrendingProjectJson,
-} from 'models/subgraph-entities/project'
+import type { TrendingProject, TrendingProjectJson } from '$models/subgraph-entities/project';
 
-import { IpfsCacheName } from './cache-name'
+import { IpfsCacheName } from './cache-name';
 
 export type IpfsCacheJsonData = {
-  [IpfsCacheName.trending]: TrendingProjectJson[]
-}
+	[IpfsCacheName.trending]: TrendingProjectJson[];
+};
 
 export type IpfsCacheData = {
-  [IpfsCacheName.trending]: TrendingProject[]
-}
+	[IpfsCacheName.trending]: TrendingProject[];
+};

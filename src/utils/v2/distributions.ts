@@ -1,5 +1,5 @@
 import { BigNumber } from '@ethersproject/bignumber'
-import { Split } from 'models/v2/splits'
+import type { Split } from '$models/v2/splits'
 
 import { formatSplitPercent } from './math'
 

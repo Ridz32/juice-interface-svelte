@@ -1,17 +1,17 @@
-import { V1CurrencyOption } from 'models/v1/currencyOption'
+import { V1CurrencyOption } from '$models/v1/currencyOption'
 import {
   V2CurrencyETH,
   V2CurrencyOption,
   V2CurrencyUSD,
-} from 'models/v2/currencyOption'
+} from '$models/v2/currencyOption'
 
-import { V1_CURRENCY_ETH, V1_CURRENCY_USD } from 'constants/v1/currency'
+import { V1_CURRENCY_ETH, V1_CURRENCY_USD } from '$constants/v1/currency'
 import {
   CurrencyMetadata,
   CurrencyName,
   CurrencySymbol,
   CURRENCY_METADATA,
-} from 'constants/currency'
+} from '$constants/currency'
 
 export const V2_CURRENCY_ETH: V2CurrencyETH = 1
 export const V2_CURRENCY_USD: V2CurrencyUSD = 2

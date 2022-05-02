@@ -1,6 +1,6 @@
-import { NetworkName } from 'models/network-name'
+import { NetworkName } from '$models/network-name'
 
-import { readNetwork } from 'constants/networks'
+import { readNetwork } from '$constants/networks'
 
 export const FEATURE_FLAGS = {
   ENABLE_V2: 'ENABLE_V2',

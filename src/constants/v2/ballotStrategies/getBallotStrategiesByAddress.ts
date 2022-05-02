@@ -1,4 +1,4 @@
-import { createCustomStrategy } from 'utils/ballot'
+import { createCustomStrategy } from '$utils/ballot'
 
 import { ballotStrategies } from '.'
 

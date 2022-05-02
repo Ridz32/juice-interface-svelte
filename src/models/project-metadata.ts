@@ -1,4 +1,4 @@
-import { TokenRef } from './token-ref'
+import type { TokenRef } from './token-ref'
 
 export type ProjectMetadata =
   | ProjectMetadataV1

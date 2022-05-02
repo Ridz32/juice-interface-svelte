@@ -1,6 +1,6 @@
 import * as constants from '@ethersproject/constants'
 
-import { RESERVED_RATE_WARNING_THRESHOLD_PERCENT } from 'constants/fundingWarningText'
+import { RESERVED_RATE_WARNING_THRESHOLD_PERCENT } from '$constants/fundingWarningText'
 
 export default function unsafeFundingCycleProperties({
   ballotAddress,
