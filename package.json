@@ -17,6 +17,7 @@
 		"format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
 	},
 	"devDependencies": {
+		"@lingui/core": "^3.13.3",
 		"@playwright/test": "^1.20.0",
 		"@sveltejs/adapter-static": "^1.0.0-next.29",
 		"@sveltejs/kit": "^1.0.0-next.324",
