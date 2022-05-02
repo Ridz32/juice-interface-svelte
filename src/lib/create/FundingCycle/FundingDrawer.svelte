@@ -1,11 +1,11 @@
 <script lang="ts">
   import AddSplitModal from "./AddSplitModal.svelte";
   import AlertText from "$lib/components/AlertText.svelte";
-  import HeavyBorderBox from "./HeavyBorderBox.svelte";
+  import HeavyBorderBox from "$lib/components/HeavyBorderBox.svelte";
   import Input from "./FundingCycleInput.svelte";
-  import Toggle from "./Toggle.svelte";
+  import Toggle from "$lib/components/Toggle.svelte";
   import Button from "$lib/components/Button.svelte";
-  import { openModal } from "./Modal.svelte";
+  import { openModal } from "../Modal.svelte";
 
   let fundingCycles = false;
 </script>

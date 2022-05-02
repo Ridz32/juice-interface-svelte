@@ -1,10 +1,10 @@
 <script lang="ts">
   import Button from "$lib/components/Button.svelte";
-  import FormField from "./FormField.svelte";
-  import PopInfo from "./PopInfo.svelte";
+  import FormField from "../FormField.svelte";
+  import PopInfo from "../PopInfo.svelte";
   import Select from "$lib/components/Select.svelte";
-  import { closeModal } from "./Modal.svelte";
-  import { payoutSplits } from "./stores";
+  import { closeModal } from "../Modal.svelte";
+  import { payoutSplits } from "../stores";
 
   const today = new Date().toISOString().split('T')[0];
   

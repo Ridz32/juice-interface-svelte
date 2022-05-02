@@ -3,7 +3,7 @@
   import { Tab, Tabs, TabList, TabPanel } from "./Tabs";
   import Preview from "./Preview";
   import ProjectDetails from "./ProjectDetails.svelte";
-  import FundingCycle from "./FundingCycle.svelte";
+  import FundingCycle from "./FundingCycle";
   import Button from "$lib/components/Button.svelte";
 
   function onClick(tabId: string) {

@@ -1,9 +1,9 @@
 <script type="ts">
-	import InfoBox from './InfoBox.svelte';
-	import HeavyBorderBox from './HeavyBorderBox.svelte';
-	import Toggle from './Toggle.svelte';
 	import AlertText from '$lib/components/AlertText.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
+	import Toggle from '$lib/components/Toggle.svelte';
+	import InfoBox from '../InfoBox.svelte';
 
 	let reservedRateActive: boolean;
 	let discountRateActive: boolean;

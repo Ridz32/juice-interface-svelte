@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { visitedFundingDrawers as visited } from "./stores";
-  import DescriptiveNumberedButton from "./DescriptiveNumberedButton.svelte";
-  import Drawer from "./Drawer.svelte";
+  import { visitedFundingDrawers as visited } from "../stores";
+  import DescriptiveNumberedButton from "../DescriptiveNumberedButton.svelte";
+  import Drawer from "../Drawer.svelte";
   import FundingDrawer from "./FundingDrawer.svelte";
-  import InfoBox from "./InfoBox.svelte";
-  import RulesDrawer from "./RulesDrawer.svelte";
+  import InfoBox from "../InfoBox.svelte";
+  import RulesDrawer from "../RulesDrawer.svelte";
   import TokenDrawer from "./TokenDrawer.svelte";
 
   let drawerOpen = false;
