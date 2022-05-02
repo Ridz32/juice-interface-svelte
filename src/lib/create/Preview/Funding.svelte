@@ -1,297 +1,334 @@
 <script lang="ts">
-  import { t } from "@lingui/macro";
-  import type { BigNumber } from "@ethersproject/bignumber";
-  import CollapsibleSection from "../CollapsibleSection.svelte";
-  import ETH from "../Ethereum.svelte";
-  import HeavyBorderBox from "$lib/components/HeavyBorderBox.svelte";
-  import Icon from "$lib/components/Icon.svelte";
-  import InfoSpaceBetween from "../InfoSpaceBetween.svelte";
-  import PopInfo from "../PopInfo.svelte";
-  import Popover from "../Popover.svelte";
-  import { formatDate } from '$utils/formatDate'
-  import { detailedTimeUntil, detailedTimeString } from "$utils/formatTime";
+	import { t } from '@lingui/macro';
+	import type { BigNumber } from '@ethersproject/bignumber';
+	import CollapsibleSection from '../CollapsibleSection.svelte';
+	import ETH from '../Ethereum.svelte';
+	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
+	import Icon from '$lib/components/Icon.svelte';
+	import InfoSpaceBetween from '../InfoSpaceBetween.svelte';
+	import PopInfo from '../PopInfo.svelte';
+	import Popover from '../Popover.svelte';
+	import { formatDate } from '$utils/formatDate';
+	import { detailedTimeUntil, detailedTimeString } from '$utils/formatTime';
 
-  export let fundingCycleNumber: BigNumber;
-  export let fundingCycleStartTime: BigNumber;
-  export let fundingCycleDurationSeconds: BigNumber;
-  export let fundingCycleRiskCount: number;
-  // export let fundingCycleDetails: BigNumber;
-  export let isFundingCycleRecurring: boolean;
-  export let expand: boolean;
-  export let isPreviewMode: boolean;
+	export let fundingCycleNumber: BigNumber;
+	export let fundingCycleStartTime: BigNumber;
+	export let fundingCycleDurationSeconds: BigNumber;
+	export let fundingCycleRiskCount: number;
+	// export let fundingCycleDetails: BigNumber;
+	export let isFundingCycleRecurring: boolean;
+	export let expand: boolean;
+	export let isPreviewMode: boolean;
 
-  const formattedDuration = detailedTimeString({
-    timeSeconds: fundingCycleDurationSeconds.toNumber(),
-  })
-  const formattedStartTime = formatDate(fundingCycleStartTime.mul(1000))
-  const formattedEndTime = formatDate(
-    fundingCycleStartTime.add(fundingCycleDurationSeconds).mul(1000),
-  )
+	// let formattedDuration = detailedTimeString({
+	//   timeSeconds: fundingCycleDurationSeconds.toNumber(),
+	// })
 
-  function getDurationValue() {
-    if (!fundingCycleDurationSeconds.gt(0)) {
-      return t`Not set`;
-    }
-    return formattedDuration;
-  }
+	function getDurationValue(seconds: BigNumber) {
+		if (!seconds.gt(0)) {
+			return t`Not set`;
+		}
+		return detailedTimeString({
+			timeSeconds: seconds.toNumber()
+		});
+	}
 
-  let rightHeaderText: string | null = null;
-  $: {
-    if (fundingCycleDurationSeconds.gt(0)) {
-      const endTimeSeconds = fundingCycleStartTime.add(
-        fundingCycleDurationSeconds
-      );
-      const formattedTimeLeft = !isPreviewMode
-        ? detailedTimeUntil(endTimeSeconds)
-        : detailedTimeUntil(fundingCycleDurationSeconds);
-  
-      rightHeaderText = isFundingCycleRecurring
-        ? `${formattedTimeLeft} until #${fundingCycleNumber.add(1).toString()}`
-        : `{formattedTimeLeft} left`;
-    }
-  };
+  // function getFormattedStartTime(startTime: BigNumber) {
+  //   return formatDate(fundingCycleStartTime.mul(1000));
+  // }
 
-  const cycleKeyValues = [
-    { label: t`Distribution limit`, value: "Zero" },
-    { label: t`Duration`, value: getDurationValue() },
-    //  TODO if duration not set then none of these
-    { label: t`Start`, value: formattedStartTime},
-    { label: t`End`, value: formattedEndTime },
-    {
-      label: t`Discount rate`,
-      value: "0%",
-      info: "The ratio of tokens rewarded per payment amount will decrease by this percentage with each new funding cycle. A higher discount rate will incentivize supporters to pay your project earlier than later.",
-    },
-    //
-    {
-      label: t`Redemption rate`,
-      value: "100%",
-      info: "This rate determines the amount of overflow that each token can be redeemed for at any given time. On a lower bonding curve, redeeming a token increases the value of each remaining token, creating an incentive to hold tokens longer than others. A redemption rate of 100% means all tokens will have equal value regardless of when they are redeemed.",
-    },
-    {
-      label: t`Reserved tokens`,
-      value: "0%",
-      info: 'Whenever someone pays your project, this percentage of tokens will be reserved and the rest will go to the payer. Reserve tokens are reserved for the project owner by default, but can also be allocated to other wallet addresses by the owner. Once tokens are reserved, anyone can "mint" them, which distributes them to their intended receivers.',
-    },
-    {
-      label: t`Issuance rate`,
-      value: "1,000,000 tokens/ETH",
-      info: "Tokens received per ETH paid to the treasury. This can change over time according to the discount rate and reserved tokens amount of future funding cycles.",
-    },
-    { label: t`Payments`, value: "Enabled" },
-    {
-      label: t`Token minting`,
-      value: "Disabled",
-      info: "Token minting allows the project owner to mint project tokens at any time.",
-    },
-    {
-      label: t`Reconfiguration strategy`,
-      value: "3-day delay",
-      info: "Rules for determining how funding cycles can be reconfigured.",
-    },
-  ];
+  // function getFormattedEndTime(endTime: BigNumber) {
+  //   return format
+  // }
+
+
+  $: durationSet = fundingCycleDurationSeconds.gt(0)
+
+	// // let formattedDuration: string;
+
+	// // enum cycleKeys {
+	// //   DISTRIBUTION_LIMIT
+	// // }
+
+	// const formattedStartTime = 
+	// const formattedEndTime = formatDate(
+	// 	fundingCycleStartTime.add(fundingCycleDurationSeconds).mul(1000)
+	// );
+
+	$: cycleKeyValues = [
+		{ id: 'distributionLimit', label: t`Distribution limit`, value: 'Zero' },
+		{ id: 'duration', label: t`Duration`, value: getDurationValue(fundingCycleDurationSeconds) },
+		//  TODO if duration not set then none of these
+		durationSet && { id: 'start', label: t`Start`, value: formatDate(fundingCycleStartTime.mul(1000)) },
+		durationSet && { id: 'end', label: t`End`, value: formatDate(
+		fundingCycleStartTime.add(fundingCycleDurationSeconds).mul(1000)
+	) },
+		{
+			id: 'discountRate',
+			label: t`Discount rate`,
+			value: '0%',
+			info: 'The ratio of tokens rewarded per payment amount will decrease by this percentage with each new funding cycle. A higher discount rate will incentivize supporters to pay your project earlier than later.'
+		},
+		//
+		{
+			id: 'redemptionRate',
+			label: t`Redemption rate`,
+			value: '100%',
+			info: 'This rate determines the amount of overflow that each token can be redeemed for at any given time. On a lower bonding curve, redeeming a token increases the value of each remaining token, creating an incentive to hold tokens longer than others. A redemption rate of 100% means all tokens will have equal value regardless of when they are redeemed.'
+		},
+		{
+			id: 'reservedRate',
+			label: t`Reserved tokens`,
+			value: '0%',
+			info: 'Whenever someone pays your project, this percentage of tokens will be reserved and the rest will go to the payer. Reserve tokens are reserved for the project owner by default, but can also be allocated to other wallet addresses by the owner. Once tokens are reserved, anyone can "mint" them, which distributes them to their intended receivers.'
+		},
+		{
+			id: 'issuanceRate',
+			label: t`Issuance rate`,
+			value: '1,000,000 tokens/ETH',
+			info: 'Tokens received per ETH paid to the treasury. This can change over time according to the discount rate and reserved tokens amount of future funding cycles.'
+		},
+		{ id: 'payments', label: t`Payments`, value: 'Enabled' },
+		{
+			id: 'allowMinting',
+			label: t`Token minting`,
+			value: 'Disabled',
+			info: 'Token minting allows the project owner to mint project tokens at any time.'
+		},
+		{
+			id: 'configuration',
+			label: t`Reconfiguration strategy`,
+			value: '3-day delay',
+			info: 'Rules for determining how funding cycles can be reconfigured.'
+		}
+	].filter(item => Boolean(item));
+
+	// Cycle keys keyed by label
+	// const cycleKeys = cycleKeyValues.reduce((acc, { id }, index) => {
+	// 	acc[id] = index;
+	// 	return acc;
+	// }, {} as { [key: string]: number });
+
+	// console.log(cycleKeys);
+	let rightHeaderText: string | null = null;
+
+	$: {
+		if (fundingCycleDurationSeconds.gt(0)) {
+			const endTimeSeconds = fundingCycleStartTime.add(fundingCycleDurationSeconds);
+			const formattedTimeLeft = !isPreviewMode
+				? detailedTimeUntil(endTimeSeconds)
+				: detailedTimeUntil(fundingCycleDurationSeconds);
+
+			rightHeaderText = isFundingCycleRecurring
+				? `${formattedTimeLeft} until #${fundingCycleNumber.add(1).toString()}`
+				: `{formattedTimeLeft} left`;
+
+			// cycleKeyValues[cycleKeys.duration].value = detailedTimeString({
+			// 	timeSeconds: fundingCycleDurationSeconds.toNumber()
+			// });
+			// cycleKeyValues[cycleKeys.end].value = formatDate(
+			// 	fundingCycleStartTime.add(fundingCycleDurationSeconds).mul(1000)
+			// );
+		}
+	}
 </script>
 
 <div class="title yellow">
-  <PopInfo
-    message="Tokens are distributed to anyone who pays this project. If the project has set a funding target, tokens can be redeemed for a portion of the project's overflow whether or not they have been claimed yet."
-  >
-    <h4>Tokens</h4>
-  </PopInfo>
+	<PopInfo
+		message="Tokens are distributed to anyone who pays this project. If the project has set a funding target, tokens can be redeemed for a portion of the project's overflow whether or not they have been claimed yet."
+	>
+		<h4>Tokens</h4>
+	</PopInfo>
 </div>
 <p>Total supply: <span>0 tokens</span></p>
 
 <div class="title yellow">
-  <PopInfo
-    message="A project's lifetime is defined in funding cycles. If a funding target is set, the project can withdraw no more than the target for the duration of the cycle."
-    ><h4>Funding cycle</h4></PopInfo
-  >
+	<PopInfo
+		message="A project's lifetime is defined in funding cycles. If a funding target is set, the project can withdraw no more than the target for the duration of the cycle."
+		><h4>Funding cycle</h4></PopInfo
+	>
 </div>
 <p class="sub-header">CURRENT</p>
 <HeavyBorderBox>
-  <CollapsibleSection>
-    <div slot="header">
-      <!-- TODO header changes depending on distribution limit
+	<CollapsibleSection>
+		<div slot="header">
+			<!-- TODO header changes depending on distribution limit
       if NOT_SET then Details with popover
       -->
-      <h4 class="collapse-header">
-        {#if fundingCycleDurationSeconds.gt(0)}
-          Cycle #{fundingCycleNumber.toString()}
-        {:else}
-          Details
-        {/if}
-        {#if fundingCycleRiskCount > 0}
-          <Popover
-            message="Some funding cycle properties may indicate risk for
+			<h4 class="collapse-header">
+				{#if fundingCycleDurationSeconds.gt(0)}
+					Cycle #{fundingCycleNumber.toString()}
+				{:else}
+					Details
+				{/if}
+				{#if fundingCycleRiskCount > 0}
+					<Popover
+						message="Some funding cycle properties may indicate risk for
         project contributors."><Icon name="exclamationCircle" /></Popover
-          >{fundingCycleRiskCount}
-        {/if}
-      </h4>
-      {#if rightHeaderText}
-        {rightHeaderText}
-      {/if}
-      <p />
-      <!-- <h4 class="collapse-header">Cycle #1</h4>
+					>{fundingCycleRiskCount}
+				{/if}
+			</h4>
+			{#if rightHeaderText}
+				{rightHeaderText}
+			{/if}
+			<p />
+			<!-- <h4 class="collapse-header">Cycle #1</h4>
         <p>13d 23h 3m until #2</p> -->
-    </div>
-    <div class="current-cycle">
-      {#each cycleKeyValues as { label, value, info }}
-        {#if info}
-          <div class="title gap">
-            <PopInfo message={info}><p><b>{label}</b></p></PopInfo>:<span
-              >{value}</span
-            >
-          </div>
-        {:else}
-          <p class="gap"><b>{label}:</b> <span>{value}</span></p>
-        {/if}
-      {/each}
-    </div>
-  </CollapsibleSection>
+		</div>
+		<div class="current-cycle">
+			{#each cycleKeyValues as { label, value, info }}
+				{#if info}
+					<div class="title gap">
+						<PopInfo message={info}><p><b>{label}</b></p></PopInfo>:<span>{value}</span>
+					</div>
+				{:else}
+					<p class="gap"><b>{label}:</b> <span>{value}</span></p>
+				{/if}
+			{/each}
+		</div>
+	</CollapsibleSection>
 </HeavyBorderBox>
 <HeavyBorderBox>
-  <InfoSpaceBetween>
-    <div slot="left">
-      <div class="available">
-        <p><ETH />0</p>
-        <PopInfo
-          message="The funds available to distribution for this funding cycle (before the 2.5% JBX fee is subtracted). This number won't roll over to the next funding cycle, so funds should be distributed before this funding cycle ends."
-          ><small class="upper">available</small></PopInfo
-        >
-      </div>
-      <p><small><ETH />0 distributed</small></p>
-      <p><small><ETH />0 <Icon name="crown" /> owner balance</small></p>
-    </div>
-    <div slot="right"><button disabled={true}>Distribute funds</button></div>
-  </InfoSpaceBetween>
-  <h4>
-    <PopInfo
-      message="Available funds are distributed according to the payouts below."
-      >Distribution splits</PopInfo
-    >
-  </h4>
-  <InfoSpaceBetween>
-    <p slot="left">Project owner (you) <Icon name="crown" />:</p>
-    <p slot="right">100%</p>
-  </InfoSpaceBetween>
+	<InfoSpaceBetween>
+		<div slot="left">
+			<div class="available">
+				<p><ETH />0</p>
+				<PopInfo
+					message="The funds available to distribution for this funding cycle (before the 2.5% JBX fee is subtracted). This number won't roll over to the next funding cycle, so funds should be distributed before this funding cycle ends."
+					><small class="upper">available</small></PopInfo
+				>
+			</div>
+			<p><small><ETH />0 distributed</small></p>
+			<p><small><ETH />0 <Icon name="crown" /> owner balance</small></p>
+		</div>
+		<div slot="right"><button disabled={true}>Distribute funds</button></div>
+	</InfoSpaceBetween>
+	<h4>
+		<PopInfo message="Available funds are distributed according to the payouts below."
+			>Distribution splits</PopInfo
+		>
+	</h4>
+	<InfoSpaceBetween>
+		<p slot="left">Project owner (you) <Icon name="crown" />:</p>
+		<p slot="right">100%</p>
+	</InfoSpaceBetween>
 </HeavyBorderBox>
 <HeavyBorderBox>
-  <InfoSpaceBetween>
-    <div slot="left">
-      <div class="available">
-        <p>0</p>
-        <PopInfo
-          message="The funds available to distribution for this funding cycle (before the 2.5% JBX fee is subtracted). This number won't roll over to the next funding cycle, so funds should be distributed before this funding cycle ends."
-          ><small class="upper">Tokens reserved</small></PopInfo
-        >
-      </div>
-    </div>
-    <div slot="right"><button disabled={true}>Distribute tokens</button></div>
-  </InfoSpaceBetween>
-  <h4>
-    <PopInfo
-      message="Available funds are distributed according to the payouts below."
-      >Reserved tokens (0%)</PopInfo
-    >
-  </h4>
-  <InfoSpaceBetween>
-    <p slot="left">Project owner (you) <Icon name="crown" />:</p>
-    <p slot="right">100%</p>
-  </InfoSpaceBetween></HeavyBorderBox
+	<InfoSpaceBetween>
+		<div slot="left">
+			<div class="available">
+				<p>0</p>
+				<PopInfo
+					message="The funds available to distribution for this funding cycle (before the 2.5% JBX fee is subtracted). This number won't roll over to the next funding cycle, so funds should be distributed before this funding cycle ends."
+					><small class="upper">Tokens reserved</small></PopInfo
+				>
+			</div>
+		</div>
+		<div slot="right"><button disabled={true}>Distribute tokens</button></div>
+	</InfoSpaceBetween>
+	<h4>
+		<PopInfo message="Available funds are distributed according to the payouts below."
+			>Reserved tokens (0%)</PopInfo
+		>
+	</h4>
+	<InfoSpaceBetween>
+		<p slot="left">Project owner (you) <Icon name="crown" />:</p>
+		<p slot="right">100%</p>
+	</InfoSpaceBetween></HeavyBorderBox
 >
 
 <style>
-  /* TODO these styles are a mess */
-  button {
-    background: transparent;
-    border: 1px solid var(--stroke-disabled);
-    color: var(--text-disabled);
-  }
-  div[slot="left"] {
-    display: flex;
-    flex-direction: column;
-    font-weight: 500;
-  }
+	/* TODO these styles are a mess */
+	button {
+		background: transparent;
+		border: 1px solid var(--stroke-disabled);
+		color: var(--text-disabled);
+	}
+	div[slot='left'] {
+		display: flex;
+		flex-direction: column;
+		font-weight: 500;
+	}
 
-  p[slot="left"],
-  p[slot="right"] {
-    color: var(--text-primary);
-    font-weight: 400;
-  }
-  .title {
-    display: flex;
-    align-items: baseline;
-  }
+	p[slot='left'],
+	p[slot='right'] {
+		color: var(--text-primary);
+		font-weight: 400;
+	}
+	.title {
+		display: flex;
+		align-items: baseline;
+	}
 
-  .title h4 {
-    color: var(--text-header);
-    font-weight: 600;
-  }
-  
-  .title:last-of-type {
-    margin-top: 20px;
-  }
-  .yellow {
-    color: var(--text-header);
-  }
-  h4 {
-    margin-right: 5px;
-    margin-bottom: 5px;
-  }
+	.title h4 {
+		color: var(--text-header);
+		font-weight: 600;
+	}
 
-  p {
-    margin: 0;
-    color: rgba(0, 0, 0, 0.33);
-  }
+	.title:last-of-type {
+		margin-top: 20px;
+	}
+	.yellow {
+		color: var(--text-header);
+	}
+	h4 {
+		margin-right: 5px;
+		margin-bottom: 5px;
+	}
 
-  span {
-    margin-left: 10px;
-    color: var(--text-primary);
-  }
+	p {
+		margin: 0;
+		color: rgba(0, 0, 0, 0.33);
+	}
 
-  div[slot="header"] {
-    align-items: baseline;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
-  .available {
-    display: flex;
-  }
-  .upper {
-    text-transform: uppercase;
-    font-weight: 300;
-  }
-  .available p {
-    margin-right: 5px;
-    color: rgba(0, 0, 0, 0.6);
-  }
-  .collapse-header {
-    margin: 0 10px;
-  }
+	span {
+		margin-left: 10px;
+		color: var(--text-primary);
+	}
 
-  .current-cycle {
-    margin: 20px 0;
-  }
+	div[slot='header'] {
+		align-items: baseline;
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+	}
+	.available {
+		display: flex;
+	}
+	.upper {
+		text-transform: uppercase;
+		font-weight: 300;
+	}
+	.available p {
+		margin-right: 5px;
+		color: rgba(0, 0, 0, 0.6);
+	}
+	.collapse-header {
+		margin: 0 10px;
+	}
 
-  .current-cycle p {
-    color: rgba(0, 0, 0, 0.6);
-  }
+	.current-cycle {
+		margin: 20px 0;
+	}
 
-  .current-cycle .gap {
-    margin: 10px 0px;
-    font-weight: 500;
-    color: rgba(0, 0, 0, 0.6);
-  }
+	.current-cycle p {
+		color: rgba(0, 0, 0, 0.6);
+	}
 
-  .current-cycle span {
-    font-weight: 300;
-  }
-  .sub-header {
-    text-transform: capitalize;
-    font-weight: 600;
-    font-size: 12px;
-    color: rgba(0, 0, 0, 0.6);
-    margin: 10px 0;
-  }
+	.current-cycle .gap {
+		margin: 10px 0px;
+		font-weight: 500;
+		color: rgba(0, 0, 0, 0.6);
+	}
+
+	.current-cycle span {
+		font-weight: 300;
+	}
+	.sub-header {
+		text-transform: capitalize;
+		font-weight: 600;
+		font-size: 12px;
+		color: rgba(0, 0, 0, 0.6);
+		margin: 10px 0;
+	}
 </style>

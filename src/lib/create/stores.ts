@@ -67,14 +67,14 @@ const fundingCycleData: V2FundingCycleData = {
   ballot: ""
 }
 
-const fundingCycle: V2FundingCycle = {
+export const fundingCycle = new Store<V2FundingCycle>({
   ...fundingCycleData,
   number: BigNumber.from(1),
   configuration: BigNumber.from(0),
   basedOn: BigNumber.from(0),
   start: BigNumber.from(Date.now()).div(1000),
   metadata: BigNumber.from(0),
-}
+})
 
 export const projectMetadata = new Store<ProjectMetadataV4>({
   version: 4,
@@ -120,7 +120,7 @@ const project: V2ProjectContextType = {
   projectId: BigNumber.from(0),
   projectMetadata: projectMetadata.get(),
 
-  fundingCycle,
+  fundingCycle: fundingCycle.get(),
   fundingCycleMetadata,
 
   distributionLimit: undefined,

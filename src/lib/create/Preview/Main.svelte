@@ -5,12 +5,18 @@
   import InfoHeader from "./InfoHeader.svelte";
   import Pay from "./Pay.svelte";
 
+  import { fundingCycle } from "../stores";
+
 // FUNDING CYCLE MOCK DATA WHILE REBUILDUING
+
+  // $: {
+  //   fundingCycleDuration
+  // }
 
 const mockDataFunding = {
   fundingCycleNumber: BigNumber.from(1),
   fundingCycleStartTime: BigNumber.from(1588294400),
-  fundingCycleDurationSeconds: BigNumber.from(86400),
+  fundingCycleDurationSeconds: $fundingCycle.duration,
   fundingCycleRiskCount: 1,
   isFundingCycleRecurring: true,
   expand: false,
@@ -25,7 +31,7 @@ const mockDataFunding = {
 <InfoHeader />
 <CashMoney />
 <Pay />
-<Funding {...mockDataFunding}/>
+<Funding {...{...mockDataFunding, fundingCycleDurationSeconds: $fundingCycle.duration}} />
 
 <style>
   .title {
