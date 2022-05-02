@@ -13,7 +13,7 @@
   let duration: BigNumber;
 
   function saveFundingConfig() {
-    <!-- TODO close modal -->
+    // <!-- TODO close modal -->
     fundingCycle.update(fc => ({
       ...fc,
       duration,
