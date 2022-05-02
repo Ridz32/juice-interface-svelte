@@ -1,14 +1,14 @@
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber'
 
 import * as constants from '@ethersproject/constants'
-import { V1FundingCycle, V1FundingCycleMetadata } from 'models/v1/fundingCycle'
-import unsafeFundingCycleProperties from 'utils/unsafeFundingCycleProperties'
-import { perbicentToPercent } from 'utils/formatNumber'
+import { V1FundingCycle, V1FundingCycleMetadata } from '$models/v1/fundingCycle'
+import unsafeFundingCycleProperties from '$utils/unsafeFundingCycleProperties'
+import { perbicentToPercent } from '$utils/formatNumber'
 
-import { getBallotStrategyByAddress } from 'constants/v1/ballotStrategies/getBallotStrategiesByAddress'
+import { getBallotStrategyByAddress } from '$constants/v1/ballotStrategies/getBallotStrategiesByAddress'
 
 import { EditingV1FundingCycle } from './serializers'
-import { FundingCycleRiskFlags } from 'constants/fundingWarningText'
+import { FundingCycleRiskFlags } from '$constants/fundingWarningText'
 
 const DISCOUNT_RATE_NON_RECURRING = 201
 

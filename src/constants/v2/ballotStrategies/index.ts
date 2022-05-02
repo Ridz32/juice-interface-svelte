@@ -1,7 +1,7 @@
 import * as constants from '@ethersproject/constants'
 import { t } from '@lingui/macro'
 
-import { readNetwork } from 'constants/networks'
+import { readNetwork } from '$constants/networks'
 
 const BALLOT_ADDRESSES: { [k: string]: { [j: string]: string } } = {
   THREE_DAY: {

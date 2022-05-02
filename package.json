@@ -35,7 +35,11 @@
 	"dependencies": {
 		"@fontsource/fira-mono": "^4.5.0",
 		"@galtproject/browser-ipfs": "^0.5.4",
+		"@lingui/macro": "^3.13.3",
 		"@lukeed/uuid": "^2.0.0",
+		"@pinata/sdk": "^1.1.25",
+		"axios": "^0.27.2",
+		"buffer": "^6.0.3",
 		"chart.js": "^3.7.1",
 		"cookie": "^0.4.1",
 		"d3": "^7.4.4",

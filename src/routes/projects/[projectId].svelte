@@ -3,11 +3,45 @@
 	export const hydrate = true;
 	export const router = browser;
 	export const prerender = true;
+</script>
+
+<script lang="ts">
 	import Head from '$lib/project/Head.svelte';
 	import Stats from '$lib/project/Stats.svelte';
 	import Details from '$lib/project/Details.svelte';
 	import Activity from '$lib/project/Activity.svelte';
-	import Popup from '$lib/components/Popup.svelte';
+	import { onMount, setContext } from 'svelte';
+	import { querySubgraph } from '$utils/graph';
+	import Store from '$utils/Store';
+	import type { Project } from '$models/subgraph-entities/project';
+
+	let project = new Store<Project>();
+	setContext('PROJECT', project);
+
+	onMount(async () => {
+		const [res] = await querySubgraph({
+			entity: 'project',
+			keys: [
+				'id',
+				'handle',
+				'uri',
+				'createdAt',
+				'creator',
+				'currentBalance',
+				'distributeToPayoutModEvents',
+				'totalPaid',
+				'totalRedeemed'
+			],
+			where: [
+				{
+					key: 'id',
+					value: 1
+				}
+			]
+		});
+
+		$project = res;
+	});
 </script>
 
 <section

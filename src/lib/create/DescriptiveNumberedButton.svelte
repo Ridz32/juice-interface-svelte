@@ -67,7 +67,7 @@
     color: rgba(0, 0, 0, 0.333);
   }
 
-  div[role="button"].visited svg {
+  /* div[role="button"].visited svg {
     fill: rgba(0, 0, 0, 0.333);
-  }
+  } */
 </style>

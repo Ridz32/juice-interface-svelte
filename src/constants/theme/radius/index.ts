@@ -1,4 +1,4 @@
-import { SemanticRadii } from 'models/semantic-theme/radii'
+import type { SemanticRadii } from '$models/semantic-theme/radii'
 
 export const juiceRadii: SemanticRadii = {
   xs: '1px',

@@ -1,5 +1,5 @@
 import { t } from '@lingui/macro'
-import { BallotStrategy } from 'models/ballot'
+import type { BallotStrategy } from '$models/ballot'
 
 export const createCustomStrategy = (address: string): BallotStrategy => ({
   address,

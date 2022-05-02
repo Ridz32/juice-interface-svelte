@@ -1,6 +1,6 @@
-import { SemanticTheme } from 'models/semantic-theme/theme'
+import { SemanticTheme } from '$models/semantic-theme/theme'
 
-import { ThemeOption } from 'constants/theme/theme-option'
+import { ThemeOption } from '$constants/theme/theme-option'
 
 import { juiceThemeColors } from './colors'
 import { juiceRadii } from './radius'

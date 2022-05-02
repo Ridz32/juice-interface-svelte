@@ -1,7 +1,7 @@
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber'
 
 import { parseWad } from './formatNumber'
-import { CurrencyName } from 'constants/currency'
+import { CurrencyName } from '$constants/currency'
 
 export class CurrencyUtils {
   // Define non-fractional conversion units

@@ -1,12 +1,12 @@
 import { BigNumber } from '@ethersproject/bignumber'
 
-import { V2FundingCycleMetadata } from 'models/v2/fundingCycle'
+import { V2FundingCycleMetadata } from '$models/v2/fundingCycle'
 
-import { percentToPermyriad } from 'utils/formatNumber'
+import { percentToPermyriad } from '$utils/formatNumber'
 
 import { Wallet } from '@ethersproject/wallet'
 
-import { invertPermyriad } from 'utils/bigNumbers'
+import { invertPermyriad } from '$utils/bigNumbers'
 
 import { decodeV2FundingCycleMetadata } from '../fundingCycle'
 

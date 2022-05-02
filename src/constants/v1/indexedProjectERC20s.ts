@@ -1,4 +1,4 @@
-import { NetworkName } from 'models/network-name'
+import { NetworkName } from '$models/network-name'
 
 export const indexedProjectERC20s: Partial<Record<NetworkName, number[]>> = {
   [NetworkName.mainnet]: [

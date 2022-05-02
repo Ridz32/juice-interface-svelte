@@ -1,14 +1,20 @@
 <script lang="ts">
 	import Chart from './Chart.svelte';
-	import { onMount } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 	import DropDown from './DropDown.svelte';
 	import Holders from './Holders.svelte';
 	import DistributeFunds from './DistributeFunds.svelte';
+	import type { Project } from '$models/subgraph-entities/project';
+	import type Store from '$utils/Store';
 	let clientWidth = 500;
 	let tab = 0;
 
 	let holdersOpened = false;
 	let distributeOpened = false;
+
+	const project = getContext('PROJECT') as Store<Project>;
+
+	$: console.log($project);
 
 	onMount(async () => {
 		// new Chart(chartCanvas, {

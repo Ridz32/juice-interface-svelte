@@ -1,7 +1,7 @@
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber'
 
-import { SECONDS_IN_DAY, SECONDS_IN_HOUR } from 'constants/numbers'
-import { DurationUnitsOption } from 'constants/time'
+import { SECONDS_IN_DAY, SECONDS_IN_HOUR } from '$constants/numbers'
+import { DurationUnitsOption } from '$constants/time'
 
 export function detailedTimeString({
   timeSeconds,

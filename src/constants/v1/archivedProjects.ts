@@ -1,6 +1,6 @@
-import { NetworkName } from 'models/network-name'
+import { NetworkName } from '$models/network-name'
 
-import { readNetwork } from 'constants/networks'
+import { readNetwork } from '$constants/networks'
 import { V1_PROJECT_IDS } from './projectIds'
 
 const {
