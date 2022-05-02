@@ -6,7 +6,6 @@ import {
   fromNavigator,
 } from '@lingui/detect-locale'
 import { en, zh, ru, tr, es, pt, fr } from 'make-plural/plurals'
-import * as defaultLocale from '../../locales/en/messages'
 
 import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from '$constants/locale'
 
@@ -33,8 +32,8 @@ const getLocale = (): string => {
   return locale
 }
 
-const activateDefaultLocale = () => {
-  const { messages } = defaultLocale
+const activateDefaultLocale = async () => {
+  const { messages } = await import(`../locales/${DEFAULT_LOCALE}/messages`)
   i18n.load(DEFAULT_LOCALE, messages)
   i18n.activate(DEFAULT_LOCALE)
 }
