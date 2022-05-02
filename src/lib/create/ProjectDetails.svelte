@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { projectDetails } from "./stores";
+  import { projectMetadata } from "./stores";
   import InfoBox from "./InfoBox.svelte";
   import Input from "./FormField.svelte";
   import UploadField from "./UploadField.svelte";
 
   function onLogoChange(src: string) {
-    projectDetails.update((state) => ({ ...state, logo: src }));
+    projectMetadata.update((state: any) => ({ ...state, logoUri: src }));
   }
 
   const formFields = [
@@ -27,7 +27,7 @@
       },
     },
     {
-      id: "website",
+      id: "infoUri",
       label: "Website",
       placeholder: "https://your-project.com",
       description: "Your project's website",
@@ -52,7 +52,7 @@
       },
     },
     {
-      id: "payButtonText",
+      id: "payButton",
       label: "Pay button text",
       placeholder: "Pay",
       description:
@@ -71,6 +71,6 @@
 
 <InfoBox info="You can edit your project details later on at any time." />
 {#each formFields as field}
-  <Input {field} dataStore={projectDetails} />
+  <Input {field} dataStore={projectMetadata} />
 {/each}
 <UploadField onChange={onLogoChange} />

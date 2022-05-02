@@ -1,33 +1,33 @@
 <script lang="ts">
-    import { projectDetails } from '../stores';
+    import { projectMetadata } from '../stores';
     import Icon from '$lib/components/Icon.svelte';
 </script>
 
 <!-- The top component showing the logo preview with basic treasury info -->
 <div class="info">
-  {#if $projectDetails.logo}
-    <img class="logo" src={$projectDetails.logo} alt="Uploaded logo" />
+  {#if $projectMetadata.logoUri}
+    <img class="logo" src={$projectMetadata.logoUri} alt="Uploaded logo" />
   {:else}
     <div class="logo-placeholder">🧃</div>
   {/if}
   <div class="info-text">
-    <h1>{$projectDetails.name || "Untitled project"}</h1>
+    <h1>{$projectMetadata.name || "Untitled project"}</h1>
     <div class="social-list">
-      <p>{$projectDetails.website || ""}</p>
-      {#if $projectDetails.twitter}
+      <p>{$projectMetadata.infoUri || ""}</p>
+      {#if $projectMetadata.twitter}
         <p>
           <Icon name="twitter" />
-          {$projectDetails.twitter}
+          {$projectMetadata.twitter}
         </p>
       {/if}
-      {#if $projectDetails.discord}
+      {#if $projectMetadata.discord}
         <p>
           <Icon name="discord" />
-          {$projectDetails.discord}
+          {$projectMetadata.discord}
         </p>
       {/if}
     </div>
-    <p class="description">{$projectDetails.description || ""}</p>
+    <p class="description">{$projectMetadata.description || ""}</p>
   </div>
 </div>
 

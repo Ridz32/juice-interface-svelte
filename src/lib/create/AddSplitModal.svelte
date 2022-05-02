@@ -4,7 +4,7 @@
   import PopInfo from "./PopInfo.svelte";
   import Select from "$lib/components/Select.svelte";
   import { closeModal } from "./Modal.svelte";
-  import { splits } from "./stores";
+  import { payoutSplits } from "./stores";
 
   const today = new Date().toISOString().split('T')[0];
   
@@ -22,7 +22,7 @@
     <option>Wallet address</option>
     <option>Juicebox project</option>
   </Select>
-  <FormField {field} dataStore={splits} />
+  <FormField {field} dataStore={payoutSplits} />
   <div class="gap">
     <label for="percent">
       <PopInfo message="Percentage this payee will receive of all funds raised."
