@@ -8,16 +8,11 @@
   import { openModal } from "./Modal.svelte";
 
   let fundingCycles = false;
-  function toggleFundingCycles(e: Event) {
-    fundingCycles = !fundingCycles;
-  }
 </script>
-
-<!-- TODO learn more links -->
 
 <h1>Funding</h1>
 <HeavyBorderBox>
-  <Toggle checked={fundingCycles} onClick={toggleFundingCycles}
+  <Toggle bind:checked={fundingCycles}
     ><h3>Funding cycles</h3></Toggle
   >
   <p>Set the length of your funding cycles, which can enable:</p>
@@ -80,12 +75,17 @@
 </HeavyBorderBox>
 
 <style>
+
+  h1, h3 {
+    color: var(--text-header);
+  }
   h1 {
     font-weight: 500;
   }
 
   h3 {
     font-weight: 300;
+    margin: 0;
   }
 
   label {

@@ -1,10 +1,13 @@
-<script>
-  export let checked;
-  export let onClick;
+<script lang="ts">  
+  export let checked: boolean;
+
+  function toggleChecked(e: Event) {
+    checked = !checked;
+  }
 </script>
 
 <div>
-  <input type="checkbox" id="switch" {checked} on:click={onClick} /><label
+  <input type="checkbox" id="switch" {checked} on:click={toggleChecked} /><label
     for="switch">Toggle</label
   >
   <slot />
