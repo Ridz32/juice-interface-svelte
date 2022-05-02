@@ -1,0 +1,103 @@
+:root {
+	--background-l0: #fbf9f6;
+	--background-l1: #e7e3dc;
+	--background-l2: #f3f1ec;
+	--background-disabled: #00000018;
+	--background-success: green;
+	--background-warn: #d8aa01;
+	--background-failure: tomato;
+	--background-brand-primary: #f5a312;
+	--background-brand-secondary: #ffecbb;
+	--background-action-primary: #18b4c7;
+	--background-action-secondary: #32c8db44;
+	--background-action-highlight: #3dd1e4;
+	--text-primary: #000000ee;
+	--text-secondary: #00000099;
+	--text-tertiary: #00000055;
+	--text-placeholder: #00000055;
+	--text-disabled: #00000044;
+	--text-success: green;
+	--text-warn: #d8aa01;
+	--text-failure: tomato;
+	--text-header: #f5a312;
+	--text-action-primary: #18b4c7;
+	--text-action-secondary: #18b4c7;
+	--text-action-highlight: #25c4d8;
+	--text-brand-primary: #f5a312;
+	--text-brand-secondary: #ffecbb;
+	--text-over-brand-primary: #fff;
+	--text-over-brand-secondary: #000;
+	--text-over-action-primary: #fff;
+	--text-over-action-secondary: #18b4c7;
+	--text-over-action-highlight: #000000ee;
+	--text-over-success: #fff;
+	--text-over-warn: #fff;
+	--text-over-failure: #fff;
+	--text-over-disabled: #00000055;
+	--icon-primary: #000000ee;
+	--icon-secondary: #00000099;
+	--icon-tertiary: #00000055;
+	--icon-disabled: #00000044;
+	--icon-success: green;
+	--icon-warn: #d8aa01;
+	--icon-failure: tomato;
+	--icon-action-primary: #18b4c7;
+	--icon-action-secondary: #18b4c7;
+	--icon-brand-primary: #f5a312;
+	--icon-brand-secondary: #ffecbb;
+	--icon-over-brand-primary: #fff;
+	--icon-over-brand-secondary: #000;
+	--icon-over-action-primary: #fff;
+	--icon-over-action-secondary: #18b4c7;
+	--icon-over-action-highlight: #25c4d8;
+	--icon-over-success: #fff;
+	--icon-over-warn: #fff;
+	--icon-over-failure: #fff;
+	--icon-over-disabled: #00000055;
+	--stroke-primary: #00000048;
+	--stroke-secondary: #00000032;
+	--stroke-tertiary: #00000018;
+	--stroke-success: green;
+	--stroke-warn: #d8aa01;
+	--stroke-failure: tomato;
+	--stroke-disabled: #00000018;
+	--stroke-action-primary: #18b4c7;
+	--stroke-action-secondary: #32c8db44;
+	--stroke-action-highlight: #3dd1e4;
+	--boxShadow-primary: rgba(0, 0, 0, 0.1);
+	--radius-xs: 1px;
+	--radius-sm: 1px;
+	--radius-md: 1px;
+	--radius-lg: 1px;
+	--radius-xl: 1px;
+}
+
+body {
+	margin: 0px;
+	padding: 0px;
+	background: #131115;
+	font-family: 'DM Mono', monospace;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	color: var(--text-primary);
+	background: var(--background-l0);
+}
+
+a {
+	color: var(--text-action-primary);
+}
+a,
+button,
+code,
+div,
+p {
+	font-family: 'DM Mono', monospace;
+}
+
+.clickable-border {
+	border: 1px solid var(--stroke-tertiary);
+	transition: border-color 120ms ease-out;
+}
+.clickable-border:hover {
+	border: 1px solid var(--stroke-secondary);
+}
