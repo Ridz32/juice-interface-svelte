@@ -2,7 +2,8 @@
 	import { projectMetadata } from '../stores';
 	import Button from '../../components/Button.svelte';
 	import ETH from '../Ethereum.svelte';
-	import CurrencyInput, { Currency } from '$lib/components/CurrencyInput.svelte';
+	import CurrencyInput from '$lib/components/CurrencyInput.svelte';
+	import { Currency } from '$constants';
 	import { BigNumber } from 'ethers';
 
 	let currency = Currency.ETH;

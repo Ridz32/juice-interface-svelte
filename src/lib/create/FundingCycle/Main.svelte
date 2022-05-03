@@ -52,10 +52,10 @@ You can reconfigure your project's funding cycles later on, and changes will tak
 	{/each}
 </section>
 
-<Drawer bind:shown={drawerOpen}>
+<Drawer bind:shown={drawerOpen} let:close>
 	<div class="content">
 		{#if current === 'Funding'}
-			<FundingDrawer />
+			<FundingDrawer {close} />
 		{:else if current === 'Token'}
 			<TokenDrawer />
 		{:else if current === 'Rules'}

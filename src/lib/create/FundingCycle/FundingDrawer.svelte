@@ -7,30 +7,58 @@
 	import Button from '$lib/components/Button.svelte';
 	import { openModal } from '../Modal.svelte';
 	import { BigNumber } from 'ethers';
-	import { fundingCycle } from '../stores';
+	import { fundingCycle, distributionLimitData, currentDistributionLimitType } from '../stores';
 	import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
+	import CurrencyInput from '$lib/components/CurrencyInput.svelte';
+	import { Currency, CurrencyValue, DistributionLimitType } from '$constants';
+	import { onMount } from 'svelte';
 
-	enum DistributionLimit {
-		None = 0,
-		Specific = 1,
-		Infinite = 2
-	}
+	export let close: () => void;
 
 	let fundingCyclesActive = false;
-	let duration: BigNumber;
+	let duration: BigNumber = BigNumber.from(0);
+	let distributionLimitType: DistributionLimitType = DistributionLimitType.None;
 	let distributionLimit: BigNumber = BigNumber.from(0);
-	let distributionLimitCurrency: string;
+	let distributionLimitCurrency: Currency;
 
-	$: isSpecificLimit = ![BigNumber.from(0), BigNumber.from(MAX_DISTRIBUTION_LIMIT)].includes(
-		distributionLimit
-	);
+	onMount(() => {
+		if ($fundingCycle.duration.gt(0)) {
+			duration = $fundingCycle.duration;
+			fundingCyclesActive = true;
+		}
+    distributionLimit = $distributionLimitData.distributionLimit;
+		distributionLimitType = $currentDistributionLimitType;
+	});
+
+	$: {
+		switch (distributionLimitType) {
+			case DistributionLimitType.None:
+				distributionLimit = BigNumber.from(0);
+				break;
+			case DistributionLimitType.Infinite:
+				distributionLimit = BigNumber.from(MAX_DISTRIBUTION_LIMIT);
+				break;
+			// Handled by the eventHandler setValue
+			case DistributionLimitType.Specific:
+				break;
+		}
+	}
+
+	function setValue(e: any) {
+		distributionLimit = e.detail.value;
+	}
 
 	function saveFundingConfig() {
-		// TODO close modal
 		fundingCycle.update((fc) => ({
 			...fc,
 			duration
 		}));
+		distributionLimitData.update((dl) => ({
+			...dl,
+			distributionLimit,
+			distributionLimitCurrency: CurrencyValue[distributionLimitCurrency]
+		}));
+		close();
 	}
 </script>
 
@@ -72,21 +100,28 @@
 		<a href="/">Learn more</a> about overflow.
 	</p>
 	<label for="distributionLimit">Distribution limit</label>
-	<select id="distributionLimit" bind:value={distributionLimit}>
-		<option value={DistributionLimit.None}>Zero, no funds can be distributed</option>
+	<select id="distributionLimit" bind:value={distributionLimitType}>
+		<option value={DistributionLimitType.None}>Zero, no funds can be distributed</option>
 		<!-- TODO no limit needs payout splits -->
-		<option value={BigNumber.from(MAX_DISTRIBUTION_LIMIT)}>No limit (infinite)</option>
-		<!-- TODO specific target needs an extra input and payout splits-->
-		<option value={BigNumber.from(1)}>Specific target</option>
+		<option value={DistributionLimitType.Infinite}>No limit (infinite)</option>
+		<!-- TODO specific target and payout splits-->
+		<option value={DistributionLimitType.Specific}>Specific target</option>
 	</select>
-	{#if isSpecificLimit}
-		<!-- TODO component from PayButton, bind distributionLimit and ...Currency -->
-		<input bind:value={distributionLimitCurrency} />
+	<br />
+	{#if distributionLimitType === DistributionLimitType.Specific}
+		<CurrencyInput on:setValue={setValue} bind:currency={distributionLimitCurrency} />
+	{:else if distributionLimitType === DistributionLimitType.None}
+		<AlertText
+			>With a distribution limit of Zero, no funds can be distributed by the project. All funds
+			belong to token holders as overflow.</AlertText
+		>
+	{:else}
+		<AlertText>
+			With an infinite distribution limit, all funds can be distributed by the project. The project
+			will have no overflow, meaning token holders won't be able to redeem their tokens for treasury
+			funds.</AlertText
+		>
 	{/if}
-	<AlertText
-		>With a distribution limit of Zero, no funds can be distributed by the project. All funds belong
-		to token holders as overflow.</AlertText
-	>
 </HeavyBorderBox>
 <HeavyBorderBox>
 	<h3>Payout splits</h3>
@@ -118,7 +153,6 @@
 	}
 
 	/* TODO think of nice input/select abstraction, this css has been repeated in FundingCycleInput and FormField */
-	input,
 	select {
 		display: block;
 		background: transparent;

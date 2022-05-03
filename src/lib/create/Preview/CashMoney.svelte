@@ -4,6 +4,14 @@
 	import PopInfo from '../PopInfo.svelte';
 	import Popover from '../Popover.svelte';
 	import ETH from '../Ethereum.svelte';
+
+	import { Currency, DistributionLimitType } from '$constants';
+	import {
+		distributionLimitData,
+		currentDistributionLimitType,
+		currentDistributionLimitCurrencyType as currency
+	} from '../stores';
+	import Money from '$lib/components/Money.svelte';
 </script>
 
 <!-- TODO: rename this component, quite undescriptive given other sibling is "Funding" -->
@@ -13,7 +21,7 @@
 			><p>In juicebox</p></PopInfo
 		>
 	</div>
-	<p slot="right" class="money"><ETH />0</p>
+	<p slot="right" class="money"><Money currency={$currency} /></p>
 </InfoSpaceBetween>
 <InfoSpaceBetween>
 	<div slot="left">
@@ -24,10 +32,19 @@
 		>
 	</div>
 	<div slot="right">
-		<PopInfo
-			message="The target for this funding cycle is 0, meaning all funds in Juicebox are currently considered overflow. Overflow can be redeemed by token holders, but not distributed."
-			><p>100% Overflow</p></PopInfo
-		>
+		{#if $currentDistributionLimitType === DistributionLimitType.None}
+			<PopInfo
+				message="The target for this funding cycle is 0, meaning all funds in Juicebox are currently considered overflow. Overflow can be redeemed by token holders, but not distributed."
+				><p>100% Overflow</p></PopInfo
+			>
+		{:else if $currentDistributionLimitType === DistributionLimitType.Infinite}
+			<Money currency={$currency} />/ NO LIMIT
+		{:else}
+			<Money currency={$currency} />/ <Money
+				currency={$currency}
+				amount={$distributionLimitData.distributionLimit}
+			/>
+		{/if}
 	</div>
 </InfoSpaceBetween>
 <progress max="100" value="" />

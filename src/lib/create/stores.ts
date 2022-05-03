@@ -13,6 +13,8 @@ import type {
 	V2FundingCycleMetadata
 } from '$models/v2/fundingCycle';
 import type { Split } from '$models/v2/splits';
+import { Currency, DistributionLimitType } from '$constants';
+import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
 
 export const visitedFundingDrawers = writable({
 	funding: false,
@@ -118,47 +120,83 @@ const fundingCycleMetadata: V2FundingCycleMetadata = {
 export const payoutSplits = new Store<[Split] | []>([]);
 export const reservedTokensSplits = new Store<[Split] | []>([]);
 
-// TODO type
+/**
+ * Distribution limit
+ * none: BigNumber.from(0)
+ * infinte: BigNumber.from(MAX_DISTRIBUTION_LIMIT)
+ * specific: BigNumber.from(specificValue)
+ * 
+ * Distribution limit currency
+ * ETH: BigNumber.from(1)
+ * USD: BigNumber.from(2)
+ */
 export const distributionLimitData = new Store({
-	distributionLimit: BigNumber.from(0)
+	distributionLimit: BigNumber.from(0),
+	distributionLimitCurrency: BigNumber.from(1), // ETH
 });
 
-const project: V2ProjectContextType = {
-	isPreviewMode: true,
-
-	projectId: BigNumber.from(0),
-	projectMetadata: projectMetadata.get(),
-
-	fundingCycle: fundingCycle.get(),
-	fundingCycleMetadata,
-
-	distributionLimit: undefined,
-	distributionLimitCurrency: BigNumber.from(V2_CURRENCY_ETH),
-
-	payoutSplits: payoutSplits.get(),
-	reservedTokensSplits: reservedTokensSplits.get(),
-
-	usedDistributionLimit: BigNumber.from(0),
-	ETHBalance: BigNumber.from(0),
-	balanceInDistributionLimitCurrency: BigNumber.from(0),
-
-	tokenAddress: undefined,
-	terminals: [],
-	primaryTerminal: undefined,
-	tokenSymbol: undefined,
-	projectOwnerAddress: connectedAccount.get(),
-	ballotState: undefined,
-	primaryTerminalCurrentOverflow: undefined,
-	totalTokenSupply: undefined,
-
-	loading: {
-		ETHBalanceLoading: false,
-		balanceInDistributionLimitCurrencyLoading: false,
-		distributionLimitLoading: false,
-		fundingCycleLoading: false,
-		usedDistributionLimitLoading: false
+export const currentDistributionLimitType = derived(
+	distributionLimitData,
+	$distributionLimitData => {
+		if ($distributionLimitData.distributionLimit.eq(0)) {
+			return DistributionLimitType.None;
+		}
+		if ($distributionLimitData.distributionLimit.eq(MAX_DISTRIBUTION_LIMIT)) {
+			return DistributionLimitType.Infinite;
+		}
+		return DistributionLimitType.Specific;
 	}
-};
+)
+
+export const currentDistributionLimitCurrencyType = derived(
+	distributionLimitData,
+	$distributionLimitData => {
+		if ($distributionLimitData.distributionLimitCurrency?.eq(2)) {
+			return Currency.USD;
+		}
+		return Currency.ETH;
+	}
+)
+
+/**
+ * The default values for a v2 project
+ */
+// const project: V2ProjectContextType = {
+// 	isPreviewMode: true,
+
+// 	projectId: BigNumber.from(0),
+// 	projectMetadata: projectMetadata.get(),
+
+// 	fundingCycle: fundingCycle.get(),
+// 	fundingCycleMetadata,
+
+// 	distributionLimit: undefined,
+// 	distributionLimitCurrency: BigNumber.from(V2_CURRENCY_ETH),
+
+// 	payoutSplits: payoutSplits.get(),
+// 	reservedTokensSplits: reservedTokensSplits.get(),
+
+// 	usedDistributionLimit: BigNumber.from(0),
+// 	ETHBalance: BigNumber.from(0),
+// 	balanceInDistributionLimitCurrency: BigNumber.from(0),
+
+// 	tokenAddress: undefined,
+// 	terminals: [],
+// 	primaryTerminal: undefined,
+// 	tokenSymbol: undefined,
+// 	projectOwnerAddress: connectedAccount.get(),
+// 	ballotState: undefined,
+// 	primaryTerminalCurrentOverflow: undefined,
+// 	totalTokenSupply: undefined,
+
+// 	loading: {
+// 		ETHBalanceLoading: false,
+// 		balanceInDistributionLimitCurrencyLoading: false,
+// 		distributionLimitLoading: false,
+// 		fundingCycleLoading: false,
+// 		usedDistributionLimitLoading: false
+// 	}
+// };
 
 // export const V2ProjectContext = writable<V2ProjectContextType>({
 //   isPreviewMode: false,

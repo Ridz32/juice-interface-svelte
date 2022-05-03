@@ -2,15 +2,19 @@
 	import { fly, fade } from 'svelte/transition';
 
 	export let shown = false;
+
+	function close() {
+		shown = false;
+	}
 </script>
 
 {#if shown}
 	<!-- The element that makes the whole page besides drawer darkish  -->
-	<div class="overlay" in:fade={{ duration: 100 }} out:fade on:click={() => (shown = false)} />
+	<div class="overlay" in:fade={{ duration: 100 }} out:fade on:click={close} />
 
 	<div class="drawer-container" in:fly={{ x: 120 }} out:fly={{ x: 120 }}>
 		<!-- TODO close button (X) in top right -->
-		<slot />
+		<slot {close} />
 	</div>
 {/if}
 

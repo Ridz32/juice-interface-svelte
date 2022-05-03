@@ -9,6 +9,13 @@
 	import Popover from '../Popover.svelte';
 	import { formatDate } from '$utils/formatDate';
 	import { detailedTimeUntil, detailedTimeString } from '$utils/formatTime';
+	import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
+	import Money from '$lib/components/Money.svelte';
+	import {
+		currentDistributionLimitCurrencyType as currency,
+		currentDistributionLimitCurrencyType,
+		distributionLimitData
+	} from '../stores';
 
 	export let fundingCycleNumber: BigNumber;
 	export let fundingCycleStartTime: BigNumber;
@@ -26,10 +33,22 @@
 		});
 	}
 
+	function getDistributionValue(distributionLimit: BigNumber) {
+		if (!distributionLimit.gt(0)) {
+			return 'Zero';
+		} else if (distributionLimit.eq(MAX_DISTRIBUTION_LIMIT)) {
+			return 'Infinite';
+		}
+	}
+
 	$: durationSet = fundingCycleDurationSeconds.gt(0);
 
 	$: cycleKeyValues = [
-		{ id: 'distributionLimit', label: 'Distribution limit', value: 'Zero' },
+		{
+			id: 'distributionLimit',
+			label: 'Distribution limit',
+			value: getDistributionValue($distributionLimitData.distributionLimit)
+		},
 		{ id: 'duration', label: 'Duration', value: getDurationValue(fundingCycleDurationSeconds) },
 		durationSet && {
 			id: 'start',
@@ -81,7 +100,6 @@
 	].filter((item) => Boolean(item));
 
 	let rightHeaderText: string | null = null;
-
 	$: {
 		if (fundingCycleDurationSeconds.gt(0)) {
 			const endTimeSeconds = fundingCycleStartTime.add(fundingCycleDurationSeconds);
@@ -92,13 +110,6 @@
 			rightHeaderText = isFundingCycleRecurring
 				? `${formattedTimeLeft} until #${fundingCycleNumber.add(1).toString()}`
 				: `{formattedTimeLeft} left`;
-
-			// cycleKeyValues[cycleKeys.duration].value = detailedTimeString({
-			// 	timeSeconds: fundingCycleDurationSeconds.toNumber()
-			// });
-			// cycleKeyValues[cycleKeys.end].value = formatDate(
-			// 	fundingCycleStartTime.add(fundingCycleDurationSeconds).mul(1000)
-			// );
 		}
 	}
 </script>
@@ -141,16 +152,21 @@
 			{#if rightHeaderText}
 				{rightHeaderText}
 			{/if}
-			<p />
-			<!-- <h4 class="collapse-header">Cycle #1</h4>
-        <p>13d 23h 3m until #2</p> -->
 		</div>
 		<div class="current-cycle">
-			{#each cycleKeyValues as { label, value, info }}
+			{#each cycleKeyValues as { id, label, value, info }}
 				{#if info}
 					<div class="title gap">
 						<PopInfo message={info}><p><b>{label}</b></p></PopInfo>:<span>{value}</span>
 					</div>
+				{:else if id === 'distributionLimit' && !value}
+					<p class="gas">
+						<b>{label}:</b>
+						<Money
+							amount={$distributionLimitData.distributionLimit}
+							currency={$currentDistributionLimitCurrencyType}
+						/>
+					</p>
 				{:else}
 					<p class="gap"><b>{label}:</b> <span>{value}</span></p>
 				{/if}
@@ -162,7 +178,7 @@
 	<InfoSpaceBetween>
 		<div slot="left">
 			<div class="available">
-				<p><ETH />0</p>
+				<p><Money currency={$currency} /></p>
 				<PopInfo
 					message="The funds available to distribution for this funding cycle (before the 2.5% JBX fee is subtracted). This number won't roll over to the next funding cycle, so funds should be distributed before this funding cycle ends."
 					><small class="upper">available</small></PopInfo
@@ -180,7 +196,9 @@
 	</h4>
 	<InfoSpaceBetween>
 		<p slot="left">Project owner (you) <Icon name="crown" />:</p>
-		<p slot="right">100%</p>
+		<p slot="right">
+			100% (<Money currency={$currency} amount={$distributionLimitData.distributionLimit} />)
+		</p>
 	</InfoSpaceBetween>
 </HeavyBorderBox>
 <HeavyBorderBox>
