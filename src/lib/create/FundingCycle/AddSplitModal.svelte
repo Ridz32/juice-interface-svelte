@@ -2,7 +2,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import FormField from '../FormField.svelte';
 	import PopInfo from '../PopInfo.svelte';
-	import Icon from "$lib/components/Icon.svelte";
+	import Icon from '$lib/components/Icon.svelte';
 	import Select from '$lib/components/Select.svelte';
 	import { closeModal } from '../Modal.svelte';
 	import { payoutSplits } from '../stores';
@@ -17,8 +17,18 @@
 		getDistributionAmountFromPercentAfterFee
 	} from '$utils/v2/distributions';
 	import Popover from '../Popover.svelte';
+	import { validateEthAddress, validatePercentage } from '$utils/validators';
 
 	const feePercentage = '2.5';
+	const today = new Date().toISOString().split('T')[0];
+	const field = {
+		id: 'address',
+		label: 'Address',
+		placeholder: 'juicebox.eth / 0x0000000000000000000000000000000000000000',
+		props: {
+			required: true
+		}
+	};
 
 	// The distribution limit dictates if there is a paymount amount field
 	export let distributionLimit: BigNumber | null = null;
@@ -27,6 +37,7 @@
 
 	// Wether an already existing split is being edited
 	export let split: Split | null = null;
+
 	// TODO edit existing split
 	// let editingExistingSplit = !!split;
 	// onMount(() => {
@@ -35,17 +46,41 @@
 	let address: Address;
 	let percent = 0;
 	let amount = 0;
-	let amountAfterFee;
+	let amountAfterFee: number;
 	let rangeValue = [percent];
+	let locked: Date | null = null;
 
-	function setAmountAfterFee(percent) {
+	let invalid: { [key: string]: boolean | string } = {
+		address: false,
+		percent: false
+	};
+	const isInvalid = () => invalid.address || invalid.percent;
+
+	async function validate() {
+		await validateEthAddress(address, [], 'Add', undefined).then(
+			() => {
+				invalid.address = false;
+			},
+			(msg) => {
+				invalid.address = msg;
+			}
+		);
+		await validatePercentage(rangeValue[0]).then(
+			() => {
+				invalid.percent = false;
+			},
+			(msg) => {
+				invalid.percent = msg;
+			}
+		);
+	}
+	function setAmountAfterFee(percent: number) {
 		amountAfterFee = getDistributionAmountFromPercentAfterFee({
 			percent,
 			distributionLimit: distributionLimit.toString(),
 			feePercentage
 		});
 	}
-
 	function setRangeValue(e: { detail: { value: BigNumber } }) {
 		const value = e.detail.value;
 		percent = getDistributionPercentFromAmount({
@@ -55,6 +90,15 @@
 		rangeValue[0] = percent;
 	}
 
+	async function addSplit() {
+		await validate();
+		if (isInvalid) {
+			console.log(invalid);
+			return;
+		}
+		console.log('valid');
+	}
+
 	$: {
 		if (showAmount) {
 			// Set the input value when the range value changes
@@ -62,14 +106,6 @@
 			setAmountAfterFee(rangeValue[0]);
 		}
 	}
-
-	const today = new Date().toISOString().split('T')[0];
-
-	const field = {
-		id: 'address',
-		label: 'Address',
-		placeholder: 'juicebox.eth / 0x0000000000000000000000000000000000000000'
-	};
 </script>
 
 <h3>Add a split</h3>
@@ -79,6 +115,7 @@
 		<option>Juicebox project</option>
 	</Select>
 	<FormField {field} bind:value={address} />
+	<p class="issue" class:hidden={!invalid.address}>{invalid.address}.</p>
 	{#if showAmount}
 		<div class="gap">
 			<label for="payoutAmount" class="small-gap"> Payout amount </label>
@@ -104,9 +141,10 @@
 		</label>
 		<!-- NOTE the range reacts to a too large amount by setting it to the max value -->
 		<Range bind:values={rangeValue} />
+		<p class="issue" class:hidden={!invalid.percent}>{invalid.percent}.</p>
 	</div>
 	<label for="lock-date" class="small-gap">Lock until</label>
-	<input type="date" id="lock-date" min={today} placeholder="mm/dd/yyyy" />
+	<input type="date" id="lock-date" min={today} placeholder="mm/dd/yyyy" bind:value={locked} />
 	<p>
 		If locked, this split can't be edited or removed until the lock expires or the funding cycle is
 		reconfigured.
@@ -114,7 +152,7 @@
 </section>
 <div class="actions">
 	<Button onClick={closeModal} size="md" type="secondary">Cancel</Button>
-	<Button size="md">Add split</Button>
+	<Button size="md" onClick={addSplit}>Add split</Button>
 </div>
 
 <style>
@@ -146,5 +184,12 @@
 	}
 	.small-gap {
 		margin: 10px 0;
+	}
+	.hidden {
+		display: none;
+	}
+
+	.issue {
+		color: var(--text-failure)
 	}
 </style>
