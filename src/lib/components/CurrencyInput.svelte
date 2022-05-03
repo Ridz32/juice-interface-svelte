@@ -1,37 +1,40 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-    import { BigNumber } from 'ethers';
+	import { BigNumber } from 'ethers';
 	import Icon from '$lib/components/Icon.svelte';
-    import { Currency, CurrencyName } from "$constants";
+	import { Currency, CurrencyName } from '$constants';
 
 	export let currency: Currency = Currency.ETH;
-    export let inputValue = 0;
+	export let inputValue = 0;
+	export let disabled = false;
 
 	const dispatch = createEventDispatcher();
 
-    /**
-     * onBlur dispatches "setValue" event which handles BigNumber conversion
-     * bind to value directly to get the input without conversion
-     * @param e: Event
-     * @dispatch setValue
-     */
-    function onBlur(e: Event) {
-        const target = e.target as HTMLInputElement;
-        const value = BigNumber.from(target.value);
-        dispatch('setValue', { value });
-    }
+	/**
+	 * onBlur dispatches "setValue" event which handles BigNumber conversion
+	 * bind to value directly to get the input without conversion
+	 * @param e: Event
+	 * @dispatch setValue
+	 */
+	function onBlur(e: Event) {
+		const target = e.target as HTMLInputElement;
+		const value = BigNumber.from(target.value);
+		dispatch('setValue', { value });
+	}
 
 	function onClick() {
-        currency = currency === Currency.ETH ? Currency.USD : Currency.ETH;
+		currency = currency === Currency.ETH ? Currency.USD : Currency.ETH;
 		dispatch('switchCurrency', { currency });
 	}
 </script>
 
 <div class="input-container">
 	<input placeholder="0" type="number" bind:value={inputValue} on:blur={onBlur} />
-	<div role="button" class="currency" on:click={onClick}>
+	<div role="button" class="currency" class:disabled on:click={!disabled && onClick}>
 		{CurrencyName[currency]}
-		<Icon name="caret" direction="e" />
+		{#if !disabled}
+			<Icon name="caret" direction="e" />
+		{/if}
 	</div>
 </div>
 
@@ -45,7 +48,7 @@
 		box-sizing: border-box;
 		border: 1px solid #d9d9d9;
 		border-radius: 2px;
-        width: 100%;
+		width: 100%;
 	}
 	/* TODO we want the parent to be focused when input is... */
 	input:focus-visible {
@@ -91,6 +94,12 @@
 
 		display: flex;
 		align-items: center;
+	}
+
+	.disabled {
+		cursor: not-allowed;
+		color: rgba(0, 0, 0, 0.25);
+		background: rgba(0, 0, 0, 0.03);
 	}
 
 	:global(.currency svg) {
