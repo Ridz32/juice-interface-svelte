@@ -2,13 +2,13 @@
 Seen in the preview of jb for "In Juicebox..."
 -->
 <section>
-    <slot name="left" />
-    <slot name="right" />
+	<slot name="left" />
+	<slot name="right" />
 </section>
 
 <style>
-    section {
-        display: flex;
-        justify-content: space-between;
-    }
+	section {
+		display: flex;
+		justify-content: space-between;
+	}
 </style>

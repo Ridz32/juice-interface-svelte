@@ -1,63 +1,56 @@
-import { i18n } from '@lingui/core'
-import {
-  detect,
-  fromUrl,
-  fromStorage,
-  fromNavigator,
-} from '@lingui/detect-locale'
-import { en, zh, ru, tr, es, pt, fr } from 'make-plural/plurals'
+import { i18n } from '@lingui/core';
+import { detect, fromUrl, fromStorage, fromNavigator } from '@lingui/detect-locale';
+import { en, zh, ru, tr, es, pt, fr } from 'make-plural/plurals';
 
-import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from '$constants/locale'
+import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from '$constants/locale';
 
 // load plural configs
 i18n.loadLocaleData({
-  en: { plurals: en },
-  zh: { plurals: zh },
-  ru: { plurals: ru },
-  tr: { plurals: tr },
-  pt: { plurals: pt },
-  es: { plurals: es },
-  fr: { plurals: fr },
-})
+	en: { plurals: en },
+	zh: { plurals: zh },
+	ru: { plurals: ru },
+	tr: { plurals: tr },
+	pt: { plurals: pt },
+	es: { plurals: es },
+	fr: { plurals: fr }
+});
 
 const getLocale = (): string => {
-  let locale =
-    detect(fromUrl('lang'), fromStorage('lang'), fromNavigator()) ??
-    DEFAULT_LOCALE
+	let locale = detect(fromUrl('lang'), fromStorage('lang'), fromNavigator()) ?? DEFAULT_LOCALE;
 
-  if (!SUPPORTED_LOCALES.includes(locale)) {
-    locale = DEFAULT_LOCALE
-  }
+	if (!SUPPORTED_LOCALES.includes(locale)) {
+		locale = DEFAULT_LOCALE;
+	}
 
-  return locale
-}
+	return locale;
+};
 
 const activateDefaultLocale = async () => {
-  const { messages } = await import(`../locales/${DEFAULT_LOCALE}/messages.js`)
-  i18n.load(DEFAULT_LOCALE, messages)
-  i18n.activate(DEFAULT_LOCALE)
-}
+	const { messages } = await import(`../locales/${DEFAULT_LOCALE}/messages.js`);
+	i18n.load(DEFAULT_LOCALE, messages);
+	i18n.activate(DEFAULT_LOCALE);
+};
 
 const dynamicActivate = async (locale: string) => {
-  try {
-    const { messages } = await import(`../locales/${locale}/messages.js`)
+	try {
+		const { messages } = await import(`../locales/${locale}/messages.js`);
 
-    i18n.load(locale, messages)
-    i18n.activate(locale)
-  } catch (e) {
-    console.error(`Error loading locale "${locale}:"`, e)
-    // fall back to default locale
-    activateDefaultLocale()
-  }
-}
+		i18n.load(locale, messages);
+		i18n.activate(locale);
+	} catch (e) {
+		console.error(`Error loading locale "${locale}:"`, e);
+		// fall back to default locale
+		activateDefaultLocale();
+	}
+};
 
 export function loadLocale() {
-    // Should probably be done onMount in a wrapper component
-    const locale = getLocale()
-    if (locale === DEFAULT_LOCALE) {
-      return activateDefaultLocale()
-    }
-    dynamicActivate(locale)
+	// Should probably be done onMount in a wrapper component
+	const locale = getLocale();
+	if (locale === DEFAULT_LOCALE) {
+		return activateDefaultLocale();
+	}
+	dynamicActivate(locale);
 }
 
 // export default function LanguageProvider({

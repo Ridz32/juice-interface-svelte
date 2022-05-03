@@ -1,14 +1,14 @@
 <script>
-  import Icon from "./Icon.svelte";
+	import Icon from './Icon.svelte';
 </script>
 
 <p>
-  <Icon name="questionCircle" />
-  <slot />
+	<Icon name="questionCircle" />
+	<slot />
 </p>
 
 <style>
-  p {
-    color: rgb(216, 170, 1);
-  }
+	p {
+		color: rgb(216, 170, 1);
+	}
 </style>

@@ -8,7 +8,7 @@ const config = {
 	// for more information about preprocessors
 	preprocess: preprocess({
 		// Macros added for @lingui/macro
-		babel: {plugins: ["macros"]}
+		babel: { plugins: ['macros'] }
 	}),
 	experimental: {
 		prebundleSvelteLibraries: true
@@ -22,7 +22,7 @@ const config = {
 			allowed: ['PATCH', 'DELETE']
 		},
 		prerender: {
-			default: true,
+			default: true
 		},
 		vite: {
 			// https://github.com/sveltejs/kit/issues/928

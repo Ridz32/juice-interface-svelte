@@ -15,14 +15,8 @@
 	export let fundingCycleStartTime: BigNumber;
 	export let fundingCycleDurationSeconds: BigNumber;
 	export let fundingCycleRiskCount: number;
-	// export let fundingCycleDetails: BigNumber;
 	export let isFundingCycleRecurring: boolean;
-	export let expand: boolean;
 	export let isPreviewMode: boolean;
-
-	// let formattedDuration = detailedTimeString({
-	//   timeSeconds: fundingCycleDurationSeconds.toNumber(),
-	// })
 
 	function getDurationValue(seconds: BigNumber) {
 		if (!seconds.gt(0)) {
@@ -33,36 +27,22 @@
 		});
 	}
 
-  // function getFormattedStartTime(startTime: BigNumber) {
-  //   return formatDate(fundingCycleStartTime.mul(1000));
-  // }
-
-  // function getFormattedEndTime(endTime: BigNumber) {
-  //   return format
-  // }
-
-
-  $: durationSet = fundingCycleDurationSeconds.gt(0)
-
-	// // let formattedDuration: string;
-
-	// // enum cycleKeys {
-	// //   DISTRIBUTION_LIMIT
-	// // }
-
-	// const formattedStartTime = 
-	// const formattedEndTime = formatDate(
-	// 	fundingCycleStartTime.add(fundingCycleDurationSeconds).mul(1000)
-	// );
+	$: durationSet = fundingCycleDurationSeconds.gt(0);
 
 	$: cycleKeyValues = [
 		{ id: 'distributionLimit', label: t`Distribution limit`, value: 'Zero' },
 		{ id: 'duration', label: t`Duration`, value: getDurationValue(fundingCycleDurationSeconds) },
 		//  TODO if duration not set then none of these
-		durationSet && { id: 'start', label: t`Start`, value: formatDate(fundingCycleStartTime.mul(1000)) },
-		durationSet && { id: 'end', label: t`End`, value: formatDate(
-		fundingCycleStartTime.add(fundingCycleDurationSeconds).mul(1000)
-	) },
+		durationSet && {
+			id: 'start',
+			label: t`Start`,
+			value: formatDate(fundingCycleStartTime.mul(1000))
+		},
+		durationSet && {
+			id: 'end',
+			label: t`End`,
+			value: formatDate(fundingCycleStartTime.add(fundingCycleDurationSeconds).mul(1000))
+		},
 		{
 			id: 'discountRate',
 			label: t`Discount rate`,
@@ -101,7 +81,7 @@
 			value: '3-day delay',
 			info: 'Rules for determining how funding cycles can be reconfigured.'
 		}
-	].filter(item => Boolean(item));
+	].filter((item) => Boolean(item));
 
 	// Cycle keys keyed by label
 	// const cycleKeys = cycleKeyValues.reduce((acc, { id }, index) => {

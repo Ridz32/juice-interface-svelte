@@ -1,1 +1,1 @@
-export type ProjectType = 'standard' | 'bidpool'
+export type ProjectType = 'standard' | 'bidpool';

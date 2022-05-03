@@ -1,13 +1,13 @@
-import { BigNumber } from '@ethersproject/bignumber'
+import { BigNumber } from '@ethersproject/bignumber';
 
-import { fromWad, percentToPerbicent } from './formatNumber'
+import { fromWad, percentToPerbicent } from './formatNumber';
 
 export type WeightFunction = (
-  weight: BigNumber | undefined,
-  reservedRate: number | undefined,
-  wadAmount: BigNumber | undefined,
-  outputType: 'payer' | 'reserved',
-) => string | undefined
+	weight: BigNumber | undefined,
+	reservedRate: number | undefined,
+	wadAmount: BigNumber | undefined,
+	outputType: 'payer' | 'reserved'
+) => string | undefined;
 
 /**
  * Return a given [amountWad] weighted by a given [weight] and [reservedRatePerbicent].
@@ -20,55 +20,55 @@ export type WeightFunction = (
  * @param outputType
  */
 export const weightedRate: WeightFunction = (
-  weight: BigNumber | undefined,
-  reservedRatePerbicent: number | undefined,
-  wadAmount: BigNumber | undefined,
-  outputType: 'payer' | 'reserved',
+	weight: BigNumber | undefined,
+	reservedRatePerbicent: number | undefined,
+	wadAmount: BigNumber | undefined,
+	outputType: 'payer' | 'reserved'
 ) => {
-  if (!weight || !wadAmount) return
+	if (!weight || !wadAmount) return;
 
-  if (reservedRatePerbicent === undefined) return
+	if (reservedRatePerbicent === undefined) return;
 
-  return fromWad(
-    weight
-      .mul(wadAmount)
-      .mul(
-        outputType === 'reserved'
-          ? reservedRatePerbicent
-          : percentToPerbicent(100).sub(reservedRatePerbicent),
-      )
-      .div(percentToPerbicent(100)),
-  )
-}
+	return fromWad(
+		weight
+			.mul(wadAmount)
+			.mul(
+				outputType === 'reserved'
+					? reservedRatePerbicent
+					: percentToPerbicent(100).sub(reservedRatePerbicent)
+			)
+			.div(percentToPerbicent(100))
+	);
+};
 
 // Determines if a string value contains only digits
 export const stringIsDigit = (value: string) => {
-  return /^\d+$/.test(value)
-}
+	return /^\d+$/.test(value);
+};
 
 export const feeForAmount = (
-  amount: BigNumber | undefined,
-  feePerbicent: BigNumber | undefined,
+	amount: BigNumber | undefined,
+	feePerbicent: BigNumber | undefined
 ) => {
-  if (!feePerbicent || !amount) return
-  return amount.sub(amount.mul(200).div(feePerbicent.add(200)))
-}
+	if (!feePerbicent || !amount) return;
+	return amount.sub(amount.mul(200).div(feePerbicent.add(200)));
+};
 
 export const amountSubFee = (amount?: BigNumber, feePerbicent?: BigNumber) => {
-  if (!feePerbicent || !amount) return
-  return amount.sub(feeForAmount(amount, feePerbicent) ?? 0)
-}
+	if (!feePerbicent || !amount) return;
+	return amount.sub(feeForAmount(amount, feePerbicent) ?? 0);
+};
 
 /**
  * new amount = old amount / (1 - fee)
  */
 export const amountAddFee = (amount?: string, feePerbicent?: BigNumber) => {
-  if (!feePerbicent || !amount) return
+	if (!feePerbicent || !amount) return;
 
-  const inverseFeePerbicent = percentToPerbicent(100).sub(feePerbicent)
-  const amountPerbicent = BigNumber.from(amount).mul(percentToPerbicent(100))
-  // new amount is in regular decimal units
-  const newAmount = amountPerbicent.div(inverseFeePerbicent)
+	const inverseFeePerbicent = percentToPerbicent(100).sub(feePerbicent);
+	const amountPerbicent = BigNumber.from(amount).mul(percentToPerbicent(100));
+	// new amount is in regular decimal units
+	const newAmount = amountPerbicent.div(inverseFeePerbicent);
 
-  return newAmount.toString()
-}
+	return newAmount.toString();
+};

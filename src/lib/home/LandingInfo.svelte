@@ -42,8 +42,8 @@
 		font-size: 2.4rem;
 		line-height: 1.2;
 		font-weight: 800;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
+		margin-block-start: 1em;
+		margin-block-end: 1em;
 	}
 
 	section {

@@ -41,7 +41,6 @@
 		<Toggle bind:checked={reservedRateActive}><h3>Reserved rate</h3></Toggle>
 	</header>
 	{#if reservedRateActive}
-		<!-- <input class="gap" type="range" id="percent" min="0" max="100" /> -->
 		<Range />
 	{/if}
 	<InfoBox

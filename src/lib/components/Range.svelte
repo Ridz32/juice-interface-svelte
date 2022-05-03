@@ -35,12 +35,12 @@
 
 	div {
 		display: flex;
-        align-items: center;
+		align-items: center;
 	}
 
 	input {
 		max-width: 70px;
-        text-indent: 10px;
+		text-indent: 10px;
 		background: transparent;
 		border: 1px solid #d9d9d9;
 		border-radius: 2px;

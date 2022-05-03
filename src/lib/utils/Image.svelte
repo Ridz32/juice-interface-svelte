@@ -24,7 +24,6 @@
 	/>
 </span>
 
-
 <style>
 	span {
 		background: red;

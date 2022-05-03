@@ -2,13 +2,13 @@
 	import { BigNumber } from 'ethers';
 
 	const OptionValue = {
-    days: 60 * 60 * 24,
+		days: 60 * 60 * 24,
 		hours: 60 * 60,
 		minutes: 60,
 		seconds: 1
 	};
 
-  export let value: BigNumber = BigNumber.from(14 * OptionValue.days);
+	export let value: BigNumber = BigNumber.from(14 * OptionValue.days);
 
 	let inputValue: number = 14;
 	let option = OptionValue.days;

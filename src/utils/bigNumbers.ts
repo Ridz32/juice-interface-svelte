@@ -1,16 +1,16 @@
-import { BigNumber } from '@ethersproject/bignumber'
+import { BigNumber } from '@ethersproject/bignumber';
 
-import { parseWad } from './formatNumber'
+import { parseWad } from './formatNumber';
 
 export const bigNumbersDiff = (a?: BigNumber, b?: BigNumber) => {
-  if ((a && !b) || (!a && b)) return true
+	if ((a && !b) || (!a && b)) return true;
 
-  return a && b ? !a.eq(b) : false
-}
+	return a && b ? !a.eq(b) : false;
+};
 
 export const betweenZeroAndOne = (amount: BigNumber) => {
-  return amount?.lt(parseWad('1')) && amount.gt(0)
-}
+	return amount?.lt(parseWad('1')) && amount.gt(0);
+};
 
 // permyriad: x/10000
 /**
@@ -21,5 +21,5 @@ export const betweenZeroAndOne = (amount: BigNumber) => {
  * @returns
  */
 export const invertPermyriad = (permyriad: BigNumber) => {
-  return BigNumber.from(10000).sub(permyriad)
-}
+	return BigNumber.from(10000).sub(permyriad);
+};

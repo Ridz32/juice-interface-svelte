@@ -1,6 +1,3 @@
-import { CSSProperties } from 'react'
+import { CSSProperties } from 'react';
 
-export type SemanticRadii = Record<
-  'xs' | 'sm' | 'md' | 'lg' | 'xl',
-  CSSProperties['borderRadius']
->
+export type SemanticRadii = Record<'xs' | 'sm' | 'md' | 'lg' | 'xl', CSSProperties['borderRadius']>;

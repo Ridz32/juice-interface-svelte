@@ -1,4 +1,4 @@
 export type TokenRef = {
-  value: string
-  type: 'project' | 'erc20'
-}
+	value: string;
+	type: 'project' | 'erc20';
+};

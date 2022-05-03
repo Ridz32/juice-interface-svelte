@@ -1,43 +1,41 @@
-import { NetworkName } from '$models/network-name'
+import { NetworkName } from '$models/network-name';
 
-import { readNetwork } from '$constants/networks'
+import { readNetwork } from '$constants/networks';
 
 export const FEATURE_FLAGS = {
-  ENABLE_V2: 'ENABLE_V2',
-}
+	ENABLE_V2: 'ENABLE_V2'
+};
 
 const DEFAULTS: { [k: string]: { [j: string]: boolean } } = {
-  [FEATURE_FLAGS.ENABLE_V2]: {
-    [NetworkName.rinkeby]: true,
-    [NetworkName.mainnet]: false,
-  },
-}
+	[FEATURE_FLAGS.ENABLE_V2]: {
+		[NetworkName.rinkeby]: true,
+		[NetworkName.mainnet]: false
+	}
+};
 
 const featureFlagKey = (baseKey: string) => {
-  return `${baseKey}_${readNetwork.name}`
-}
+	return `${baseKey}_${readNetwork.name}`;
+};
 
 export const setFeatureFlag = (featureFlag: string, enabled: boolean) => {
-  localStorage.setItem(featureFlagKey(featureFlag), JSON.stringify(enabled))
-}
+	localStorage.setItem(featureFlagKey(featureFlag), JSON.stringify(enabled));
+};
 
 export const enableFeatureFlag = (featureFlag: string) => {
-  setFeatureFlag(featureFlag, true)
-}
+	setFeatureFlag(featureFlag, true);
+};
 
 export const disableFeatureFlag = (featureFlag: string) => {
-  setFeatureFlag(featureFlag, false)
-}
+	setFeatureFlag(featureFlag, false);
+};
 
 export const featureFlagEnabled = (featureFlag: string) => {
-  // if default-enabled for this environment, return trues
-  const defaultEnabled = DEFAULTS[featureFlag][readNetwork.name as string]
+	// if default-enabled for this environment, return trues
+	const defaultEnabled = DEFAULTS[featureFlag][readNetwork.name as string];
 
-  try {
-    return JSON.parse(
-      localStorage.getItem(featureFlagKey(featureFlag)) || `${defaultEnabled}`,
-    )
-  } catch (e) {
-    return defaultEnabled
-  }
-}
+	try {
+		return JSON.parse(localStorage.getItem(featureFlagKey(featureFlag)) || `${defaultEnabled}`);
+	} catch (e) {
+		return defaultEnabled;
+	}
+};

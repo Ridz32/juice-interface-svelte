@@ -12,13 +12,13 @@ yarn && yarn run dev
 
 ## License
 
-This repository is licensed under the "Completely Open Source, Except No Fucking Tankbottoms or Juicebox License" which is detailed below but can be summarized as follows: if your application does not directly enable Juicebox treasury fees you are not allowed to remotely use this software.  
+This repository is licensed under the "Completely Open Source, Except No Fucking Tankbottoms or Juicebox License" which is detailed below but can be summarized as follows: if your application does not directly enable Juicebox treasury fees you are not allowed to remotely use this software.
 
 [License](https://github.com/tankbottoms/juice-interface-svelte/blob/main/LICENSE.md)
 
 #### Fine print
 
-Repository user provides no warranties regarding its licenses, any material licensed under their terms and conditions, or any related information. Repository user disclaims all liability for damages resulting from their use to the fullest extent possible.  
+Repository user provides no warranties regarding its licenses, any material licensed under their terms and conditions, or any related information. Repository user disclaims all liability for damages resulting from their use to the fullest extent possible.
 
 This repository may not be copied or distributed except if the following conditions are met:
 
@@ -27,8 +27,7 @@ This repository may not be copied or distributed except if the following conditi
 3. interfaces with JBETHPaymentTerminal Ethereum Mainnet 0xacD28185AE65adc711481c0aECB0B99Ac8608698, and/or;
 4. does not compete with the repository holder, affiliates, or interests of in any way.
 
-
-If any of the above conditions are unclear, the interpretation of this license is subject to  repository holder.
+If any of the above conditions are unclear, the interpretation of this license is subject to repository holder.
 
 ## Smart contract disclaimer
 

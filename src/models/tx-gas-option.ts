@@ -1,1 +1,1 @@
-export type TxGasOption = 'fast' | 'fastest' | 'safeLow' | 'average'
+export type TxGasOption = 'fast' | 'fastest' | 'safeLow' | 'average';

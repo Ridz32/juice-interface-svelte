@@ -27,7 +27,9 @@ export const IPFS_TAGS = {
 			? 'juicebox_project_metadata'
 			: 'DEV_juicebox_project_metadata',
 	LOGO:
-		import.meta.env.NODE_ENV === 'production' ? 'juicebox_project_logo' : 'DEV_juicebox_project_logo'
+		import.meta.env.NODE_ENV === 'production'
+			? 'juicebox_project_logo'
+			: 'DEV_juicebox_project_logo'
 };
 
 // keyvalues will be upserted to existing metadata. A null value will remove an existing keyvalue
