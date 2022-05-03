@@ -1,10 +1,64 @@
 <script lang="ts">
-    import type { Split } from '$models/v2/splits';
+	import type { Split } from '$models/v2/splits';
+	import { formatDate } from '$utils/formatDate';
+	import { formatSplitPercent } from '$utils/v2/math';
+	import { BigNumber } from 'ethers';
 
-    export let split: Split;
+	export let split: Split;
+
+	let address =
+		split.beneficiary && `${split.beneficiary.slice(0, 6)}...${split.beneficiary.slice(-6)}`;
+	console.log(split.lockedUntil);
 </script>
 
-<div>
-    <!-- TODO tomorrow -->
-    <b>{split.beneficiary}</b>
-</div>
+<section>
+	{#if split.projectId}
+		<li>
+			<p><b>Project ID:</b></p>
+			{split.projectId}
+		</li>
+	{/if}
+	{#if split.beneficiary}
+		<li>
+			<p><b>Token beneficiary:</b></p>
+			<p>{address}</p>
+		</li>
+	{/if}
+	<li>
+		<p><b>Percentage:</b></p>
+		<p>{formatSplitPercent(BigNumber.from(split.percent))}%</p>
+	</li>
+	{#if split.lockedUntil}
+		<li>
+			<p><b>Locked:</b></p>
+			<p>until {formatDate(split.lockedUntil, 'yyyy-MM-dd')}</p>
+		</li>
+	{/if}
+</section>
+
+<style>
+	section {
+		margin-bottom: 10px;
+		border: 1px solid #d9d9d9;
+		border-radius: 2px;
+		color: rgba(0, 0, 0, 0.85);
+		padding: 5px 11px;
+		transition: all 0.3s;
+		width: 100%;
+	}
+	li {
+		list-style: none;
+		/* display: flex; */
+		/* max-width: 400px; */
+	}
+
+	p {
+		display: inline-block;
+		font-weight: 300;
+		font-size: 14px;
+		margin: 5px 0px;
+	}
+	p:first-of-type {
+		width: 200px;
+	}
+</style>

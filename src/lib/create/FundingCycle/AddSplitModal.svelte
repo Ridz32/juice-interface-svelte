@@ -121,11 +121,13 @@
 	async function addSplit() {
 		await validate();
 		if (isInvalid()) {
+			console.warn(invalid);
 			return;
 		}
 		let timestamp: number;
 		if (lockedUntil) {
-			timestamp = lockedUntil.getTime() / 1000;
+			const date = new Date(lockedUntil)
+			timestamp = date.getTime() / 1000;
 		}
 		// Values derived by looking at DistributionSplitModal
 		// in react jb-interface
