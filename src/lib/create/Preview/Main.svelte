@@ -19,8 +19,7 @@ const mockDataFunding = {
   fundingCycleDurationSeconds: $fundingCycle.duration,
   fundingCycleRiskCount: 1,
   isFundingCycleRecurring: true,
-  expand: false,
-  isPreviewMode: false,
+  isPreviewMode: true,
 }
 
 </script>
