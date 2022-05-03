@@ -5,11 +5,16 @@
 	import Input from './FundingCycleInput.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
 	import Button from '$lib/components/Button.svelte';
-	import { openModal } from '../Modal.svelte';
-	import { BigNumber } from 'ethers';
-	import { fundingCycle, distributionLimitData, currentDistributionLimitType } from '../stores';
-	import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
 	import CurrencyInput from '$lib/components/CurrencyInput.svelte';
+	import { bind, openModal } from '../Modal.svelte';
+	import { BigNumber } from 'ethers';
+	import {
+		fundingCycle,
+		distributionLimitData,
+		currentDistributionLimitType,
+		currentDistributionLimitCurrencyType
+	} from '../stores';
+	import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
 	import { Currency, CurrencyValue, DistributionLimitType } from '$constants';
 	import { onMount } from 'svelte';
 
@@ -26,8 +31,9 @@
 			duration = $fundingCycle.duration;
 			fundingCyclesActive = true;
 		}
-    distributionLimit = $distributionLimitData.distributionLimit;
+		distributionLimit = $distributionLimitData.distributionLimit;
 		distributionLimitType = $currentDistributionLimitType;
+		distributionLimitCurrency = $currentDistributionLimitCurrencyType;
 	});
 
 	$: {
@@ -125,12 +131,21 @@
 </HeavyBorderBox>
 <HeavyBorderBox>
 	<h3>Payout splits</h3>
-	<AlertText>Payout splits can't be scheduled when the distribution limit is Zero.</AlertText>
-	<Button
-		onClick={() => {
-			openModal(AddSplitModal);
-		}}>Add a split</Button
-	>
+	{#if distributionLimitType === DistributionLimitType.None}
+		<AlertText>Payout splits can't be scheduled when the distribution limit is Zero.</AlertText>
+	{:else}
+		<!-- TODO href for jb treasury -->
+		<AlertText
+			>Distributing payouts to addresses outside the Juicebox contracts incurs a 2.5% JBX membership
+			fee. The ETH from the fee will go to the <a href="">JuiceboxDAO treasury</a>, and the
+			resulting JBX will go to the project's owner.</AlertText
+		>
+		<Button
+			onClick={() => {
+				openModal(bind(AddSplitModal, { distributionLimit, currency: distributionLimitCurrency }));
+			}}>Add a split</Button
+		>
+	{/if}
 </HeavyBorderBox>
 <Button onClick={saveFundingConfig}>Save funding configuration</Button>
 
@@ -144,8 +159,13 @@
 	}
 
 	h3 {
-		font-weight: 300;
+		font-weight: 400;
 		margin: 0;
+		margin-bottom: 10px;
+	}
+
+	p {
+		font-weight: 300;
 	}
 
 	label {

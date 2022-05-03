@@ -6,6 +6,18 @@
 	import { closeModal } from '../Modal.svelte';
 	import { payoutSplits } from '../stores';
 	import Range from '$lib/components/Range.svelte';
+	import CurrencyInput from '$lib/components/CurrencyInput.svelte';
+	import type { Split } from '$models/v2/splits';
+	import type { Currency } from '$constants';
+	import type { BigNumber } from 'ethers';
+	import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
+
+	export let distributionLimit: BigNumber | null = null;
+	export let currency: Currency | null = null;
+	export let split: Split | null = null;
+
+	let showAmount = distributionLimit && !distributionLimit.eq(MAX_DISTRIBUTION_LIMIT);
+	let editingExistingSplit = !!split;
 
 	const today = new Date().toISOString().split('T')[0];
 
@@ -23,6 +35,12 @@
 		<option>Juicebox project</option>
 	</Select>
 	<FormField {field} dataStore={payoutSplits} />
+	{#if showAmount}
+		<div class="gap">
+			<label for="payoutAmount" class="small-gap"> Payout amount </label>
+			<CurrencyInput disabled {currency} />
+		</div>
+	{/if}
 	<div class="gap">
 		<label for="percent">
 			<PopInfo message="Percentage this payee will receive of all funds raised."
