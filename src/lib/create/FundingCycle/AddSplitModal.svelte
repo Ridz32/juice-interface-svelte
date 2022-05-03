@@ -1,11 +1,11 @@
 <script lang="ts">
+	import { fade, fly } from 'svelte/transition';
 	import Button from '$lib/components/Button.svelte';
 	import FormField from '../FormField.svelte';
 	import PopInfo from '../PopInfo.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import Select from '$lib/components/Select.svelte';
 	import { closeModal } from '../Modal.svelte';
-	import { payoutSplits } from '../stores';
 	import Range from '$lib/components/Range.svelte';
 	import CurrencyInput from '$lib/components/CurrencyInput.svelte';
 	import type { Split } from '$models/v2/splits';
@@ -21,11 +21,21 @@
 
 	const feePercentage = '2.5';
 	const today = new Date().toISOString().split('T')[0];
-	const field = {
-		id: 'address',
+
+	const addressField = {
 		label: 'Address',
+		id: 'address',
 		placeholder: 'juicebox.eth / 0x0000000000000000000000000000000000000000',
 		props: {
+			required: true
+		}
+	};
+	const projectField = {
+		id: 'projectId',
+		label: 'Juicebox Project ID',
+		placeholder: 'ID',
+		props: {
+			type: 'number',
 			required: true
 		}
 	};
@@ -43,7 +53,14 @@
 	// onMount(() => {
 	// })
 
+	enum BeneficiaryType {
+		Address = 1,
+		ProjectID = 2
+	}
+
+	let beneficiaryType: BeneficiaryType.Address;
 	let address: Address;
+	let projectID: number;
 	let percent = 0;
 	let amount = 0;
 	let amountAfterFee: number;
@@ -51,20 +68,25 @@
 	let locked: Date | null = null;
 
 	let invalid: { [key: string]: boolean | string } = {
+		projectID: false,
 		address: false,
 		percent: false
 	};
 	const isInvalid = () => invalid.address || invalid.percent;
 
 	async function validate() {
-		await validateEthAddress(address, [], 'Add', undefined).then(
-			() => {
-				invalid.address = false;
-			},
-			(msg) => {
-				invalid.address = msg;
-			}
-		);
+		if(beneficiaryType === BeneficiaryType.Address) {
+			await validateEthAddress(address, [], 'Add', undefined).then(
+				() => {
+					invalid.address = false;
+				},
+				(msg) => {
+					invalid.address = msg;
+				}
+			);
+		} else {
+			invalid.projectID = !projectID ? 'Required' : false;
+		}
 		await validatePercentage(rangeValue[0]).then(
 			() => {
 				invalid.percent = false;
@@ -106,16 +128,32 @@
 			setAmountAfterFee(rangeValue[0]);
 		}
 	}
+
+	$: {
+		if (beneficiaryType === BeneficiaryType.Address) {
+			addressField.label = 'Address';
+			addressField.props.required = true;
+		} else {
+			addressField.label = 'Token beneficiary address';
+			addressField.props.required = false;
+		}
+	}
 </script>
 
 <h3>Add a split</h3>
 <section>
-	<Select>
-		<option>Wallet address</option>
-		<option>Juicebox project</option>
+	<Select bind:value={beneficiaryType}>
+		<option value={BeneficiaryType.Address}>Wallet address</option>
+		<option value={BeneficiaryType.ProjectID}>Juicebox project</option>
 	</Select>
-	<FormField {field} bind:value={address} />
-	<p class="issue" class:hidden={!invalid.address}>{invalid.address}.</p>
+	{#if beneficiaryType === BeneficiaryType.Address}
+		<FormField field={addressField} bind:value={address} />
+	{:else}
+		<FormField field={projectField} bind:value={projectID} />
+		<p class="issue" in:fly={{ duration: 100 }} class:hidden={!invalid.projectID}>{invalid.projectID}.</p>
+		<FormField field={addressField} bind:value={address} />
+	{/if}
+	<p class="issue" in:fly={{ duration: 100 }} class:hidden={!invalid.address}>{invalid.address}.</p>
 	{#if showAmount}
 		<div class="gap">
 			<label for="payoutAmount" class="small-gap"> Payout amount </label>
@@ -141,7 +179,9 @@
 		</label>
 		<!-- NOTE the range reacts to a too large amount by setting it to the max value -->
 		<Range bind:values={rangeValue} />
-		<p class="issue" class:hidden={!invalid.percent}>{invalid.percent}.</p>
+		<p class="issue" in:fly={{ duration: 100 }} class:hidden={!invalid.percent}>
+			{invalid.percent}.
+		</p>
 	</div>
 	<label for="lock-date" class="small-gap">Lock until</label>
 	<input type="date" id="lock-date" min={today} placeholder="mm/dd/yyyy" bind:value={locked} />
@@ -190,6 +230,6 @@
 	}
 
 	.issue {
-		color: var(--text-failure)
+		color: var(--text-failure);
 	}
 </style>

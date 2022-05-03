@@ -1,4 +1,9 @@
-<select>
+<script lang="ts">
+	export let onSelect: (value: any) => void = () => {};
+	export let value: any;
+</script>
+
+<select on:select={onSelect} bind:value>
 	<slot />
 </select>
 
