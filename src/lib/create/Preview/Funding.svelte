@@ -14,7 +14,8 @@
 	import {
 		currentDistributionLimitCurrencyType as currency,
 		currentDistributionLimitCurrencyType,
-		distributionLimitData
+		distributionLimitData,
+		payoutSplits
 	} from '../stores';
 
 	export let fundingCycleNumber: BigNumber;
@@ -42,6 +43,10 @@
 	}
 
 	$: durationSet = fundingCycleDurationSeconds.gt(0);
+
+	$: {
+		console.log($payoutSplits)
+	}
 
 	$: cycleKeyValues = [
 		{

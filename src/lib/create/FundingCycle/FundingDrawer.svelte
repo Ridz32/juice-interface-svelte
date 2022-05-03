@@ -6,17 +6,21 @@
 	import Toggle from '$lib/components/Toggle.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import CurrencyInput from '$lib/components/CurrencyInput.svelte';
+	import DisplaySplit from '$lib/components/Split.svelte';
 	import { bind, openModal } from '../Modal.svelte';
 	import { BigNumber } from 'ethers';
 	import {
 		fundingCycle,
 		distributionLimitData,
 		currentDistributionLimitType,
-		currentDistributionLimitCurrencyType
+		currentDistributionLimitCurrencyType,
+		payoutSplits
 	} from '../stores';
 	import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
 	import { Currency, CurrencyValue, DistributionLimitType } from '$constants';
 	import { onMount } from 'svelte';
+	import type { Split } from '$models/v2/splits';
+
 
 	export let close: () => void;
 
@@ -25,6 +29,7 @@
 	let distributionLimitType: DistributionLimitType = DistributionLimitType.None;
 	let distributionLimit: BigNumber = BigNumber.from(0);
 	let distributionLimitCurrency: Currency;
+	let splits = payoutSplits.get();
 
 	onMount(() => {
 		if ($fundingCycle.duration.gt(0)) {
@@ -54,6 +59,10 @@
 		distributionLimit = e.detail.value;
 	}
 
+	function addSplit(split: Split) {
+		splits = [...splits, split];
+	}
+
 	function saveFundingConfig() {
 		fundingCycle.update((fc) => ({
 			...fc,
@@ -64,6 +73,7 @@
 			distributionLimit,
 			distributionLimitCurrency: CurrencyValue[distributionLimitCurrency]
 		}));
+		payoutSplits.set(splits);
 		close();
 	}
 </script>
@@ -140,9 +150,18 @@
 			fee. The ETH from the fee will go to the <a href="">JuiceboxDAO treasury</a>, and the
 			resulting JBX will go to the project's owner.</AlertText
 		>
+		{#each splits as split}
+			<DisplaySplit {split} />
+		{/each}
 		<Button
 			onClick={() => {
-				openModal(bind(AddSplitModal, { distributionLimit, currency: distributionLimitCurrency }));
+				openModal(
+					bind(AddSplitModal, {
+						distributionLimit,
+						currency: distributionLimitCurrency,
+						onFinish: addSplit
+					})
+				);
 			}}>Add a split</Button
 		>
 	{/if}

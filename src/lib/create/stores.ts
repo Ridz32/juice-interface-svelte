@@ -117,8 +117,8 @@ const fundingCycleMetadata: V2FundingCycleMetadata = {
 	// isPreviewMode: true,
 };
 
-export const payoutSplits = new Store<[Split] | []>([]);
-export const reservedTokensSplits = new Store<[Split] | []>([]);
+export const payoutSplits = new Store<Split[]>([]);
+export const reservedTokensSplits = new Store<Split[]>([]);
 
 /**
  * Distribution limit

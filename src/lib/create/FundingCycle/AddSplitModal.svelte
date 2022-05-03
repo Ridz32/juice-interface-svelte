@@ -11,7 +11,8 @@
 	import type { Split } from '$models/v2/splits';
 	import type { Currency } from '$constants';
 	import type { BigNumber } from 'ethers';
-	import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
+	import { MAX_DISTRIBUTION_LIMIT, splitPercentFrom } from '$utils/v2/math';
+	import { parse as parseDate } from 'date-fns';
 	import {
 		getDistributionPercentFromAmount,
 		getDistributionAmountFromPercentAfterFee
@@ -48,6 +49,9 @@
 	// Wether an already existing split is being edited
 	export let split: Split | null = null;
 
+	// A callback function to set the splint in the store
+	export let onFinish: (split: Split) => void;
+
 	// TODO edit existing split
 	// let editingExistingSplit = !!split;
 	// onMount(() => {
@@ -60,22 +64,24 @@
 
 	let beneficiaryType: BeneficiaryType.Address;
 	let address: Address;
-	let projectID: number;
-	let percent = 0;
+	let projectId: number;
 	let amount = 0;
 	let amountAfterFee: number;
+	let lockedUntil: Date | null = null;
+	// NOTE: this looks whack, but the range component takes in a list of values
+	// and stores don't know how to handle embedded values
+	let percent = 0;
 	let rangeValue = [percent];
-	let locked: Date | null = null;
 
 	let invalid: { [key: string]: boolean | string } = {
-		projectID: false,
+		projectId: false,
 		address: false,
 		percent: false
 	};
-	const isInvalid = () => invalid.address || invalid.percent;
+	const isInvalid = () => Object.keys(invalid).find((key) => invalid[key]);
 
 	async function validate() {
-		if(beneficiaryType === BeneficiaryType.Address) {
+		if (beneficiaryType === BeneficiaryType.Address) {
 			await validateEthAddress(address, [], 'Add', undefined).then(
 				() => {
 					invalid.address = false;
@@ -85,7 +91,7 @@
 				}
 			);
 		} else {
-			invalid.projectID = !projectID ? 'Required' : false;
+			invalid.projectId = !projectId ? 'Required' : false;
 		}
 		await validatePercentage(rangeValue[0]).then(
 			() => {
@@ -114,11 +120,37 @@
 
 	async function addSplit() {
 		await validate();
-		if (isInvalid) {
-			console.log(invalid);
+		if (isInvalid()) {
 			return;
 		}
-		console.log('valid');
+		let timestamp: number;
+		if (lockedUntil) {
+			timestamp = lockedUntil.getTime() / 1000;
+		}
+		// Values derived by looking at DistributionSplitModal
+		// in react jb-interface
+		const split = {
+			allocator: undefined,
+			beneficiary: address,
+			lockedUntil: timestamp,
+			percent: splitPercentFrom(rangeValue[0]).toNumber(),
+			preferClaimed: true,
+			projectId: projectId.toString()
+		} as Split;
+		onFinish(split);
+		closeModal();
+		// onSplitsChanged(
+		// 	mode === 'Edit'
+		// 		? splits.map((m, i) =>
+		// 				i === splitIndex
+		// 					? {
+		// 							...m,
+		// 							...newSplit
+		// 					  }
+		// 					: m
+		// 		  )
+		// 		: [...splits, newSplit]
+		// );
 	}
 
 	$: {
@@ -149,8 +181,10 @@
 	{#if beneficiaryType === BeneficiaryType.Address}
 		<FormField field={addressField} bind:value={address} />
 	{:else}
-		<FormField field={projectField} bind:value={projectID} />
-		<p class="issue" in:fly={{ duration: 100 }} class:hidden={!invalid.projectID}>{invalid.projectID}.</p>
+		<FormField field={projectField} bind:value={projectId} />
+		<p class="issue" in:fly={{ duration: 100 }} class:hidden={!invalid.projectId}>
+			{invalid.projectId}.
+		</p>
 		<FormField field={addressField} bind:value={address} />
 	{/if}
 	<p class="issue" in:fly={{ duration: 100 }} class:hidden={!invalid.address}>{invalid.address}.</p>
@@ -159,7 +193,7 @@
 			<label for="payoutAmount" class="small-gap"> Payout amount </label>
 			<CurrencyInput on:setValue={setRangeValue} disabled {currency} inputValue={amount} />
 
-			{#if amount}
+			{#if amount && beneficiaryType === BeneficiaryType.Address}
 				<Popover
 					placement="right"
 					message="Payouts to Ethereum addresses incur a 2.5% fee. Your project will receive JBX in return at the current issuance rate."
@@ -184,7 +218,7 @@
 		</p>
 	</div>
 	<label for="lock-date" class="small-gap">Lock until</label>
-	<input type="date" id="lock-date" min={today} placeholder="mm/dd/yyyy" bind:value={locked} />
+	<input type="date" id="lock-date" min={today} placeholder="mm/dd/yyyy" bind:value={lockedUntil} />
 	<p>
 		If locked, this split can't be edited or removed until the lock expires or the funding cycle is
 		reconfigured.
