@@ -71,6 +71,6 @@
 
 <InfoBox info="You can edit your project details later on at any time." />
 {#each formFields as field}
-	<Input {field} dataStore={projectMetadata} />
+	<Input {field} bind:value={$projectMetadata[field.id] }/>
 {/each}
 <UploadField onChange={onLogoChange} />

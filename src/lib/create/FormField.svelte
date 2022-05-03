@@ -1,14 +1,6 @@
 <script lang="ts">
 	export let field: FormField;
-	// NOTE: don't like this approach of passing around a store state, but can't seem to pass down
-	// the specific store key to bind here in the child component
-	export let dataStore: any;
-
-	// TODO: Why can't I export this type?
-	// enum InputType {
-	//   Input = "input",
-	//   TextArea = "textarea",
-	// }
+	export let value: any;
 
 	interface FormField {
 		id: string;
@@ -35,14 +27,14 @@
 		<input
 			id={field.id}
 			placeholder={field.placeholder}
-			bind:value={$dataStore[field.id]}
+			bind:value={value}
 			{...field.props}
 		/>
 	{:else if field.type === 'textarea'}
 		<textarea
 			id={field.id}
 			placeholder={field.placeholder}
-			bind:value={$dataStore[field.id]}
+			bind:value={value}
 			{...field.props}
 		/>
 	{/if}
