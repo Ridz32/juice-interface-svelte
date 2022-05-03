@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let field: FormField;
-	export let value: any;
+	export let value: any = "";
 
 	interface FormField {
 		id: string;

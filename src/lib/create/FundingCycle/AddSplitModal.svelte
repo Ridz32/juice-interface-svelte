@@ -11,13 +11,41 @@
 	import type { Currency } from '$constants';
 	import type { BigNumber } from 'ethers';
 	import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
+	import { getDistributionPercentFromAmount } from '$utils/v2/distributions';
 
+	// The distribution limit dictates if there is a paymount amount field
 	export let distributionLimit: BigNumber | null = null;
 	export let currency: Currency | null = null;
-	export let split: Split | null = null;
-
 	let showAmount = distributionLimit && !distributionLimit.eq(MAX_DISTRIBUTION_LIMIT);
-	let editingExistingSplit = !!split;
+
+	// Wether an already existing split is being edited
+	export let split: Split | null = null;
+	// TODO edit existing split
+	// let editingExistingSplit = !!split;
+	// onMount(() => {
+	// })
+
+	let address: Address;
+	let percent = 0;
+	let amount = 0;
+
+	let rangeValue = [percent];
+
+	$: {
+		if (showAmount) {
+			// Set the input value when the range value changes
+			amount = (rangeValue[0] / 100) * distributionLimit.toNumber();
+		}
+	}
+
+	function setRangeValue(e: { detail: { value: BigNumber } }) {
+		const value = e.detail.value;
+		percent = getDistributionPercentFromAmount({
+			amount: value.toNumber(),
+			distributionLimit: distributionLimit.toString()
+		});
+		rangeValue[0] = percent;
+	}
 
 	const today = new Date().toISOString().split('T')[0];
 
@@ -34,11 +62,11 @@
 		<option>Wallet address</option>
 		<option>Juicebox project</option>
 	</Select>
-	<FormField {field} dataStore={payoutSplits} />
+	<FormField {field} bind:value={address} />
 	{#if showAmount}
 		<div class="gap">
 			<label for="payoutAmount" class="small-gap"> Payout amount </label>
-			<CurrencyInput disabled {currency} />
+			<CurrencyInput on:setValue={setRangeValue} disabled {currency} inputValue={amount} />
 		</div>
 	{/if}
 	<div class="gap">
@@ -47,7 +75,8 @@
 				>Percent of distribution limit</PopInfo
 			>
 		</label>
-		<Range />
+		<Range bind:values={rangeValue} />
+		<!-- TODO warning txt if too much amount -->
 	</div>
 	<label for="lock-date" class="small-gap">Lock until</label>
 	<input type="date" id="lock-date" min={today} placeholder="mm/dd/yyyy" />
