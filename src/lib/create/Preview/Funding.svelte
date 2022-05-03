@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { t } from '@lingui/macro';
 	import type { BigNumber } from '@ethersproject/bignumber';
 	import CollapsibleSection from '../CollapsibleSection.svelte';
 	import ETH from '../Ethereum.svelte';
@@ -20,7 +19,7 @@
 
 	function getDurationValue(seconds: BigNumber) {
 		if (!seconds.gt(0)) {
-			return t`Not set`;
+			return 'Not set';
 		}
 		return detailedTimeString({
 			timeSeconds: seconds.toNumber()
@@ -30,66 +29,57 @@
 	$: durationSet = fundingCycleDurationSeconds.gt(0);
 
 	$: cycleKeyValues = [
-		{ id: 'distributionLimit', label: t`Distribution limit`, value: 'Zero' },
-		{ id: 'duration', label: t`Duration`, value: getDurationValue(fundingCycleDurationSeconds) },
-		//  TODO if duration not set then none of these
+		{ id: 'distributionLimit', label: 'Distribution limit', value: 'Zero' },
+		{ id: 'duration', label: 'Duration', value: getDurationValue(fundingCycleDurationSeconds) },
 		durationSet && {
 			id: 'start',
-			label: t`Start`,
+			label: 'Start',
 			value: formatDate(fundingCycleStartTime.mul(1000))
 		},
 		durationSet && {
 			id: 'end',
-			label: t`End`,
+			label: 'End',
 			value: formatDate(fundingCycleStartTime.add(fundingCycleDurationSeconds).mul(1000))
 		},
 		{
 			id: 'discountRate',
-			label: t`Discount rate`,
+			label: 'Discount rate',
 			value: '0%',
 			info: 'The ratio of tokens rewarded per payment amount will decrease by this percentage with each new funding cycle. A higher discount rate will incentivize supporters to pay your project earlier than later.'
 		},
-		//
 		{
 			id: 'redemptionRate',
-			label: t`Redemption rate`,
+			label: 'Redemption rate',
 			value: '100%',
 			info: 'This rate determines the amount of overflow that each token can be redeemed for at any given time. On a lower bonding curve, redeeming a token increases the value of each remaining token, creating an incentive to hold tokens longer than others. A redemption rate of 100% means all tokens will have equal value regardless of when they are redeemed.'
 		},
 		{
 			id: 'reservedRate',
-			label: t`Reserved tokens`,
+			label: 'Reserved tokens',
 			value: '0%',
 			info: 'Whenever someone pays your project, this percentage of tokens will be reserved and the rest will go to the payer. Reserve tokens are reserved for the project owner by default, but can also be allocated to other wallet addresses by the owner. Once tokens are reserved, anyone can "mint" them, which distributes them to their intended receivers.'
 		},
 		{
 			id: 'issuanceRate',
-			label: t`Issuance rate`,
+			label: 'Issuance rate',
 			value: '1,000,000 tokens/ETH',
 			info: 'Tokens received per ETH paid to the treasury. This can change over time according to the discount rate and reserved tokens amount of future funding cycles.'
 		},
-		{ id: 'payments', label: t`Payments`, value: 'Enabled' },
+		{ id: 'payments', label: 'Payments', value: 'Enabled' },
 		{
 			id: 'allowMinting',
-			label: t`Token minting`,
+			label: 'Token minting',
 			value: 'Disabled',
 			info: 'Token minting allows the project owner to mint project tokens at any time.'
 		},
 		{
 			id: 'configuration',
-			label: t`Reconfiguration strategy`,
+			label: 'Reconfiguration strategy',
 			value: '3-day delay',
 			info: 'Rules for determining how funding cycles can be reconfigured.'
 		}
 	].filter((item) => Boolean(item));
 
-	// Cycle keys keyed by label
-	// const cycleKeys = cycleKeyValues.reduce((acc, { id }, index) => {
-	// 	acc[id] = index;
-	// 	return acc;
-	// }, {} as { [key: string]: number });
-
-	// console.log(cycleKeys);
 	let rightHeaderText: string | null = null;
 
 	$: {
