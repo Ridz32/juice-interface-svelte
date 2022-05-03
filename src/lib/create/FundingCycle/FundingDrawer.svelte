@@ -157,9 +157,10 @@
 			onClick={() => {
 				openModal(
 					bind(AddSplitModal, {
-						distributionLimit,
 						currency: distributionLimitCurrency,
-						onFinish: addSplit
+						distributionLimit,
+						onFinish: addSplit,
+						splits
 					})
 				);
 			}}>Add a split</Button

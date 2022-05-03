@@ -12,13 +12,13 @@
 	import type { Currency } from '$constants';
 	import type { BigNumber } from 'ethers';
 	import { MAX_DISTRIBUTION_LIMIT, splitPercentFrom } from '$utils/v2/math';
-	import { parse as parseDate } from 'date-fns';
 	import {
 		getDistributionPercentFromAmount,
 		getDistributionAmountFromPercentAfterFee
 	} from '$utils/v2/distributions';
 	import Popover from '../Popover.svelte';
 	import { validateEthAddress, validatePercentage } from '$utils/validators';
+import Split from '$lib/components/Split.svelte';
 
 	const feePercentage = '2.5';
 	const today = new Date().toISOString().split('T')[0];
@@ -48,7 +48,8 @@
 
 	// Wether an already existing split is being edited
 	export let split: Split | null = null;
-
+	// All the existing splits
+	export let splits: Split[] = [];
 	// A callback function to set the splint in the store
 	export let onFinish: (split: Split) => void;
 
@@ -82,7 +83,7 @@
 
 	async function validate() {
 		if (beneficiaryType === BeneficiaryType.Address) {
-			await validateEthAddress(address, [], 'Add', undefined).then(
+			await validateEthAddress(address, splits, 'Add', undefined).then(
 				() => {
 					invalid.address = false;
 				},

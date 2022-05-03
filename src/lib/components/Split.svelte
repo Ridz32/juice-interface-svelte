@@ -8,7 +8,6 @@
 
 	let address =
 		split.beneficiary && `${split.beneficiary.slice(0, 6)}...${split.beneficiary.slice(-6)}`;
-	console.log(split.lockedUntil);
 </script>
 
 <section>
