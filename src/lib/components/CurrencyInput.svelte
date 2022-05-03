@@ -1,15 +1,8 @@
-<script context="module" lang="ts">
-	export enum Currency {
-		ETH = 'ETH',
-		USD = 'USD'
-	}
-</script>
-
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
     import { BigNumber } from 'ethers';
 	import Icon from '$lib/components/Icon.svelte';
-
+    import { Currency, CurrencyName } from "$constants";
 
 	export let currency: Currency = Currency.ETH;
     export let inputValue = 0;
@@ -35,9 +28,9 @@
 </script>
 
 <div class="input-container">
-	<input placeholder="0" bind:value={inputValue} on:blur={onBlur} />
+	<input placeholder="0" type="number" bind:value={inputValue} on:blur={onBlur} />
 	<div role="button" class="currency" on:click={onClick}>
-		{currency}
+		{CurrencyName[currency]}
 		<Icon name="caret" direction="e" />
 	</div>
 </div>
