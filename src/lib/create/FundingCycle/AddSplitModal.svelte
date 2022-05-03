@@ -2,6 +2,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import FormField from '../FormField.svelte';
 	import PopInfo from '../PopInfo.svelte';
+	import Icon from "$lib/components/Icon.svelte";
 	import Select from '$lib/components/Select.svelte';
 	import { closeModal } from '../Modal.svelte';
 	import { payoutSplits } from '../stores';
@@ -11,7 +12,13 @@
 	import type { Currency } from '$constants';
 	import type { BigNumber } from 'ethers';
 	import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
-	import { getDistributionPercentFromAmount } from '$utils/v2/distributions';
+	import {
+		getDistributionPercentFromAmount,
+		getDistributionAmountFromPercentAfterFee
+	} from '$utils/v2/distributions';
+	import Popover from '../Popover.svelte';
+
+	const feePercentage = '2.5';
 
 	// The distribution limit dictates if there is a paymount amount field
 	export let distributionLimit: BigNumber | null = null;
@@ -28,14 +35,15 @@
 	let address: Address;
 	let percent = 0;
 	let amount = 0;
-
+	let amountAfterFee;
 	let rangeValue = [percent];
 
-	$: {
-		if (showAmount) {
-			// Set the input value when the range value changes
-			amount = (rangeValue[0] / 100) * distributionLimit.toNumber();
-		}
+	function setAmountAfterFee(percent) {
+		amountAfterFee = getDistributionAmountFromPercentAfterFee({
+			percent,
+			distributionLimit: distributionLimit.toString(),
+			feePercentage
+		});
 	}
 
 	function setRangeValue(e: { detail: { value: BigNumber } }) {
@@ -45,6 +53,14 @@
 			distributionLimit: distributionLimit.toString()
 		});
 		rangeValue[0] = percent;
+	}
+
+	$: {
+		if (showAmount) {
+			// Set the input value when the range value changes
+			amount = (rangeValue[0] / 100) * distributionLimit.toNumber();
+			setAmountAfterFee(rangeValue[0]);
+		}
 	}
 
 	const today = new Date().toISOString().split('T')[0];
@@ -67,6 +83,17 @@
 		<div class="gap">
 			<label for="payoutAmount" class="small-gap"> Payout amount </label>
 			<CurrencyInput on:setValue={setRangeValue} disabled {currency} inputValue={amount} />
+
+			{#if amount}
+				<Popover
+					placement="right"
+					message="Payouts to Ethereum addresses incur a 2.5% fee. Your project will receive JBX in return at the current issuance rate."
+				>
+					{amountAfterFee}{' '}
+					after {feePercentage}% JBX membership fee
+					<Icon name="questionCircle" />
+				</Popover>
+			{/if}
 		</div>
 	{/if}
 	<div class="gap">
@@ -75,8 +102,8 @@
 				>Percent of distribution limit</PopInfo
 			>
 		</label>
+		<!-- NOTE the range reacts to a too large amount by setting it to the max value -->
 		<Range bind:values={rangeValue} />
-		<!-- TODO warning txt if too much amount -->
 	</div>
 	<label for="lock-date" class="small-gap">Lock until</label>
 	<input type="date" id="lock-date" min={today} placeholder="mm/dd/yyyy" />
