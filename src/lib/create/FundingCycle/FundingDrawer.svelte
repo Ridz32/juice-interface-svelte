@@ -20,6 +20,7 @@
 	import { Currency, CurrencyValue, DistributionLimitType } from '$constants';
 	import { onMount } from 'svelte';
 	import type { Split } from '$models/v2/splits';
+	import { getTotalSplitsPercentage } from '$utils/v2/distributions';
 
 	export let close: () => void;
 
@@ -158,6 +159,9 @@
 		{#each splits as split}
 			<DisplaySplit {split} onRemove={removeSplit} />
 		{/each}
+		{#if splits.length}
+			<p>Total: {getTotalSplitsPercentage(splits)}%</p>
+		{/if}
 		<Button
 			onClick={() => {
 				openModal(
