@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { BigNumber } from '@ethersproject/bignumber';
+	import { BigNumber } from '@ethersproject/bignumber';
 	import CollapsibleSection from '../CollapsibleSection.svelte';
 	import ETH from '../Ethereum.svelte';
 	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
@@ -14,9 +14,12 @@
 	import {
 		currentDistributionLimitCurrencyType as currency,
 		currentDistributionLimitCurrencyType,
+		currentDistributionLimitType,
 		distributionLimitData,
 		payoutSplits
 	} from '../stores';
+	import { Currency, DistributionLimitType } from '$constants';
+	import Split from '$lib/components/Split.svelte';
 
 	export let fundingCycleNumber: BigNumber;
 	export let fundingCycleStartTime: BigNumber;
@@ -45,7 +48,7 @@
 	$: durationSet = fundingCycleDurationSeconds.gt(0);
 
 	$: {
-		console.log($payoutSplits)
+		console.log($payoutSplits);
 	}
 
 	$: cycleKeyValues = [
@@ -189,6 +192,20 @@
 					><small class="upper">available</small></PopInfo
 				>
 			</div>
+			{#if $currentDistributionLimitType === DistributionLimitType.Infinite}
+				<p><small><ETH />0/NO LIMIT distributed</small></p>
+			{:else if $currentDistributionLimitType === DistributionLimitType.Specific}
+				<p>
+					<small
+						><Money currency={Currency.ETH} amount={BigNumber.from(0)} />/<Money
+							currency={Currency.ETH}
+							amount={$distributionLimitData.distributionLimit}
+						/>
+					</small>
+				</p>
+			{:else}
+				<p><small><ETH />0 distributed</small></p>
+			{/if}
 			<p><small><ETH />0 distributed</small></p>
 			<p><small><ETH />0 <Icon name="crown" /> owner balance</small></p>
 		</div>
@@ -199,12 +216,26 @@
 			>Distribution splits</PopInfo
 		>
 	</h4>
-	<InfoSpaceBetween>
-		<p slot="left">Project owner (you) <Icon name="crown" />:</p>
-		<p slot="right">
-			100% (<Money currency={$currency} amount={$distributionLimitData.distributionLimit} />)
-		</p>
-	</InfoSpaceBetween>
+	<!-- TODO fill this in with the splits -->
+	{#if $payoutSplits.length === 0}
+		<InfoSpaceBetween>
+			<p slot="left">Project owner (you) <Icon name="crown" />:</p>
+			<p slot="right">
+				{#if $currentDistributionLimitType !== DistributionLimitType.Infinite}
+					100% (<Money currency={$currency} amount={$distributionLimitData.distributionLimit} />)
+				{/if}
+			</p>
+		</InfoSpaceBetween>
+	{/if}
+	{#each $payoutSplits as split}
+		<InfoSpaceBetween>
+			<!-- TODO crown if Project owner (i.e. the logged in user) -->
+			<p slot="left">{split.beneficiary || split.projectId}:</p>
+			<p slot="right">
+				<Money amount={BigNumber.from(0)} currency={$currentDistributionLimitCurrencyType} />
+			</p>
+		</InfoSpaceBetween>
+	{/each}
 </HeavyBorderBox>
 <HeavyBorderBox>
 	<InfoSpaceBetween>
@@ -267,11 +298,12 @@
 	h4 {
 		margin-right: 5px;
 		margin-bottom: 5px;
+		color: var(--text-header);
 	}
 
 	p {
 		margin: 0;
-		color: rgba(0, 0, 0, 0.33);
+		color: rgba(30, 14, 14, 0.33);
 	}
 
 	span {
