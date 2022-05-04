@@ -7,12 +7,13 @@
 
 	export let split: Split;
 	export let onRemove: (split: Split) => void = () => {};
+	export let onClick: (split: Split) => void = () => {};
 
 	let address =
 		split.beneficiary && `${split.beneficiary.slice(0, 6)}...${split.beneficiary.slice(-6)}`;
 </script>
 
-<section>
+<section on:click={() => onClick(split)}>
 	<div role="button" on:click={() => onRemove(split)}>
 		<Icon name="closeCircle" />
 	</div>
@@ -50,6 +51,10 @@
 		padding: 5px 11px;
 		transition: all 0.3s;
 		width: 100%;
+	}
+	section:hover {
+		cursor: pointer;
+		border-color: var(--text-header);
 	}
 	li {
 		list-style: none;

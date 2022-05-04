@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { fade, fly } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
+	import { onMount } from 'svelte';
 	import Button from '$lib/components/Button.svelte';
 	import FormField from '../FormField.svelte';
 	import PopInfo from '../PopInfo.svelte';
@@ -10,8 +11,8 @@
 	import CurrencyInput from '$lib/components/CurrencyInput.svelte';
 	import type { Split } from '$models/v2/splits';
 	import type { Currency } from '$constants';
-	import type { BigNumber } from 'ethers';
-	import { MAX_DISTRIBUTION_LIMIT, splitPercentFrom } from '$utils/v2/math';
+	import { BigNumber } from 'ethers';
+	import { formatSplitPercent, MAX_DISTRIBUTION_LIMIT, splitPercentFrom } from '$utils/v2/math';
 	import {
 		getDistributionPercentFromAmount,
 		getDistributionAmountFromPercentAfterFee
@@ -47,15 +48,11 @@
 
 	// Wether an already existing split is being edited
 	export let split: Split | null = null;
+	export let editingIndex: number | null = null;
 	// All the existing splits
 	export let splits: Split[] = [];
 	// A callback function to set the splint in the store
 	export let onFinish: (split: Split) => void;
-
-	// TODO edit existing split
-	// let editingExistingSplit = !!split;
-	// onMount(() => {
-	// })
 
 	enum BeneficiaryType {
 		Address = 1,
@@ -73,6 +70,17 @@
 	let percent = 0;
 	let rangeValue = [percent];
 
+	let editingExistingSplit = !!split;
+	onMount(() => {
+		if (split) {
+			address = split.beneficiary as Address;
+			projectId = split.projectId ? parseInt(split.projectId) : undefined;
+			rangeValue[0] = parseFloat(formatSplitPercent(BigNumber.from(split.percent)));
+			// TODO fill in amount
+			// amount = split.amount?.toNumber();
+		}
+	});
+
 	let invalid: { [key: string]: boolean | string } = {
 		projectId: false,
 		address: false,
@@ -82,7 +90,12 @@
 
 	async function validate() {
 		if (beneficiaryType === BeneficiaryType.Address) {
-			await validateEthAddress(address, splits, 'Add', undefined).then(
+			await validateEthAddress(
+				address,
+				splits,
+				editingExistingSplit ? 'Edit' : 'Add',
+				editingExistingSplit ? editingIndex : undefined
+			).then(
 				() => {
 					invalid.address = false;
 				},
@@ -137,23 +150,10 @@
 			lockedUntil: timestamp,
 			percent: splitPercentFrom(rangeValue[0]).toNumber(),
 			preferClaimed: true,
-			projectId: projectId.toString()
+			projectId: projectId ? projectId.toString() : undefined
 		} as Split;
 		onFinish(split);
 		closeModal();
-		// TODO account for editing a Split
-		// onSplitsChanged(
-		// 	mode === 'Edit'
-		// 		? splits.map((m, i) =>
-		// 				i === splitIndex
-		// 					? {
-		// 							...m,
-		// 							...newSplit
-		// 					  }
-		// 					: m
-		// 		  )
-		// 		: [...splits, newSplit]
-		// );
 	}
 
 	$: {
@@ -175,7 +175,7 @@
 	}
 </script>
 
-<h3>Add a split</h3>
+<h3>{editingExistingSplit ? 'Editing a split' : 'Add a split'}</h3>
 <section>
 	<Select bind:value={beneficiaryType}>
 		<option value={BeneficiaryType.Address}>Wallet address</option>
@@ -229,7 +229,7 @@
 </section>
 <div class="actions">
 	<Button onClick={closeModal} size="md" type="secondary">Cancel</Button>
-	<Button size="md" onClick={addSplit}>Add split</Button>
+	<Button size="md" onClick={addSplit}>{editingExistingSplit ? 'Edit' : 'Add'} split</Button>
 </div>
 
 <style>

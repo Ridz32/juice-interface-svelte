@@ -66,6 +66,17 @@
 		splits = [...splits, split];
 	}
 
+	function editSplit(split: Split) {
+		splits = splits.map((m, i) => {
+			// TODO maybe make a derived hash of the split
+			if (split.beneficiary === m.beneficiary || split.projectId === m.projectId) {
+				return { ...m, ...split };
+			} else {
+				return m;
+			}
+		});
+	}
+
 	function removeSplit(split: Split) {
 		splits = splits.filter(
 			(s) => s.beneficiary !== split.beneficiary || s.projectId !== split.projectId
@@ -127,9 +138,7 @@
 	<label for="distributionLimit">Distribution limit</label>
 	<select id="distributionLimit" bind:value={distributionLimitType}>
 		<option value={DistributionLimitType.None}>Zero, no funds can be distributed</option>
-		<!-- TODO no limit needs payout splits -->
 		<option value={DistributionLimitType.Infinite}>No limit (infinite)</option>
-		<!-- TODO specific target and payout splits-->
 		<option value={DistributionLimitType.Specific}>Specific target</option>
 	</select>
 	<br />
@@ -159,8 +168,23 @@
 			fee. The ETH from the fee will go to the <a href="">JuiceboxDAO treasury</a>, and the
 			resulting JBX will go to the project's owner.</AlertText
 		>
-		{#each splits as split}
-			<DisplaySplit {split} onRemove={removeSplit} />
+		{#each splits as split, editingIndex}
+			<DisplaySplit
+				{split}
+				onRemove={removeSplit}
+				onClick={(split) => {
+					openModal(
+						bind(AddSplitModal, {
+							currency: distributionLimitCurrency,
+							distributionLimit,
+							editingIndex,
+							onFinish: editSplit,
+							split,
+							splits
+						})
+					);
+				}}
+			/>
 		{/each}
 		{#if splits.length}
 			<p>Total: {totalSplitsPercentage}%</p>
