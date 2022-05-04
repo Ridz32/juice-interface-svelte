@@ -3,6 +3,7 @@
 	import { formatDate } from '$utils/formatDate';
 	import { formatSplitPercent } from '$utils/v2/math';
 	import { BigNumber } from 'ethers';
+	import Icon from '$lib/components/Icon.svelte';
 
 	export let split: Split;
 
@@ -11,6 +12,9 @@
 </script>
 
 <section>
+	<div role="button">
+		<Icon name="closeCircle" />
+	</div>
 	{#if split.projectId}
 		<li>
 			<p><b>Project ID:</b></p>
@@ -19,7 +23,7 @@
 	{/if}
 	{#if split.beneficiary}
 		<li>
-			<p><b>Token beneficiary:</b></p>
+			<p><b>{split.projectId ? 'Token beneficiary:' : 'Address:'}</b></p>
 			<p>{address}</p>
 		</li>
 	{/if}
@@ -37,6 +41,7 @@
 
 <style>
 	section {
+		position: relative;
 		margin-bottom: 10px;
 		border: 1px solid #d9d9d9;
 		border-radius: 2px;
@@ -60,4 +65,18 @@
 	p:first-of-type {
 		width: 200px;
 	}
+
+	div[role='button'] {
+		position: absolute;
+		top: 0;
+		right: 5px;
+		padding: 5px;
+		cursor: pointer;
+		color: var(--background-action-primary);
+	}
+
+    div[role="button"]:hover {
+        color: var(--icon-warn);
+        transform: scale(1.2);
+    }
 </style>
