@@ -15,6 +15,7 @@
 		currentDistributionLimitType,
 		currentDistributionLimitCurrencyType,
 		payoutSplits
+		// payoutSplitsPercentage,
 	} from '../stores';
 	import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
 	import { Currency, CurrencyValue, DistributionLimitType } from '$constants';
@@ -30,6 +31,7 @@
 	let distributionLimit: BigNumber = BigNumber.from(0);
 	let distributionLimitCurrency: Currency;
 	let splits = payoutSplits.get();
+	let totalSplitsPercentage = getTotalSplitsPercentage(splits);
 
 	onMount(() => {
 		if ($fundingCycle.duration.gt(0)) {
@@ -53,6 +55,7 @@
 			case DistributionLimitType.Specific:
 				break;
 		}
+		totalSplitsPercentage = getTotalSplitsPercentage(splits);
 	}
 
 	function setValue(e: any) {
@@ -160,9 +163,13 @@
 			<DisplaySplit {split} onRemove={removeSplit} />
 		{/each}
 		{#if splits.length}
-			<p>Total: {getTotalSplitsPercentage(splits)}%</p>
+			<p>Total: {totalSplitsPercentage}%</p>
+			{#if totalSplitsPercentage > 100}
+				<p class="issue">The total of your splits is more than 100%.</p>
+			{/if}
 		{/if}
 		<Button
+			disabled={totalSplitsPercentage > 100}
 			onClick={() => {
 				openModal(
 					bind(AddSplitModal, {
@@ -176,7 +183,9 @@
 		>
 	{/if}
 </HeavyBorderBox>
-<Button onClick={saveFundingConfig}>Save funding configuration</Button>
+<Button disabled={totalSplitsPercentage > 100} onClick={saveFundingConfig}
+	>Save funding configuration</Button
+>
 
 <style>
 	h1,
@@ -218,5 +227,9 @@
 		line-height: 1.5715;
 		transition: all 0.3s;
 		width: 100%;
+	}
+
+	.issue {
+		color: var(--text-failure);
 	}
 </style>
