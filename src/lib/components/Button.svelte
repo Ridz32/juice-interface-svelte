@@ -1,4 +1,5 @@
 <script lang="ts">
+	export let disabled = false;
 	export let onClick: (e: Event) => void = () => {};
 	export let size: 'sm' | 'md' | 'lg' | 'xl' = 'lg';
 	export let type:
@@ -13,7 +14,7 @@
 		| 'dark' = 'primary';
 </script>
 
-<button class={`${size} ${type}`} on:click={onClick}><slot /></button>
+<button class={`${size} ${type}`} {disabled} on:click={onClick}><slot /></button>
 
 <style>
 	button {
@@ -28,6 +29,12 @@
 		padding: 6.4px 15px;
 		font-size: 16px;
 		cursor: pointer;
+	}
+	button[disabled] {
+		background: var(--background-disabled);
+		border-color: var(--stroke-disabled);
+		color: var(--text-disabled);
+		cursor: not-allowed;
 	}
 	button:hover {
 		box-shadow: 0 8px 12px rgb(0 0 0 / 12%);
