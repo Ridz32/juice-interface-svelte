@@ -6,13 +6,14 @@
 	import Icon from '$lib/components/Icon.svelte';
 
 	export let split: Split;
+	export let onRemove: (split: Split) => void = () => {};
 
 	let address =
 		split.beneficiary && `${split.beneficiary.slice(0, 6)}...${split.beneficiary.slice(-6)}`;
 </script>
 
 <section>
-	<div role="button">
+	<div role="button" on:click={() => onRemove(split)}>
 		<Icon name="closeCircle" />
 	</div>
 	{#if split.projectId}
@@ -34,7 +35,7 @@
 	{#if split.lockedUntil}
 		<li>
 			<p><b>Locked:</b></p>
-			<p>until {formatDate(split.lockedUntil, 'yyyy-MM-dd')}</p>
+			<p>until {formatDate(split.lockedUntil * 1000, 'yyyy-MM-dd')}</p>
 		</li>
 	{/if}
 </section>
@@ -75,8 +76,8 @@
 		color: var(--background-action-primary);
 	}
 
-    div[role="button"]:hover {
-        color: var(--icon-warn);
-        transform: scale(1.2);
-    }
+	div[role='button']:hover {
+		color: var(--icon-warn);
+		transform: scale(1.2);
+	}
 </style>

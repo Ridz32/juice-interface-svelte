@@ -21,7 +21,6 @@
 	import { onMount } from 'svelte';
 	import type { Split } from '$models/v2/splits';
 
-
 	export let close: () => void;
 
 	let fundingCyclesActive = false;
@@ -61,6 +60,12 @@
 
 	function addSplit(split: Split) {
 		splits = [...splits, split];
+	}
+
+	function removeSplit(split: Split) {
+		splits = splits.filter(
+			(s) => s.beneficiary !== split.beneficiary || s.projectId !== split.projectId
+		);
 	}
 
 	function saveFundingConfig() {
@@ -151,7 +156,7 @@
 			resulting JBX will go to the project's owner.</AlertText
 		>
 		{#each splits as split}
-			<DisplaySplit {split} />
+			<DisplaySplit {split} onRemove={removeSplit} />
 		{/each}
 		<Button
 			onClick={() => {

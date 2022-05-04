@@ -7,7 +7,7 @@ import { i18n } from '@lingui/core';
 import { format, formatDistanceToNow, parseISO } from 'date-fns';
 
 export const formatDate = (dateMillis: BigNumberish, formatStr = 'yyyy-MM-dd h:mma') =>
-	format(BigNumber.from(dateMillis).mul(1000).toNumber(), formatStr);
+	format(BigNumber.from(dateMillis).toNumber(), formatStr);
 
 export function formatHistoricalDate(dateMillis: BigNumberish) {
 	const props = {

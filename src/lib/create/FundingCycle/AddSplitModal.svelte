@@ -18,7 +18,6 @@
 	} from '$utils/v2/distributions';
 	import Popover from '../Popover.svelte';
 	import { validateEthAddress, validatePercentage } from '$utils/validators';
-import Split from '$lib/components/Split.svelte';
 
 	const feePercentage = '2.5';
 	const today = new Date().toISOString().split('T')[0];
@@ -127,7 +126,7 @@ import Split from '$lib/components/Split.svelte';
 		}
 		let timestamp: number;
 		if (lockedUntil) {
-			const date = new Date(lockedUntil)
+			const date = new Date(lockedUntil);
 			timestamp = date.getTime() / 1000;
 		}
 		// Values derived by looking at DistributionSplitModal
@@ -142,6 +141,7 @@ import Split from '$lib/components/Split.svelte';
 		} as Split;
 		onFinish(split);
 		closeModal();
+		// TODO account for editing a Split
 		// onSplitsChanged(
 		// 	mode === 'Edit'
 		// 		? splits.map((m, i) =>
