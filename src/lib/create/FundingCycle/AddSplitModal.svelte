@@ -76,8 +76,9 @@
 			address = split.beneficiary as Address;
 			projectId = split.projectId ? parseInt(split.projectId) : undefined;
 			rangeValue[0] = parseFloat(formatSplitPercent(BigNumber.from(split.percent)));
-			// TODO fill in amount
-			// amount = split.amount?.toNumber();
+			if(showAmount) {
+				amount = (rangeValue[0] / 100) * distributionLimit.toNumber();
+			}
 		}
 	});
 
