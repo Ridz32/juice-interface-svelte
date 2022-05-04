@@ -9,7 +9,7 @@
 	import Popover from '../Popover.svelte';
 	import { formatDate } from '$utils/formatDate';
 	import { detailedTimeUntil, detailedTimeString } from '$utils/formatTime';
-	import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
+	import { formatSplitPercent, MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
 	import Money from '$lib/components/Money.svelte';
 	import {
 		currentDistributionLimitCurrencyType as currency,
@@ -20,6 +20,7 @@
 	} from '../stores';
 	import { Currency, DistributionLimitType } from '$constants';
 	import Split from '$lib/components/Split.svelte';
+	import Address, { getTruncatedAddress } from '$lib/components/Address.svelte';
 
 	export let fundingCycleNumber: BigNumber;
 	export let fundingCycleStartTime: BigNumber;
@@ -230,9 +231,14 @@
 	{#each $payoutSplits as split}
 		<InfoSpaceBetween>
 			<!-- TODO crown if Project owner (i.e. the logged in user) -->
-			<p slot="left">{split.beneficiary || split.projectId}:</p>
+			<p slot="left">
+				{(split.beneficiary && getTruncatedAddress(split.beneficiary)) ||
+					`ProjectID ${split.projectId}`}:
+			</p>
 			<p slot="right">
-				<Money amount={BigNumber.from(0)} currency={$currentDistributionLimitCurrencyType} />
+				{formatSplitPercent(BigNumber.from(split.percent))}%
+				<!-- TODO add money amount if specific distribution limit -->
+				<!-- <Money amount={BigNumber.from(0)} currency={$currentDistributionLimitCurrencyType} /> -->
 			</p>
 		</InfoSpaceBetween>
 	{/each}
