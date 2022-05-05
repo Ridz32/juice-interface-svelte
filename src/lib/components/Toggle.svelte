@@ -1,5 +1,7 @@
 <script lang="ts">
 	export let checked: boolean;
+	// NOTE: if toggle is behaving weird next to other toggles, it's the ID not being unique
+	export let id: string = 'switch';
 
 	function toggleChecked(e: Event) {
 		checked = !checked;
@@ -7,9 +9,7 @@
 </script>
 
 <div>
-	<input type="checkbox" id="switch" {checked} on:click={toggleChecked} /><label for="switch"
-		>Toggle</label
-	>
+	<input type="checkbox" {id} {checked} on:click={toggleChecked} /><label for={id}>Toggle</label>
 	<slot />
 </div>
 

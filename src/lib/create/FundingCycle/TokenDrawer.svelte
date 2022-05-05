@@ -16,9 +16,9 @@
 	// TODO this component will be reused in the edit phase, but we're trying to get create ready first
 	export let value = 0;
 
-	let reservedRateActive: boolean;
-	let discountRateActive: boolean;
-	let redemptionRateActive: boolean;
+	let reservedRateActive: boolean = false;
+	let discountRateActive: boolean = false;
+	let redemptionRateActive: boolean = false;
 
 	// Reserved tokens received by project per ETH
 	const initialReservedTokensPerEth = DEFAULT_ISSUANCE_RATE * ((value ?? 0) / 100);
@@ -38,7 +38,7 @@
 <br />
 <HeavyBorderBox>
 	<header>
-		<Toggle bind:checked={reservedRateActive}><h3>Reserved rate</h3></Toggle>
+		<Toggle id="reserved" bind:checked={reservedRateActive}><h3>Reserved rate</h3></Toggle>
 	</header>
 	{#if reservedRateActive}
 		<Range />
@@ -60,7 +60,7 @@
 </HeavyBorderBox>
 <HeavyBorderBox>
 	<header>
-		<Toggle bind:checked={discountRateActive}><h3>Discount rate</h3></Toggle>
+		<Toggle id="discount" bind:checked={discountRateActive}><h3>Discount rate</h3></Toggle>
 	</header>
 	<AlertText>Disabled when your project's funding cycle has no duration.</AlertText>
 	<p>
@@ -70,7 +70,7 @@
 </HeavyBorderBox>
 <HeavyBorderBox>
 	<header>
-		<Toggle bind:checked={redemptionRateActive}><h3>Redemption rate</h3></Toggle>
+		<Toggle id="redemption" bind:checked={redemptionRateActive}><h3>Redemption rate</h3></Toggle>
 	</header>
 	<!-- TODO The bonding curve -->
 	<p>
