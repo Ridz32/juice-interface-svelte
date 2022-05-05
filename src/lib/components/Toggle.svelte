@@ -1,5 +1,6 @@
 <script lang="ts">
 	export let checked: boolean;
+	export let disabled: boolean = false;
 	// NOTE: if toggle is behaving weird next to other toggles, it's the ID not being unique
 	export let id: string = 'switch';
 
@@ -9,7 +10,10 @@
 </script>
 
 <div>
-	<input type="checkbox" {id} {checked} on:click={toggleChecked} /><label for={id}>Toggle</label>
+	<input type="checkbox" {id} {checked} {disabled} on:click={toggleChecked} /><label
+		{disabled}
+		for={id}>Toggle</label
+	>
 	<slot />
 </div>
 
@@ -67,5 +71,10 @@
 	label:focus {
 		outline: 0;
 		box-shadow: 0 0 0 2px rgb(0 0 0 / 10%);
+	}
+
+	input[disabled=true],
+	label[disabled=true] {
+		cursor: not-allowed;
 	}
 </style>
