@@ -10,7 +10,7 @@
 	import Popover from '../Popover.svelte';
 	import { formatDate } from '$utils/formatDate';
 	import { detailedTimeUntil, detailedTimeString } from '$utils/formatTime';
-	import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
+	import { formatDiscountRate, formatRedemptionRate, MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
 	import { FUNDING_CYCLE_WARNING_TEXT } from '$constants/fundingWarningText';
 	import Money from '$lib/components/Money.svelte';
 	import {
@@ -18,6 +18,8 @@
 		currentDistributionLimitCurrencyType,
 		currentDistributionLimitType,
 		distributionLimitData,
+		fundingCycle,
+		fundingCycleMetadata,
 		payoutSplits
 	} from '../stores';
 	import { Currency, DistributionLimitType } from '$constants';
@@ -78,13 +80,13 @@
 		{
 			id: 'discountRate',
 			label: 'Discount rate',
-			value: '0%',
+			value: `${formatDiscountRate($fundingCycle.discountRate)}%`,
 			info: 'The ratio of tokens rewarded per payment amount will decrease by this percentage with each new funding cycle. A higher discount rate will incentivize supporters to pay your project earlier than later.'
 		},
 		{
 			id: 'redemptionRate',
 			label: 'Redemption rate',
-			value: '100%',
+			value: `${formatRedemptionRate($fundingCycleMetadata.redemptionRate)}%`,
 			info: 'This rate determines the amount of overflow that each token can be redeemed for at any given time. On a lower bonding curve, redeeming a token increases the value of each remaining token, creating an incentive to hold tokens longer than others. A redemption rate of 100% means all tokens will have equal value regardless of when they are redeemed.'
 		},
 		{

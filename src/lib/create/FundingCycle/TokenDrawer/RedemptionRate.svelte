@@ -17,7 +17,7 @@
 <header>
 	<Toggle id="redemption" bind:checked {disabled}
 		><h3>
-			Redemption rate {#if !disabled && !redemptionRate}
+			Redemption rate {#if !disabled && redemptionRate === 100}
 				<span>({disabled ? '' : '100%'})</span>
 			{/if}
 		</h3></Toggle

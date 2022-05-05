@@ -14,6 +14,8 @@
 	import InfoBox from '../../InfoBox.svelte';
 	import { fundingCycle, fundingCycleMetadata, currentDistributionLimitType } from '../../stores';
 
+    export let close: () => void;
+
 	let discountRate = parseFloat(formatDiscountRate($fundingCycle.discountRate));
 	let redemptionRate = parseFloat(formatRedemptionRate($fundingCycleMetadata.redemptionRate));
 
@@ -26,6 +28,7 @@
 			...fcm,
 			redemptionRate: redemptionRateFrom(redemptionRate.toString())
 		}));
+        close();
 	}
 </script>
 
