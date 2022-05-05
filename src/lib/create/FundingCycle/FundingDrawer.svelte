@@ -194,7 +194,7 @@
 		{/if}
 		<Button
 			disabled={totalSplitsPercentage > 100}
-			onClick={() => {
+			on:click={() => {
 				openModal(
 					bind(AddSplitModal, {
 						currency: distributionLimitCurrency,
@@ -207,9 +207,9 @@
 		>
 	{/if}
 </HeavyBorderBox>
-<Button disabled={totalSplitsPercentage > 100} onClick={saveFundingConfig}
-	>Save funding configuration</Button
->
+<Button disabled={totalSplitsPercentage > 100} on:click={saveFundingConfig}>
+	Save funding configuration
+</Button>
 
 <style>
 	h1,

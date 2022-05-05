@@ -1,6 +1,5 @@
 <script lang="ts">
 	export let disabled = false;
-	export let onClick: (e: Event) => void = () => {};
 	export let size: 'sm' | 'md' | 'lg' | 'xl' = 'lg';
 	export let type:
 		| 'primary'
@@ -14,7 +13,7 @@
 		| 'dark' = 'primary';
 </script>
 
-<button class={`${size} ${type}`} {disabled} on:click={onClick}><slot /></button>
+<button class={`${size} ${type}`} {disabled} on:click><slot /></button>
 
 <style>
 	button {
