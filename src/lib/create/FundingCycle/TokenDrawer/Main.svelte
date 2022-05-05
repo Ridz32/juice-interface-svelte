@@ -9,9 +9,11 @@
 	import { fundingCycle, currentDistributionLimitType } from '../../stores';
 
 	let discountRate: number;
+	let redemptionRate: number;
 
 	function saveTokenConfiguration() {
 		console.log('Discount rate in % ', discountRate);
+        console.log('Redemption rate in %', redemptionRate);
 	}
 </script>
 
@@ -32,7 +34,10 @@
 		<DiscountRate bind:discountRate disabled={!$fundingCycle.duration.gt(0)} />
 	</HeavyBorderBox>
 	<HeavyBorderBox>
-		<RedemptionRate disabled={$currentDistributionLimitType !== DistributionLimitType.Specific} />
+		<RedemptionRate
+			bind:redemptionRate
+			disabled={$currentDistributionLimitType !== DistributionLimitType.Specific}
+		/>
 	</HeavyBorderBox>
 	<Button onClick={saveTokenConfiguration}>Save token configuration</Button>
 </section>
