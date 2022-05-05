@@ -7,7 +7,6 @@
 
 	import { DEFAULT_ISSUANCE_RATE, formatReservedRate, MAX_RESERVED_RATE } from '$utils/v2/math';
 
-	import { fundingCycle } from '../../stores';
 	import { formattedNum } from '$utils/formatNumber';
 
 	/**
@@ -19,8 +18,8 @@
 	export let checked = false;
 	export let discountRate: number;
 	export let reservedRate = BigNumber.from(0);
+	export let disabled = false;
 
-	let discountRateDisabled = !$fundingCycle.duration.gt(0);
 	let rangeValue: number[] = [0];
 
 	let secondIssuanceRate: BigNumberish;
@@ -41,11 +40,16 @@
 </script>
 
 <header>
-	<Toggle id="discount" disabled={discountRateDisabled} bind:checked
-		><h3>Discount rate <span>{discountRateDisabled ? '0%' : ''}</span></h3></Toggle
+	<Toggle id="discount" {disabled} bind:checked
+		><h3>
+			Discount rate
+			{#if !disabled && !discountRate}
+				<span>({disabled ? '' : '0%'})</span>
+			{/if}
+		</h3></Toggle
 	>
 </header>
-{#if discountRateDisabled}
+{#if disabled}
 	<AlertText>Disabled when your project's funding cycle has no duration.</AlertText>
 {/if}
 {#if checked}

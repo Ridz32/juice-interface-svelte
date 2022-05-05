@@ -4,13 +4,15 @@
 	import ReservedRate from './ReservedRate.svelte';
 	import DiscountRate from './DiscountRate.svelte';
 	import RedemptionRate from './RedemptionRate.svelte';
+	import { DistributionLimitType } from '$constants';
 	import InfoBox from '../../InfoBox.svelte';
+	import { fundingCycle, currentDistributionLimitType } from '../../stores';
 
 	let discountRate: number;
 
-    function saveTokenConfiguration() {
-        console.log("Discount rate in % ", discountRate);
-    }
+	function saveTokenConfiguration() {
+		console.log('Discount rate in % ', discountRate);
+	}
 </script>
 
 <h1>Token</h1>
@@ -27,10 +29,10 @@
 		<ReservedRate />
 	</HeavyBorderBox>
 	<HeavyBorderBox>
-		<DiscountRate bind:discountRate />
+		<DiscountRate bind:discountRate disabled={!$fundingCycle.duration.gt(0)} />
 	</HeavyBorderBox>
 	<HeavyBorderBox>
-		<RedemptionRate />
+		<RedemptionRate disabled={$currentDistributionLimitType !== DistributionLimitType.Specific} />
 	</HeavyBorderBox>
 	<Button onClick={saveTokenConfiguration}>Save token configuration</Button>
 </section>
@@ -43,9 +45,12 @@
 	:global(#tokenDrawer h3) {
 		color: var(--text-header);
 	}
-
 	:global(#tokenDrawer h3) {
 		margin: 0;
+	}
+
+	:global(#tokenDrawer h3 span) {
+		color: var(--text-tertiary);
 	}
 
 	:global(#tokenDrawer p) {

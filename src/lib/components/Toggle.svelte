@@ -77,4 +77,8 @@
 	label[disabled=true] {
 		cursor: not-allowed;
 	}
+
+	label[disabled=true]:after {
+		box-shadow: none;
+	}
 </style>
