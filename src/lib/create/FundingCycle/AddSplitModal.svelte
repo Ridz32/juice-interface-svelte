@@ -114,6 +114,10 @@
 			);
 		} else {
 			invalid.projectId = !projectId ? 'Required' : false;
+			if (!invalid.projecId) {
+				// In the case that we had an invalid address, and switched to project id
+				invalid.address = false;
+			}
 		}
 		await validatePercentage(rangeValue[0]).then(
 			() => {

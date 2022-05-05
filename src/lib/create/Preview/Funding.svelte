@@ -4,6 +4,7 @@
 	import ETH from '../Ethereum.svelte';
 	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
 	import Icon from '$lib/components/Icon.svelte';
+	import SimpleSplits from '$lib/components/SimpleSplits.svelte';
 	import InfoSpaceBetween from '../InfoSpaceBetween.svelte';
 	import PopInfo from '../PopInfo.svelte';
 	import Popover from '../Popover.svelte';
@@ -19,8 +20,7 @@
 		payoutSplits
 	} from '../stores';
 	import { Currency, DistributionLimitType } from '$constants';
-	import Split from '$lib/components/Split.svelte';
-	import Address, { getTruncatedAddress } from '$lib/components/Address.svelte';
+	import { getTruncatedAddress } from '$lib/components/Address.svelte';
 
 	export let fundingCycleNumber: BigNumber;
 	export let fundingCycleStartTime: BigNumber;
@@ -217,7 +217,6 @@
 			>Distribution splits</PopInfo
 		>
 	</h4>
-	<!-- TODO fill this in with the splits -->
 	{#if $payoutSplits.length === 0}
 		<InfoSpaceBetween>
 			<p slot="left">Project owner (you) <Icon name="crown" />:</p>
@@ -229,18 +228,12 @@
 		</InfoSpaceBetween>
 	{/if}
 	{#each $payoutSplits as split}
-		<InfoSpaceBetween>
-			<!-- TODO crown if Project owner (i.e. the logged in user) -->
-			<p slot="left">
-				{(split.beneficiary && getTruncatedAddress(split.beneficiary)) ||
-					`ProjectID ${split.projectId}`}:
-			</p>
-			<p slot="right">
-				{formatSplitPercent(BigNumber.from(split.percent))}%
-				<!-- TODO add money amount if specific distribution limit -->
-				<!-- <Money amount={BigNumber.from(0)} currency={$currentDistributionLimitCurrencyType} /> -->
-			</p>
-		</InfoSpaceBetween>
+		<SimpleSplits
+			{split}
+			distributionLimitType={$currentDistributionLimitType}
+			distributionLimit={$distributionLimitData.distributionLimit}
+			currency={$currency}
+		/>
 	{/each}
 </HeavyBorderBox>
 <HeavyBorderBox>
