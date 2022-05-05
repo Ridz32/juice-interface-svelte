@@ -54,4 +54,18 @@
 		color: var(--background-action-primary);
 		border: 1px solid var(--background-action-primary);
 	}
+
+	.tertiary {
+		background: transparent;
+		color: var(--background-action-primary);
+		box-shadow: unset;
+		border: 1px dashed var(--background-action-secondary);
+		font-weight: 400;
+		width: 100%;
+	}
+
+	.tertiary:hover {
+		border: 1px dashed var(--background-action-primary);
+		box-shadow: unset;
+	}
 </style>

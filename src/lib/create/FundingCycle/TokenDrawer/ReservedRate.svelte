@@ -2,9 +2,11 @@
 	import type { BigNumberish } from 'ethers';
 	import { DEFAULT_ISSUANCE_RATE } from '$utils/v2/math';
 	import { formattedNum } from '$utils/formatNumber';
+    import Button from '$lib/components/Button.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
 	import InfoBox from '../../InfoBox.svelte';
 	import Range from '$lib/components/Range.svelte';
+	import InfoSpaceBetween from '$lib/create/InfoSpaceBetween.svelte';
 
 	export let reservedRate: number = 0;
 	export let checked: boolean = reservedRate > 0;
@@ -51,3 +53,21 @@
 	By default, these tokens are reserved for the project owner, but you can also allocate portions to
 	other wallet addresses.
 </p>
+{#if reservedRate > 0}
+	<h4>Reserved token allocation (optional)</h4>
+	<InfoSpaceBetween>
+		<p slot="left">Total: 0%</p>
+		<p slot="right">100% to project owner</p>
+	</InfoSpaceBetween>
+	<Button type="tertiary" size="md">Add token receiver</Button>
+	<p>
+		Allocate a portion of your project's reserved tokens to other Ethereum wallets or Juicebox
+		projects.
+	</p>
+{/if}
+
+<style>
+	p {
+		color: var(--text-secondary);
+	}
+</style>
