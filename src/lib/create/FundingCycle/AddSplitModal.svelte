@@ -19,9 +19,10 @@
 	} from '$utils/v2/distributions';
 	import Popover from '../Popover.svelte';
 	import { validateEthAddress, validatePercentage } from '$utils/validators';
+	import { dateToDateInput } from '$utils/formatDate';
 
 	const feePercentage = '2.5';
-	const today = new Date().toISOString().split('T')[0];
+	const today = dateToDateInput(new Date());
 
 	const addressField = {
 		label: 'Address',
@@ -44,7 +45,6 @@
 	// The distribution limit dictates if there is a paymount amount field
 	export let distributionLimit: BigNumber | null = null;
 	export let currency: Currency | null = null;
-	let showAmount = distributionLimit && !distributionLimit.eq(MAX_DISTRIBUTION_LIMIT);
 
 	// Wether an already existing split is being edited
 	export let split: Split | null = null;
@@ -59,25 +59,33 @@
 		ProjectID = 2
 	}
 
-	let beneficiaryType: BeneficiaryType.Address;
+	let beneficiaryType: BeneficiaryType = BeneficiaryType.Address;
 	let address: Address;
 	let projectId: number;
 	let amount = 0;
 	let amountAfterFee: number;
-	let lockedUntil: Date | null = null;
+	let lockedUntil: string | null = null;
 	// NOTE: this looks whack, but the range component takes in a list of values
 	// and stores don't know how to handle embedded values
 	let percent = 0;
 	let rangeValue = [percent];
+	let showAmount = distributionLimit && !distributionLimit.eq(MAX_DISTRIBUTION_LIMIT);
 
 	let editingExistingSplit = !!split;
+
 	onMount(() => {
 		if (split) {
 			address = split.beneficiary as Address;
-			projectId = split.projectId ? parseInt(split.projectId) : undefined;
 			rangeValue[0] = parseFloat(formatSplitPercent(BigNumber.from(split.percent)));
-			if(showAmount) {
+			if (split.projectId) {
+				projectId = parseInt(split.projectId);
+				beneficiaryType = BeneficiaryType.ProjectID;
+			}
+			if (showAmount) {
 				amount = (rangeValue[0] / 100) * distributionLimit.toNumber();
+			}
+			if (split.lockedUntil) {
+				lockedUntil = dateToDateInput(new Date(split.lockedUntil * 1000));
 			}
 		}
 	});
