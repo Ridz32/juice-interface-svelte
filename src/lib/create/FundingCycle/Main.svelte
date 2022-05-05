@@ -59,7 +59,7 @@ You can reconfigure your project's funding cycles later on, and changes will tak
 		{:else if current === 'Token'}
 			<TokenDrawer {close} />
 		{:else if current === 'Rules'}
-			<RulesDrawer />
+			<RulesDrawer {close} />
 		{/if}
 	</div>
 </Drawer>

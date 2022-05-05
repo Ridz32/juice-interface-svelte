@@ -64,6 +64,8 @@
 
 	const reservedRateText = (fundingCycle, fundingCycleMetadata) => {
 		// TODO fix the weighting issue, not sure what's wrong
+		// Something to do with weight not being a billion
+		// Check default weight, 100% reservedRate is correct
 		const initialReservedTokensPerEth =
 			DEFAULT_ISSUANCE_RATE *
 			((parseFloat(formatReservedRate(fundingCycleMetadata.reservedRate)) ?? 0) / 100);
@@ -149,11 +151,15 @@
 			value: reservedRateText($fundingCycle, $fundingCycleMetadata),
 			info: 'Tokens received per ETH paid to the treasury. This can change over time according to the discount rate and reserved tokens amount of future funding cycles.'
 		},
-		{ id: 'payments', label: 'Payments', value: 'Enabled' },
+		{
+			id: 'payments',
+			label: 'Payments',
+			value: $fundingCycleMetadata.pausePay ? 'Paused' : 'Enabled'
+		},
 		{
 			id: 'allowMinting',
 			label: 'Token minting',
-			value: 'Disabled',
+			value: $fundingCycleMetadata.allowMinting ? 'Enabled' : 'Disabled',
 			info: 'Token minting allows the project owner to mint project tokens at any time.'
 		},
 		{
@@ -324,7 +330,8 @@
 	</InfoSpaceBetween>
 	<h4>
 		<PopInfo message="Available funds are distributed according to the payouts below."
-			>Reserved tokens <span>({formatReservedRate($fundingCycleMetadata.reservedRate)}%)</span></PopInfo
+			>Reserved tokens <span>({formatReservedRate($fundingCycleMetadata.reservedRate)}%)</span
+			></PopInfo
 		>
 	</h4>
 	{#each $reservedTokensSplits as split}
@@ -332,7 +339,7 @@
 	{/each}
 	<InfoSpaceBetween>
 		<p slot="left">Project owner (you) <Icon name="crown" />:</p>
-		<p slot="right">{100-totalSplitPercentageTokenSplits}%</p>
+		<p slot="right">{100 - totalSplitPercentageTokenSplits}%</p>
 	</InfoSpaceBetween></HeavyBorderBox
 >
 
