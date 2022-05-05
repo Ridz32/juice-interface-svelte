@@ -1,7 +1,10 @@
 <script lang="ts">
 	import { BigNumber } from '@ethersproject/bignumber';
+	import { DEFAULT_ISSUANCE_RATE } from '$utils/v2/math';
+	import { parseEther } from '@ethersproject/units';
 	import CollapsibleSection from '../CollapsibleSection.svelte';
 	import ETH from '../Ethereum.svelte';
+	import { formattedNum } from '$utils/formatNumber';
 	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import SimpleSplits from '$lib/components/SimpleSplits.svelte';
@@ -14,7 +17,8 @@
 		formatDiscountRate,
 		formatRedemptionRate,
 		formatReservedRate,
-		MAX_DISTRIBUTION_LIMIT
+		MAX_DISTRIBUTION_LIMIT,
+		weightedAmount
 	} from '$utils/v2/math';
 	import { FUNDING_CYCLE_WARNING_TEXT } from '$constants/fundingWarningText';
 	import Money from '$lib/components/Money.svelte';
@@ -25,15 +29,17 @@
 		distributionLimitData,
 		fundingCycle,
 		fundingCycleMetadata,
-		payoutSplits
+		payoutSplits,
+		reservedTokensSplits
 	} from '../stores';
 	import { Currency, DistributionLimitType } from '$constants';
+	import { getTotalSplitsPercentage } from '$utils/v2/distributions';
 
 	export let fundingCycleNumber: BigNumber;
 	export let fundingCycleStartTime: BigNumber;
 	export let fundingCycleDurationSeconds: BigNumber;
 	export let fundingCycleRiskCount: number;
-	export let fundingCycleRiskProperties: any;
+	// export let fundingCycleRiskProperties: any;
 	export let isFundingCycleRecurring: boolean;
 	export let isPreviewMode: boolean;
 
@@ -56,7 +62,44 @@
 		}
 	}
 
+	const reservedRateText = (fundingCycle, fundingCycleMetadata) => {
+		// TODO fix the weighting issue, not sure what's wrong
+		const initialReservedTokensPerEth =
+			DEFAULT_ISSUANCE_RATE *
+			((parseFloat(formatReservedRate(fundingCycleMetadata.reservedRate)) ?? 0) / 100);
+		const initialIssuanceRate = DEFAULT_ISSUANCE_RATE - initialReservedTokensPerEth;
+		// const payerRate = formatWad(
+		// 	weightedAmount(
+		// 		fundingCycle?.weight,
+		// 		fundingCycleMetadata?.reservedRate.toNumber(),
+		// 		parseEther('1'),
+		// 		'payer'
+		// 	),
+		// 	{
+		// 		precision: 0
+		// 	}
+		// );
+		// const reservedRate = formatWad(
+		// 	weightedAmount(
+		// 		fundingCycle?.weight,
+		// 		fundingCycleMetadata?.reservedRate.toNumber(),
+		// 		parseEther('1'),
+		// 		'reserved'
+		// 	),
+		// 	{
+		// 		precision: 0
+		// 	}
+		// );
+		const withReservedRate = `${formattedNum(initialIssuanceRate)} (+ ${formattedNum(
+			initialReservedTokensPerEth
+		)} reserved) tokens/ETH`;
+		const withoutReservedRate = `${formattedNum(initialIssuanceRate)} tokens/ETH`;
+		return fundingCycleMetadata?.reservedRate.gt(0) ? withReservedRate : withoutReservedRate;
+	};
+
 	$: durationSet = fundingCycleDurationSeconds.gt(0);
+
+	$: totalSplitPercentageTokenSplits = getTotalSplitsPercentage($reservedTokensSplits);
 
 	// TODO do something with fundingCycleRiskProperties
 	$: cycleKeyValues = [
@@ -103,7 +146,7 @@
 		{
 			id: 'issuanceRate',
 			label: 'Issuance rate',
-			value: '1,000,000 tokens/ETH',
+			value: reservedRateText($fundingCycle, $fundingCycleMetadata),
 			info: 'Tokens received per ETH paid to the treasury. This can change over time according to the discount rate and reserved tokens amount of future funding cycles.'
 		},
 		{ id: 'payments', label: 'Payments', value: 'Enabled' },
@@ -281,12 +324,15 @@
 	</InfoSpaceBetween>
 	<h4>
 		<PopInfo message="Available funds are distributed according to the payouts below."
-			>Reserved tokens (0%)</PopInfo
+			>Reserved tokens <span>({formatReservedRate($fundingCycleMetadata.reservedRate)}%)</span></PopInfo
 		>
 	</h4>
+	{#each $reservedTokensSplits as split}
+		<SimpleSplits {split} />
+	{/each}
 	<InfoSpaceBetween>
 		<p slot="left">Project owner (you) <Icon name="crown" />:</p>
-		<p slot="right">100%</p>
+		<p slot="right">{100-totalSplitPercentageTokenSplits}%</p>
 	</InfoSpaceBetween></HeavyBorderBox
 >
 

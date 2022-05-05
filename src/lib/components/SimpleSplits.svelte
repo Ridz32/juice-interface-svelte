@@ -11,9 +11,9 @@
 	import type { Split } from '$models/v2/splits';
 
 	export let split: Split;
-	export let distributionLimitType: DistributionLimitType;
-	export let distributionLimit: BigNumber;
-	export let currency: Currency;
+	export let distributionLimitType: DistributionLimitType | undefined;
+	export let distributionLimit: BigNumber | undefined;
+	export let currency: Currency | undefined;
 </script>
 
 <InfoSpaceBetween>
