@@ -3,7 +3,7 @@
 	import AlertText from '$lib/components/AlertText.svelte';
 	import Range from '$lib/components/Range.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
-	import InfoBox from '$lib/create/InfoBox.svelte';
+	import InfoBox from '$lib/components/InfoBox.svelte';
 
 	import { DEFAULT_ISSUANCE_RATE, formatReservedRate, MAX_RESERVED_RATE } from '$utils/v2/math';
 

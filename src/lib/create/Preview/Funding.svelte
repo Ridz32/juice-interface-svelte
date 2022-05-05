@@ -5,9 +5,9 @@
 	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import SimpleSplits from '$lib/components/SimpleSplits.svelte';
-	import InfoSpaceBetween from '../InfoSpaceBetween.svelte';
-	import PopInfo from '../PopInfo.svelte';
-	import Popover from '../Popover.svelte';
+	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
+	import PopInfo from '$lib/components/PopInfo.svelte';
+	import Popover from '$lib/components/Popover.svelte';
 	import { formatDate } from '$utils/formatDate';
 	import { detailedTimeUntil, detailedTimeString } from '$utils/formatTime';
 	import {

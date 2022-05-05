@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { BigNumber } from 'ethers';
-	import InfoSpaceBetween from '$lib/create/InfoSpaceBetween.svelte';
+	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import Money from '$lib/components/Money.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import { getTruncatedAddress } from '$lib/components/Address.svelte';

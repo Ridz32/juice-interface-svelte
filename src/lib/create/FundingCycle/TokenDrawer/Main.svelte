@@ -13,7 +13,7 @@
 		redemptionRateFrom,
 		reservedRateFrom
 	} from '$utils/v2/math';
-	import InfoBox from '../../InfoBox.svelte';
+	import InfoBox from '$lib/components/InfoBox.svelte';
 	import { fundingCycle, fundingCycleMetadata, currentDistributionLimitType } from '../../stores';
 
 	export let close: () => void;

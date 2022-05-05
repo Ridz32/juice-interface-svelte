@@ -1,9 +1,6 @@
 <script lang="ts">
-	import Icon from '$lib/components/Icon.svelte';
-	import InfoSpaceBetween from '../InfoSpaceBetween.svelte';
-	import PopInfo from '../PopInfo.svelte';
-	import Popover from '../Popover.svelte';
-	import ETH from '../Ethereum.svelte';
+	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
+	import PopInfo from '$lib/components/PopInfo.svelte';
 
 	import { Currency, DistributionLimitType } from '$constants';
 	import {

@@ -2,8 +2,8 @@
 	import { fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	import Button from '$lib/components/Button.svelte';
-	import FormField from '../FormField.svelte';
-	import PopInfo from '../PopInfo.svelte';
+	import FormField from '$lib/components/FormField.svelte';
+	import PopInfo from '$lib/components/PopInfo.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import Select from '$lib/components/Select.svelte';
 	import { closeModal } from '../Modal.svelte';
@@ -17,7 +17,7 @@
 		getDistributionPercentFromAmount,
 		getDistributionAmountFromPercentAfterFee
 	} from '$utils/v2/distributions';
-	import Popover from '../Popover.svelte';
+	import Popover from '$lib/components/Popover.svelte';
 	import { validateEthAddress, validatePercentage } from '$utils/validators';
 	import { dateToDateInput } from '$utils/formatDate';
 
@@ -248,6 +248,7 @@
 <style>
 	h3 {
 		margin: 0;
+		color: var(--text-header);
 	}
 	section {
 		margin: 40px 0;
