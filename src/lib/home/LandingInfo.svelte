@@ -53,6 +53,7 @@
 		display: flex;
 		align-items: center;
 		flex-flow: row wrap;
+		justify-content: center;
 	}
 
 	article {
@@ -102,5 +103,15 @@
 		font-weight: 600;
 		font-size: 14px;
 		margin: 0.2em;
+	}
+
+	@media (max-width: 640px) {
+		article {
+			flex: 0 0 100%;
+			max-width: 100%;
+		}
+		#banny {
+			min-width: 300px;
+		}
 	}
 </style>
