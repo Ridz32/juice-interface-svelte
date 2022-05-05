@@ -5,15 +5,27 @@
 	import DiscountRate from './DiscountRate.svelte';
 	import RedemptionRate from './RedemptionRate.svelte';
 	import { DistributionLimitType } from '$constants';
+	import {
+		discountRateFrom,
+		formatDiscountRate,
+		formatRedemptionRate,
+		redemptionRateFrom
+	} from '$utils/v2/math';
 	import InfoBox from '../../InfoBox.svelte';
-	import { fundingCycle, currentDistributionLimitType } from '../../stores';
+	import { fundingCycle, fundingCycleMetadata, currentDistributionLimitType } from '../../stores';
 
-	let discountRate: number;
-	let redemptionRate: number;
+	let discountRate = parseFloat(formatDiscountRate($fundingCycle.discountRate));
+	let redemptionRate = parseFloat(formatRedemptionRate($fundingCycleMetadata.redemptionRate));
 
 	function saveTokenConfiguration() {
-		console.log('Discount rate in % ', discountRate);
-        console.log('Redemption rate in %', redemptionRate);
+		fundingCycle.update((fc) => ({
+			...fc,
+			discountRate: discountRateFrom(discountRate.toString())
+		}));
+		fundingCycleMetadata.update((fcm) => ({
+			...fcm,
+			redemptionRate: redemptionRateFrom(redemptionRate.toString())
+		}));
 	}
 </script>
 

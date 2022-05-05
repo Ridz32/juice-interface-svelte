@@ -3,9 +3,9 @@
 	import Range from '$lib/components/Range.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
 
-	export let checked = false;
 	export let disabled = false;
 	export let redemptionRate: number = 100;
+	export let checked = redemptionRate !== 100;
 
 	let rangeValue = [redemptionRate];
 

@@ -11,16 +11,15 @@
 
 	/**
 	 * TODO
-	 * [ ] get/set the discountRate in store
 	 * [ ] get reserved rate from store
 	 */
 
-	export let checked = false;
+    export let disabled = false;
 	export let discountRate: number;
 	export let reservedRate = BigNumber.from(0);
-	export let disabled = false;
+	export let checked = discountRate > 0;
 
-	let rangeValue: number[] = [0];
+	let rangeValue: number[] = [discountRate];
 
 	let secondIssuanceRate: BigNumberish;
 	let thirdIssuanceRate: BigNumberish;

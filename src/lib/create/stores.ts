@@ -95,7 +95,7 @@ export const projectMetadata = new Store<ProjectMetadataV4>({
 	payDisclosure: ''
 });
 
-const fundingCycleMetadata: V2FundingCycleMetadata = {
+export const fundingCycleMetadata = new Store<V2FundingCycleMetadata>({
 	reservedRate: BigNumber.from(0), // A number from 0-10,000
 	redemptionRate: redemptionRateFrom('100'), // A number from 0-10,000
 	ballotRedemptionRate: redemptionRateFrom('100'), // A number from 0-10,000
@@ -115,7 +115,7 @@ const fundingCycleMetadata: V2FundingCycleMetadata = {
 	useDataSourceForRedeem: false,
 	dataSource: constants.AddressZero
 	// isPreviewMode: true,
-};
+});
 
 export const payoutSplits = new Store<Split[]>([]);
 export const reservedTokensSplits = new Store<Split[]>([]);
