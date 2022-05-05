@@ -10,7 +10,8 @@
 	import Popover from '../Popover.svelte';
 	import { formatDate } from '$utils/formatDate';
 	import { detailedTimeUntil, detailedTimeString } from '$utils/formatTime';
-	import { formatSplitPercent, MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
+	import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
+	import { FUNDING_CYCLE_WARNING_TEXT } from '$constants/fundingWarningText';
 	import Money from '$lib/components/Money.svelte';
 	import {
 		currentDistributionLimitCurrencyType as currency,
@@ -20,14 +21,16 @@
 		payoutSplits
 	} from '../stores';
 	import { Currency, DistributionLimitType } from '$constants';
-	import { getTruncatedAddress } from '$lib/components/Address.svelte';
 
 	export let fundingCycleNumber: BigNumber;
 	export let fundingCycleStartTime: BigNumber;
 	export let fundingCycleDurationSeconds: BigNumber;
 	export let fundingCycleRiskCount: number;
+	export let fundingCycleRiskProperties: any;
 	export let isFundingCycleRecurring: boolean;
 	export let isPreviewMode: boolean;
+
+	const riskWarningText = FUNDING_CYCLE_WARNING_TEXT();
 
 	function getDurationValue(seconds: BigNumber) {
 		if (!seconds.gt(0)) {
@@ -48,17 +51,20 @@
 
 	$: durationSet = fundingCycleDurationSeconds.gt(0);
 
-	$: {
-		console.log($payoutSplits);
-	}
-
+	// TODO do something with fundingCycleRiskProperties
 	$: cycleKeyValues = [
 		{
 			id: 'distributionLimit',
 			label: 'Distribution limit',
 			value: getDistributionValue($distributionLimitData.distributionLimit)
 		},
-		{ id: 'duration', label: 'Duration', value: getDurationValue(fundingCycleDurationSeconds) },
+		{
+			id: 'duration',
+			label: 'Duration',
+			value: getDurationValue(fundingCycleDurationSeconds),
+			issue: !fundingCycleDurationSeconds.gt(0),
+			issueText: riskWarningText.duration
+		},
 		durationSet && {
 			id: 'start',
 			label: 'Start',
@@ -142,9 +148,6 @@
 <HeavyBorderBox>
 	<CollapsibleSection>
 		<div slot="header">
-			<!-- TODO header changes depending on distribution limit
-      if NOT_SET then Details with popover
-      -->
 			<h4 class="collapse-header">
 				{#if fundingCycleDurationSeconds.gt(0)}
 					Cycle #{fundingCycleNumber.toString()}
@@ -163,10 +166,17 @@
 			{/if}
 		</div>
 		<div class="current-cycle">
-			{#each cycleKeyValues as { id, label, value, info }}
+			{#each cycleKeyValues as { id, label, value, info, issue, issueText }}
 				{#if info}
 					<div class="title gap">
 						<PopInfo message={info}><p><b>{label}</b></p></PopInfo>:<span>{value}</span>
+						{#if issue}
+							<span class="yellow">
+								<Popover message={issueText}>
+									<Icon name="exclamationCircle" />
+								</Popover>
+							</span>
+						{/if}
 					</div>
 				{:else if id === 'distributionLimit' && !value}
 					<p class="gas">
@@ -177,7 +187,17 @@
 						/>
 					</p>
 				{:else}
-					<p class="gap"><b>{label}:</b> <span>{value}</span></p>
+					<p class="gap">
+						<b>{label}:</b>
+						<span>{value}</span>
+						{#if issue}
+							<span class="yellow">
+								<Popover message={issueText}>
+									<Icon name="exclamationCircle" />
+								</Popover>
+							</span>
+						{/if}
+					</p>
 				{/if}
 			{/each}
 		</div>
@@ -222,7 +242,10 @@
 			<p slot="left">Project owner (you) <Icon name="crown" />:</p>
 			<p slot="right">
 				{#if $currentDistributionLimitType !== DistributionLimitType.Infinite}
-					100% (<Money currency={$currency} amount={$distributionLimitData.distributionLimit} />)
+					100%
+					{#if $currentDistributionLimitType === DistributionLimitType.Specific}
+						(<Money currency={$currency} amount={$distributionLimitData.distributionLimit} />)
+					{/if}
 				{/if}
 			</p>
 		</InfoSpaceBetween>
