@@ -40,4 +40,10 @@
 		width: 640px;
 		height: 100%;
 	}
+
+	@media (max-width: 640px) {
+		.drawer-container {
+			width: 100%;
+		}
+	}
 </style>

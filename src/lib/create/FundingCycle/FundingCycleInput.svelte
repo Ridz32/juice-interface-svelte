@@ -9,6 +9,7 @@
 	};
 
 	export let value: BigNumber = BigNumber.from(14 * OptionValue.days);
+	export let placeholder: string = '14';
 
 	let inputValue: number = 14;
 	let option = OptionValue.days;
@@ -26,7 +27,7 @@
 	<small>*</small> Funding cycle duration
 </label>
 <section>
-	<input id="fundingCycle" placeholder="14" on:blur={setValue} bind:value={inputValue} />
+	<input id="fundingCycle" {placeholder} on:blur={setValue} bind:value={inputValue} />
 	<select bind:value={option} on:select={setValue}>
 		{#each Object.keys(OptionValue) as key}
 			<option value={OptionValue[key]}>{capitalize(key)}</option>

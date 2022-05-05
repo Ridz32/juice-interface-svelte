@@ -1,6 +1,6 @@
 <script>
 	import Icon from '$lib/components/Icon.svelte';
-	export let info;
+	export let info = undefined;
 </script>
 
 <aside>
@@ -8,7 +8,10 @@
 		<Icon name="infoCircle" />
 	</div>
 	<p>
-		{@html info}
+		{#if info}
+			{@html info}
+		{/if}
+		<slot />
 	</p>
 </aside>
 

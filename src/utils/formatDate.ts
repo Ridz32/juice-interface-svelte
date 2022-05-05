@@ -23,6 +23,15 @@ export function formatHistoricalDate(dateMillis: BigNumberish) {
 }
 
 /**
+ * Takes a date and converts it to a date in the format 'yyyy-MM-dd'
+ * @param date 
+ * @returns date
+ */
+export function dateToDateInput(date: Date) {
+	return date.toISOString().split('T')[0];
+}
+
+/**
  * Convert a date to Epoch time in seconds.
  * @param date
  * @returns Epoch time in seconds

@@ -5,7 +5,7 @@
 	import FundingDrawer from './FundingDrawer.svelte';
 	import InfoBox from '../InfoBox.svelte';
 	import RulesDrawer from '../RulesDrawer.svelte';
-	import TokenDrawer from './TokenDrawer.svelte';
+	import TokenDrawer from './TokenDrawer';
 
 	let drawerOpen = false;
 	let current = '';
