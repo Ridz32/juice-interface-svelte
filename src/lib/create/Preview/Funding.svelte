@@ -10,7 +10,12 @@
 	import Popover from '../Popover.svelte';
 	import { formatDate } from '$utils/formatDate';
 	import { detailedTimeUntil, detailedTimeString } from '$utils/formatTime';
-	import { formatDiscountRate, formatRedemptionRate, MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
+	import {
+		formatDiscountRate,
+		formatRedemptionRate,
+		formatReservedRate,
+		MAX_DISTRIBUTION_LIMIT
+	} from '$utils/v2/math';
 	import { FUNDING_CYCLE_WARNING_TEXT } from '$constants/fundingWarningText';
 	import Money from '$lib/components/Money.svelte';
 	import {
@@ -92,7 +97,7 @@
 		{
 			id: 'reservedRate',
 			label: 'Reserved tokens',
-			value: '0%',
+			value: `${formatReservedRate($fundingCycleMetadata.reservedRate)}%`,
 			info: 'Whenever someone pays your project, this percentage of tokens will be reserved and the rest will go to the payer. Reserve tokens are reserved for the project owner by default, but can also be allocated to other wallet addresses by the owner. Once tokens are reserved, anyone can "mint" them, which distributes them to their intended receivers.'
 		},
 		{

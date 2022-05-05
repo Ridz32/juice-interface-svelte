@@ -6,8 +6,8 @@
 	import InfoBox from '../../InfoBox.svelte';
 	import Range from '$lib/components/Range.svelte';
 
-	export let checked: boolean = false;
 	export let reservedRate: number = 0;
+	export let checked: boolean = reservedRate > 0;
 
 	let rangeValue: number[] = [reservedRate];
 
