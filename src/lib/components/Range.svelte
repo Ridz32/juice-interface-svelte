@@ -1,13 +1,15 @@
 <script type="ts">
 	import RangeSlider from 'svelte-range-slider-pips';
 
+	export let min = 0;
+	export let max = 100;
 	export let showValueBox = true;
 	export let step = 0.5;
 	export let values = [0];
 </script>
 
 <div>
-	<RangeSlider range="min" {step} bind:values />
+	<RangeSlider range="min" {min} {max} {step} bind:values />
 	{#if showValueBox}
 		<section class="value-box">
 			<input type="number" bind:value={values[0]} {step} />
