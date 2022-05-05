@@ -14,13 +14,20 @@
 		reservedRateFrom
 	} from '$utils/v2/math';
 	import InfoBox from '$lib/components/InfoBox.svelte';
-	import { fundingCycle, fundingCycleMetadata, currentDistributionLimitType } from '../../stores';
+	import {
+		fundingCycle,
+		fundingCycleMetadata,
+		currentDistributionLimitType,
+		reservedTokensSplits
+	} from '../../stores';
 
 	export let close: () => void;
 
 	let discountRate = parseFloat(formatDiscountRate($fundingCycle.discountRate));
 	let redemptionRate = parseFloat(formatRedemptionRate($fundingCycleMetadata.redemptionRate));
 	let reservedRate = parseFloat(formatReservedRate($fundingCycleMetadata.reservedRate));
+
+	let splits = reservedTokensSplits.get();
 
 	function saveTokenConfiguration() {
 		fundingCycle.update((fc) => ({
@@ -32,6 +39,7 @@
 			redemptionRate: redemptionRateFrom(redemptionRate.toString()),
 			reservedRate: reservedRateFrom(reservedRate.toString())
 		}));
+		reservedTokensSplits.set(splits);
 		close();
 	}
 </script>
@@ -47,7 +55,7 @@
 <br />
 <section id="tokenDrawer">
 	<HeavyBorderBox>
-		<ReservedRate bind:reservedRate />
+		<ReservedRate bind:reservedRate bind:splits />
 	</HeavyBorderBox>
 	<HeavyBorderBox>
 		<DiscountRate bind:discountRate disabled={!$fundingCycle.duration.gt(0)} />
