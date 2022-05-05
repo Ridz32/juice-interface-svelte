@@ -5,26 +5,23 @@
 	import Toggle from '$lib/components/Toggle.svelte';
 	import InfoBox from '$lib/create/InfoBox.svelte';
 
-	import {
-		DEFAULT_ISSUANCE_RATE,
-		formatReservedRate,
-		MAX_RESERVED_RATE,
-	} from '$utils/v2/math';
+	import { DEFAULT_ISSUANCE_RATE, formatReservedRate, MAX_RESERVED_RATE } from '$utils/v2/math';
 
 	import { fundingCycle } from '../../stores';
 	import { formattedNum } from '$utils/formatNumber';
 
-    /**
-     * TODO
-     * [ ] get/set the discountRate in store
-     * [ ] get reserved rate from store
-     */
+	/**
+	 * TODO
+	 * [ ] get/set the discountRate in store
+	 * [ ] get reserved rate from store
+	 */
 
 	export let checked = false;
+	export let discountRate: number;
 	export let reservedRate = BigNumber.from(0);
 
 	let discountRateDisabled = !$fundingCycle.duration.gt(0);
-	let discountRate: number[] = [0];
+	let rangeValue: number[] = [0];
 
 	let secondIssuanceRate: BigNumberish;
 	let thirdIssuanceRate: BigNumberish;
@@ -35,7 +32,9 @@
 	const initialIssuanceRate = DEFAULT_ISSUANCE_RATE - reservedRatePercent * MAX_RESERVED_RATE;
 
 	$: {
-		const discountRateDecimal = discountRate[0] * 0.01;
+		discountRate = rangeValue[0];
+
+		const discountRateDecimal = rangeValue[0] * 0.01;
 		secondIssuanceRate = initialIssuanceRate - initialIssuanceRate * discountRateDecimal;
 		thirdIssuanceRate = secondIssuanceRate - secondIssuanceRate * discountRateDecimal;
 	}
@@ -50,13 +49,13 @@
 	<AlertText>Disabled when your project's funding cycle has no duration.</AlertText>
 {/if}
 {#if checked}
-	<Range bind:values={discountRate} step={0.1} />
+	<Range bind:values={rangeValue} max={20} step={0.1} />
 {/if}
 <p>
 	The issuance rate will decrease by this percentage with each new funding cycle. A higher discount
 	rate will incentivize supporters to pay your project earlier than later.
 </p>
-{#if discountRate[0] > 0}
+{#if rangeValue[0] > 0}
 	<InfoBox>
 		The issuance rate of your second funding cycle will be {formattedNum(secondIssuanceRate)} tokens
 		/ ETH, {formattedNum(thirdIssuanceRate)}

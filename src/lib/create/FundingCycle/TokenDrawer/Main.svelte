@@ -5,6 +5,12 @@
 	import DiscountRate from './DiscountRate.svelte';
 	import RedemptionRate from './RedemptionRate.svelte';
 	import InfoBox from '../../InfoBox.svelte';
+
+	let discountRate: number;
+
+    function saveTokenConfiguration() {
+        console.log("Discount rate in % ", discountRate);
+    }
 </script>
 
 <h1>Token</h1>
@@ -21,12 +27,12 @@
 		<ReservedRate />
 	</HeavyBorderBox>
 	<HeavyBorderBox>
-		<DiscountRate />
+		<DiscountRate bind:discountRate />
 	</HeavyBorderBox>
 	<HeavyBorderBox>
 		<RedemptionRate />
 	</HeavyBorderBox>
-	<Button>Save token configuration</Button>
+	<Button onClick={saveTokenConfiguration}>Save token configuration</Button>
 </section>
 
 <style>
