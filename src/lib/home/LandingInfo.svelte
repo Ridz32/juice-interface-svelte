@@ -54,6 +54,8 @@
 	section {
 		max-width: 1080px;
 		margin: 0px auto;
+		/* The header height */
+		margin-top: 68px;
 		padding: 0px 40px;
 		display: flex;
 		align-items: center;
