@@ -1,9 +1,32 @@
 <script>
+	import { onMount } from 'svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import { darkMode } from '$stores';
+
+	function toggleHTMLClass() {
+		// NOTE: doesn't need to be this explicit, but brain isn't handling binary states
+		if ($darkMode) {
+			document.documentElement.classList.add('darkmode');
+			document.documentElement.classList.remove('lightmode');
+		} else {
+			document.documentElement.classList.add('lightmode');
+			document.documentElement.classList.remove('darkmode');
+		}
+	}
+
+	function switchDarkMode() {
+		darkMode.set(!$darkMode);
+		toggleHTMLClass();
+	}
+
+	onMount(() => {
+		if ($darkMode) {
+			toggleHTMLClass();
+		}
+	});
 </script>
 
-<div role="switch" aria-checked={darkMode} on:click={() => darkMode.set(!$darkMode)}>
+<div role="switch" aria-checked={darkMode} on:click={switchDarkMode}>
 	<div class:active={!$darkMode}>
 		<Icon name="sun" />
 	</div>
@@ -18,7 +41,7 @@
 		align-items: center;
 		justify-content: space-evenly;
 	}
-	div[role="switch"] {
+	div[role='switch'] {
 		border: 1px solid var(--stroke-tertiary);
 		transition: border-color 0.12s ease-out;
 		width: 60px;
@@ -27,7 +50,7 @@
 		cursor: pointer;
 		color: var(--icon-tertiary);
 	}
-	div[role="switch"]:hover {
+	div[role='switch']:hover {
 		border-color: var(--stroke-secondary);
 	}
 
