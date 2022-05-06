@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
+	import * as constants from '@ethersproject/constants'	
 	import Button from '$lib/components/Button.svelte';
 	import FormField from '$lib/components/FormField.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
@@ -159,7 +160,7 @@
 		// in react jb-interface
 		const split = {
 			allocator: undefined,
-			beneficiary: address,
+			beneficiary: address || constants.AddressZero,
 			lockedUntil: timestamp,
 			percent: splitPercentFrom(rangeValue[0]).toNumber(),
 			preferClaimed: true,
