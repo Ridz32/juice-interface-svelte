@@ -3,11 +3,14 @@
 	import ETH from '../Ethereum.svelte';
 	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
 	import Icon from '$lib/components/Icon.svelte';
-	import SimpleSplits from '$lib/components/SimpleSplits.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
+	import Money from '$lib/components/Money.svelte';
+	import SimpleSplits from '$lib/components/SimpleSplits.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
 	import { formatReservedRate } from '$utils/v2/math';
-	import Money from '$lib/components/Money.svelte';
+	import { DistributionLimitType } from '$constants';
+	import { getTotalSplitsPercentage } from '$utils/v2/distributions';
+	import FundingCycleDetails from './FundingCycleDetails.svelte';
 	import {
 		currentDistributionLimitCurrencyType as currency,
 		currentDistributionLimitType,
@@ -16,10 +19,13 @@
 		payoutSplits,
 		reservedTokensSplits
 	} from '../stores';
-	import { Currency, DistributionLimitType } from '$constants';
-	import { getTotalSplitsPercentage } from '$utils/v2/distributions';
-	import FundingCycleDetails from './FundingCycleDetails.svelte';
 
+	function getOwnerAmountPayoutSplits(summedSplitsPercent: number) {
+		const remainingPercent = 100 - summedSplitsPercent;
+		return $distributionLimitData.distributionLimit.mul(remainingPercent).div(100);
+	}
+
+	$: totalSplitPercentagePayoutSplits = getTotalSplitsPercentage($payoutSplits);
 	$: totalSplitPercentageTokenSplits = getTotalSplitsPercentage($reservedTokensSplits);
 </script>
 
@@ -96,6 +102,20 @@
 			currency={$currency}
 		/>
 	{/each}
+	{#if $payoutSplits.length}
+		<InfoSpaceBetween>
+			<p slot="left">Project owner (you) <Icon name="crown" />:</p>
+			<p slot="right">
+				{100 - totalSplitPercentagePayoutSplits}%
+				{#if $currentDistributionLimitType === DistributionLimitType.Specific}
+					(<Money
+						currency={$currency}
+						amount={getOwnerAmountPayoutSplits(totalSplitPercentagePayoutSplits)}
+					/>)
+				{/if}
+			</p>
+		</InfoSpaceBetween>
+	{/if}
 </HeavyBorderBox>
 <HeavyBorderBox>
 	<InfoSpaceBetween>
