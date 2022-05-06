@@ -5,7 +5,7 @@
 
 <script lang="ts">
 	import { constants } from 'ethers';
-	import { isAddress } from 'ethers/lib/utils';
+	import { isAddress } from '@ethersproject/address'
 	import type { BallotStrategy } from '$constants/v2/ballotStrategies';
 	import AlertText from '$lib/components/AlertText.svelte';
 	import Button from '$lib/components/Button.svelte';
