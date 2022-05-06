@@ -58,7 +58,11 @@
 		<ReservedRate bind:reservedRate bind:splits />
 	</HeavyBorderBox>
 	<HeavyBorderBox>
-		<DiscountRate bind:discountRate disabled={!$fundingCycle.duration.gt(0)} />
+		<DiscountRate
+			bind:discountRate
+			{reservedRate}
+			disabled={!$fundingCycle.duration.gt(0)}
+		/>
 	</HeavyBorderBox>
 	<HeavyBorderBox>
 		<RedemptionRate

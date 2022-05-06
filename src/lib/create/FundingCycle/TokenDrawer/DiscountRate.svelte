@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { BigNumber, type BigNumberish } from 'ethers';
+	import type { BigNumberish } from 'ethers';
 	import AlertText from '$lib/components/AlertText.svelte';
 	import Range from '$lib/components/Range.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
@@ -9,14 +9,9 @@
 
 	import { formattedNum } from '$utils/formatNumber';
 
-	/**
-	 * TODO
-	 * [ ] get reserved rate from store
-	 */
-
-    export let disabled = false;
+	export let disabled = false;
 	export let discountRate: number;
-	export let reservedRate = BigNumber.from(0);
+	export let reservedRate: number;
 	export let checked = discountRate > 0;
 
 	let rangeValue: number[] = [discountRate];
@@ -24,12 +19,8 @@
 	let secondIssuanceRate: BigNumberish;
 	let thirdIssuanceRate: BigNumberish;
 
-	const reservedRatePercent = parseFloat(formatReservedRate(BigNumber.from(reservedRate)));
-
-	// Tokens received by contributor's per ETH
-	const initialIssuanceRate = DEFAULT_ISSUANCE_RATE - reservedRatePercent * MAX_RESERVED_RATE;
-
 	$: {
+		let initialIssuanceRate = DEFAULT_ISSUANCE_RATE - reservedRate * MAX_RESERVED_RATE;
 		discountRate = rangeValue[0];
 
 		const discountRateDecimal = rangeValue[0] * 0.01;
