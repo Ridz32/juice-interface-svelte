@@ -21,10 +21,10 @@
 	.wrapper {
 		display: flex;
 		padding: 1rem;
-		border: 1px solid rgba(0, 0, 0, 0.282);
+		border: 1px solid var(--stroke-secondary);
 		border-radius: 1px;
 		cursor: pointer;
-		background: rgb(251, 249, 246);
+		background: var(--background-l0);
 		margin-bottom: 0.5rem;
 	}
 
