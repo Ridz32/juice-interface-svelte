@@ -6,6 +6,9 @@
 	import Preview from './Preview';
 	import ProjectDetails from './ProjectDetails.svelte';
 	import Modal from './Modal.svelte';
+	import { connectedAccount, walletConnect } from '$stores/web3';
+	import { readNetwork } from '$constants/networks';
+
 
 	let isReviewPanel = false;
 	function checkReview(tabId: string) {
@@ -15,6 +18,10 @@
 	function onClick(tabId: string) {
 		document.getElementById(tabId).click();
 		window.scrollTo(0, 0);
+	}
+
+	function deployProject() {
+		console.log('Start serializing');
 	}
 
 	let disabled = true;
@@ -47,7 +54,13 @@
 				{/if}
 				<Preview />
 				{#if isReviewPanel}
-					<Button {disabled} onClick={console.log}>Connect wallet to deploy</Button>
+					<Button {disabled} onClick={$connectedAccount ? deployProject : () => walletConnect()}>
+						{#if $connectedAccount}
+							Deploy project to {readNetwork.name}
+						{:else}
+							Connect wallet to deploy
+						{/if}
+					</Button>
 				{/if}
 			</section>
 		</div>
