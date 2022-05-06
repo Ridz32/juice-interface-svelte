@@ -5,11 +5,13 @@
 
 <!-- The top component showing the logo preview with basic treasury info -->
 <div class="info">
-	{#if $projectMetadata.logoUri}
-		<img class="logo" src={$projectMetadata.logoUri} alt="Uploaded logo" />
-	{:else}
-		<div class="logo-placeholder">🧃</div>
-	{/if}
+	<div class="logo">
+		{#if $projectMetadata.logoUri}
+			<img src={$projectMetadata.logoUri} alt="Uploaded logo" />
+		{:else}
+			<div class="logo-placeholder">🧃</div>
+		{/if}
+	</div>
 	<div class="info-text">
 		<h1>{$projectMetadata.name || 'Untitled project'}</h1>
 		<div class="social-list">
@@ -45,6 +47,11 @@
 	}
 
 	.logo {
+		height: 150px;
+		width: 150px;
+	}
+
+	img {
 		height: 150px;
 		width: 150px;
 	}
