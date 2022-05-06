@@ -193,6 +193,8 @@
 			{/if}
 		{/if}
 		<Button
+			type="tertiary"
+			size="md"
 			disabled={totalSplitsPercentage > 100}
 			onClick={() => {
 				openModal(
