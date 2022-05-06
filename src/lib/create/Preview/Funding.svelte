@@ -1,49 +1,26 @@
 <script lang="ts">
 	import { BigNumber } from '@ethersproject/bignumber';
-	import { DEFAULT_ISSUANCE_RATE } from '$utils/v2/math';
-	import { parseEther } from '@ethersproject/units';
-	import CollapsibleSection from '../CollapsibleSection.svelte';
 	import ETH from '../Ethereum.svelte';
-	import { formattedNum } from '$utils/formatNumber';
 	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import SimpleSplits from '$lib/components/SimpleSplits.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
-	import Popover from '$lib/components/Popover.svelte';
-	import { formatDate } from '$utils/formatDate';
-	import { detailedTimeUntil, detailedTimeString } from '$utils/formatTime';
 	import {
-		formatDiscountRate,
-		formatRedemptionRate,
 		formatReservedRate,
-		MAX_DISTRIBUTION_LIMIT,
-		weightedAmount
 	} from '$utils/v2/math';
-	import { FUNDING_CYCLE_WARNING_TEXT } from '$constants/fundingWarningText';
 	import Money from '$lib/components/Money.svelte';
 	import {
 		currentDistributionLimitCurrencyType as currency,
-		currentDistributionLimitCurrencyType,
 		currentDistributionLimitType,
 		distributionLimitData,
-		fundingCycle,
 		fundingCycleMetadata,
 		payoutSplits,
 		reservedTokensSplits
 	} from '../stores';
 	import { Currency, DistributionLimitType } from '$constants';
 	import { getTotalSplitsPercentage } from '$utils/v2/distributions';
-	import { getBallotStrategyByAddress } from '$constants/v2/ballotStrategies/getBallotStrategiesByAddress';
 	import FundingCycleDetails from './FundingCycleDetails.svelte';
-
-	export let fundingCycleNumber: BigNumber;
-	export let fundingCycleStartTime: BigNumber;
-	export let fundingCycleDurationSeconds: BigNumber;
-	export let fundingCycleRiskCount: number;
-	export let fundingCycleRiskProperties: any;
-	export let isFundingCycleRecurring: boolean;
-	export let isPreviewMode: boolean;
 
 	$: totalSplitPercentageTokenSplits = getTotalSplitsPercentage($reservedTokensSplits);
 </script>
