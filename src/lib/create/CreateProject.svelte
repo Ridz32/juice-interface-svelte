@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { modal } from './stores';
+	import { modal, projectMetadata } from './stores';
 	import { Tab, Tabs, TabList, TabPanel } from './Tabs';
 	import Button from '$lib/components/Button.svelte';
 	import FundingCycle from './FundingCycle';
@@ -18,6 +18,8 @@
 	}
 
 	let disabled = true;
+
+	$: disabled = !$projectMetadata.name;
 </script>
 
 <div id="create">
