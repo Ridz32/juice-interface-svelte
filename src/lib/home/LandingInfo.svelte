@@ -36,7 +36,7 @@
 	</article>
 	<img
 		id="banny"
-		src={darkMode ? '/images/banana-od.png' : '/images/banny.png'}
+		src={$darkMode ? '/images/banana-od.png' : '/images/banny.png'}
 		alt="Banny partying with code"
 	/>
 </section>
