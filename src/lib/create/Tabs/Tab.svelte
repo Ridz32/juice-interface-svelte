@@ -58,4 +58,19 @@
 		right: 0;
 		background: var(--text-brand-primary);
 	}
+
+	@media (max-width: 900px) {
+		button {
+			padding-right: unset;
+		}
+	}
+
+	@media (max-width: 650px) {
+		button {
+			padding-bottom: 5px;
+		}
+		.selected:after {
+			background: none;
+		}
+	}
 </style>
