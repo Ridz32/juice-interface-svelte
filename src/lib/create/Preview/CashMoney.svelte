@@ -44,7 +44,9 @@
 		{/if}
 	</div>
 </InfoSpaceBetween>
-<progress max="100" value="" />
+{#if $currentDistributionLimitType === DistributionLimitType.Specific}
+	<progress max="100" value="" />
+{/if}
 <InfoSpaceBetween>
 	<div slot="left">
 		<PopInfo message="The balance of the project owner's wallet.">
