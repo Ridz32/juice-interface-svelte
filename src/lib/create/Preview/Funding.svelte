@@ -6,9 +6,7 @@
 	import SimpleSplits from '$lib/components/SimpleSplits.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
-	import {
-		formatReservedRate,
-	} from '$utils/v2/math';
+	import { formatReservedRate } from '$utils/v2/math';
 	import Money from '$lib/components/Money.svelte';
 	import {
 		currentDistributionLimitCurrencyType as currency,
@@ -59,10 +57,10 @@
 			{:else if $currentDistributionLimitType === DistributionLimitType.Specific}
 				<p>
 					<small
-						><Money currency={Currency.ETH} amount={BigNumber.from(0)} />/<Money
-							currency={Currency.ETH}
-							amount={$distributionLimitData.distributionLimit}
-						/>
+						><Money
+							currency={$currency}
+							amount={BigNumber.from(0)}
+						/>/{$distributionLimitData.distributionLimit}
 					</small>
 				</p>
 			{:else}
