@@ -173,9 +173,7 @@
 	$: {
 		if ($fundingCycle.duration.gt(0)) {
 			const endTimeSeconds = $fundingCycle.start.add($fundingCycle.duration);
-			const formattedTimeLeft = !isPreviewMode
-				? detailedTimeUntil(endTimeSeconds)
-				: detailedTimeUntil($fundingCycle.duration);
+			const formattedTimeLeft = detailedTimeUntil(endTimeSeconds);
 
 			rightHeaderText = isFundingCycleRecurring
 				? `${formattedTimeLeft} until #${$fundingCycle.number.add(1).toString()}`
