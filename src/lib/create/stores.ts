@@ -15,6 +15,8 @@ import type {
 import type { Split } from '$models/v2/splits';
 import { Currency, DistributionLimitType } from '$constants';
 import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
+import { DEFAULT_BALLOT_STRATEGY } from '$constants/v2/ballotStrategies';
+
 
 export const visitedFundingDrawers = writable({
 	funding: false,
@@ -70,7 +72,7 @@ const fundingCycleData: V2FundingCycleData = {
 	discountRate: BigNumber.from(0),
 	// TODO ballot, look at hooks/v2/V2ContractLoader.ts for more info
 	// ballot: contracts?.JBETHPaymentTerminal.address ?? '', // hex, contract address
-	ballot: ''
+	ballot: DEFAULT_BALLOT_STRATEGY.address,
 };
 
 export const fundingCycle = new Store<V2FundingCycle>({

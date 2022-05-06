@@ -3,8 +3,11 @@
 	const strategies = ballotStrategies();
 </script>
 
-<script>
+<script lang="ts">
 	import { constants } from 'ethers';
+	import { isAddress } from 'ethers/lib/utils';
+	import type { BallotStrategy } from '$constants/v2/ballotStrategies';
+	import AlertText from '$lib/components/AlertText.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import ExternalLink from '$lib/components/ExternalLink.svelte';
 	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
@@ -12,19 +15,27 @@
 	import Input from '$lib/components/Input.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
 	import ReconBox from '$lib/components/ReconBox.svelte';
-	import { fundingCycleMetadata } from './stores';
-	import AlertText from '$lib/components/AlertText.svelte';
+	import { fundingCycle, fundingCycleMetadata } from './stores';
 
-	export let close;
+	export let close: () => void;
 
 	let pausePay = $fundingCycleMetadata.pausePay;
 	let allowMinting = $fundingCycleMetadata.allowMinting;
 
 	let selected = DEFAULT_BALLOT_STRATEGY;
+	let customBallotAddress: Address | undefined;
+	let disabled = false;
 
-	function selectBallotStrategy(strategy) {
+	function selectBallotStrategy(strategy: BallotStrategy) {
 		selected = strategy;
+        if (strategy.name !== 'custom') {
+            disabled = false;
+        }
 	}
+
+    function validate(address: Address) {
+		return isAddress(address) && address !== constants.AddressZero;
+    }
 
 	function onSaveRules() {
 		fundingCycleMetadata.update((fcm) => ({
@@ -32,7 +43,18 @@
 			pausePay,
 			allowMinting
 		}));
+		fundingCycle.update((fc) => ({
+			...fc,
+			ballot: selected.address
+		}));
 		close();
+	}
+
+	$: {
+		if (selected.name === 'custom') {
+			selected.address = customBallotAddress;
+			disabled = !validate(customBallotAddress);
+		}
 	}
 </script>
 
@@ -73,13 +95,13 @@
 	{/each}
 	<ReconBox
 		selected={'custom' === selected.name}
-		on:click={() => selectBallotStrategy({ name: 'custom' })}
+		on:click={() => selectBallotStrategy({ name: 'custom', address: '' })}
 	>
 		<!-- TODO Rinkeby should be from signerNetwork -->
 		<h3 slot="header">Custom strategy</h3>
 		<div slot="body">
 			<div class="input">
-				<Input placeholder={constants.AddressZero} />
+				<Input placeholder={constants.AddressZero} bind:value={customBallotAddress} />
 			</div>
 			<p>
 				The address of any smart contract deployed on Rinkeby that implements
@@ -92,7 +114,7 @@
 		</div>
 	</ReconBox>
 </HeavyBorderBox>
-<Button onClick={onSaveRules}>Save rules</Button>
+<Button {disabled} onClick={onSaveRules}>Save rules</Button>
 
 <style>
 	h1 {

@@ -34,6 +34,7 @@
 	} from '../stores';
 	import { Currency, DistributionLimitType } from '$constants';
 	import { getTotalSplitsPercentage } from '$utils/v2/distributions';
+	import { getBallotStrategyByAddress } from '$constants/v2/ballotStrategies/getBallotStrategiesByAddress'
 
 	export let fundingCycleNumber: BigNumber;
 	export let fundingCycleStartTime: BigNumber;
@@ -165,7 +166,7 @@
 		{
 			id: 'configuration',
 			label: 'Reconfiguration strategy',
-			value: '3-day delay',
+			value: getBallotStrategyByAddress($fundingCycle.ballot).name,
 			info: 'Rules for determining how funding cycles can be reconfigured.'
 		}
 	].filter((item) => Boolean(item));

@@ -1,4 +1,8 @@
-<input {...$$props} />
+<script lang="ts">
+    export let value: string | number | undefined = undefined;
+</script>
+
+<input {...$$props} bind:value />
 
 <style>
 	input {
