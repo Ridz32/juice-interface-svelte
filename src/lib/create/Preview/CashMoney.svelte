@@ -66,7 +66,7 @@
 	div[slot='left'],
 	div[slot='right'],
 	p {
-		color: rgba(0, 0, 0, 0.333);
+		color: var(--text-tertiary);
 	}
 	.money {
 		color: var(--text-brand-primary);

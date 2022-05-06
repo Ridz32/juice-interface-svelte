@@ -187,7 +187,7 @@
 
 	p {
 		margin: 0;
-		color: rgba(30, 14, 14, 0.33);
+		color: var(--text-secondary);
 	}
 
 	span {
@@ -203,7 +203,7 @@
 	}
 	.available p {
 		margin-right: 5px;
-		color: rgba(0, 0, 0, 0.6);
+		color: var(--text-secondary);
 	}
 
 	.distribution-splits {
@@ -214,7 +214,7 @@
 		text-transform: capitalize;
 		font-weight: 600;
 		font-size: 12px;
-		color: rgba(0, 0, 0, 0.6);
+		color: var(--text-secondary);
 		margin: 10px 0;
 	}
 </style>

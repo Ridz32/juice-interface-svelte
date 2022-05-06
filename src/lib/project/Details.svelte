@@ -193,7 +193,7 @@
 																	<div>0 JBX</div>
 																	<div>0 claimable</div>
 																	<div
-																		style="cursor: default; font-size: 0.8rem; font-weight: 500; color: rgba(0, 0, 0, 0.333);"
+																		style="cursor: default; font-size: 0.8rem; font-weight: 500; color: var(--text-tertiary);"
 																	>
 																		0% of supply
 																	</div>
@@ -251,7 +251,7 @@
 				<div
 					class="hover-text-secondary"
 					role="button"
-					style="text-transform: uppercase; cursor: pointer; color: rgba(0, 0, 0, 0.6); font-weight: 600;"
+					style="text-transform: uppercase; cursor: pointer; color: var(--text-secondary); font-weight: 600;"
 				>
 					Current
 				</div>
@@ -260,7 +260,7 @@
 				<div
 					class="hover-text-secondary"
 					role="button"
-					style="text-transform: uppercase; cursor: pointer; color: rgba(0, 0, 0, 0.333); font-weight: 500;"
+					style="text-transform: uppercase; cursor: pointer; color: var(--text-tertiary); font-weight: 500;"
 				>
 					Upcoming
 				</div>
@@ -269,7 +269,7 @@
 				<div
 					class="hover-text-secondary"
 					role="button"
-					style="text-transform: uppercase; cursor: pointer; color: rgba(0, 0, 0, 0.333); font-weight: 500;"
+					style="text-transform: uppercase; cursor: pointer; color: var(--text-tertiary); font-weight: 500;"
 				>
 					History
 				</div>
@@ -279,7 +279,7 @@
 			<div style="position: relative;">
 				<div style="margin-bottom: 10px;">
 					<div
-						style="background: rgb(243, 241, 236); box-shadow: rgb(231, 227, 220) 10px 10px; border-radius: 1px; stroke: none; overflow: hidden; padding: 20px;"
+						style="background: var(--background-l2); box-shadow: var(--background-l1) 10px 10px; border-radius: 1px; stroke: none; overflow: hidden; padding: 20px;"
 					>
 						<div
 							class="ant-collapse ant-collapse-icon-position-left minimal"
@@ -312,7 +312,7 @@
 										<div>
 											<span>Cycle #20</span>
 										</div>
-										<span style="color: rgba(0, 0, 0, 0.6); margin-left: 10px;">
+										<span style="color: var(--text-secondary); margin-left: 10px;">
 											9d 19h 22m until #21
 										</span>
 									</div>
@@ -323,7 +323,7 @@
 				</div>
 				<div style="margin-bottom: 10px;">
 					<div
-						style="background: rgb(243, 241, 236); box-shadow: rgb(231, 227, 220) 10px 10px; border-radius: 1px; stroke: none; overflow: hidden; padding: 20px;"
+						style="background: var(--background-l2); box-shadow: var(--background-l1) 10px 10px; border-radius: 1px; stroke: none; overflow: hidden; padding: 20px;"
 					>
 						<div>
 							<div class="ant-space ant-space-vertical" style="width: 100%; gap: 24px;">
@@ -337,7 +337,7 @@
 													<span>US$</span>0
 												</span>
 												<span
-													style="font-size: 0.7rem; font-weight: 500; cursor: default; color: rgba(0, 0, 0, 0.6);"
+													style="font-size: 0.7rem; font-weight: 500; cursor: default; color: var(--text-secondary);"
 												>
 													<span style="margin-right: 5px;">AVAILABLE</span>
 													<span
@@ -366,7 +366,7 @@
 												</span>
 											</div>
 											<div
-												style="font-size: 0.7rem; font-weight: 500; cursor: default; color: rgba(0, 0, 0, 0.333);"
+												style="font-size: 0.7rem; font-weight: 500; cursor: default; color: var(--text-tertiary);"
 											>
 												<div>
 													<span>US$</span>170,300<span>/170,300 </span> distributed
@@ -378,7 +378,7 @@
 													>
 														<div class="ant-space-item" style="">
 															<div
-																style="vertical-align: middle; line-height: 1; color: rgba(0, 0, 0, 0.333);"
+																style="vertical-align: middle; line-height: 1; color: var(--text-tertiary);"
 															>
 																<span style="font-family: sans-serif;">Ξ</span>5.9231
 															</div>
@@ -477,7 +477,7 @@
 																	>:
 																</div>
 																<div
-																	style="font-size: 0.8rem; color: rgba(0, 0, 0, 0.6); margin-left: 10px;"
+																	style="font-size: 0.8rem; color: var(--text-secondary); margin-left: 10px;"
 																>
 																	<span>
 																		<span style="margin-right: 5px;">Tokens:</span>
@@ -602,7 +602,7 @@
 																	>:
 																</div>
 																<div
-																	style="font-size: 0.8rem; color: rgba(0, 0, 0, 0.6); margin-left: 10px;"
+																	style="font-size: 0.8rem; color: var(--text-secondary); margin-left: 10px;"
 																>
 																	<span>
 																		<span style="margin-right: 5px;">Tokens:</span>
@@ -691,7 +691,7 @@
 																	>:
 																</div>
 																<div
-																	style="font-size: 0.8rem; color: rgba(0, 0, 0, 0.6); margin-left: 10px;"
+																	style="font-size: 0.8rem; color: var(--text-secondary); margin-left: 10px;"
 																>
 																	<span>
 																		<span style="margin-right: 5px;">Tokens:</span>
@@ -762,7 +762,7 @@
 																	>:
 																</div>
 																<div
-																	style="font-size: 0.8rem; color: rgba(0, 0, 0, 0.6); margin-left: 10px;"
+																	style="font-size: 0.8rem; color: var(--text-secondary); margin-left: 10px;"
 																>
 																	<span>
 																		<span style="margin-right: 5px;">Tokens:</span>
@@ -1041,7 +1041,7 @@
 				</div>
 				<div style="margin-bottom: 10px;">
 					<div
-						style="background: rgb(243, 241, 236); box-shadow: rgb(231, 227, 220) 10px 10px; border-radius: 1px; stroke: none; overflow: hidden; padding: 20px;"
+						style="background: var(--background-l2); box-shadow: var(--background-l1) 10px 10px; border-radius: 1px; stroke: none; overflow: hidden; padding: 20px;"
 					>
 						<div>
 							<div>

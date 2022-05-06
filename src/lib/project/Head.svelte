@@ -24,13 +24,13 @@
 				style="display: flex; justify-content: space-between; flex-wrap: wrap; align-items: flex-start;"
 			>
 				<h1
-					style="font-size: 2.4rem; line-height: 2.8rem; margin: 0px; color: rgba(0, 0, 0, 0.933);"
+					style="font-size: 2.4rem; line-height: 2.8rem; margin: 0px; color: var(--text-primary)"
 				>
 					JuiceboxDAO
 				</h1>
 				<div style="display: flex; align-items: center;">
-					<span style="color: rgba(0, 0, 0, 0.333); padding-right: 10px;"
-						>ID: 1 <span style="padding: 2px 4px; background: rgb(231, 227, 220); cursor: default;"
+					<span style="color: var(--text-tertiary); padding-right: 10px;"
+						>ID: 1 <span style="padding: 2px 4px; background: var(--background-l1); cursor: default;"
 							>V1</span
 						></span
 					>
@@ -60,7 +60,7 @@
 			<div
 				style="display: flex; flex-wrap: wrap; padding-top: 8px; padding-bottom: 4px; font-weight: 500;"
 			>
-				<span style="color: rgba(0, 0, 0, 0.6); margin-right: 20px; font-weight: 600;"
+				<span style="color: var(--text-secondary); margin-right: 20px; font-weight: 600;"
 					>@juicebox</span
 				><a
 					href="https://snapshot.org/#/jbdao.eth"
@@ -116,7 +116,7 @@
 			</div>
 			<div>
 				<div style="margin-top: 5px; max-width: 700px; display: inline;">
-					<span style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+					<span style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 						>Supports projects built using the Juicebox protocol, and the development of the
 						protocol itself. All projects withdrawing funds from their treasury pay a 2.5%
 						membership fee and receive JBX at the current issuance rate. JBX members govern the NFT

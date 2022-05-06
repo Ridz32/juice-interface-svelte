@@ -47,6 +47,6 @@
 		background: transparent;
 		border: 1px solid #d9d9d9;
 		border-radius: 2px;
-		color: rgba(0, 0, 0, 0.85);
+		color: var(--text-primary);
 	}
 </style>

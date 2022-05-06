@@ -35,7 +35,7 @@
 
 <style>
 	.description {
-		color: rgba(0, 0, 0, 0.6);
+		color: var(--text-secondary);
 		overflow-wrap: break-word;
 		padding-right: 0.5rem;
 	}
@@ -43,7 +43,7 @@
 	.info {
 		display: flex;
 		align-items: center;
-		color: rgba(0, 0, 0, 0.333);
+		color: var(--text-tertiary);
 	}
 
 	.logo {
@@ -56,7 +56,7 @@
 		width: 150px;
 	}
 	.logo-placeholder {
-		background-color: rgb(231, 227, 220);
+		background-color: var(--background-l1);
 		height: 150px;
 		width: 150px;
 		font-size: 36px;
@@ -69,7 +69,7 @@
 		padding: 0px 20px;
 	}
 	.info .info-text h1 {
-		color: rgba(0, 0, 0, 0.333);
+		color: var(--text-tertiary);
 		font-size: 36px;
 		font-weight: 500;
 		margin: 0;

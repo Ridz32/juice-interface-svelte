@@ -14,7 +14,7 @@
 <style>
 	.title {
 		font-size: 18px;
-		color: rgba(0, 0, 0, 0.6);
+		color: var(--text-secondary);
 		margin-bottom: 0px;
 		font-weight: 400;
 	}

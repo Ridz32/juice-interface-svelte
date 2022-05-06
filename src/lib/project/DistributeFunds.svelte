@@ -140,7 +140,7 @@
 															<div style="margin-left: -71px; z-index: 1; font-size: 0.8rem;">
 																<div id="accessory12.468252921916513">
 																	<div style="display: flex; align-items: center;">
-																		<span style="margin-right: 8px; color: rgba(0, 0, 0, 0.933);"
+																		<span style="margin-right: 8px; color: var(--text-primary)"
 																			>USD</span
 																		>
 																		<div
@@ -158,7 +158,7 @@
 											</div>
 										</div>
 									</div>
-									<div style="color: rgba(0, 0, 0, 0.933); margin-bottom: 10px;">
+									<div style="color: var(--text-primary) margin-bottom: 10px;">
 										<span style="font-weight: 500;"
 											><span style="font-family: sans-serif;">Ξ</span>0</span
 										> after 2.5% JBX fee
@@ -200,7 +200,7 @@
 																>:
 															</div>
 															<div
-																style="font-size: 0.8rem; color: rgba(0, 0, 0, 0.6); margin-left: 10px;"
+																style="font-size: 0.8rem; color: var(--text-secondary); margin-left: 10px;"
 															>
 																<span
 																	><span style="margin-right: 5px;">Tokens:</span><span
@@ -311,7 +311,7 @@
 																>:
 															</div>
 															<div
-																style="font-size: 0.8rem; color: rgba(0, 0, 0, 0.6); margin-left: 10px;"
+																style="font-size: 0.8rem; color: var(--text-secondary); margin-left: 10px;"
 															>
 																<span
 																	><span style="margin-right: 5px;">Tokens:</span><span
@@ -390,7 +390,7 @@
 																>:
 															</div>
 															<div
-																style="font-size: 0.8rem; color: rgba(0, 0, 0, 0.6); margin-left: 10px;"
+																style="font-size: 0.8rem; color: var(--text-secondary); margin-left: 10px;"
 															>
 																<span
 																	><span style="margin-right: 5px;">Tokens:</span><span
@@ -453,7 +453,7 @@
 																>:
 															</div>
 															<div
-																style="font-size: 0.8rem; color: rgba(0, 0, 0, 0.6); margin-left: 10px;"
+																style="font-size: 0.8rem; color: var(--text-secondary); margin-left: 10px;"
 															>
 																<span
 																	><span style="margin-right: 5px;">Tokens:</span><span

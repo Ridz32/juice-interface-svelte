@@ -59,15 +59,15 @@
 	}
 
 	div[role='button'].visited {
-		color: rgba(0, 0, 0, 0.333);
-		border-color: rgba(0, 0, 0, 0.333);
+		color: var(--text-tertiary);
+		border-color: var(--text-tertiary);
 	}
 
 	div[role='button'].visited .description {
-		color: rgba(0, 0, 0, 0.333);
+		color: var(--text-tertiary);
 	}
 
 	/* div[role="button"].visited svg {
-    fill: rgba(0, 0, 0, 0.333);
+    fill: var(--text-tertiary);
   } */
 </style>

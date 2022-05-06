@@ -262,7 +262,7 @@
 		background: var(--background-l0);
 		border: 1px solid #d9d9d9;
 		height: 30px;
-		color: rgba(0, 0, 0, 0.6);
+		color: var(--text-secondary);
 		padding-inline-start: 10px;
 	}
 	.actions {

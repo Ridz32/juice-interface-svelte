@@ -263,7 +263,7 @@
 	.current-cycle .gap {
 		margin: 10px 0px;
 		font-weight: 500;
-		color: rgba(0, 0, 0, 0.6);
+		color: var(--text-secondary);
 	}
 
 	.current-cycle span {
@@ -292,6 +292,6 @@
 	p {
 		margin: 0;
         font-weight: 400;
-		color: rgba(0, 0, 0, 0.6);
+		color: var(--text-secondary);
 	}
 </style>
