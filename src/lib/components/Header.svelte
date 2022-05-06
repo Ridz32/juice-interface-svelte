@@ -1,6 +1,7 @@
 <script>
 	import ConnectButton from './ConnectButton.svelte';
 	import DarkmodeToggle from './DarkmodeToggle.svelte';
+	import { darkMode } from '$stores';
 </script>
 
 <header
@@ -13,7 +14,11 @@
 	>
 		<div class="ant-space-item" style="">
 			<a href="/" style="display: inline-block;">
-				<img src="/images/juice_logo-ol.png" alt="Juicebox logo" style="height: 40px;" />
+				<img
+					src={$darkMode ? '/images/juice_logo-od.png' : '/images/juice_logo-ol.png'}
+					alt="Juicebox logo"
+					style="height: 40px;"
+				/>
 			</a>
 		</div>
 		<div class="ant-space-item" style="">
