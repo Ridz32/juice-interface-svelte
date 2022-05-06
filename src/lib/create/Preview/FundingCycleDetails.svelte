@@ -255,6 +255,7 @@
 
 	.collapse-header {
 		margin: 0 10px;
+        color: var(--text-header);
 	}
 
 	.current-cycle {
