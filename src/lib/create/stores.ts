@@ -26,8 +26,6 @@ export const visitedFundingDrawers = writable({
 
 export const modal = writable({});
 
-export const isReviewPanel = writable(false);
-
 type V2ProjectLoadingStates = {
 	ETHBalanceLoading: boolean;
 	balanceInDistributionLimitCurrencyLoading: boolean;

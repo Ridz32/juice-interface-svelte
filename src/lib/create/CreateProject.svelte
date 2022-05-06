@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isReviewPanel, modal } from './stores';
+	import { modal } from './stores';
 	import { Tab, Tabs, TabList, TabPanel } from './Tabs';
 	import Button from '$lib/components/Button.svelte';
 	import FundingCycle from './FundingCycle';
@@ -7,21 +7,29 @@
 	import ProjectDetails from './ProjectDetails.svelte';
 	import Modal from './Modal.svelte';
 
+	let isReviewPanel = false;
+	function checkReview(tabId: string) {
+		isReviewPanel = tabId === 'review';
+	}
+
 	function onClick(tabId: string) {
 		document.getElementById(tabId).click();
+		window.scrollTo(0, 0);
 	}
+
+	let disabled = true;
 </script>
 
 <div id="create">
 	<h1>Design your project 🎨</h1>
 	<Tabs>
 		<TabList>
-			<Tab id="details">1. Project details</Tab>
-			<Tab id="funding">2. Funding cycle</Tab>
-			<Tab id="review">3. Review and deploy</Tab>
+			<Tab id="details" onClick={checkReview}>1. Project details</Tab>
+			<Tab id="funding" onClick={checkReview}>2. Funding cycle</Tab>
+			<Tab id="review" onClick={checkReview}>3. Review and deploy</Tab>
 		</TabList>
 		<div class="row">
-			<section class={$isReviewPanel && 'collapse'}>
+			<section class={isReviewPanel && 'collapse'}>
 				<TabPanel>
 					<ProjectDetails />
 					<Button onClick={() => onClick('funding')}>Next: Funding cycle</Button>
@@ -31,13 +39,13 @@
 					<Button onClick={() => onClick('review')}>Next: Review and deploy</Button>
 				</TabPanel>
 			</section>
-			<section class={$isReviewPanel && 'full'}>
-				{#if $isReviewPanel}
+			<section class:full={isReviewPanel}>
+				{#if isReviewPanel}
 					<h2>Review project configuration</h2>
 				{/if}
 				<Preview />
-				{#if $isReviewPanel}
-					<Button onClick={console.log}>Connect wallet to deploy</Button>
+				{#if isReviewPanel}
+					<Button {disabled} onClick={console.log}>Connect wallet to deploy</Button>
 				{/if}
 			</section>
 		</div>
