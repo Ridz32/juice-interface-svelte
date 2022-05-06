@@ -1,9 +1,3 @@
-<!-- <script lang="ts">
-    import type { SvelteInputProps } from "svelte";
-
-    export let props: SvelteInputProps;
-</script> -->
-
 <input {...$$props} />
 
 <style>

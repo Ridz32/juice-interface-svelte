@@ -11,12 +11,20 @@
 	import Icon from '$lib/components/Icon.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
-	import ReconBox from './FundingCycle/TokenDrawer/ReconBox.svelte';
+	import ReconBox from '$lib/components/ReconBox.svelte';
 	import { fundingCycleMetadata } from './stores';
+	import AlertText from '$lib/components/AlertText.svelte';
+
+	export let close;
 
 	let pausePay = $fundingCycleMetadata.pausePay;
 	let allowMinting = $fundingCycleMetadata.allowMinting;
-	export let close;
+
+	let selected = DEFAULT_BALLOT_STRATEGY;
+
+	function selectBallotStrategy(strategy) {
+		selected = strategy;
+	}
 
 	function onSaveRules() {
 		fundingCycleMetadata.update((fcm) => ({
@@ -47,14 +55,26 @@
 </HeavyBorderBox>
 <HeavyBorderBox>
 	<h4>Reconfiguration</h4>
+	{#if selected.name === 'No strategy'}
+		<AlertText
+			>Using a reconfiguration strategy is recommended. Projects with no strategy will appear risky
+			to contributors.</AlertText
+		>
+	{/if}
 	{#each strategies as strategy}
-		<ReconBox>
+		<ReconBox
+			selected={strategy.name === selected.name}
+			on:click={() => selectBallotStrategy(strategy)}
+		>
 			<h3 slot="header">{strategy.name}</h3>
 			<p slot="body">{strategy.description}</p>
 			<small slot="address">Contract address: {strategy.address}</small>
 		</ReconBox>
 	{/each}
-	<ReconBox>
+	<ReconBox
+		selected={'custom' === selected.name}
+		on:click={() => selectBallotStrategy({ name: 'custom' })}
+	>
 		<!-- TODO Rinkeby should be from signerNetwork -->
 		<h3 slot="header">Custom strategy</h3>
 		<div slot="body">
