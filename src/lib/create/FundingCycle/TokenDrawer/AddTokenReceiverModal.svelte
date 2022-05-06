@@ -133,7 +133,7 @@
 	<div class="gap">
 		<label for="percent"> Percent allocation </label>
 		<!-- NOTE the range reacts to a too large amount by setting it to the max value -->
-		<Range bind:values={rangeValue} />
+		<Range bind:values={rangeValue} step={0.01} />
 		<p>{extra}</p>
 		<p class="issue" in:fly={{ duration: 100 }} class:hidden={!invalid.percent}>
 			{invalid.percent}.
@@ -154,7 +154,7 @@
 </section>
 <div class="actions">
 	<Button onClick={closeModal} size="md" type="secondary">Cancel</Button>
-	<Button size="md" onClick={addSplit}>{editingExistingSplit ? 'Save' : 'Add'} token split</Button>
+	<Button size="md" onClick={addSplit}>{editingExistingSplit ? 'Save' : 'Add'} token receiver</Button>
 </div>
 
 <style>
