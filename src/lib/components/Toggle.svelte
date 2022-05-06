@@ -64,10 +64,6 @@
 		transform: translateX(-100%);
 	}
 
-	label:active:after {
-		width: 130px;
-	}
-
 	label:focus {
 		outline: 0;
 		box-shadow: 0 0 0 2px rgb(0 0 0 / 10%);
