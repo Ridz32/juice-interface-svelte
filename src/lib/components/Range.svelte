@@ -20,7 +20,7 @@
 
 <style>
 	:global(.rangeSlider) {
-		--range-slider: #d7dada; /* slider main background color */
+		--range-slider: var(--background-action-secondary); /* slider main background color */
 		--range-handle-inactive: var(--background-action-primary); /* inactive handle color */
 		--range-handle: var(--background-action-secondary); /* non-focussed handle color */
 		--range-handle-focus: var(--background-action-primary); /* focussed handle color */
