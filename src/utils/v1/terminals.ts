@@ -1,8 +1,8 @@
 import { V1ContractName } from '$models/v1/contracts';
-import { NetworkName } from '$models/network-name';
-import { V1TerminalVersion } from '$models/v1/terminals';
+import type { NetworkName } from '$models/network-name';
+import type { V1TerminalVersion } from '$models/v1/terminals';
 
-import { V1TerminalName } from '$models/v1/terminals';
+import type { V1TerminalName } from '$models/v1/terminals';
 
 import { readNetwork } from '$constants/networks';
 

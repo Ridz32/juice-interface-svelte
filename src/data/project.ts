@@ -1,18 +1,54 @@
 import { BigNumber } from 'ethers';
 import { SECONDS_IN_DAY } from '$constants/numbers';
-import { querySubgraph, querySubgraphExhaustive } from '$utils/graph';
+import axios from 'axios';
+import { consolidateMetadata, type ProjectMetadataV4 } from '$models/project-metadata';
+import {
+    querySubgraph,
+    querySubgraphExhaustive,
+    type EntityKeys,
+    type GraphQueryOpts,
+    type InfiniteGraphQueryOpts,
+    type WhereConfig
+} from '$utils/graph';
+import type { ProjectState } from '$models/project-visibility'
+import type { V1TerminalVersion } from '$models/v1/terminals'
+import { getTerminalAddress } from '$utils/v1/terminals'
+import { archivedProjectIds } from '$constants/v1/archivedProjects'
 
 import type {
-    // parseTrendingProjectJson,
     Project,
     TrendingProject,
-    TrendingProjectJson
 } from '$models/subgraph-entities/project';
+
+/**
+ * TODO
+ * [ ] Caching with ipfs
+ * [ ] Wether to refetch data after x seconds, i.e. use store and perge when
+ *    the data is stale
+ */
+
+// TODO don't hardcode this here, use the utils/ipfs after issue with @pinata/sdk has been solved
+import { IPFS_GATEWAY_HOSTNAME } from '$constants/ipfs';
+const ipfsCidUrl = (hash: string) => `https://${IPFS_GATEWAY_HOSTNAME}/ipfs/${hash}`;
 
 type ProjectStat = Record<string, {
     trendingVolume: BigNumber;
     paymentsCount: number;
 }>;
+
+interface ProjectsOptions {
+    pageNumber?: number
+    projectId?: BigNumber
+    handle?: string
+    uri?: string
+    orderBy?: 'createdAt' | 'currentBalance' | 'totalPaid'
+    orderDirection?: 'asc' | 'desc'
+    pageSize?: number
+    state?: ProjectState
+    keys?: (keyof Project)[]
+    terminalVersion?: V1TerminalVersion
+    searchText?: string
+}
 
 const defaultKeys: (keyof Project)[] = [
     'id',
@@ -25,6 +61,69 @@ const defaultKeys: (keyof Project)[] = [
     'totalRedeemed',
     'terminal'
 ];
+
+const queryOpts = (
+    opts: ProjectsOptions,
+): Partial<
+    | GraphQueryOpts<'project', EntityKeys<'project'>>
+    | InfiniteGraphQueryOpts<'project', EntityKeys<'project'>>
+> => {
+    const where: WhereConfig<'project'>[] = []
+
+    const terminalAddress = getTerminalAddress(opts.terminalVersion)
+
+    if (terminalAddress) {
+        where.push({
+            key: 'terminal' as const,
+            value: terminalAddress,
+        })
+    }
+
+    if (opts.state === 'archived') {
+        where.push({
+            key: 'id' as const,
+            value: archivedProjectIds,
+            operator: 'in',
+        })
+    } else if (opts.projectId) {
+        where.push({
+            key: 'id' as const,
+            value: opts.projectId.toString(),
+        })
+    }
+
+    return {
+        entity: 'project',
+        keys: opts.keys ?? defaultKeys,
+        orderDirection: opts.orderDirection ?? 'desc',
+        orderBy: opts.orderBy ?? 'totalPaid',
+        pageSize: opts.pageSize,
+        where,
+    }
+}
+
+export async function getProjects(opts: ProjectsOptions) {
+    return querySubgraph(
+        {
+            ...(queryOpts(opts) as GraphQueryOpts<'project', EntityKeys<'project'>>),
+            first: opts.pageSize,
+            skip:
+                opts.pageNumber && opts.pageSize
+                    ? opts.pageNumber * opts.pageSize
+                    : undefined,
+        }
+    )
+}
+
+export async function getProjectMetadata(uri: string | undefined) {
+    if (!uri) {
+        console.error('No uri provided');
+        return;
+    }
+    const url = ipfsCidUrl(uri);
+    const response = await axios.get(url);
+    return consolidateMetadata(response.data);
+}
 
 export function getProjectStatsFromPayments(payments = []) {
     return payments.reduce((acc, curr) => {

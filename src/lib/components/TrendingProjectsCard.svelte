@@ -1,14 +1,10 @@
 <script lang="ts">
-	import axios from 'axios';
-	import { consolidateMetadata, type ProjectMetadataV4 } from '$models/project-metadata';
 	import type { TrendingProject } from '$models/subgraph-entities/project';
+	import { getProjectMetadata } from '$data/project';
 	import { SECONDS_IN_DAY } from '$constants/numbers';
 	import Icon from '$lib/components/Icon.svelte';
 	import EthAmount from './ETHAmount.svelte';
 
-	// TODO don't hardcode this here, use the utils/ipfs after issue with @pinata/sdk has been solved
-	import { IPFS_GATEWAY_HOSTNAME } from '$constants/ipfs';
-	const ipfsCidUrl = (hash: string) => `https://${IPFS_GATEWAY_HOSTNAME}/ipfs/${hash}`;
 
 	export let days: number;
 	export let rank: number;
@@ -36,16 +32,6 @@
 			percentRounded = percentGain / 100;
 		}
 		return `+${percentRounded}%`;
-	}
-
-	async function getProjectMetadata(uri: string | undefined) {
-		if (!uri) {
-			console.error('No uri provided');
-			return;
-		}
-		const url = ipfsCidUrl(uri);
-		const response = await axios.get(url);
-		return consolidateMetadata(response.data);
 	}
 </script>
 
