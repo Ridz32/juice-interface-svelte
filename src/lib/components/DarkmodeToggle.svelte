@@ -1,11 +1,9 @@
-<script>
-	import { onMount } from 'svelte';
-	import Icon from '$lib/components/Icon.svelte';
+<script lang="ts" context="module">
 	import { darkMode } from '$stores';
 
 	function toggleHTMLClass() {
 		// NOTE: doesn't need to be this explicit, but brain isn't handling binary states
-		if ($darkMode) {
+		if (darkMode.get()) {
 			document.documentElement.classList.add('darkmode');
 			document.documentElement.classList.remove('lightmode');
 		} else {
@@ -14,10 +12,16 @@
 		}
 	}
 
-	function switchDarkMode() {
-		darkMode.set(!$darkMode);
+	export function toggleTheme() {
+		darkMode.set(!darkMode.get());
 		toggleHTMLClass();
 	}
+</script>
+
+<script>
+	import { onMount } from 'svelte';
+	import Icon from '$lib/components/Icon.svelte';
+	// import { darkMode } from '$stores';
 
 	onMount(() => {
 		if ($darkMode) {
@@ -26,7 +30,7 @@
 	});
 </script>
 
-<div role="switch" aria-checked={darkMode} on:click={switchDarkMode}>
+<div role="switch" aria-checked={$darkMode} on:click={toggleTheme}>
 	<div class:active={!$darkMode}>
 		<Icon name="sun" />
 	</div>

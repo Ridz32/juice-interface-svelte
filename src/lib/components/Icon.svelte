@@ -8,6 +8,7 @@
 <script>
 	export let name = 'arrow';
 	export let direction = 'n';
+	export let spin = false;
 	$: paths = pathsByName[name] || [];
 	$: rotation = directions.indexOf(direction) * 45;
 </script>
@@ -15,6 +16,7 @@
 {#if paths.length}
 	<svg
 		class="antd"
+		class:spin
 		width="1em"
 		height="1em"
 		viewBox="64 64 896 896"
@@ -90,6 +92,20 @@
 		fill: currentColor;
 		transition: all 0.3s ease-out;
 		overflow: visible;
+	}
+
+	/* A class that spins the icon */
+	.spin {
+		animation: spin 1s linear infinite;
+	}
+
+	@keyframes spin {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
 	}
 
 	.antd {

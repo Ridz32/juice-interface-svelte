@@ -1,4 +1,7 @@
 <script>
+	import { darkMode } from '$stores';
+	import { toggleTheme } from './DarkmodeToggle.svelte';
+
 	import Icon from './Icon.svelte';
 
 	let showMenu = false;
@@ -14,7 +17,11 @@
 				<div class="ant-space ant-space-horizontal ant-space-align-center" style="gap: 8px;">
 					<div class="ant-space-item" style="">
 						<a href="/" style="display: inline-block;"
-							><img src="/images/juice_logo-ol.png" alt="Juicebox logo" style="height: 30px;" /></a
+							><img
+								src={$darkMode ? '/images/juice_logo-od.png' : '/images/juice_logo-ol.png'}
+								alt="Juicebox logo"
+								style="height: 30px;"
+							/></a
 						>
 					</div>
 					<div
@@ -46,50 +53,35 @@
 					>
 						<div class="ant-space ant-space-vertical" style="flex: 1 1 0%; gap: 20px;">
 							<div class="ant-space-item" style="">
-								<a
-									class="nav-menu-item hover-opacity"
-									href="/#/projects"
-									style="cursor: pointer; display: flex; align-items: center; font-weight: 600; color: var(--text-primary);"
-									>Projects</a
-								>
+								<a class="nav-menu-item hover-opacity centered" href="/projects">Projects</a>
 							</div>
 							<div class="ant-space-item" style="">
-								<a
-									class="nav-menu-item hover-opacity"
-									style="cursor: pointer; display: flex; align-items: center; font-weight: 600; color: var(--text-primary);"
-									>FAQ</a
-								>
+								<a class="nav-menu-item hover-opacity">FAQ</a>
 							</div>
 							<div class="ant-space-item">
 								<a
 									class="nav-menu-item hover-opacity"
 									href="https://discord.gg/6jXrJSyDFf"
 									target="_blank"
-									rel="noreferrer"
-									style="cursor: pointer; display: flex; align-items: center; font-weight: 600; color: var(--text-primary);"
-									>Discord</a
+									rel="noreferrer">Discord</a
 								>
 							</div>
-							<li
-								class="ant-menu-submenu ant-menu-submenu-inline ant-menu-submenu-active"
-								role="none"
+							<!-- TODO resource dropdown -->
+							<!-- <div
+								role="menuitem"
+								class="ant-menu-submenu-title ant-space-item"
+								tabindex="-1"
+								aria-expanded="false"
+								aria-haspopup="true"
+								data-menu-id="rc-menu-uuid-90877-1-undefined"
+								aria-controls="rc-menu-uuid-90877-1-undefined-popup"
+								style="padding-left: 0px;"
 							>
-								<div
-									role="menuitem"
-									class="ant-menu-submenu-title"
-									tabindex="-1"
-									aria-expanded="false"
-									aria-haspopup="true"
-									data-menu-id="rc-menu-uuid-90877-1-undefined"
-									aria-controls="rc-menu-uuid-90877-1-undefined-popup"
-									style="padding-left: 0px;"
-								>
-									<span class="ant-menu-title-content">Resources </span>
-									<Icon direction="w" name="down" />
-								</div>
-							</li>
+								<span class="ant-menu-title-content">Resources </span>
+								<Icon direction="w" name="down" />
+							</div> -->
 						</div>
-						<div eventkey="tmp_key-2" style="margin-left: 15px;">
+						<div eventkey="tmp_key-2" style="margin-left: 15px; margin-top: 15px">
 							<li
 								class="ant-menu-item ant-menu-item-active ant-menu-item-only-child"
 								role="menuitem"
@@ -151,9 +143,14 @@
 								style="padding-left: 0px;"
 							>
 								<span class="ant-menu-title-content"
-									><div style="display: flex; cursor: pointer; align-items: center;">
-										<Icon name="sun" />
-										<div style="margin: 0px 0px 2px 10px;">Light theme</div>
+									><div
+										style="display: flex; cursor: pointer; align-items: center;"
+										on:click={toggleTheme}
+									>
+										<Icon name={$darkMode ? 'moon' : 'sun'} />
+										<div style="margin: 0px 0px 2px 10px;">
+											{$darkMode ? 'Dark' : 'Light'} theme
+										</div>
 									</div></span
 								>
 							</li>
@@ -220,6 +217,11 @@
 </header>
 
 <style>
+	a {
+		cursor: pointer;
+		font-weight: 600;
+		color: var(--text-primary);
+	}
 	header {
 		z-index: 1000;
 	}
@@ -230,10 +232,6 @@
 
 	.ant-menu-root {
 		border: none;
-	}
-
-	.ant-menu-submenu-title {
-		height: unset;
 	}
 
 	@media (min-width: 766.99px) {
@@ -250,5 +248,9 @@
 
 	.ant-collapse-item {
 		border: var(--border-secondary);
+	}
+
+	.ant-collapse-content {
+		padding: 20px;
 	}
 </style>

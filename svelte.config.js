@@ -16,7 +16,6 @@ const config = {
 
 	kit: {
 		adapter: adapter(),
-
 		// Override http methods in the Todo forms
 		methodOverride: {
 			allowed: ['PATCH', 'DELETE']
@@ -39,7 +38,8 @@ const config = {
 					$utils: path.resolve('./src/utils'),
 					$assets: path.resolve('./src/assets'),
 					$constants: path.resolve('./src/constants'),
-					$models: path.resolve('./src/models')
+					$models: path.resolve('./src/models'),
+					$data: path.resolve('./src/data')
 				}
 			}
 		}
