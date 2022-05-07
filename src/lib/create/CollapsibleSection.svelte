@@ -1,11 +1,17 @@
 <script>
 	import { slide } from 'svelte/transition';
-
 	import Icon from '$lib/components/Icon.svelte';
-	let expanded = true;
+
+	export let alignCaret = 'center';
+
+	export let expanded = true;
 </script>
 
-<button aria-expanded={expanded} on:click={() => (expanded = !expanded)}>
+<button
+	style={`align-items: ${alignCaret}`}
+	aria-expanded={expanded}
+	on:click={() => (expanded = !expanded)}
+>
 	<Icon name="caret" direction={expanded ? 'e' : 'n'} />
 	<slot name="header" />
 </button>
@@ -23,8 +29,7 @@
 		border-bottom: 1px solid var(--light-body);
 		color: var(--text-header);
 		display: inline-flex;
-		justify-content: space-between;
-		align-items: center;
+		align-items: baseline;
 		width: 100%;
 		margin: 0;
 	}
