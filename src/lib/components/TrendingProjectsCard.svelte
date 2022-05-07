@@ -69,13 +69,17 @@
 <style>
 	li {
 		display: flex;
-		flex: 0 0 45%;
-		max-width: 45%;
+		flex: 0 0 49%;
+		max-width: 49%;
 		align-items: center;
-		padding: 20px;
+		padding: 25px 20px;
 		border: 1px solid var(--stroke-secondary);
-		margin: 10px;
 	}
+
+    li:hover {
+        border-color: var(--stroke-primary);
+        cursor: pointer;
+    }
 
 	h1 {
 		font-size: 18px;
@@ -91,14 +95,18 @@
 		overflow: hidden;
 	}
 
+    p {
+        margin: 0;
+    }
+
 	p,
 	span {
 		font-weight: 300;
 	}
 
 	img {
-		width: 80px;
-		height: 80px;
+		width: 70px;
+		height: 70px;
 	}
 
 	.rank {
