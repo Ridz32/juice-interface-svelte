@@ -2,13 +2,13 @@
 	import { consolidateMetadata } from '$models/project-metadata';
 
 	import type { TrendingProject } from '$models/subgraph-entities/project';
-	// import { querySubgraph } from '$utils/graph';
-	// import { ipfsCidUrl } from '$utils/ipfs';
+	import { querySubgraph } from '$utils/graph';
+	import { ipfsCidUrl } from '$utils/ipfs';
 	import axios from 'axios';
 	import { onMount } from 'svelte';
 
-    import { IPFS_GATEWAY_HOSTNAME } from '$constants/ipfs';
-    const ipfsCidUrl = (hash: string) => `https://${IPFS_GATEWAY_HOSTNAME}/ipfs/${hash}`;
+    // import { IPFS_GATEWAY_HOSTNAME } from '$constants/ipfs';
+    // const ipfsCidUrl = (hash: string) => `https://${IPFS_GATEWAY_HOSTNAME}/ipfs/${hash}`;
 
     export let rank: number;
 	export let project: TrendingProject;

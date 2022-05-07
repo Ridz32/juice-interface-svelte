@@ -16,6 +16,10 @@ if (!pinata_api_key || !pinata_secret_api_key) {
 	);
 }
 
+// (window as any).global = window;
+// @ts-ignore
+// window.Buffer = window.Buffer || require('buffer').Buffer;
+
 const pinata = pinataClient(pinata_api_key, pinata_secret_api_key);
 
 export const IPFS_TAGS = {
