@@ -9,7 +9,7 @@
 
 <style>
 	div {
-		background: rgb(243, 241, 236);
+		background: var(--background-l2);
 		height: 45px;
 		padding: 4px 19px 7px;
 		display: flex;

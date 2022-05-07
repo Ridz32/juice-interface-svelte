@@ -300,7 +300,7 @@
 																						<div id="accessory61.315193358252685">
 																							<div
 																								role="button"
-																								style="cursor: default; color: rgba(0, 0, 0, 0.933); background: rgb(231, 227, 220); font-weight: 500; white-space: nowrap; padding: 1px 6px; margin-left: 0px; margin-right: 0px; border-radius: 1px;"
+																								style="cursor: default; color: var(--text-primary) background: var(--background-l1); font-weight: 500; white-space: nowrap; padding: 1px 6px; margin-left: 0px; margin-right: 0px; border-radius: 1px;"
 																							>
 																								ETH
 																							</div>

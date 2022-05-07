@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { BigNumber } from 'ethers';
-	import InfoSpaceBetween from '$lib/create/InfoSpaceBetween.svelte';
+	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import Money from '$lib/components/Money.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import { getTruncatedAddress } from '$lib/components/Address.svelte';
@@ -9,20 +9,35 @@
 	import { Currency, DistributionLimitType } from '$constants';
 
 	import type { Split } from '$models/v2/splits';
+	import Popover from './Popover.svelte';
 
 	export let split: Split;
-	export let distributionLimitType: DistributionLimitType;
-	export let distributionLimit: BigNumber;
-	export let currency: Currency;
+	export let distributionLimitType: DistributionLimitType | undefined = undefined;
+	export let distributionLimit: BigNumber | undefined = undefined;
+	export let currency: Currency | undefined = undefined;
 </script>
 
 <InfoSpaceBetween>
 	<!-- TODO crown if Project owner (i.e. the logged in user) -->
 	<div slot="left">
-		<p>
-			{(split.beneficiary && getTruncatedAddress(split.beneficiary)) ||
-				`ProjectID ${split.projectId}`}:
-		</p>
+		{#if split.projectId}
+			<p>
+				@{split.projectId}:
+			</p>
+			<span
+				>Tokens: <Popover
+					placement="right"
+					message="This address will receive any tokens minted when the recipient project gets paid."
+				>
+					<Icon name="questionCircle" />
+				</Popover>
+				{getTruncatedAddress(split.beneficiary)}</span
+			>
+		{:else}
+			<p>
+				{split.beneficiary && getTruncatedAddress(split.beneficiary)}:
+			</p>
+		{/if}
 		{#if split.lockedUntil}
 			<small>
 				<Icon name="lock" />
@@ -49,6 +64,16 @@
 <style>
 	p {
 		margin: 0;
+	}
+
+	span {
+		display: block;
+		margin: 0;
+		font-size: 12px;
+		line-height: 0.9;
+		margin-left: 20px;
+		font-weight: 300;
+		color: var(--text-secondary);
 	}
 	small {
 		color: var(--text-secondary);

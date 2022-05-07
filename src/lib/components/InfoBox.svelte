@@ -17,7 +17,7 @@
 
 <style>
 	aside {
-		background-color: rgb(231, 227, 220);
+		background-color: var(--background-l1);
 		padding: 20px 20px;
 		font-weight: 300;
 		display: flex;

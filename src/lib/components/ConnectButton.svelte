@@ -7,13 +7,13 @@
 	<div class="ant-space-item" style="position: relative;">
 		<div
 			class="ant-dropdown-trigger"
-			style="height: 45px; border-radius: 2px; padding: 4px 19px 7px; display: flex; flex-direction: column; align-items: center; background: rgb(243, 241, 236);  user-select:none;cursor: pointer"
+			style="height: 45px; border-radius: 2px; padding: 4px 19px 7px; display: flex; flex-direction: column; align-items: center; background: var(--background-l2);  user-select:none;cursor: pointer"
 			on:click={() => (opened = !opened)}
 		>
 			<span style="line-height: 22px;">
 				{$connectedAccount.slice(0, 6)}...{$connectedAccount.slice(-6)}
 			</span>
-			<div style="vertical-align: middle; line-height: 1; color: rgba(0, 0, 0, 0.333);">
+			<div style="vertical-align: middle; line-height: 1; color: var(--text-tertiary);">
 				<span style="font-family: sans-serif;">Ξ</span>0
 			</div>
 		</div>
@@ -51,7 +51,7 @@
 										aria-label="copy"
 										tabindex="-1"
 										class="anticon anticon-copy copyIcon"
-										style="z-index: 1; color: rgba(0, 0, 0, 0.933);"
+										style="z-index: 1; color: var(--text-primary)"
 										><svg
 											viewBox="64 64 896 896"
 											focusable="false"
@@ -72,7 +72,7 @@
 								role="menuitem"
 								tabindex="-1"
 								data-menu-id="rc-menu-uuid-56979-2-1"
-								style="padding: 10px 15px; color: rgba(0, 0, 0, 0.933); display: flex; justify-content: space-between;"
+								style="padding: 10px 15px; color: var(--text-primary) display: flex; justify-content: space-between;"
 							>
 								<span
 									class="ant-dropdown-menu-title-content"

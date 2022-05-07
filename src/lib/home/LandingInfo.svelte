@@ -1,5 +1,6 @@
 <script>
 	import Button from '$lib/components/Button.svelte';
+	import { darkMode } from '$stores';
 
 	const list = [
 		'Indie artists, devs, creators',
@@ -33,7 +34,11 @@
 			<Button>Design your project</Button>
 		</a>
 	</article>
-	<img id="banny" src="/images/banny.png" alt="Banny partying with code" />
+	<img
+		id="banny"
+		src={$darkMode ? '/images/banana-od.png' : '/images/banny.png'}
+		alt="Banny partying with code"
+	/>
 </section>
 
 <style>
@@ -49,6 +54,8 @@
 	section {
 		max-width: 1080px;
 		margin: 0px auto;
+		/* The header height */
+		margin-top: 68px;
 		padding: 0px 40px;
 		display: flex;
 		align-items: center;

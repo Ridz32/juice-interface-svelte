@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { visitedFundingDrawers as visited } from '../stores';
+	import InfoBox from '$lib/components/InfoBox.svelte';
 	import DescriptiveNumberedButton from '../DescriptiveNumberedButton.svelte';
 	import Drawer from '../Drawer.svelte';
 	import FundingDrawer from './FundingDrawer.svelte';
-	import InfoBox from '../InfoBox.svelte';
 	import RulesDrawer from '../RulesDrawer.svelte';
 	import TokenDrawer from './TokenDrawer';
+	import { visitedFundingDrawers as visited } from '../stores';
 
 	let drawerOpen = false;
 	let current = '';
@@ -57,9 +57,9 @@ You can reconfigure your project's funding cycles later on, and changes will tak
 		{#if current === 'Funding'}
 			<FundingDrawer {close} />
 		{:else if current === 'Token'}
-			<TokenDrawer />
+			<TokenDrawer {close} />
 		{:else if current === 'Rules'}
-			<RulesDrawer />
+			<RulesDrawer {close} />
 		{/if}
 	</div>
 </Drawer>

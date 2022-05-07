@@ -15,7 +15,7 @@
 				style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: nowrap; margin-bottom: 15px;"
 			>
 				<div
-					style="text-transform: uppercase; color: rgba(0, 0, 0, 0.333); font-size: 0.8rem; font-weight: 500;"
+					style="text-transform: uppercase; color: var(--text-tertiary); font-size: 0.8rem; font-weight: 500;"
 				>
 					<span
 						><span style="margin-right: 5px;">Volume</span><span
@@ -42,7 +42,7 @@
 				</div>
 				<div style="margin-left: 10px;">
 					<span style="font-weight: 500; font-size: 1.1rem; line-height: 1;"
-						><span style="color: rgba(0, 0, 0, 0.933);"
+						><span style="color: var(--text-primary)"
 							><span><span style="font-family: sans-serif;">Ξ</span>6,855.3174</span></span
 						></span
 					>
@@ -52,7 +52,7 @@
 				style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: nowrap;"
 			>
 				<div
-					style="text-transform: uppercase; color: rgba(0, 0, 0, 0.333); font-size: 0.8rem; font-weight: 500;"
+					style="text-transform: uppercase; color: var(--text-tertiary); font-size: 0.8rem; font-weight: 500;"
 				>
 					<span
 						><span style="margin-right: 5px;">In Juicebox</span><span
@@ -82,7 +82,7 @@
 						style="font-weight: 500; font-size: 1.1rem; line-height: 1; color: rgb(245, 163, 18); margin-left: 10px;"
 					>
 						<span
-							style="text-transform: uppercase; color: rgba(0, 0, 0, 0.333); font-size: 0.8rem; font-weight: 500;"
+							style="text-transform: uppercase; color: var(--text-tertiary); font-size: 0.8rem; font-weight: 500;"
 							><span><span style="font-family: sans-serif;">Ξ</span>5,864.10</span>
 						</span><span><span>US$</span>16,815,137</span>
 					</div>
@@ -92,7 +92,7 @@
 				style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: nowrap;"
 			>
 				<div
-					style="text-transform: uppercase; color: rgba(0, 0, 0, 0.333); font-size: 0.8rem; font-weight: 500;"
+					style="text-transform: uppercase; color: var(--text-tertiary); font-size: 0.8rem; font-weight: 500;"
 				>
 					<span
 						><span style="margin-right: 5px;">Distributed</span><span
@@ -119,7 +119,7 @@
 				</div>
 				<div style="margin-left: 10px;">
 					<div
-						style="text-transform: uppercase; color: rgba(0, 0, 0, 0.933); font-size: 0.8rem; font-weight: 500;"
+						style="text-transform: uppercase; color: var(--text-primary) font-size: 0.8rem; font-weight: 500;"
 					>
 						<span><span>US$</span>170,300</span> / <span><span>US$</span>170,300</span>
 					</div>
@@ -140,7 +140,7 @@
 					</div>
 				</div>
 				<div
-					style="min-width: 4px; height: 15px; border-radius: 2px; background: rgba(0, 0, 0, 0.933); margin-left: 5px; margin-right: 5px; margin-top: 3px;"
+					style="min-width: 4px; height: 15px; border-radius: 2px; background: var(--text-primary) margin-left: 5px; margin-right: 5px; margin-top: 3px;"
 				/>
 				<div
 					class="ant-progress ant-progress-line ant-progress-status-success ant-progress-default"
@@ -160,7 +160,7 @@
 				style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: nowrap; margin-top: 15px;"
 			>
 				<div
-					style="text-transform: uppercase; color: rgba(0, 0, 0, 0.333); font-size: 0.8rem; font-weight: 500;"
+					style="text-transform: uppercase; color: var(--text-tertiary); font-size: 0.8rem; font-weight: 500;"
 				>
 					<span
 						><span style="margin-right: 5px;">In wallet</span><span
@@ -188,7 +188,7 @@
 				<div style="margin-left: 10px;">
 					<span
 						><span
-							style="text-transform: uppercase; color: rgba(0, 0, 0, 0.333); font-size: 0.8rem; font-weight: 500;"
+							style="text-transform: uppercase; color: var(--text-tertiary); font-size: 0.8rem; font-weight: 500;"
 							><div style="display: inline-block; justify-content: space-between;">
 								<span>167,241,605 JBX</span>
 							</div>
@@ -201,7 +201,7 @@
 			</div>
 			<div style="text-align: right;">
 				<span
-					style="text-transform: uppercase; color: rgba(0, 0, 0, 0.333); font-size: 0.8rem; font-weight: 500; cursor: pointer;"
+					style="text-transform: uppercase; color: var(--text-tertiary); font-size: 0.8rem; font-weight: 500; cursor: pointer;"
 					on:click={() => (opened = !opened)}
 				>
 					All assets <span role="img" aria-label="right-circle" class="anticon anticon-right-circle"
@@ -234,7 +234,7 @@
 							<a
 								class="text-primary hover-text-action-primary hover-text-decoration-underline"
 								href="#/p/juicebox"
-								style="font-weight: 500; color: rgba(0, 0, 0, 0.333);"
+								style="font-weight: 500; color: var(--text-tertiary);"
 							>
 								@juicebox
 							</a>

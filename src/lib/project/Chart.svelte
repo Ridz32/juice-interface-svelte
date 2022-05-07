@@ -179,7 +179,7 @@
 		<div
 			style="padding: 10px; background: rgb(251, 249, 246); border: 1px solid rgba(0, 0, 0, 0.094);"
 		>
-			<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">{toolTipContent[2]}</div>
+			<div style="font-size: 0.7rem; color: var(--text-tertiary);">{toolTipContent[2]}</div>
 			<div><span style="font-family: sans-serif;">Ξ</span>{toolTipContent[3]}</div>
 		</div>
 	</div>

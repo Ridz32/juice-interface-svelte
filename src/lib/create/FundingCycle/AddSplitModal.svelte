@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
+	import * as constants from '@ethersproject/constants'	
 	import Button from '$lib/components/Button.svelte';
-	import FormField from '../FormField.svelte';
-	import PopInfo from '../PopInfo.svelte';
+	import FormField from '$lib/components/FormField.svelte';
+	import PopInfo from '$lib/components/PopInfo.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import Select from '$lib/components/Select.svelte';
 	import { closeModal } from '../Modal.svelte';
@@ -17,7 +18,7 @@
 		getDistributionPercentFromAmount,
 		getDistributionAmountFromPercentAfterFee
 	} from '$utils/v2/distributions';
-	import Popover from '../Popover.svelte';
+	import Popover from '$lib/components/Popover.svelte';
 	import { validateEthAddress, validatePercentage } from '$utils/validators';
 	import { dateToDateInput } from '$utils/formatDate';
 
@@ -159,7 +160,7 @@
 		// in react jb-interface
 		const split = {
 			allocator: undefined,
-			beneficiary: address,
+			beneficiary: address || constants.AddressZero,
 			lockedUntil: timestamp,
 			percent: splitPercentFrom(rangeValue[0]).toNumber(),
 			preferClaimed: true,
@@ -248,6 +249,7 @@
 <style>
 	h3 {
 		margin: 0;
+		color: var(--text-header);
 	}
 	section {
 		margin: 40px 0;
@@ -260,7 +262,7 @@
 		background: var(--background-l0);
 		border: 1px solid #d9d9d9;
 		height: 30px;
-		color: rgba(0, 0, 0, 0.6);
+		color: var(--text-secondary);
 		padding-inline-start: 10px;
 	}
 	.actions {

@@ -15,6 +15,8 @@ import type {
 import type { Split } from '$models/v2/splits';
 import { Currency, DistributionLimitType } from '$constants';
 import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
+import { DEFAULT_BALLOT_STRATEGY } from '$constants/v2/ballotStrategies';
+
 
 export const visitedFundingDrawers = writable({
 	funding: false,
@@ -23,8 +25,6 @@ export const visitedFundingDrawers = writable({
 });
 
 export const modal = writable({});
-
-export const isReviewPanel = writable(false);
 
 type V2ProjectLoadingStates = {
 	ETHBalanceLoading: boolean;
@@ -70,7 +70,7 @@ const fundingCycleData: V2FundingCycleData = {
 	discountRate: BigNumber.from(0),
 	// TODO ballot, look at hooks/v2/V2ContractLoader.ts for more info
 	// ballot: contracts?.JBETHPaymentTerminal.address ?? '', // hex, contract address
-	ballot: ''
+	ballot: DEFAULT_BALLOT_STRATEGY.address,
 };
 
 export const fundingCycle = new Store<V2FundingCycle>({
@@ -95,7 +95,7 @@ export const projectMetadata = new Store<ProjectMetadataV4>({
 	payDisclosure: ''
 });
 
-const fundingCycleMetadata: V2FundingCycleMetadata = {
+export const fundingCycleMetadata = new Store<V2FundingCycleMetadata>({
 	reservedRate: BigNumber.from(0), // A number from 0-10,000
 	redemptionRate: redemptionRateFrom('100'), // A number from 0-10,000
 	ballotRedemptionRate: redemptionRateFrom('100'), // A number from 0-10,000
@@ -115,7 +115,7 @@ const fundingCycleMetadata: V2FundingCycleMetadata = {
 	useDataSourceForRedeem: false,
 	dataSource: constants.AddressZero
 	// isPreviewMode: true,
-};
+});
 
 export const payoutSplits = new Store<Split[]>([]);
 export const reservedTokensSplits = new Store<Split[]>([]);

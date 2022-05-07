@@ -1,9 +1,6 @@
 <script lang="ts">
-	import Icon from '$lib/components/Icon.svelte';
-	import InfoSpaceBetween from '../InfoSpaceBetween.svelte';
-	import PopInfo from '../PopInfo.svelte';
-	import Popover from '../Popover.svelte';
-	import ETH from '../Ethereum.svelte';
+	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
+	import PopInfo from '$lib/components/PopInfo.svelte';
 
 	import { Currency, DistributionLimitType } from '$constants';
 	import {
@@ -47,7 +44,9 @@
 		{/if}
 	</div>
 </InfoSpaceBetween>
-<progress max="100" value="" />
+{#if $currentDistributionLimitType === DistributionLimitType.Specific}
+	<progress max="100" value="" />
+{/if}
 <InfoSpaceBetween>
 	<div slot="left">
 		<PopInfo message="The balance of the project owner's wallet.">
@@ -67,7 +66,7 @@
 	div[slot='left'],
 	div[slot='right'],
 	p {
-		color: rgba(0, 0, 0, 0.333);
+		color: var(--text-tertiary);
 	}
 	.money {
 		color: var(--text-brand-primary);

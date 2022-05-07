@@ -4,7 +4,44 @@
 	import ReservedRate from './ReservedRate.svelte';
 	import DiscountRate from './DiscountRate.svelte';
 	import RedemptionRate from './RedemptionRate.svelte';
-	import InfoBox from '../../InfoBox.svelte';
+	import { DistributionLimitType } from '$constants';
+	import {
+		discountRateFrom,
+		formatDiscountRate,
+		formatRedemptionRate,
+		formatReservedRate,
+		redemptionRateFrom,
+		reservedRateFrom
+	} from '$utils/v2/math';
+	import InfoBox from '$lib/components/InfoBox.svelte';
+	import {
+		fundingCycle,
+		fundingCycleMetadata,
+		currentDistributionLimitType,
+		reservedTokensSplits
+	} from '../../stores';
+
+	export let close: () => void;
+
+	let discountRate = parseFloat(formatDiscountRate($fundingCycle.discountRate));
+	let redemptionRate = parseFloat(formatRedemptionRate($fundingCycleMetadata.redemptionRate));
+	let reservedRate = parseFloat(formatReservedRate($fundingCycleMetadata.reservedRate));
+
+	let splits = reservedTokensSplits.get();
+
+	function saveTokenConfiguration() {
+		fundingCycle.update((fc) => ({
+			...fc,
+			discountRate: discountRateFrom(discountRate.toString())
+		}));
+		fundingCycleMetadata.update((fcm) => ({
+			...fcm,
+			redemptionRate: redemptionRateFrom(redemptionRate.toString()),
+			reservedRate: reservedRateFrom(reservedRate.toString())
+		}));
+		reservedTokensSplits.set(splits);
+		close();
+	}
 </script>
 
 <h1>Token</h1>
@@ -18,15 +55,22 @@
 <br />
 <section id="tokenDrawer">
 	<HeavyBorderBox>
-		<ReservedRate />
+		<ReservedRate bind:reservedRate bind:splits />
 	</HeavyBorderBox>
 	<HeavyBorderBox>
-		<DiscountRate />
+		<DiscountRate
+			bind:discountRate
+			{reservedRate}
+			disabled={!$fundingCycle.duration.gt(0)}
+		/>
 	</HeavyBorderBox>
 	<HeavyBorderBox>
-		<RedemptionRate />
+		<RedemptionRate
+			bind:redemptionRate
+			disabled={$currentDistributionLimitType !== DistributionLimitType.Specific}
+		/>
 	</HeavyBorderBox>
-	<Button>Save token configuration</Button>
+	<Button onClick={saveTokenConfiguration}>Save token configuration</Button>
 </section>
 
 <style>
@@ -37,9 +81,12 @@
 	:global(#tokenDrawer h3) {
 		color: var(--text-header);
 	}
-
 	:global(#tokenDrawer h3) {
 		margin: 0;
+	}
+
+	:global(#tokenDrawer h3 span) {
+		color: var(--text-tertiary);
 	}
 
 	:global(#tokenDrawer p) {

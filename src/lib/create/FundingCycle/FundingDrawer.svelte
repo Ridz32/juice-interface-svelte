@@ -193,6 +193,8 @@
 			{/if}
 		{/if}
 		<Button
+			type="tertiary"
+			size="md"
 			disabled={totalSplitsPercentage > 100}
 			on:click={() => {
 				openModal(
@@ -240,7 +242,7 @@
 		background: transparent;
 		border: 1px solid #d9d9d9;
 		border-radius: 2px;
-		color: rgba(0, 0, 0, 0.85);
+		color: var(--text-primary);
 		font-variant: tabular-nums;
 		font-family: inherit;
 		font-size: 14px;

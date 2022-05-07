@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { projectMetadata } from './stores';
-	import InfoBox from './InfoBox.svelte';
-	import Input from './FormField.svelte';
+	import InfoBox from '$lib/components/InfoBox.svelte';
+	import Input from '$lib/components/FormField.svelte';
 	import UploadField from './UploadField.svelte';
 
 	function onLogoChange(src: string) {

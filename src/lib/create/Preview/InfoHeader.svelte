@@ -5,11 +5,13 @@
 
 <!-- The top component showing the logo preview with basic treasury info -->
 <div class="info">
-	{#if $projectMetadata.logoUri}
-		<img class="logo" src={$projectMetadata.logoUri} alt="Uploaded logo" />
-	{:else}
-		<div class="logo-placeholder">🧃</div>
-	{/if}
+	<div class="logo">
+		{#if $projectMetadata.logoUri}
+			<img src={$projectMetadata.logoUri} alt="Uploaded logo" />
+		{:else}
+			<div class="logo-placeholder">🧃</div>
+		{/if}
+	</div>
 	<div class="info-text">
 		<h1>{$projectMetadata.name || 'Untitled project'}</h1>
 		<div class="social-list">
@@ -33,7 +35,7 @@
 
 <style>
 	.description {
-		color: rgba(0, 0, 0, 0.6);
+		color: var(--text-secondary);
 		overflow-wrap: break-word;
 		padding-right: 0.5rem;
 	}
@@ -41,15 +43,20 @@
 	.info {
 		display: flex;
 		align-items: center;
-		color: rgba(0, 0, 0, 0.333);
+		color: var(--text-tertiary);
 	}
 
 	.logo {
 		height: 150px;
 		width: 150px;
 	}
+
+	img {
+		height: 150px;
+		width: 150px;
+	}
 	.logo-placeholder {
-		background-color: rgb(231, 227, 220);
+		background-color: var(--background-l1);
 		height: 150px;
 		width: 150px;
 		font-size: 36px;
@@ -62,7 +69,7 @@
 		padding: 0px 20px;
 	}
 	.info .info-text h1 {
-		color: rgba(0, 0, 0, 0.333);
+		color: var(--text-tertiary);
 		font-size: 36px;
 		font-weight: 500;
 		margin: 0;

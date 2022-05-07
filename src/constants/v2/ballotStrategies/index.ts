@@ -3,6 +3,12 @@ import * as constants from '@ethersproject/constants';
 
 import { readNetwork } from '$constants/networks';
 
+export type BallotStrategy = {
+	name: string;
+	description?: string;
+	address: string;
+};
+
 const BALLOT_ADDRESSES: { [k: string]: { [j: string]: string } } = {
 	THREE_DAY: {
 		rinkeby: '0xcA65D0348E6d53BD29d52e298140375cbC6d3C0D',
@@ -55,4 +61,4 @@ export function ballotStrategies() {
 	];
 }
 
-export const DEFAULT_BALLOT_STRATEGY = ballotStrategies()[1];
+export const DEFAULT_BALLOT_STRATEGY: BallotStrategy = ballotStrategies()[1];

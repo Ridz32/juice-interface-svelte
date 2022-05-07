@@ -31,28 +31,28 @@
 				<div class="ant-space ant-space-horizontal ant-space-align-center" style="gap: 16px;">
 					<div class="ant-space-item" style="">
 						<div
-							style="text-transform: uppercase; font-size: 0.8rem; font-weight: 600; color: rgba(0, 0, 0, 0.6); cursor: pointer;"
+							style="text-transform: uppercase; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); cursor: pointer;"
 						>
 							Pay
 						</div>
 					</div>
 					<div class="ant-space-item" style="">
 						<div
-							style="text-transform: uppercase; font-size: 0.8rem; font-weight: 400; color: rgba(0, 0, 0, 0.333); cursor: pointer;"
+							style="text-transform: uppercase; font-size: 0.8rem; font-weight: 400; color: var(--text-tertiary); cursor: pointer;"
 						>
 							Redeem
 						</div>
 					</div>
 					<div class="ant-space-item" style="">
 						<div
-							style="text-transform: uppercase; font-size: 0.8rem; font-weight: 400; color: rgba(0, 0, 0, 0.333); cursor: pointer;"
+							style="text-transform: uppercase; font-size: 0.8rem; font-weight: 400; color: var(--text-tertiary); cursor: pointer;"
 						>
 							Withdraw
 						</div>
 					</div>
 					<div class="ant-space-item">
 						<div
-							style="text-transform: uppercase; font-size: 0.8rem; font-weight: 400; color: rgba(0, 0, 0, 0.333); cursor: pointer;"
+							style="text-transform: uppercase; font-size: 0.8rem; font-weight: 400; color: var(--text-tertiary); cursor: pointer;"
 						>
 							Reserves
 						</div>
@@ -66,13 +66,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0023</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>an hour ago</span>
 							<a
 								class="hover-action"
@@ -96,7 +96,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x77a9...df091c</span
 							>
@@ -106,7 +106,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @cryptoislanddao</span
 						>
 					</div>
@@ -117,13 +117,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.1053</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>14 hours ago</span>
 							<a
 								class="hover-action"
@@ -147,7 +147,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x7e7c...e1ee70</span
 							>
@@ -157,7 +157,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @rebelsdao</span
 						>
 					</div>
@@ -168,13 +168,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>~0.0000</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>15 hours ago</span>
 							<a
 								class="hover-action"
@@ -198,7 +198,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x0eea...185469</span
 							>
@@ -208,7 +208,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>web3th.eth</span
 						>
 					</div>
@@ -219,13 +219,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.2423</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>15 hours ago</span>
 							<a
 								class="hover-action"
@@ -249,7 +249,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x9e84...49e46a</span
 							>
@@ -259,7 +259,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @lunchdao</span
 						>
 					</div>
@@ -270,13 +270,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>1.95</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>20 hours ago</span>
 							<a
 								class="hover-action"
@@ -300,7 +300,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0xad5a...b5288f</span
 							>
@@ -314,13 +314,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>2.3103</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>20 hours ago</span>
 							<a
 								class="hover-action"
@@ -344,7 +344,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x9e84...49e46a</span
 							>
@@ -354,7 +354,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @lunchdao</span
 						>
 					</div>
@@ -365,13 +365,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0024</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>2 days ago</span>
 							<a
 								class="hover-action"
@@ -395,7 +395,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x6957...ff2c5d</span
 							>
@@ -405,7 +405,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @basic</span
 						>
 					</div>
@@ -416,13 +416,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0487</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>2 days ago</span>
 							<a
 								class="hover-action"
@@ -446,7 +446,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x6957...ff2c5d</span
 							>
@@ -456,7 +456,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @deepcoin</span
 						>
 					</div>
@@ -467,13 +467,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.25</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>2 days ago</span>
 							<a
 								class="hover-action"
@@ -497,7 +497,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;">james.eth</span>
 						</div>
 					</div>
@@ -509,13 +509,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>1</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>2 days ago</span>
 							<a
 								class="hover-action"
@@ -539,7 +539,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0xeed7...8eef7f</span
 							>
@@ -553,13 +553,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.1059</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>3 days ago</span>
 							<a
 								class="hover-action"
@@ -583,7 +583,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x82f0...8d86e8</span
 							>
@@ -593,7 +593,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @lexicondevils</span
 						>
 					</div>
@@ -604,13 +604,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0428</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>3 days ago</span>
 							<a
 								class="hover-action"
@@ -634,7 +634,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0xd5fd...e925ad</span
 							>
@@ -644,7 +644,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @urrdao</span
 						>
 					</div>
@@ -655,13 +655,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.2456</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>3 days ago</span>
 							<a
 								class="hover-action"
@@ -685,7 +685,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;">peel.eth</span>
 						</div>
 					</div>
@@ -693,7 +693,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @peel</span
 						>
 					</div>
@@ -704,13 +704,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0538</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>4 days ago</span>
 							<a
 								class="hover-action"
@@ -734,7 +734,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x7bf6...ce142c</span
 							>
@@ -744,7 +744,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @buytwitterdao</span
 						>
 					</div>
@@ -755,13 +755,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0728</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>4 days ago</span>
 							<a
 								class="hover-action"
@@ -785,7 +785,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;">slice-so.eth</span
 							>
 						</div>
@@ -794,7 +794,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @slice</span
 						>
 					</div>
@@ -805,13 +805,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>1.4006</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>4 days ago</span>
 							<a
 								class="hover-action"
@@ -835,7 +835,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;">dao.jbx.eth</span>
 						</div>
 					</div>
@@ -843,7 +843,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @juicebox</span
 						>
 					</div>
@@ -854,13 +854,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.1097</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>4 days ago</span>
 							<a
 								class="hover-action"
@@ -884,7 +884,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>gutterchad.eth</span
 							>
@@ -894,7 +894,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @kingpindao</span
 						>
 					</div>
@@ -905,13 +905,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0148</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>4 days ago</span>
 							<a
 								class="hover-action"
@@ -935,7 +935,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x4f3e...408f88</span
 							>
@@ -945,7 +945,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @allinmuskdao</span
 						>
 					</div>
@@ -956,13 +956,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.5569</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>5 days ago</span>
 							<a
 								class="hover-action"
@@ -986,7 +986,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x99ec...acd727</span
 							>
@@ -996,7 +996,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @mountaindao</span
 						>
 					</div>
@@ -1007,13 +1007,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0536</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>5 days ago</span>
 							<a
 								class="hover-action"
@@ -1037,7 +1037,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0xf80b...5af523</span
 							>
@@ -1047,7 +1047,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @dreamerdao_official</span
 						>
 					</div>
@@ -1058,13 +1058,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.9096</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>6 days ago</span>
 							<a
 								class="hover-action"
@@ -1088,7 +1088,7 @@
 								</span></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x7e7c...e1ee70</span
 							>
@@ -1098,7 +1098,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @rebelsdao</span
 						>
 					</div>
@@ -1109,13 +1109,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0825</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>6 days ago</span>
 							<a
 								class="hover-action"
@@ -1139,7 +1139,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;">tiledao.eth</span>
 						</div>
 					</div>
@@ -1147,7 +1147,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @tiles</span
 						>
 					</div>
@@ -1158,13 +1158,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.1633</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>6 days ago</span>
 							<a
 								class="hover-action"
@@ -1188,7 +1188,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;">canudao.eth</span>
 						</div>
 					</div>
@@ -1196,7 +1196,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @canudaocomm</span
 						>
 					</div>
@@ -1207,13 +1207,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.03</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>6 days ago</span>
 							<a
 								class="hover-action"
@@ -1237,7 +1237,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x2380...ad9a1e</span
 							>
@@ -1251,13 +1251,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0300</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>7 days ago</span>
 							<a
 								class="hover-action"
@@ -1281,7 +1281,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x9e84...49e46a</span
 							>
@@ -1291,7 +1291,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @lunchdao</span
 						>
 					</div>
@@ -1302,13 +1302,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0585</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>8 days ago</span>
 							<a
 								class="hover-action"
@@ -1332,7 +1332,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x9cba...33dfc5</span
 							>
@@ -1342,7 +1342,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @hundreddaox2e</span
 						>
 					</div>
@@ -1353,13 +1353,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0048</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>8 days ago</span>
 							<a
 								class="hover-action"
@@ -1383,7 +1383,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x4f3e...408f88</span
 							>
@@ -1393,7 +1393,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @allinmuskdao</span
 						>
 					</div>
@@ -1404,13 +1404,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.1341</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>9 days ago</span>
 							<a
 								class="hover-action"
@@ -1434,7 +1434,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0xf80b...5af523</span
 							>
@@ -1444,7 +1444,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @dreamerdao_official</span
 						>
 					</div>
@@ -1455,13 +1455,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0071</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>9 days ago</span>
 							<a
 								class="hover-action"
@@ -1485,7 +1485,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x5a40...accb50</span
 							>
@@ -1495,7 +1495,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @lossdao</span
 						>
 					</div>
@@ -1506,13 +1506,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>1.7622</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>9 days ago</span>
 							<a
 								class="hover-action"
@@ -1536,7 +1536,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x9e84...49e46a</span
 							>
@@ -1546,7 +1546,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @lunchdao</span
 						>
 					</div>
@@ -1557,13 +1557,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0568</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>9 days ago</span>
 							<a
 								class="hover-action"
@@ -1587,7 +1587,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>presidentialdao.eth</span
 							>
@@ -1597,7 +1597,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @presidentialdao</span
 						>
 					</div>
@@ -1608,13 +1608,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.2382</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>10 days ago</span>
 							<a
 								class="hover-action"
@@ -1638,7 +1638,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;">peel.eth</span>
 						</div>
 					</div>
@@ -1646,7 +1646,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @peel</span
 						>
 					</div>
@@ -1657,13 +1657,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.2926</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>10 days ago</span>
 							<a
 								class="hover-action"
@@ -1687,7 +1687,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>peace.movedao.eth</span
 							>
@@ -1697,7 +1697,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @peace</span
 						>
 					</div>
@@ -1708,13 +1708,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0849</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>10 days ago</span>
 							<a
 								class="hover-action"
@@ -1738,7 +1738,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>wagmi-studios.eth</span
 							>
@@ -1748,7 +1748,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @wagmistudios</span
 						>
 					</div>
@@ -1759,13 +1759,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0002</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>13 days ago</span>
 							<a
 								class="hover-action"
@@ -1789,7 +1789,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0xe47a...a0e9b4</span
 							>
@@ -1799,7 +1799,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @thexdao</span
 						>
 					</div>
@@ -1810,13 +1810,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0825</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>13 days ago</span>
 							<a
 								class="hover-action"
@@ -1840,7 +1840,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;">tiledao.eth</span>
 						</div>
 					</div>
@@ -1848,7 +1848,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @tiles</span
 						>
 					</div>
@@ -1859,13 +1859,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0052</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>13 days ago</span>
 							<a
 								class="hover-action"
@@ -1889,7 +1889,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>danceroutine.eth</span
 							>
@@ -1899,7 +1899,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @dance</span
 						>
 					</div>
@@ -1910,13 +1910,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>2.3148</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>16 days ago</span>
 							<a
 								class="hover-action"
@@ -1940,7 +1940,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x9e84...49e46a</span
 							>
@@ -1950,7 +1950,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @lunchdao</span
 						>
 					</div>
@@ -1961,13 +1961,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.1618</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>16 days ago</span>
 							<a
 								class="hover-action"
@@ -1991,7 +1991,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;">canudao.eth</span>
 						</div>
 					</div>
@@ -1999,7 +1999,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @canudaocomm</span
 						>
 					</div>
@@ -2010,13 +2010,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0911</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>17 days ago</span>
 							<a
 								class="hover-action"
@@ -2040,7 +2040,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;">johnnyd.eth</span>
 						</div>
 					</div>
@@ -2048,7 +2048,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @johnnydao</span
 						>
 					</div>
@@ -2059,13 +2059,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0971</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>17 days ago</span>
 							<a
 								class="hover-action"
@@ -2089,7 +2089,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x82f0...8d86e8</span
 							>
@@ -2099,7 +2099,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @lexicondevils</span
 						>
 					</div>
@@ -2110,13 +2110,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.2234</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>17 days ago</span>
 							<a
 								class="hover-action"
@@ -2140,7 +2140,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;">peel.eth</span>
 						</div>
 					</div>
@@ -2148,7 +2148,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @peel</span
 						>
 					</div>
@@ -2159,13 +2159,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0030</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>18 days ago</span>
 							<a
 								class="hover-action"
@@ -2189,7 +2189,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>danceroutine.eth</span
 							>
@@ -2199,7 +2199,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @dance</span
 						>
 					</div>
@@ -2210,13 +2210,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.9700</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>18 days ago</span>
 							<a
 								class="hover-action"
@@ -2240,7 +2240,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;">dao.jbx.eth</span>
 						</div>
 					</div>
@@ -2248,7 +2248,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @juicebox</span
 						>
 					</div>
@@ -2259,13 +2259,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>1.8448</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>18 days ago</span>
 							<a
 								class="hover-action"
@@ -2289,7 +2289,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x9e84...49e46a</span
 							>
@@ -2299,7 +2299,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @lunchdao</span
 						>
 					</div>
@@ -2310,13 +2310,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0006</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>19 days ago</span>
 							<a
 								class="hover-action"
@@ -2340,7 +2340,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x6b88...66f07c</span
 							>
@@ -2350,7 +2350,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @myspacedao</span
 						>
 					</div>
@@ -2361,13 +2361,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>4.3147</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>19 days ago</span>
 							<a
 								class="hover-action"
@@ -2391,7 +2391,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x9e84...49e46a</span
 							>
@@ -2401,7 +2401,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @lunchdao</span
 						>
 					</div>
@@ -2412,13 +2412,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.0652</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>20 days ago</span>
 							<a
 								class="hover-action"
@@ -2442,7 +2442,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0xae00...25c0ff</span
 							>
@@ -2452,7 +2452,7 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>Fee from @slice</span
 						>
 					</div>
@@ -2463,13 +2463,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.3</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>20 days ago</span>
 							<a
 								class="hover-action"
@@ -2493,7 +2493,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>0x9d6f...7d8280</span
 							>
@@ -2507,13 +2507,13 @@
 			>
 				<div style="display: flex; place-content: space-between;">
 					<div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">Paid</div>
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">Paid</div>
 						<div style="line-height: 1.4rem; font-size: 1rem;">
 							<span><span style="font-family: sans-serif;">Ξ</span>0.1</span>
 						</div>
 					</div>
 					<div style="text-align: right;">
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333);">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary);">
 							<span>20 days ago</span>
 							<a
 								class="hover-action"
@@ -2537,7 +2537,7 @@
 								></a
 							>
 						</div>
-						<div style="font-size: 0.7rem; color: rgba(0, 0, 0, 0.333); line-height: 1.4rem;">
+						<div style="font-size: 0.7rem; color: var(--text-tertiary); line-height: 1.4rem;">
 							<span style="cursor: default; user-select: all; line-height: 22px;"
 								>yethanyen.eth</span
 							>
@@ -2547,13 +2547,13 @@
 				<div style="margin-top: 5px;">
 					<div style="margin-top: 5px;">
 						<span
-							style="color: rgba(0, 0, 0, 0.6); overflow-wrap: break-word; padding-right: 0.5rem;"
+							style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 							>juice</span
 						>
 					</div>
 				</div>
 			</div>
-			<div style="text-align: center; color: rgba(0, 0, 0, 0.6); cursor: pointer;">Load more</div>
+			<div style="text-align: center; color: var(--text-secondary); cursor: pointer;">Load more</div>
 		</div>
 	</div>
 </div>

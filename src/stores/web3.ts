@@ -110,6 +110,7 @@ export async function initialize(_provider = browser && window['ethereum']): Pro
 		_provider.connector.on('disconnect', (_) => {
 			window.location.reload();
 		});
+
 	} else {
 		const $provider = provider.get();
 		try {
@@ -160,7 +161,8 @@ disconnected.subscribe((value) => {
 	}
 });
 
-if (browser && !disconnected.get()) {
-	setTimeout(() => walletConnect(true));
-	getConnectedAccount();
-}
+// Uncommented to disble auto-connect
+// if (browser && !disconnected.get()) {
+// 	setTimeout(() => walletConnect(true));
+// 	getConnectedAccount();
+// }

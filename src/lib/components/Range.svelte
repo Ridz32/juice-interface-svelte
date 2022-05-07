@@ -1,13 +1,15 @@
 <script type="ts">
 	import RangeSlider from 'svelte-range-slider-pips';
 
+	export let min = 0;
+	export let max = 100;
 	export let showValueBox = true;
 	export let step = 0.5;
 	export let values = [0];
 </script>
 
 <div>
-	<RangeSlider range="min" {step} bind:values />
+	<RangeSlider range="min" {min} {max} {step} bind:values />
 	{#if showValueBox}
 		<section class="value-box">
 			<input type="number" bind:value={values[0]} {step} />
@@ -18,7 +20,7 @@
 
 <style>
 	:global(.rangeSlider) {
-		--range-slider: #d7dada; /* slider main background color */
+		--range-slider: var(--background-action-secondary); /* slider main background color */
 		--range-handle-inactive: var(--background-action-primary); /* inactive handle color */
 		--range-handle: var(--background-action-secondary); /* non-focussed handle color */
 		--range-handle-focus: var(--background-action-primary); /* focussed handle color */
@@ -45,6 +47,6 @@
 		background: transparent;
 		border: 1px solid #d9d9d9;
 		border-radius: 2px;
-		color: rgba(0, 0, 0, 0.85);
+		color: var(--text-primary);
 	}
 </style>
