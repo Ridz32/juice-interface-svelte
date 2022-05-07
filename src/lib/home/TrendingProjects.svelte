@@ -12,7 +12,7 @@
 	} from '$models/subgraph-entities/project';
 	import TrendingProjectsCard from '$lib/components/TrendingProjectsCard.svelte';
 
-	export let days = 1;
+	export let days = 7;
 	export let count = 6;
 
 	const daySeconds = days * SECONDS_IN_DAY;
@@ -20,7 +20,7 @@
 	const nowSeconds = now.valueOf() / 1000;
 
 	let trendingProjects: TrendingProject[] = [];
-	let trendingProjectsLoading = false;
+	let trendingProjectsLoading = true;
 
 	const keys: (keyof Project)[] = [
 		'id',
@@ -97,9 +97,7 @@
 				}
 			]
 		});
-
 		const projectStats = getProjectStatsFromPayments(payments);
-
 		// Now get the projectQuery for all the projectStats
 		const projectsQuery = await querySubgraph(
 			projectStats
@@ -114,29 +112,10 @@
 				  }
 				: null
 		);
-
 		trendingProjectsLoading = false;
-		console.log(projectsQuery);
-
 		trendingProjects = getTrendingProjectsFromProjectsAndStats(projectsQuery, projectStats);
-		console.log(trendingProjects);
-
-		// const trendingProjectsQuery = {
-		// 	...projectsQuery,
-		// 	//isLoading: projectsQuery.isLoading || loadingPayments || cache === undefined,
-		// 	// Return TrendingProjects sorted by `trendingScore`
-		// 	data:
-		// };
 	});
 </script>
-
-<!-- {#await promise}
-	<p>...waiting</p>
-{:then result}
-	<p>The result is {result}</p>
-{:catch error}
-	<p style="color: red">{error.message}</p>
-{/await} -->
 
 <section>
 	<article>
@@ -146,11 +125,17 @@
 		<div class="projects">
 			<h1>Trending projects</h1>
 			<!-- <Icon name="loading" spin={true} /> -->
-			{#each trendingProjects as project, rank}
+			{#if trendingProjectsLoading}
+				<div class="loading">
+					<Icon name="loading" spin={true} />
+				</div>
+			{:else}
 				<ul>
-					<TrendingProjectsCard {rank} {project} />
+					{#each trendingProjects as project, rank}
+						<TrendingProjectsCard {rank} {project} {days} />
+					{/each}
 				</ul>
-			{/each}
+			{/if}
 		</div>
 	</article>
 </section>
@@ -181,13 +166,18 @@
 	ul {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 20px;
 	}
 
-	.test {
-		min-width: 300px;
-		height: 150px;
-		background: var(--background-l0);
+	.loading {
+		color: var(--text-header);
+		transform: scale(2);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+		width: 100%;
+		min-height: 400px;
+		min-width: 400px;
 	}
 
 	@media (min-width: 992px) {
