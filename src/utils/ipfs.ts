@@ -1,5 +1,5 @@
-import type { PinataMetadata, PinataPinResponse } from '@pinata/sdk';
-import pinataClient from '@pinata/sdk';
+import type { PinataMetadata, PinataPinResponse } from 'pinata_ipfs_sdk';
+import pinataClient from 'pinata_ipfs_sdk/src/index.js';
 import axios from 'axios';
 import type { IpfsCacheJsonData } from '$models/ipfs-cache/cache-data';
 import { IpfsCacheName } from '$models/ipfs-cache/cache-name';
