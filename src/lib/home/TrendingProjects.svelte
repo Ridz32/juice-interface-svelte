@@ -81,6 +81,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 10px;
+		padding-inline-start: 0px;
 	}
 
 	.loading {

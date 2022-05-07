@@ -43,10 +43,12 @@
 	}
 	p {
 		font-weight: 400;
+        color: black;
 	}
 	.left {
 		flex: 0 0 48%;
 		max-width: 48%;
+        padding: 40px 20px;
 	}
 	.right {
 		margin: 20px;

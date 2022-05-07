@@ -59,6 +59,7 @@
 		margin-bottom: 40px;
 		max-width: 1200px;
 		display: flex;
+        flex-wrap: wrap;
 		align-items: center;
 		margin: auto;
 	}
@@ -79,8 +80,9 @@
 
 	/* On smaller screens full size */
 	@media (max-width: 700px) {
-		img {
+		.left, .right {
 			flex: 0 0 100%;
+            max-width: 100%;
 		}
 	}
 </style>
