@@ -1,6 +1,7 @@
 <script>
 	import CallToAction from '$lib/home/CallToAction.svelte';
 	import FAQs from '$lib/home/FAQs.svelte';
+	import Footer from '$lib/home/Footer.svelte';
 	import FunctionalityDescription from '$lib/home/FunctionalityDescription.svelte';
 	import LandingInfo from '$lib/home/LandingInfo.svelte';
 	import ProjectsUsingJuice from '$lib/home/ProjectsUsingJuice.svelte';
@@ -13,3 +14,4 @@
 <FunctionalityDescription />
 <CallToAction />
 <FAQs />
+<Footer />
