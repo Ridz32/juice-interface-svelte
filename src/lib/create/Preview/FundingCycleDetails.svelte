@@ -182,7 +182,7 @@
 	}
 </script>
 
-<CollapsibleSection>
+<CollapsibleSection alignCaret="center">
 	<div slot="header">
 		<h4 class="collapse-header">
 			{#if $fundingCycle.duration.gt(0)}
