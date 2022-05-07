@@ -3,7 +3,7 @@
 	import { consolidateMetadata, type ProjectMetadataV4 } from '$models/project-metadata';
 	import type { TrendingProject } from '$models/subgraph-entities/project';
 	import { SECONDS_IN_DAY } from '$constants/numbers';
-    import Icon from '$lib/components/Icon.svelte';
+	import Icon from '$lib/components/Icon.svelte';
 	import EthAmount from './ETHAmount.svelte';
 
 	// TODO don't hardcode this here, use the utils/ipfs after issue with @pinata/sdk has been solved
@@ -38,7 +38,7 @@
 		return `+${percentRounded}%`;
 	}
 
-	export async function getProjectMetadata(uri: string | undefined) {
+	async function getProjectMetadata(uri: string | undefined) {
 		if (!uri) {
 			console.error('No uri provided');
 			return;
@@ -52,14 +52,14 @@
 <li>
 	<div class="rank">{rank + 1}</div>
 	{#await getProjectMetadata(project.uri)}
-		<p><Icon name="loading" spin /> </p>
+		<p><Icon name="loading" spin /></p>
 	{:then result}
 		<img src={result.logoUri} alt="The project logo" />
 		<section>
 			<h1>{result.name}</h1>
 			<EthAmount amount={project.trendingVolume} /> <span>last {days} days</span>
 			<b>{getPercentGainText()}</b>
-            <p>{project.trendingPaymentsCount} payment(s)</p>
+			<p>{project.trendingPaymentsCount} payment(s)</p>
 		</section>
 	{:catch error}
 		<p style="color: var(--text-failure)">{error}</p>
@@ -69,29 +69,30 @@
 <style>
 	li {
 		display: flex;
-        flex: 0 0 45%;
-        max-width: 45%;
+		flex: 0 0 45%;
+		max-width: 45%;
 		align-items: center;
 		padding: 20px;
 		border: 1px solid var(--stroke-secondary);
-        margin: 10px;
+		margin: 10px;
 	}
 
 	h1 {
 		font-size: 18px;
 	}
 
-    b {
-        color: var(--text-header);
-    }
+	b {
+		color: var(--text-header);
+	}
 
 	section {
 		margin-left: 10px;
-        text-overflow: ellipsis;
-        overflow: hidden;
+		text-overflow: ellipsis;
+		overflow: hidden;
 	}
 
-	p, span {
+	p,
+	span {
 		font-weight: 300;
 	}
 
@@ -105,10 +106,10 @@
 		margin-right: 20px;
 	}
 
-    @media (max-width: 768px) {
-        li {
-            flex: 0 0 100%;
-            max-width: 100%;
-        }
-    }
+	@media (max-width: 768px) {
+		li {
+			flex: 0 0 100%;
+			max-width: 100%;
+		}
+	}
 </style>

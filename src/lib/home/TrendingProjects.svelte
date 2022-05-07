@@ -1,119 +1,33 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { BigNumber } from 'ethers';
-	import { SECONDS_IN_DAY } from '$constants/numbers';
-	import { querySubgraph, querySubgraphExhaustive } from '$utils/graph';
 	import Icon from '$lib/components/Icon.svelte';
 	import type {
-		// parseTrendingProjectJson,
-		Project,
 		TrendingProject,
-		TrendingProjectJson
 	} from '$models/subgraph-entities/project';
 	import TrendingProjectsCard from '$lib/components/TrendingProjectsCard.svelte';
+	import {
+		getLatestPayments,
+		getProjectsFromIds,
+		getProjectStatsFromPayments,
+		getTrendingProjectsFromProjectsAndStats
+	} from '$data/project';
 
 	export let days = 7;
 	export let count = 6;
 
-	const daySeconds = days * SECONDS_IN_DAY;
-	const now = new Date().setUTCHours(0, 0, 0, 0); // get start of day, for determinism
-	const nowSeconds = now.valueOf() / 1000;
-
 	let trendingProjects: TrendingProject[] = [];
 	let trendingProjectsLoading = true;
 
-	const keys: (keyof Project)[] = [
-		'id',
-		'handle',
-		'creator',
-		'createdAt',
-		'uri',
-		'currentBalance',
-		'totalPaid',
-		'totalRedeemed',
-		'terminal'
-	];
-
-	type ProjectStat = Record<
-		string,
-		{
-			trendingVolume: BigNumber;
-			paymentsCount: number;
-		}
-	>;
-
-	function getProjectStatsFromPayments(payments = []) {
-		return payments.reduce((acc, curr) => {
-			const projectId = curr.project.id?.toString();
-			return projectId
-				? {
-						...acc,
-						[projectId]: {
-							trendingVolume: BigNumber.from(acc[projectId]?.trendingVolume ?? 0).add(curr.amount),
-							paymentsCount: (acc[projectId]?.paymentsCount ?? 0) + 1
-						}
-				  }
-				: acc;
-		}, {} as ProjectStat);
-	}
-
-	function getTrendingProjectsFromProjectsAndStats(projects = [], projectStats = {}) {
-		return projects
-			?.map((p) => {
-				const stats = p.id && projectStats ? projectStats[p.id.toString()] : undefined;
-
-				// Algorithm to rank trending projects:
-				// trendingScore = volume * (number of payments)^2
-				const trendingScore = stats?.trendingVolume.mul(BigNumber.from(stats.paymentsCount).pow(2));
-
-				return {
-					...p,
-					trendingScore,
-					trendingVolume: stats?.trendingVolume,
-					trendingPaymentsCount: stats?.paymentsCount
-				} as TrendingProject;
-			})
-			.sort((a: TrendingProject, b: TrendingProject) =>
-				a.trendingScore?.gt(b.trendingScore ?? 0) ? -1 : 1
-			)
-			.slice(0, count);
-	}
-
 	onMount(async () => {
-		const payments = await querySubgraphExhaustive({
-			entity: 'payEvent',
-			keys: [
-				'amount',
-				{
-					entity: 'project',
-					keys: ['id']
-				}
-			],
-			where: [
-				{
-					key: 'timestamp',
-					value: nowSeconds - daySeconds,
-					operator: 'gte'
-				}
-			]
-		});
+		const payments = await getLatestPayments(days);
 		const projectStats = getProjectStatsFromPayments(payments);
-		// Now get the projectQuery for all the projectStats
-		const projectsQuery = await querySubgraph(
-			projectStats
-				? {
-						entity: 'project',
-						keys,
-						where: {
-							key: 'id',
-							value: Object.keys(projectStats),
-							operator: 'in'
-						}
-				  }
-				: null
+		// Now get the project data for all the projectStats
+		const projectsQuery = await getProjectsFromIds(Object.keys(projectStats));
+		trendingProjects = getTrendingProjectsFromProjectsAndStats(projectsQuery, projectStats).slice(
+			0,
+			count
 		);
 		trendingProjectsLoading = false;
-		trendingProjects = getTrendingProjectsFromProjectsAndStats(projectsQuery, projectStats);
 	});
 </script>
 
