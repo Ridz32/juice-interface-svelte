@@ -1,42 +1,42 @@
 import axios from 'axios';
 import { parseDeployedERC20EventJson } from '$models/subgraph-entities/deployed-erc20-event';
-import type {
-	DistributeToPayoutModEvent,
-	DistributeToPayoutModEventJson,
-	parseDistributeToPayoutModEvent
+import {
+	parseDistributeToPayoutModEvent,
+	type DistributeToPayoutModEvent,
+	type DistributeToPayoutModEventJson,
 } from '$models/subgraph-entities/distribute-to-payout-mod-event';
-import type {
-	DistributeToTicketModEvent,
-	DistributeToTicketModEventJson,
-	parseDistributeToTicketModEvent
+import {
+	parseDistributeToTicketModEvent,
+	type DistributeToTicketModEvent,
+	type DistributeToTicketModEventJson,
 } from '$models/subgraph-entities/distribute-to-ticket-mod-event';
-import type {
+import {
 	parseParticipantJson,
-	Participant,
-	ParticipantJson
+	type Participant,
+	type ParticipantJson
 } from '$models/subgraph-entities/participant';
-import type {
+import {
 	parsePayEventJson,
-	PayEvent,
-	PayEventJson
+	type PayEvent,
+	type PayEventJson
 } from '$models/subgraph-entities/pay-event';
 import { parsePrintPremineEventJson } from '$models/subgraph-entities/print-premine-event';
-import type {
+import {
 	parsePrintReservesEventJson,
-	PrintReservesEvent,
-	PrintReservesEventJson
+	type PrintReservesEvent,
+	type PrintReservesEventJson
 } from '$models/subgraph-entities/print-reserves-event';
 import { parseProjectJson, type Project } from '$models/subgraph-entities/project';
 import type { ProjectJson } from '$models/subgraph-entities/project';
-import type {
+import {
 	parseRedeemEventJson,
-	RedeemEvent,
-	RedeemEventJson
+	type RedeemEvent,
+	type RedeemEventJson
 } from '$models/subgraph-entities/redeem-event';
-import type {
+import {
 	parseTapEventJson,
-	TapEvent,
-	TapEventJson
+	type TapEvent,
+	type TapEventJson
 } from '$models/subgraph-entities/tap-event';
 
 export interface SubgraphEntities {
