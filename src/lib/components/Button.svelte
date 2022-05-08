@@ -68,7 +68,6 @@
 		border: 1px dashed var(--background-action-primary);
 		box-shadow: unset;
 	}
-
 	.link {
 		border: none;
 		background: transparent;
