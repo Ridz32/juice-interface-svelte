@@ -1,4 +1,5 @@
 <script>
+	import Trans from '$lib/components/Trans.svelte';
 	import { darkMode } from '$stores';
 </script>
 
@@ -11,18 +12,20 @@
 <footer>
 	<p>🧃⚡️</p>
 	<h3>
-		Big ups to the Ethereum community for crafting the infrastructure and economy to make Juicebox
-		possible.
+		<Trans>
+			Big ups to the Ethereum community for crafting the infrastructure and economy to make Juicebox
+			possible.
+		</Trans>
 	</h3>
 </footer>
 
 <style>
-    footer {
-        padding: 40px 20px;
-        background: black;
-        position: absolute;
-        width: 100vw;
-    }
+	footer {
+		padding: 40px 20px;
+		background: black;
+		position: absolute;
+		width: 100vw;
+	}
 	img {
 		height: 40vh;
 		max-height: 400px;
@@ -38,13 +41,13 @@
 		justify-content: center;
 	}
 
-    h3 {
-        color: whitesmoke;
-        text-align: center;
-    }
+	h3 {
+		color: whitesmoke;
+		text-align: center;
+	}
 
 	p {
 		text-align: center;
-        font-size: 20px;
+		font-size: 20px;
 	}
 </style>
