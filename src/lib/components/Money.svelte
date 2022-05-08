@@ -3,7 +3,7 @@
 	import { Currency } from '$constants';
 	import { formatWad, parseWad } from '$utils/formatNumber';
 	import { betweenZeroAndOne } from '$utils/bigNumbers';
-	import Ethereum from '$lib/create/Ethereum.svelte';
+	import Ethereum from '$lib/components/Ethereum.svelte';
 	import USD from '$lib/components/USD.svelte';
 
 	export let currency: Currency = Currency.ETH;

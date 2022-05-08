@@ -242,8 +242,8 @@
 	</p>
 </section>
 <div class="actions">
-	<Button onClick={closeModal} size="md" type="secondary">Cancel</Button>
-	<Button size="md" onClick={addSplit}>{editingExistingSplit ? 'Edit' : 'Add'} split</Button>
+	<Button on:click={closeModal} size="md" type="secondary">Cancel</Button>
+	<Button size="md" on:click={addSplit}>{editingExistingSplit ? 'Edit' : 'Add'} split</Button>
 </div>
 
 <style>

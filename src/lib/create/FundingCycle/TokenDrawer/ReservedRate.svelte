@@ -113,7 +113,7 @@
 	<Button
 		type="tertiary"
 		size="md"
-		onClick={() =>
+		on:click={() =>
 			openModal(bind(AddTokenReceiverModal, { reservedRate, onFinish: addSplit, splits }))}
 	>
 		Add token receiver</Button

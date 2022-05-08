@@ -114,7 +114,7 @@
 		</div>
 	</ReconBox>
 </HeavyBorderBox>
-<Button {disabled} onClick={onSaveRules}>Save rules</Button>
+<Button {disabled} on:click={onSaveRules}>Save rules</Button>
 
 <style>
 	h1 {

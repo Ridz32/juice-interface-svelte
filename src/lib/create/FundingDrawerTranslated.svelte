@@ -111,7 +111,7 @@
 		<!-- svelte-ignore missing-declaration -->
 		{t`Payout splits can't be scheduled when the distribution limit is Zero`}.</AlertText
 	>
-	<Button onClick={() => openModal(AddSplitModal)}>Add a split</Button>
+	<Button on:click={() => openModal(AddSplitModal)}>Add a split</Button>
 </HeavyBorderBox>
 
 <style>

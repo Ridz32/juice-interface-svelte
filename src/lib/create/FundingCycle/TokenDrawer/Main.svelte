@@ -70,7 +70,7 @@
 			disabled={$currentDistributionLimitType !== DistributionLimitType.Specific}
 		/>
 	</HeavyBorderBox>
-	<Button onClick={saveTokenConfiguration}>Save token configuration</Button>
+	<Button on:click={saveTokenConfiguration}>Save token configuration</Button>
 </section>
 
 <style>

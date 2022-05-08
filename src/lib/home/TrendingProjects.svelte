@@ -6,10 +6,7 @@
 	} from '$models/subgraph-entities/project';
 	import TrendingProjectsCard from '$lib/components/TrendingProjectsCard.svelte';
 	import {
-		getLatestPayments,
-		getProjectsFromIds,
-		getProjectStatsFromPayments,
-		getTrendingProjectsFromProjectsAndStats
+		getTrendingProjects,
 	} from '$data/project';
 
 	export let days = 7;
@@ -19,14 +16,7 @@
 	let trendingProjectsLoading = true;
 
 	onMount(async () => {
-		const payments = await getLatestPayments(days);
-		const projectStats = getProjectStatsFromPayments(payments);
-		// Now get the project data for all the projectStats
-		const projectsQuery = await getProjectsFromIds(Object.keys(projectStats));
-		trendingProjects = getTrendingProjectsFromProjectsAndStats(projectsQuery, projectStats).slice(
-			0,
-			count
-		);
+		trendingProjects = await getTrendingProjects(days, count);
 		trendingProjectsLoading = false;
 	});
 </script>
@@ -38,7 +28,6 @@
 		</div>
 		<div class="projects">
 			<h1>Trending projects</h1>
-			<!-- <Icon name="loading" spin={true} /> -->
 			{#if trendingProjectsLoading}
 				<div class="loading">
 					<Icon name="loading" spin={true} />
