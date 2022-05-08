@@ -3,12 +3,12 @@ import { parseDeployedERC20EventJson } from '$models/subgraph-entities/deployed-
 import {
 	parseDistributeToPayoutModEvent,
 	type DistributeToPayoutModEvent,
-	type DistributeToPayoutModEventJson,
+	type DistributeToPayoutModEventJson
 } from '$models/subgraph-entities/distribute-to-payout-mod-event';
 import {
 	parseDistributeToTicketModEvent,
 	type DistributeToTicketModEvent,
-	type DistributeToTicketModEventJson,
+	type DistributeToTicketModEventJson
 } from '$models/subgraph-entities/distribute-to-ticket-mod-event';
 import {
 	parseParticipantJson,
@@ -151,8 +151,14 @@ export const formatGraphQuery = <E extends EntityKey, K extends EntityKeys<E>>(
 	const formatWhere = (where: WhereConfig<E>) =>
 		`${where.key}${where.operator ? '_' + where.operator : ''}:` +
 		(Array.isArray(where.value)
-			? `[${where.value.map((v) => `"${v}"`).join(',')}]`
-			: `"${where.value}"`);
+			? `[${where.value.map((v) => whereValue(v)).join(',')}]`
+			: whereValue(where.value));
+	function whereValue(value: string | number | boolean) {
+		if (['number', 'boolean'].indexOf(typeof value) > -1) {
+			return `${value}`;
+		}
+		return `"${value}"`;
+	}
 
 	addArg('text', opts.text ? `"${opts.text}"` : undefined);
 	addArg('first', opts.first);
