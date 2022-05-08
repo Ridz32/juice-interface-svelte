@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
 
-import { V2FundingCycleMetadata } from '$models/v2/fundingCycle';
+import type { V2FundingCycleMetadata } from '$models/v2/fundingCycle';
 
 import { percentToPermyriad } from '$utils/formatNumber';
 
