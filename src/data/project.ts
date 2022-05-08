@@ -224,7 +224,6 @@ export async function getTrendingProjects(days: number, count: number) {
                 {} as TrendingProjectJson,
             ),
         )
-        console.log(serialized)
         uploadIpfsJsonCache(IpfsCacheName.trending, serialized).then(() => {
             console.info("Uploaded new trending cache")
         });
