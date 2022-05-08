@@ -41,11 +41,11 @@
 			<section class={isReviewPanel && 'collapse'}>
 				<TabPanel>
 					<ProjectDetails />
-					<Button onClick={() => onClick('funding')}>Next: Funding cycle</Button>
+					<Button on:click={() => onClick('funding')}>Next: Funding cycle</Button>
 				</TabPanel>
 				<TabPanel>
 					<FundingCycle />
-					<Button onClick={() => onClick('review')}>Next: Review and deploy</Button>
+					<Button on:click={() => onClick('review')}>Next: Review and deploy</Button>
 				</TabPanel>
 			</section>
 			<section class:full={isReviewPanel}>
@@ -54,7 +54,7 @@
 				{/if}
 				<Preview />
 				{#if isReviewPanel}
-					<Button {disabled} onClick={$connectedAccount ? deployProject : () => walletConnect()}>
+					<Button {disabled} on:click={$connectedAccount ? deployProject : () => walletConnect()}>
 						{#if $connectedAccount}
 							Deploy project to {readNetwork.name}
 						{:else}

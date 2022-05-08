@@ -25,7 +25,7 @@
 		<small>{receiveText}</small>
 	</div>
 	<div class="stacked">
-		<Button size="md" onClick={console.log}>{$projectMetadata.payButton}</Button>
+		<Button size="md" on:click={console.log}>{$projectMetadata.payButton}</Button>
 		{#if currency === Currency.USD}
 			<small>Paid as <ETH />0.00071584</small>
 		{/if}
