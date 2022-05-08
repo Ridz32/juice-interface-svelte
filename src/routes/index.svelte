@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import CallToAction from '$lib/home/CallToAction.svelte';
 	import FAQs from '$lib/home/FAQs.svelte';
 	import Footer from '$lib/home/Footer.svelte';

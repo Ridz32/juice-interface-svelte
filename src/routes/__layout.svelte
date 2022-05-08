@@ -1,17 +1,26 @@
 <script lang="ts">
 	import MobileHeader from '$lib/components/MobileHeader.svelte';
 	import Header from '$lib/components/Header.svelte';
+	import { onMount } from 'svelte';
+	import { loadLocale } from '$lib/provider/LanguageProvider';
+	import Intl from '$lib/provider/Intl.svelte';
+
+	onMount(async () => {
+		await loadLocale();
+	});
 </script>
 
 <svelte:head>
 	<title>JuiceboxDAO</title>
 </svelte:head>
 
-<main>
-	<Header />
-	<MobileHeader />
-	<slot />
-</main>
+<Intl config={{}}>
+	<main>
+		<Header />
+		<MobileHeader />
+		<slot />
+	</main>
+</Intl>
 
 <style>
 	main {

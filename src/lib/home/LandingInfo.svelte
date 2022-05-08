@@ -1,6 +1,9 @@
-<script>
+<script lang="ts">
 	import Button from '$lib/components/Button.svelte';
+	import { getText } from '$lib/provider/LanguageProvider';
 	import { darkMode } from '$stores';
+	import type Store from '$utils/Store';
+	import { getContext } from 'svelte';
 
 	const list = [
 		'Indie artists, devs, creators',
@@ -8,11 +11,15 @@
 		'Public goods and services',
 		'Open source businesses'
 	];
+
+	const i18n = getContext('i18n') as Store;
+
+	$: console.log($i18n);
 </script>
 
 <section>
 	<article>
-		<h1>Community funding for people and projects</h1>
+		<h1>{getText`Community funding for people and projects`}</h1>
 		<p>
 			Build a community around a project, fund it, and program its spending. Light enough for a
 			group of friends, powerful enough for a global network of anons.
