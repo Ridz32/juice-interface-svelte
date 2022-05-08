@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
+	import { modal } from '$stores';
 	import Icon from '$lib/components/Icon.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import Popover from '$lib/components/Popover.svelte';
@@ -17,7 +18,10 @@
 	import { hasFundingTarget } from '$utils/v1/fundingCycle';
 	import type Store from '$utils/Store';
 	import type { V1FundingCycle } from '$models/v1/fundingCycle';
-
+	import AllAssetsModal from './AllAssetsModal.svelte';
+	import EtherscanLink from '$lib/components/EtherscanLink.svelte';
+	import Modal, { openModal } from '$lib/components/Modal.svelte';
+	import Pay from '$lib/create/Preview/Pay.svelte';
 
 	const converter = getCurrencyConverter();
 
@@ -38,6 +42,7 @@
 	const overflow = projectsContext.overflow;
 	const owner = projectsContext.owner;
 
+	console.log($owner);
 	const ownerBalance = getEthBalance($owner);
 
 	const overflowInCurrency = converter.wadToCurrency(
@@ -51,65 +56,141 @@
 	<div />
 {/if}
 
-<InfoSpaceBetween>
-	<div slot="left">
-		<h4>Volume</h4>
-		<Popover
-			placement="right"
-			message="The total amount received by this project through Juicebox since it was created."
-		>
-			<Icon name="questionCircle" />
-		</Popover>
-	</div>
-	<div slot="right">
-		<div class="amount">
-			<ETHAmount amount={$project.totalPaid} precision={4} />
-		</div>
-	</div>
-</InfoSpaceBetween>
-<InfoSpaceBetween>
-	<div slot="left">
-		<h4>In Juicebox</h4>
-		<Popover placement="right" message="The balance of this project in the Juicebox contract.">
-			<Icon name="questionCircle" />
-		</Popover>
-	</div>
-	<div slot="right">
-		<div class="amount">
-			{#if $currentFC.currency.eq(V1_CURRENCY_ETH)}
-				<h4 class="amount-main">
-					<ETHAmount amount={$balance} precision={2} padEnd />
-				</h4>
-			{:else}
-				<span class="amount-sub">
-					<ETHAmount amount={$balance} precision={2} padEnd />
-				</span>
-				<h4 class="amount-main">
-					<USDAmount amount={$balanceInCurrency} precision={2} padEnd />
-				</h4>
-			{/if}
-		</div>
-	</div>
-</InfoSpaceBetween>
-{#if hasFundingTarget($currentFC)}
-	<InfoSpaceBetween>
-		<div slot="left">
-			<h4><Trans>Distributed</Trans></h4>
-			<Popover
-				placement="right"
-				message="The amount that has been distributed from the Juicebox balance
+<section>
+	<div class="stats">
+		<InfoSpaceBetween>
+			<div slot="left">
+				<h4>Volume</h4>
+				<Popover
+					placement="right"
+					message="The total amount received by this project through Juicebox since it was created."
+				>
+					<Icon name="questionCircle" />
+				</Popover>
+			</div>
+			<div slot="right">
+				<div class="amount">
+					<ETHAmount amount={$project.totalPaid} precision={4} />
+				</div>
+			</div>
+		</InfoSpaceBetween>
+		<InfoSpaceBetween>
+			<div slot="left">
+				<h4>In Juicebox</h4>
+				<Popover placement="right" message="The balance of this project in the Juicebox contract.">
+					<Icon name="questionCircle" />
+				</Popover>
+			</div>
+			<div slot="right">
+				<div class="amount">
+					{#if $currentFC.currency.eq(V1_CURRENCY_ETH)}
+						<h4 class="amount-main">
+							<ETHAmount amount={$balance} precision={2} padEnd />
+						</h4>
+					{:else}
+						<span class="amount-sub">
+							<ETHAmount amount={$balance} precision={2} padEnd />
+						</span>
+						<h4 class="amount-main">
+							<USDAmount amount={$balanceInCurrency} precision={2} padEnd />
+						</h4>
+					{/if}
+				</div>
+			</div>
+		</InfoSpaceBetween>
+		{#if hasFundingTarget($currentFC)}
+			{#if $currentFC.target.gt(0)}
+				<InfoSpaceBetween>
+					<div slot="left">
+						<h4><Trans>Distributed</Trans></h4>
+						<Popover
+							placement="right"
+							message="The amount that has been distributed from the Juicebox balance
             in this funding cycle, out of the current funding target. No
             more than the funding target can be distributed in a single
             funding cycle—any remaining ETH in Juicebox is overflow, until
             the next cycle begins."
-			>
-				<Icon name="questionCircle" />
-			</Popover>
+						>
+							<Icon name="questionCircle" />
+						</Popover>
+					</div>
+					<div slot="right">
+						{#if $currentFC.currency.eq(V1_CURRENCY_ETH)}
+							<h4 class="amount-main">
+								<ETHAmount amount={$currentFC.tapped} precision={2} padEnd /> / <ETHAmount
+									amount={$currentFC.target}
+									precision={2}
+									padEnd
+								/>
+							</h4>
+						{:else}
+							<span class="amount-sub">
+								<USDAmount amount={$currentFC.tapped} precision={2} padEnd /> / <USDAmount
+									amount={$currentFC.target}
+									precision={2}
+									padEnd
+								/>
+							</span>
+							<!-- <h4 class="amount-main">
+						<USDAmount amount={$balanceInCurrency} precision={2} padEnd />
+					</h4> -->
+						{/if}
+					</div>
+				</InfoSpaceBetween>
+				<!-- TODO range / i.e. progressbar that takes in targetAmount overflowAmountinTargetCurrency and balanceInTargetCurrency-->
+				<!-- <range /> -->
+			{:else}
+				<Popover
+					slot="right"
+					message="The target for this funding cycle is 0, meaning all funds in Juicebox are currently
+		considered overflow. Overflow can be redeemed by token holders, but not distributed."
+				>
+					<Trans>100% overflow</Trans>
+				</Popover>
+			{/if}
+		{/if}
+
+		<InfoSpaceBetween>
+			<div slot="left">
+				<h4><Trans>In wallet</Trans></h4>
+				<Popover placement="right" message="The balance of the project owner's wallet.">
+					<EtherscanLink slot="content" value={$owner} type="address" truncated />
+					<Icon name="questionCircle" />
+				</Popover>
+			</div>
+			<div slot="right">
+				{#await ownerBalance}
+					<p>...loading</p>
+				{:then amount}
+					<div class="amount-owner">
+						<ETHAmount {amount} precision={2} padEnd={true} />
+					</div>
+				{/await}
+			</div>
+		</InfoSpaceBetween>
+
+		<div class="all-assets" on:click={() => openModal(AllAssetsModal)}>
+			<p><Trans>All assets</Trans> <Icon name="caret" /></p>
 		</div>
-	</InfoSpaceBetween>
-{/if}
+	</div>
+	<div class="payment">
+		<Pay />
+	</div>
+</section>
+
+<Modal show={$modal} />
 
 <style>
+	section {
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 10px;
+	}
+
+	.stats, .payment {
+		flex: 0 0 48%;
+	}
 	div[slot='left'],
 	div[slot='right'] {
 		display: flex;
@@ -137,6 +218,22 @@
 	.amount-sub {
 		font-size: 0.75rem;
 		color: var(--text-tertiary);
+	}
 
+	.amount-owner {
+		font-size: 1rem;
+	}
+
+	.all-assets {
+		text-align: right;
+		text-transform: uppercase;
+		color: var(--text-tertiary);
+		cursor: pointer;
+	}
+
+	@media (max-width: 850px) {
+		.stats, .payment {
+			flex: 0 0 100%;
+		}
 	}
 </style>
