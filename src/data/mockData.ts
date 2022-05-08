@@ -38,5 +38,5 @@ export const currentFundingCycle = {
 
 export const mockBalanceInCurrency = BigNumber.from('0x1f399b1438a1000000');
 export const mockBalance = BigNumber.from('0x031eedbc8b2a7612');
-export const mockOwner = BigNumber.from('0x00')
+export const mockOwner = '0x3b76f99D0408e379b0c7D52718F8f8fa1bc4596F'
 export const mockOverflow = BigNumber.from('0x00')

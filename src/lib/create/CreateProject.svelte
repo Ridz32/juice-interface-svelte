@@ -1,11 +1,12 @@
 <script lang="ts">
-	import { modal, projectMetadata } from './stores';
+	import { projectMetadata } from './stores';
+	import { modal } from "$stores";
 	import { Tab, Tabs, TabList, TabPanel } from './Tabs';
 	import Button from '$lib/components/Button.svelte';
 	import FundingCycle from './FundingCycle';
 	import Preview from './Preview';
 	import ProjectDetails from './ProjectDetails.svelte';
-	import Modal from './Modal.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 	import { connectedAccount, walletConnect } from '$stores/web3';
 	import { readNetwork } from '$constants/networks';
 

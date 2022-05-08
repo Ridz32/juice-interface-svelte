@@ -8,7 +8,7 @@
 	import Range from '$lib/components/Range.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import DisplaySplit from '$lib/components/Split.svelte';
-	import { bind, openModal } from '../../Modal.svelte';
+	import { bind, openModal } from '$lib/components/Modal.svelte';
 	import type { Split } from '$models/v2/splits';
 	import { getTotalSplitsPercentage } from '$utils/v2/distributions';
 

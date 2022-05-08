@@ -7,7 +7,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import CurrencyInput from '$lib/components/CurrencyInput.svelte';
 	import DisplaySplit from '$lib/components/Split.svelte';
-	import { bind, openModal } from '../Modal.svelte';
+	import { bind, openModal } from '$lib/components/Modal.svelte';
 	import { BigNumber } from 'ethers';
 	import {
 		fundingCycle,

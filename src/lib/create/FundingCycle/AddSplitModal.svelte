@@ -7,7 +7,7 @@
 	import PopInfo from '$lib/components/PopInfo.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import Select from '$lib/components/Select.svelte';
-	import { closeModal } from '../Modal.svelte';
+	import { closeModal } from '$lib/components/Modal.svelte';
 	import Range from '$lib/components/Range.svelte';
 	import CurrencyInput from '$lib/components/CurrencyInput.svelte';
 	import type { Split } from '$models/v2/splits';

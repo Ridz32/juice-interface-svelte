@@ -9,7 +9,7 @@
 	import type { Split } from '$models/v2/splits';
 	import { validateEthAddress, validatePercentage } from '$utils/validators';
 	import { dateToDateInput } from '$utils/formatDate';
-	import { closeModal } from '../../Modal.svelte';
+	import { closeModal } from '$lib/components/Modal.svelte';
 
 	const today = dateToDateInput(new Date());
 

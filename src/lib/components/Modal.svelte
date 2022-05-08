@@ -5,7 +5,7 @@ Date: 2022-05-01
 v1.3.0
 -->
 <script context="module">
-	import { modal } from './stores';
+	import { modal } from '$stores';
 	/**
 	 * Create a Svelte component with props bound to it.
 	 * @type {(component: Component, props: Record<string, any>) => Component}
