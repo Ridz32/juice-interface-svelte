@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { BigNumber } from '@ethersproject/bignumber';
-	import ETH from '../Ethereum.svelte';
+	import ETH from '$lib/components/Ethereum.svelte';
 	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
