@@ -4,6 +4,7 @@
 	import { getEthBalance } from '$data/eth';
 	import { getTruncatedAddress } from './Address.svelte';
 	import EthAmount from './ETHAmount.svelte';
+	import Trans from './Trans.svelte';
 
 	let opened = false;
 </script>
@@ -21,7 +22,7 @@
 			<div style="vertical-align: middle; line-height: 1; color: var(--text-tertiary);">
 				{#await getEthBalance($connectedAccount)}
 					<Icon name="loading" spin />
-				{:then amount} 
+				{:then amount}
 					<EthAmount {amount} precision={2} />
 				{/await}
 			</div>
@@ -69,7 +70,7 @@
 									class="ant-dropdown-menu-title-content"
 									on:click={() => ((opened = false), disconnectWallet())}
 								>
-									Disconnect
+									<Trans>Disconnect</Trans>
 									<span role="img" aria-label="logout" style="padding-left: 25px;">
 										<Icon name="logout" />
 									</span>
@@ -84,6 +85,8 @@
 	</div>
 {:else}
 	<div class="ant-space-item">
-		<button type="button" class="ant-btn" on:click={() => walletConnect()}>Connect</button>
+		<button type="button" class="ant-btn" on:click={() => walletConnect()}>
+			<Trans>Connect</Trans>
+		</button>
 	</div>
 {/if}

@@ -1252,7 +1252,7 @@ msgid "Latest"
 msgstr "Latest"
 
 #: src/components/Landing/index.tsx
-msgid "Latest payments"
+msgid "Latest Payments"
 msgstr ""
 
 #: src/components/Navbar/Mobile/ThemePickerMobile.tsx

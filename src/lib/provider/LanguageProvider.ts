@@ -76,3 +76,7 @@ export function loadLocale() {
 export function getText([key]: TemplateStringsArray) {
 	return i18n.messages[key];
 }
+
+export function toLocaleText(text: string, props?: Record<string, string>) {
+	return i18n._(text, props || {});
+}

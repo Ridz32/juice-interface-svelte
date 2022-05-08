@@ -857,7 +857,7 @@ msgid "Latest"
 msgstr ""
 
 #: src/components/Landing/index.tsx
-msgid "Latest payments"
+msgid "Latest Payments"
 msgstr ""
 
 #: src/components/Navbar/ThemePicker.tsx

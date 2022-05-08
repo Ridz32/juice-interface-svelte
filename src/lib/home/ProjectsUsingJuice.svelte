@@ -7,6 +7,7 @@
 	import ETHAmount from '$lib/components/ETHAmount.svelte';
 	import { formatHistoricalDate } from '$utils/formatDate';
 	import { getTruncatedAddress } from '$lib/components/Address.svelte';
+	import Trans from '$lib/components/Trans.svelte';
 
 	async function getLatestPayments() {
 		return await querySubgraph({
@@ -28,7 +29,7 @@
 
 <section>
 	<div class="left">
-		<h1>Projects using Juicebox</h1>
+		<h1><Trans>Projects using Juicebox</Trans></h1>
 		{#await getProjects({ pageSize: 4 })}
 			<Icon name="loading" spin={true} />
 		{:then projects}
@@ -40,7 +41,7 @@
 		{/await}
 	</div>
 	<div class="right">
-		<h1>Latest Payments</h1>
+		<h1 style=""><Trans>Latest Payments</Trans></h1>
 		{#await getLatestPayments()}
 			<Icon name="loading" spin={true} />
 		{:then payments}
@@ -53,9 +54,11 @@
 							<ETHAmount amount={payment.amount} precision={4} />
 						</div>
 						<div slot="right">
-							<p class="timestamp">{payment.timestamp && formatHistoricalDate(payment.timestamp * 1000)}</p>
+							<p class="timestamp">
+								{payment.timestamp && formatHistoricalDate(payment.timestamp * 1000)}
+							</p>
 							<!-- TODO formatted address with ENS, look at FormattedAddress.tsx -->
-                            <p class="address">{getTruncatedAddress(payment.beneficiary)}</p>
+							<p class="address">{getTruncatedAddress(payment.beneficiary)}</p>
 						</div>
 					</InfoSpaceBetween>
 				</div>
@@ -85,35 +88,36 @@
 		margin-left: 80px;
 		max-height: 600px;
 		overflow: auto;
-        flex: 0 0 45%;
+		flex: 0 0 45%;
 	}
 
-    p {
-        margin: 0;
-        font-weight: 500;
-    }
+	p {
+		margin: 0;
+		font-weight: 500;
+	}
 
-    .timestamp {
-        color: var(--text-secondary);
-        font-size: 0.7rem;
-        font-weight: 300;
-    }
+	.timestamp {
+		color: var(--text-secondary);
+		font-size: 0.7rem;
+		font-weight: 300;
+	}
 
-    .payment {
-        padding-top: 10px;
-        margin-bottom: 10px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid var(--stroke-tertiary);
-    }
+	.payment {
+		padding-top: 10px;
+		margin-bottom: 10px;
+		padding-bottom: 20px;
+		border-bottom: 1px solid var(--stroke-tertiary);
+	}
 
 	@media (max-width: 850px) {
-		div.left, div.right {
+		div.left,
+		div.right {
 			margin-left: 0;
 			flex: 0 0 100%;
 		}
 
-        div.right {
-            padding: 20px;
-        }
+		div.right {
+			padding: 20px;
+		}
 	}
 </style>

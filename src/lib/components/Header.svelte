@@ -6,6 +6,7 @@
 	import { getContext } from 'svelte';
 	import type { I18n } from 'lingui_core/esm';
 	import type Store from '$utils/Store';
+	import Trans from './Trans.svelte';
 
 	const i18n = getContext('i18n') as Store<I18n>;
 	let changeLangOpened = false;
@@ -33,7 +34,7 @@
 				class="nav-menu-item hover-opacity"
 				href="/projects"
 				style="cursor: pointer; display: flex; align-items: center; font-weight: 600; color: var(--text-primary);"
-				>Projects</a
+				><Trans>Projects</Trans></a
 			>
 		</div>
 		<div class="ant-space-item" style="">
@@ -41,7 +42,7 @@
 				href="/#/faq"
 				class="nav-menu-item hover-opacity"
 				style="cursor: pointer; display: flex; align-items: center; font-weight: 600; color: var(--text-primary);"
-				>FAQ</a
+				><Trans>FAQ</Trans></a
 			>
 		</div>
 		<div class="ant-space-item" style="">
@@ -51,7 +52,7 @@
 				target="_blank"
 				rel="noreferrer"
 				style="cursor: pointer; display: flex; align-items: center; font-weight: 600; color: var(--text-primary);"
-				>Discord</a
+				><Trans>Discord</Trans></a
 			>
 		</div>
 		<div class="ant-space-item">
@@ -59,7 +60,7 @@
 				class="ant-dropdown-trigger nav-menu-item hover-opacity ant-dropdown-open"
 				style="cursor: pointer; display: flex; align-items: center; font-weight: 600; color: var(--text-primary);"
 			>
-				Resources<span
+				<Trans>Resources</Trans><span
 					role="img"
 					aria-label="down"
 					class="anticon anticon-down"
