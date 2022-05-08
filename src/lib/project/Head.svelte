@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { getContext, onMount } from 'svelte';
-	import Drawer from './Drawer.svelte';
+	import { getContext } from 'svelte';
+	import Drawer from '$lib/components/Drawer.svelte';
 	import type { Project } from '$models/subgraph-entities/project';
 	import type { ProjectMetadata, ProjectMetadataV4 } from '$models/project-metadata';
 	import type Store from '$utils/Store';
@@ -8,6 +8,7 @@
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import Paragraph from '$lib/components/Paragraph.svelte';
 	import Popover from '$lib/components/Popover.svelte';
+	import ToolsDrawer from './ToolsDrawer.svelte';
 
 	let drawerShown = false;
 
@@ -86,7 +87,9 @@
 	</div>
 </section>
 
-<Drawer bind:shown={drawerShown} />
+<Drawer bind:shown={drawerShown}>
+	<ToolsDrawer />
+</Drawer>
 
 <style>
 	section {
