@@ -5,7 +5,7 @@
 	// it to work at all, below are attempts at testing
 	// Please Help.
 
-	// import { i18n } from '@lingui/core';
+	// import { i18n } from 'lingui_core';
 	// import { loadLocale } from '$lib/provider/LanguageProvider';
 	// import { onMount } from 'svelte';
 	// import defaultLocale from '../locales/en/messages';

@@ -1,7 +1,7 @@
 <script>
 	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
-	import lingui from '@lingui/core';
+	import lingui from 'lingui_core';
 	export let config;
 	const store = writable();
 	$: {

@@ -6,6 +6,7 @@
 		"preserveValueImports": true,
 		"isolatedModules": true,
 		"allowJs": true,
+		"esModuleInterop": true,
 		"paths": {
 			"$env": ["src/env"],
 			"$env/*": ["src/env/*"],

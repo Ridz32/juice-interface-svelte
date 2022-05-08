@@ -4,6 +4,7 @@
 // for information about these interfaces
 declare global {
 	type Address = `0x${string}`;
+	type Any = any;
 }
 
 export {};
