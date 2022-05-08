@@ -192,7 +192,8 @@ export const formatGraphQuery = <E extends EntityKey, K extends EntityKeys<E>>(
 	)} } }`;
 };
 
-const subgraphUrl = import.meta.env.VITE_SUBGRAPH_URL as string;
+// const subgraphUrl = `https://gateway.thegraph.com/api/${import.meta.env.VITE_SUBGRAPH_API_KEY}/subgraphs/id/${import.meta.env.VITE_SUBGRAPH_ID}`;
+const subgraphUrl = `https://api.studio.thegraph.com/query/2231/juicebox-dev-rinkeby/0.1.12`
 
 export const trimHexZero = (hexStr: string) => hexStr.replace('0x0', '0x');
 

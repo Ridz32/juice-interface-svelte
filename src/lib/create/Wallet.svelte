@@ -1,5 +1,5 @@
 <script>
-	import ETH from './Ethereum.svelte';
+	import ETH from '$lib/components/Ethereum.svelte';
 </script>
 
 <div>

@@ -16,6 +16,7 @@
 {#if paths.length}
 	<svg
 		class="antd"
+		on:click
 		class:spin
 		width="1em"
 		height="1em"

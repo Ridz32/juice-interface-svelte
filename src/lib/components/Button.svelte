@@ -10,6 +10,7 @@
 		| 'warning'
 		| 'info'
 		| 'light'
+		| 'link'
 		| 'dark' = 'primary';
 </script>
 
@@ -66,5 +67,21 @@
 	.tertiary:hover {
 		border: 1px dashed var(--background-action-primary);
 		box-shadow: unset;
+	}
+	.link {
+		border: none;
+		background: transparent;
+		box-shadow: unset;
+		margin: 0;
+		display: inline;
+		height: unset;
+		padding: unset;
+		color: var(--text-action-secondary);
+		font-size: inherit;
+	}
+
+	.link:hover {
+		color: var(--text-action-highlight);
+		box-shadow: none;
 	}
 </style>

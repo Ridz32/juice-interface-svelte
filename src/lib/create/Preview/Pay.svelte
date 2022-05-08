@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { projectMetadata } from '../stores';
-	import Button from '../../components/Button.svelte';
-	import ETH from '../Ethereum.svelte';
+	import Button from '$lib/components/Button.svelte';
+	import ETH from '$lib/components/Ethereum.svelte';
 	import CurrencyInput from '$lib/components/CurrencyInput.svelte';
 	import { Currency } from '$constants';
 	import { BigNumber } from 'ethers';

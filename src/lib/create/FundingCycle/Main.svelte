@@ -1,7 +1,7 @@
 <script lang="ts">
 	import InfoBox from '$lib/components/InfoBox.svelte';
 	import DescriptiveNumberedButton from '../DescriptiveNumberedButton.svelte';
-	import Drawer from '../Drawer.svelte';
+	import Drawer from '$lib/components/Drawer.svelte';
 	import FundingDrawer from './FundingDrawer.svelte';
 	import RulesDrawer from '../RulesDrawer.svelte';
 	import TokenDrawer from './TokenDrawer';

@@ -222,9 +222,6 @@
 		font-weight: 600;
 		color: var(--text-primary);
 	}
-	header {
-		z-index: 1000;
-	}
 
 	span[aria-label='menu'] {
 		transform: scale(1.5);
@@ -241,6 +238,7 @@
 	}
 	.ant-collapse {
 		background: var(--background-l0);
+		z-index: 999;
 		position: absolute;
 		width: 100%;
 		top: 0px;
