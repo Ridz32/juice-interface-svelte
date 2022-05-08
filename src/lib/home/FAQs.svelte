@@ -1,4 +1,6 @@
 <script>
+	import Trans from '$lib/components/Trans.svelte';
+
 	import CollapsibleSection from '$lib/create/CollapsibleSection.svelte';
 
 	let faqs = [
@@ -286,13 +288,13 @@
 </script>
 
 <section id="faq">
-	<h1>FAQs</h1>
+	<h1><Trans>FAQs</Trans></h1>
 	{#each faqs as faq}
 		<div class="border-wrapper">
 			<CollapsibleSection expanded={false}>
-				<h4 slot="header">{faq.q}</h4>
+				<h4 slot="header"><Trans>{faq.q}</Trans></h4>
 				{#each faq.a as answer}
-					<p>{@html answer}</p>
+					<p><Trans>{@html answer}</Trans></p>
 				{/each}
 			</CollapsibleSection>
 		</div>
