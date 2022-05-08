@@ -35,19 +35,55 @@
 				</div>
 			</div>
 			<div slot="right">
-				<p class:current={ActivityType.PAY === current}>Pay</p>
-				<p class:current={ActivityType.REDEEM === current}>Redeem</p>
-				<p class:current={ActivityType.WITHDRAW === current}>Withdraw</p>
-				<p class:current={ActivityType.RESERVES === current}>Reserves</p>
+				<p
+					class:current={ActivityType.PAY === current}
+					on:click={() => {
+						current = ActivityType.PAY;
+					}}
+				>
+					Pay
+				</p>
+				<p
+					class:current={ActivityType.REDEEM === current}
+					on:click={() => {
+						current = ActivityType.REDEEM;
+					}}
+				>
+					Redeem
+				</p>
+				<p
+					class:current={ActivityType.WITHDRAW === current}
+					on:click={() => {
+						current = ActivityType.WITHDRAW;
+					}}
+				>
+					Withdraw
+				</p>
+				<p
+					class:current={ActivityType.RESERVES === current}
+					on:click={() => {
+						current = ActivityType.RESERVES;
+					}}
+				>
+					Reserves
+				</p>
 			</div>
 		</InfoSpaceBetween>
 	</header>
 	{#if loading}
 		<Icon name="loading" spin />
 	{/if}
-	{#each payEvents as payment}
-		<PayEvent {payment} />
-	{/each}
+	{#if current === ActivityType.PAY}
+		{#each payEvents as payment}
+			<PayEvent {payment} />
+		{/each}
+	{:else if current === ActivityType.REDEEM}
+		<p>Todo</p>
+	{:else if current === ActivityType.WITHDRAW}
+		<p>Todo</p>
+	{:else}
+		<p>Todo</p>
+	{/if}
 </section>
 
 <style>
@@ -80,6 +116,10 @@
 		text-transform: uppercase;
 		font-weight: 300;
 		color: var(--text-tertiary);
+	}
+
+	div[slot='right'] p:hover {
+		cursor: pointer;
 	}
 
 	.current {
