@@ -23,7 +23,7 @@
 		<p />
 		<h1>Redistributable surplus</h1>
 		<p>
-			Set a funding target to cover predictable expenses. Any extra funds (<a href="">overflow</a>)
+			Set a funding target to cover predictable expenses. Any extra funds (<a href="/#">overflow</a>)
 			can be claimed by anyone holding your project's tokens alongside you.
 		</p>
 		<p />
