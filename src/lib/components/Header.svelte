@@ -84,14 +84,18 @@
 		class="ant-space ant-space-horizontal ant-space-align-center"
 		style="display: flex; align-items: center; gap: 16px;"
 	>
-		<div class="ant-space-item" style="">
-			<div class="language-selector" style="cursor: pointer;">
+		<div class="ant-space-item" style="position:relative">
+			<LanguageSelectDropdown bind:opended={changeLangOpened} />
+			<div
+				class="language-selector"
+				style="cursor: pointer;"
+				on:click={() => (changeLangOpened = !changeLangOpened)}
+			>
 				<span
 					role="img"
 					aria-label="global"
 					class="anticon anticon-global"
 					style="margin-bottom: 2px;"
-					on:click={() => (changeLangOpened = !changeLangOpened)}
 					><svg
 						viewBox="64 64 896 896"
 						focusable="false"
@@ -129,14 +133,9 @@
 								id="rc_select_0"
 							/>
 						</span>
-						<span
-							class="ant-select-selection-item"
-							on:click={() => (changeLangOpened = !changeLangOpened)}
-							title={$i18n.locale?.toUpperCase() || 'EN'}
-						>
+						<span class="ant-select-selection-item" title={$i18n.locale?.toUpperCase() || 'EN'}>
 							{$i18n.locale?.toUpperCase() || 'EN'}
 						</span>
-						<LanguageSelectDropdown bind:opended={changeLangOpened} />
 					</div>
 					<span
 						class="ant-select-arrow"

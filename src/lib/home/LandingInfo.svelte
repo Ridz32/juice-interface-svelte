@@ -1,10 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
 	import Trans from '$lib/components/Trans.svelte';
-	import { getText } from '$lib/provider/LanguageProvider';
 	import { darkMode } from '$stores';
-	import type Store from '$utils/Store';
-	import { getContext } from 'svelte';
 
 	const list = [
 		'Indie artists, devs, creators',
@@ -16,7 +13,7 @@
 
 <section>
 	<article>
-		<h1><Trans>Community funding for people and projects</Trans></h1>
+		<h1><Trans message="Community funding for people and projects" /></h1>
 		<p>
 			<Trans>
 				Build a community around a project, fund it, and program its spending. Light enough for a

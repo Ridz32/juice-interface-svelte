@@ -2,16 +2,25 @@
 	import type Store from '$utils/Store';
 	import type { I18n } from 'lingui_core/esm';
 	// See provider/Intl.svelte for usage
-	import { getContext } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 	const i18n = getContext('i18n') as Store<I18n>;
 
 	export let message = '';
 	export let props: { [key: string]: string } = {};
 
 	let data: HTMLElement;
+	let listening = false;
+	let textMessage = '';
 
-	$: if (data) {
-		data.innerText = $i18n._(data?.innerText, {});
+	$: if (!message && data) {
+		textMessage = $i18n._(data?.innerText, {});
+		if (!listening) {
+			$i18n.on('change', async () => {
+				textMessage = $i18n._(data?.innerText, {});
+				console.log();
+			});
+			listening = true;
+		}
 	}
 </script>
 
@@ -22,5 +31,6 @@
 		{$i18n._(message, props)}
 	{/if}
 {:else}
-	<div bind:this={data}><slot /></div>
+	<div bind:this={data} style="position: fixed; opacity: 0; top: -1000px; left: -1000px"><slot /></div>
+	{textMessage}
 {/if}

@@ -1,7 +1,12 @@
 <script lang="ts">
 	import { dynamicActivateLocale } from '$lib/provider/LanguageProvider';
+	import type Store from '$utils/Store';
+	import type { I18n } from 'lingui_core/esm';
+	import { getContext } from 'svelte';
 
 	export let opended = false;
+
+	const i18n = getContext('i18n') as Store<I18n>;
 
 	export let languages = [
 		['en', 'EN'],

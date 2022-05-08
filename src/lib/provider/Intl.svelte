@@ -2,8 +2,11 @@
 	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { i18n } from 'lingui_core/esm/index.js';
+	import Store from '$utils/Store';
 	export let config;
-	const store = writable();
+	const store = new Store(i18n);
+
+    
 	$: {
 		store.set(i18n);
 	}
