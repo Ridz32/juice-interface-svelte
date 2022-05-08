@@ -180,6 +180,23 @@ export async function getLatestPayments(days = 7) {
     });
 }
 
+export async function getPaymentsForProject(projectId: BigNumber, skip = 0, first = 50) {
+    return await querySubgraph({
+        entity: 'payEvent',
+        keys: ['id', 'amount', 'beneficiary', 'note', 'timestamp', 'txHash'],
+        orderDirection: 'desc',
+        orderBy: 'timestamp',
+        first,
+        skip,
+        where: projectId
+          ? {
+              key: 'project',
+              value: projectId.toString(),
+            }
+          : undefined,
+      })
+}
+
 export async function getProjectsFromIds(ids: string[], keys = defaultKeys) {
     return await querySubgraph({
         entity: 'project',

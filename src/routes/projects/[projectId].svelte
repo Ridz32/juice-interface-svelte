@@ -17,7 +17,7 @@
 	import type { Project } from '$models/subgraph-entities/project';
 	import { page } from '$app/stores';
 	import type { ProjectMetadata, ProjectMetadataV4 } from '$models/project-metadata';
-	import { getProjectMetadata } from '$data/project';
+	import { getPaymentsForProject, getProjectMetadata } from '$data/project';
 
 	let project = new Store<Project>();
 	let metadata = new Store<ProjectMetadata>();
@@ -50,8 +50,9 @@
 		console.log(res);
 		const response = await getProjectMetadata(res.uri);
 		$metadata = response;
+		// console.log(response);
+		$project.payEvents = await getPaymentsForProject(res.id);
 		loading = false;
-		console.log(response);
 	});
 </script>
 
