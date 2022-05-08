@@ -6,15 +6,30 @@
 	import DistributeFunds from './DistributeFunds.svelte';
 	import type { Project } from '$models/subgraph-entities/project';
 	import type Store from '$utils/Store';
+import { getTruncatedAddress } from '$lib/components/Address.svelte';
 	let clientWidth = 500;
 	let tab = 0;
 
 	let holdersOpened = false;
 	let distributeOpened = false;
 
-	const project = getContext('PROJECT').project as Store<Project>;
+	const projectsContext = getContext('PROJECT') as {
+		project: Store<Project>;
+		// metadata: Store<ProjectMetadataV4>;
+		// currentFC: Store<V1FundingCycle>;
+		balance: Store<number>;
+		balanceInCurrency: Store<number>;
+		overflow: Store<number>;
+		owner: Store<string>;
+		// currency: Store<V1CurrencyOption>;
+		tokenSymbol: Store<string>;
+		tokenAddress: Store<string>;
+	};
 
-	$: console.log($project);
+	const tokenSymbol = projectsContext.tokenSymbol;
+	const tokenAddress = projectsContext.tokenAddress;
+
+	// $: console.log($project);
 
 	onMount(async () => {
 		// new Chart(chartCanvas, {
@@ -111,7 +126,7 @@
 					<div class="ant-statistic">
 						<div class="ant-statistic-title">
 							<span style="color: rgb(245, 163, 18); font-weight: 600;">
-								<span style="margin-right: 5px;">JBX</span>
+								<span style="margin-right: 5px;">{$tokenSymbol}</span>
 								<span
 									role="img"
 									aria-label="question-circle"
@@ -151,7 +166,7 @@
 														<span class="ant-descriptions-item-content">
 															<div style="width: 100%;">
 																<span style="cursor: default; user-select: all; line-height: 22px;"
-																	>0x3abF...646f66</span
+																	>{getTruncatedAddress($tokenAddress)}</span
 																>
 															</div>
 														</span>
@@ -190,7 +205,7 @@
 																style="display: flex; flex-wrap: wrap; gap: 5px; justify-content: space-between; width: 100%;"
 															>
 																<div>
-																	<div>0 JBX</div>
+																	<div>0 {$tokenSymbol}</div>
 																	<div>0 claimable</div>
 																	<div
 																		style="cursor: default; font-size: 0.8rem; font-weight: 500; color: var(--text-tertiary);"
