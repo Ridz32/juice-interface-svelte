@@ -34,3 +34,9 @@
 	<div bind:this={data} style="position: fixed; opacity: 0; top: -1000px; left: -1000px"><slot /></div>
 	{textMessage}
 {/if}
+
+<style>
+	div {
+		all: unset;
+	}
+</style>

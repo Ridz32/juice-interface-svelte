@@ -1,4 +1,4 @@
-import { V1ContractName } from './contracts';
+import type { V1ContractName } from './contracts';
 
 export type V1TerminalVersion = '1' | '1.1';
 
