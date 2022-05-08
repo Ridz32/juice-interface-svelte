@@ -5,7 +5,7 @@
 	import { formatWad, parseWad } from '$utils/formatNumber';
 	import { betweenZeroAndOne } from '$utils/bigNumbers';
 
-	import Ethereum from '$lib/create/Ethereum.svelte';
+	import Ethereum from '$lib/components/Ethereum.svelte';
 
 	// import CurrencySymbol from '../CurrencySymbol'
 

@@ -1,6 +1,10 @@
 <script>
 	import { connectedAccount, disconnectWallet, walletConnect } from '$stores/web3';
 	import Icon from '$lib/components/Icon.svelte';
+	import { getEthBalance } from '$data/eth';
+	import { getTruncatedAddress } from './Address.svelte';
+	import EthAmount from './ETHAmount.svelte';
+
 	let opened = false;
 </script>
 
@@ -12,10 +16,14 @@
 			on:click={() => (opened = !opened)}
 		>
 			<span style="line-height: 22px;">
-				{$connectedAccount.slice(0, 6)}...{$connectedAccount.slice(-6)}
+				{getTruncatedAddress($connectedAccount)}
 			</span>
 			<div style="vertical-align: middle; line-height: 1; color: var(--text-tertiary);">
-				<span style="font-family: sans-serif;">Ξ</span>0
+				{#await getEthBalance($connectedAccount)}
+					<Icon name="loading" spin />
+				{:then amount} 
+					<EthAmount {amount} precision={2} />
+				{/await}
 			</div>
 		</div>
 		{#if opened}
