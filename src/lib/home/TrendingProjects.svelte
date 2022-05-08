@@ -1,13 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Icon from '$lib/components/Icon.svelte';
-	import type {
-		TrendingProject,
-	} from '$models/subgraph-entities/project';
+	import type { TrendingProject } from '$models/subgraph-entities/project';
 	import TrendingProjectsCard from '$lib/components/TrendingProjectsCard.svelte';
-	import {
-		getTrendingProjects,
-	} from '$data/project';
+	import { getTrendingProjects } from '$data/project';
+	import Trans from '$lib/components/Trans.svelte';
 
 	export let days = 7;
 	export let count = 6;
@@ -27,7 +24,9 @@
 			<img src="/images/green_orange.png" alt="green_orange" />
 		</div>
 		<div class="projects">
-			<h1>Trending projects</h1>
+			<h1>
+				<Trans message="Trending projects" />
+			</h1>
 			{#if trendingProjectsLoading}
 				<div class="loading">
 					<Icon name="loading" spin={true} />

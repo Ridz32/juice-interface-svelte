@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
+	import Trans from '$lib/components/Trans.svelte';
 	import { getText } from '$lib/provider/LanguageProvider';
 	import { darkMode } from '$stores';
 	import type Store from '$utils/Store';
@@ -11,34 +12,37 @@
 		'Public goods and services',
 		'Open source businesses'
 	];
-
-	const i18n = getContext('i18n') as Store;
-
-	$: console.log($i18n);
 </script>
 
 <section>
 	<article>
-		<h1>{getText`Community funding for people and projects`}</h1>
+		<h1><Trans>Community funding for people and projects</Trans></h1>
 		<p>
-			Build a community around a project, fund it, and program its spending. Light enough for a
-			group of friends, powerful enough for a global network of anons.
+			<Trans>
+				Build a community around a project, fund it, and program its spending. Light enough for a
+				group of friends, powerful enough for a global network of anons.
+			</Trans>
 		</p>
 		<p>
-			Powered by public smart contracts on <a href="https://ethereum.org/en/what-is-ethereum/"
-				>Ethereum.</a
-			>
+			<Trans message={'Powered by public smart contracts on'} />
+			<a href="https://ethereum.org/en/what-is-ethereum/">Ethereum</a>.
 		</p>
 		<br />
 		<p class="sub-header">Built for:</p>
 		{#each list as item}
 			<div class="item">
 				<img src="/images/bolt.png" alt="⚡️" />
-				<p>{item}</p>
+				<p>
+					<Trans>
+						{item}
+					</Trans>
+				</p>
 			</div>
 		{/each}
 		<a href="/create">
-			<Button>Design your project</Button>
+			<Button>
+				<Trans>Design your project</Trans>
+			</Button>
 		</a>
 	</article>
 	<img

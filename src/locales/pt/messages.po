@@ -169,8 +169,8 @@ msgid "<0>This project has no overflow</0>, so you will not receive any ETH for 
 msgstr ""
 
 #: src/components/Landing/TrendingSection.tsx
-msgid "<0>Trending projects</0><1><2/></1>"
-msgstr "<0>Projetos em alta</0><1><2/></1>"
+msgid "Trending projects"
+msgstr "Projetos em alta"
 
 #: src/components/v1/V1Project/modals/ConfirmUnstakeTokensModal.tsx
 msgid "<0>Your unclaimed {tokenSymbol} tokens:</0> {0}"
@@ -1610,8 +1610,8 @@ msgid "Potential risks"
 msgstr ""
 
 #: src/components/Landing/index.tsx
-msgid "Powered by public smart contracts on <0>Ethereum</0>."
-msgstr "Alimentado por contratos inteligentes públicos no <0>Ethereum</0>."
+msgid "Powered by public smart contracts on"
+msgstr "Alimentado por contratos inteligentes públicos no"
 
 #: src/components/v1/V1Create/index.tsx
 #: src/components/v2/V2Create/ProjectConfigurationFieldsContainer.tsx

@@ -2,6 +2,7 @@
 	import ConnectButton from './ConnectButton.svelte';
 	import DarkmodeToggle from './DarkmodeToggle.svelte';
 	import { darkMode } from '$stores';
+	import LanguageSelectDropdown from './LanguageSelectDropdown.svelte';
 </script>
 
 <header
@@ -121,6 +122,7 @@
 								id="rc_select_0"
 							/></span
 						><span class="ant-select-selection-item" title="EN">EN</span>
+						<LanguageSelectDropdown />
 					</div>
 					<span
 						class="ant-select-arrow"

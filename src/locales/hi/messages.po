@@ -121,7 +121,7 @@ msgid "<0>Notice:</0> These balances will not reflect transfers of claimed token
 msgstr ""
 
 #: src/components/Landing/TrendingSection.tsx
-msgid "<0>Trending projects</0><1><2/></1>"
+msgid "Trending projects"
 msgstr ""
 
 #: src/components/Project/modals/ConfirmUnstakeTokensModal.tsx
@@ -1082,7 +1082,7 @@ msgid "Podcast"
 msgstr ""
 
 #: src/components/Landing/index.tsx
-msgid "Powered by public smart contracts on <0>Ethereum</0>."
+msgid "Powered by public smart contracts on"
 msgstr ""
 
 #: src/components/Create/index.tsx

@@ -7,6 +7,8 @@
 	$: {
 		store.set(i18n);
 	}
+
+	i18n.on('change', () => store.set(i18n));
 	setContext('i18n', { subscribe: store.subscribe });
 </script>
 
