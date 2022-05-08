@@ -1,8 +1,14 @@
-<script>
+<script lang="ts">
 	import ConnectButton from './ConnectButton.svelte';
 	import DarkmodeToggle from './DarkmodeToggle.svelte';
 	import { darkMode } from '$stores';
 	import LanguageSelectDropdown from './LanguageSelectDropdown.svelte';
+	import { getContext } from 'svelte';
+	import type { I18n } from 'lingui_core/esm';
+	import type Store from '$utils/Store';
+
+	const i18n = getContext('i18n') as Store<I18n>;
+	let changeLangOpened = false;
 </script>
 
 <header
@@ -85,6 +91,7 @@
 					aria-label="global"
 					class="anticon anticon-global"
 					style="margin-bottom: 2px;"
+					on:click={() => (changeLangOpened = !changeLangOpened)}
 					><svg
 						viewBox="64 64 896 896"
 						focusable="false"
@@ -103,8 +110,8 @@
 					style="display: flex; align-items: center; justify-content: space-evenly; cursor: pointer; height: 30px; font-weight: 500;"
 				>
 					<div class="ant-select-selector">
-						<span class="ant-select-selection-search"
-							><input
+						<span class="ant-select-selection-search">
+							<input
 								autocomplete="off"
 								type="search"
 								class="ant-select-selection-search-input"
@@ -120,9 +127,16 @@
 								value=""
 								style="opacity: 0;"
 								id="rc_select_0"
-							/></span
-						><span class="ant-select-selection-item" title="EN">EN</span>
-						<LanguageSelectDropdown />
+							/>
+						</span>
+						<span
+							class="ant-select-selection-item"
+							on:click={() => (changeLangOpened = !changeLangOpened)}
+							title={$i18n.locale?.toUpperCase() || 'EN'}
+						>
+							{$i18n.locale?.toUpperCase() || 'EN'}
+						</span>
+						<LanguageSelectDropdown bind:opended={changeLangOpened} />
 					</div>
 					<span
 						class="ant-select-arrow"

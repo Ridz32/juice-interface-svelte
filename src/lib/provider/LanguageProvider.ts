@@ -33,7 +33,7 @@ const activateDefaultLocale = async () => {
 	i18n.activate(DEFAULT_LOCALE);
 };
 
-const dynamicActivate = async (locale: string) => {
+export const dynamicActivateLocale = async (locale: string) => {
 	try {
 		const { messages }: { messages: Messages } = await import(
 			`../../locales/${locale}/messages.ts`
@@ -53,7 +53,7 @@ export function loadLocale() {
 	if (locale === DEFAULT_LOCALE) {
 		return activateDefaultLocale();
 	}
-	dynamicActivate(locale);
+	dynamicActivateLocale(locale);
 }
 
 // export default function LanguageProvider({
@@ -67,7 +67,7 @@ export function loadLocale() {
 //       return activateDefaultLocale()
 //     }
 
-//     dynamicActivate(locale)
+//     dynamicActivateLocale(locale)
 //   }, [])
 
 //   return <I18nProvider i18n={i18n}>{children}</I18nProvider>

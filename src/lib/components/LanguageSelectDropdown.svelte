@@ -1,15 +1,22 @@
 <script lang="ts">
+	import { dynamicActivateLocale } from '$lib/provider/LanguageProvider';
+
 	export let opended = false;
 
-	export let languages = {
-		en: 'EN',
-		ru: 'RU',
-		tr: 'TR',
-		fr: 'FR',
-		es: 'ES',
-		pt: 'PT',
-		zh: '中文'
-	};
+	export let languages = [
+		['en', 'EN'],
+		['zh', '中文'],
+		['ru', 'RU'],
+		['tr', 'TR'],
+		['fr', 'FR'],
+		['es', 'ES'],
+		['pt', 'PT']
+	];
+
+	function setLocale(locale: string) {
+		dynamicActivateLocale(locale);
+		opended = false;
+	}
 </script>
 
 {#if opended}
@@ -32,72 +39,21 @@
 							class="rc-virtual-list-holder-inner"
 							style="display: flex; flex-direction: column;"
 						>
-							<div
-								aria-selected="false"
-								class="ant-select-item ant-select-item-option ant-select-item-option-active"
-							>
-								<div class="ant-select-item-option-content"><div>EN</div></div>
-								<span
-									class="ant-select-item-option-state"
-									unselectable
-									aria-hidden="true"
-									style="user-select: none;"
-								/>
-							</div>
-							<div aria-selected="false" class="ant-select-item ant-select-item-option">
-								<div class="ant-select-item-option-content"><div>中文</div></div>
-								<span
-									class="ant-select-item-option-state"
-									unselectable
-									aria-hidden="true"
-									style="user-select: none;"
-								/>
-							</div>
-							<div aria-selected="false" class="ant-select-item ant-select-item-option">
-								<div class="ant-select-item-option-content"><div>RU</div></div>
-								<span
-									class="ant-select-item-option-state"
-									unselectable
-									aria-hidden="true"
-									style="user-select: none;"
-								/>
-							</div>
-							<div aria-selected="false" class="ant-select-item ant-select-item-option">
-								<div class="ant-select-item-option-content"><div>TR</div></div>
-								<span
-									class="ant-select-item-option-state"
-									unselectable
-									aria-hidden="true"
-									style="user-select: none;"
-								/>
-							</div>
-							<div aria-selected="false" class="ant-select-item ant-select-item-option">
-								<div class="ant-select-item-option-content"><div>PT</div></div>
-								<span
-									class="ant-select-item-option-state"
-									unselectable
-									aria-hidden="true"
-									style="user-select: none;"
-								/>
-							</div>
-							<div aria-selected="false" class="ant-select-item ant-select-item-option">
-								<div class="ant-select-item-option-content"><div>ES</div></div>
-								<span
-									class="ant-select-item-option-state"
-									unselectable
-									aria-hidden="true"
-									style="user-select: none;"
-								/>
-							</div>
-							<div aria-selected="false" class="ant-select-item ant-select-item-option">
-								<div class="ant-select-item-option-content"><div>FR</div></div>
-								<span
-									class="ant-select-item-option-state"
-									unselectable
-									aria-hidden="true"
-									style="user-select: none;"
-								/>
-							</div>
+							{#each languages as [lang, langName]}
+								<div
+									aria-selected="false"
+									class="ant-select-item ant-select-item-option ant-select-item-option-active"
+									on:click={() => setLocale(lang)}
+								>
+									<div class="ant-select-item-option-content"><div>{langName}</div></div>
+									<span
+										class="ant-select-item-option-state"
+										unselectable
+										aria-hidden="true"
+										style="user-select: none;"
+									/>
+								</div>
+							{/each}
 						</div>
 					</div>
 				</div>
