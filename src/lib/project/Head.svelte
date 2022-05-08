@@ -1,7 +1,18 @@
-<script>
+<script lang="ts">
 	import Drawer from './Drawer.svelte';
+	import type { Project } from '$models/subgraph-entities/project';
+	import type { ProjectMetadata, ProjectMetadataV4 } from '$models/project-metadata';
+	import { getContext, onMount } from 'svelte';
+	import type Store from '$utils/Store';
 
 	let drawerShown = false;
+
+	const projectContext = getContext('PROJECT') as {
+		project: Store<Project>;
+		metadata: Store<ProjectMetadata>;
+	};
+	const project = projectContext.project;
+	const metadata = projectContext.metadata;
 </script>
 
 <div>
@@ -13,7 +24,7 @@
 				style="display: flex; align-items: center; justify-content: center; overflow: hidden; height: 120px; width: 120px; border-radius: 1px;"
 			>
 				<img
-					src="/images/juicebox-dao.png"
+					src={$metadata.logoUri}
 					alt="JuiceboxDAO logo"
 					style="max-height: 100%; min-width: 100%; object-fit: cover; object-position: center center;"
 				/>
@@ -23,15 +34,13 @@
 			<div
 				style="display: flex; justify-content: space-between; flex-wrap: wrap; align-items: flex-start;"
 			>
-				<h1
-					style="font-size: 2.4rem; line-height: 2.8rem; margin: 0px; color: var(--text-primary)"
-				>
-					JuiceboxDAO
+				<h1 style="font-size: 2.4rem; line-height: 2.8rem; margin: 0px; color: var(--text-primary)">
+					{$metadata?.name}
 				</h1>
 				<div style="display: flex; align-items: center;">
 					<span style="color: var(--text-tertiary); padding-right: 10px;"
-						>ID: 1 <span style="padding: 2px 4px; background: var(--background-l1); cursor: default;"
-							>V1</span
+						>ID: {$project.id.toString()} <span
+							style="padding: 2px 4px; background: var(--background-l1); cursor: default;">V1</span
 						></span
 					>
 					<div>
@@ -61,7 +70,7 @@
 				style="display: flex; flex-wrap: wrap; padding-top: 8px; padding-bottom: 4px; font-weight: 500;"
 			>
 				<span style="color: var(--text-secondary); margin-right: 20px; font-weight: 600;"
-					>@juicebox</span
+					>@{$project.handle}</span
 				><a
 					href="https://snapshot.org/#/jbdao.eth"
 					target="_blank"
@@ -116,7 +125,8 @@
 			</div>
 			<div>
 				<div style="margin-top: 5px; max-width: 700px; display: inline;">
-					<span style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
+					<span
+						style="color: var(--text-secondary); overflow-wrap: break-word; padding-right: 0.5rem;"
 						>Supports projects built using the Juicebox protocol, and the development of the
 						protocol itself. All projects withdrawing funds from their treasury pay a 2.5%
 						membership fee and receive JBX at the current issuance rate. JBX members govern the NFT

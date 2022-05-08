@@ -12,7 +12,7 @@
 	let holdersOpened = false;
 	let distributeOpened = false;
 
-	const project = getContext('PROJECT') as Store<Project>;
+	const project = getContext('PROJECT').project as Store<Project>;
 
 	$: console.log($project);
 
