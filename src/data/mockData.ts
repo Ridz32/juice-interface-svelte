@@ -2,22 +2,6 @@ import { BigNumber } from 'ethers';
 import type { V1FundingCycle } from '$models/v1/fundingCycle';
 
 export const currentFundingCycle = {
-	0: BigNumber.from('0x17'),
-	1: BigNumber.from('0x04'),
-	2: BigNumber.from('0x04'),
-	3: BigNumber.from('0x11'),
-	4: BigNumber.from('0x6162a36d'),
-	5: BigNumber.from('0x00'),
-	6: BigNumber.from('0xd3c21bcecceda1000000'),
-	7: '0x0000000000000000000000000000000000000000',
-	8: BigNumber.from('0x6162a36d'),
-	9: BigNumber.from('0x00'),
-	10: BigNumber.from('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'),
-	11: BigNumber.from('0x01'),
-	12: BigNumber.from('0x0a'),
-	13: BigNumber.from('0x00'),
-	14: BigNumber.from('0x018b74d5f405ecfe480000'),
-	15: BigNumber.from('0xc8c86400'),
 	ballot: '0x0000000000000000000000000000000000000000',
 	basedOn: BigNumber.from('0x11'),
 	configured: BigNumber.from('0x6162a36d'),
@@ -38,5 +22,7 @@ export const currentFundingCycle = {
 
 export const mockBalanceInCurrency = BigNumber.from('0x1f399b1438a1000000');
 export const mockBalance = BigNumber.from('0x031eedbc8b2a7612');
-export const mockOwner = '0x3b76f99D0408e379b0c7D52718F8f8fa1bc4596F'
-export const mockOverflow = BigNumber.from('0x00')
+export const mockOwner = '0x3b76f99D0408e379b0c7D52718F8f8fa1bc4596F';
+export const mockOverflow = BigNumber.from('0x00');
+export const mockTokenSymbol = "BOOT";
+export const mockTokenAddress = "0x2E67902728E2A2002445629E240EEC56EFE935b0";

@@ -30,7 +30,9 @@
 		mockBalance,
 		mockOwner,
 		mockOverflow,
-		currentFundingCycle
+		mockTokenSymbol,
+		currentFundingCycle,
+		mockTokenAddress
 	} from '$data/mockData';
 
 	let project = new Store<Project>();
@@ -41,6 +43,8 @@
 	let balanceInCurrency = new Store<BigNumber>();
 	let overflow = new Store<BigNumber>();
 	let owner = new Store<Address>();
+	let tokenSymbol = new Store<string>();
+	let tokenAddress = new Store<string>();
 
 	// TODO get the url params
 	//   const { handle }: { handle?: string } = useParams()
@@ -52,6 +56,7 @@
 	//   const projectId = useProjectIdForHandle(handle)
 
 	// TODO get all the below data from the contracts, all these hooks are from '/hooks/v1/contractReader'
+	// make functions in data directory
 	//   const owner = useOwnerOfProject(projectId)
 	//   const terminalAddress = useTerminalOfProject(projectId)
 	//   const terminalName = getTerminalName({
@@ -105,7 +110,9 @@
 		balance,
 		balanceInCurrency,
 		overflow,
-		owner
+		owner,
+		tokenSymbol,
+		tokenAddress
 	});
 
 	onMount(async () => {
@@ -132,15 +139,15 @@
 
 		$project = res;
 		console.log(res);
-		const response = await getProjectMetadata(res.uri);
-		$metadata = response;
-		// console.log(response);
+		$metadata = await getProjectMetadata(res.uri);
 		$project.payEvents = await getPaymentsForProject(res.id);
 		$currentFC = currentFundingCycle;
 		$balanceInCurrency = mockBalanceInCurrency;
 		$balance = mockBalance;
 		$overflow = mockOverflow;
 		$owner = mockOwner;
+		$tokenSymbol = mockTokenSymbol;
+		$tokenAddress = mockTokenAddress;
 
 		console.log($project);
 		loading = false;

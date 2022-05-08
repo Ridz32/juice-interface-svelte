@@ -15,13 +15,14 @@
 	import type { ProjectMetadata, ProjectMetadataV4 } from '$models/project-metadata';
 	import { getEthBalance } from '$data/eth';
 	import { V1CurrencyName } from '$utils/v1/currency';
-	import { hasFundingTarget } from '$utils/v1/fundingCycle';
+	import { decodeFundingCycleMetadata, hasFundingTarget } from '$utils/v1/fundingCycle';
 	import type Store from '$utils/Store';
 	import type { V1FundingCycle } from '$models/v1/fundingCycle';
 	import AllAssetsModal from './AllAssetsModal.svelte';
 	import EtherscanLink from '$lib/components/EtherscanLink.svelte';
 	import Modal, { openModal } from '$lib/components/Modal.svelte';
-	import Pay from '$lib/create/Preview/Pay.svelte';
+	import Pay from '$lib/components/Pay.svelte';
+	import { weightedRate } from '$utils/math';
 
 	const converter = getCurrencyConverter();
 
@@ -34,6 +35,8 @@
 		overflow: Store<number>;
 		owner: Store<string>;
 		currency: Store<V1CurrencyOption>;
+		tokenSymbol: Store<string>;
+		tokenAddress: Store<string>;
 	};
 	const project = projectsContext.project;
 	const currentFC = projectsContext.currentFC;
@@ -41,8 +44,9 @@
 	const balance = projectsContext.balance;
 	const overflow = projectsContext.overflow;
 	const owner = projectsContext.owner;
-
-	console.log($owner);
+	const metadata = projectsContext.metadata;
+	const tokenSymbol = projectsContext.tokenSymbol;
+	const tokenAddress = projectsContext.tokenAddress;
 	const ownerBalance = getEthBalance($owner);
 
 	const overflowInCurrency = converter.wadToCurrency(
@@ -50,6 +54,9 @@
 		V1CurrencyName($currentFC?.currency.toNumber() as V1CurrencyOption),
 		'ETH'
 	);
+
+	const fcMetadata = decodeFundingCycleMetadata($currentFC.metadata);
+	const reservedRate = fcMetadata?.reservedRate;
 </script>
 
 {#if !$currentFC}
@@ -131,9 +138,6 @@
 									padEnd
 								/>
 							</span>
-							<!-- <h4 class="amount-main">
-						<USDAmount amount={$balanceInCurrency} precision={2} padEnd />
-					</h4> -->
 						{/if}
 					</div>
 				</InfoSpaceBetween>
@@ -174,7 +178,14 @@
 		</div>
 	</div>
 	<div class="payment">
-		<Pay />
+		<Pay
+			payButton={$metadata.payButton}
+			{reservedRate}
+			token={$tokenSymbol}
+			tokenAddress={$tokenAddress}
+			weight={$currentFC.weight}
+			weightingFn={weightedRate}
+		/>
 	</div>
 </section>
 
@@ -188,7 +199,8 @@
 		gap: 10px;
 	}
 
-	.stats, .payment {
+	.stats,
+	.payment {
 		flex: 0 0 48%;
 	}
 	div[slot='left'],
@@ -232,7 +244,8 @@
 	}
 
 	@media (max-width: 850px) {
-		.stats, .payment {
+		.stats,
+		.payment {
 			flex: 0 0 100%;
 		}
 	}
