@@ -11,6 +11,7 @@
 	import Stats from '$lib/project/Stats.svelte';
 	import Details from '$lib/project/Details.svelte';
 	import Activity from '$lib/project/Activity.svelte';
+	import Button from '$lib/components/Button.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import Paid from '$lib/project/Paid.svelte';
 	import { onMount, setContext } from 'svelte';
@@ -170,7 +171,7 @@
 			</div>
 		{/if}
 		<div style="text-align: center; padding: 20px;">
-			<button type="button" class="ant-btn ant-btn-link">Back to top</button>
+			<Button type="link" on:click={() => window.scrollTo(0, 0)}>Back to top</Button>
 		</div>
 		<a
 			class="feedback-button hide-mobile "
