@@ -1,5 +1,5 @@
 
-import { parseEther } from 'ethers/lib/utils';
+import { parseEther } from '@ethersproject/units';
 import { getEtherPrice } from '$data/eth';
 import { CurrencyUtils } from '$utils/formatCurrency'
 import {
