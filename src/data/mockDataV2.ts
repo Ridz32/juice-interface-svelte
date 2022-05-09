@@ -78,7 +78,7 @@ export const project = {
 	tokenSymbol: 'BREAD',
 	projectOwnerAddress: '0x78E4A5778c2ea75d1720c80EAC3043d84838718f',
 	primaryTerminalCurrentOverflow: BigNumber.from('0x00'),
-	totalTokenSupply: BigNumber.from('0x00'),
+	totalTokenSupply: BigNumber.from('0x07f0e10af47c1c700000'),
 	ballotState: 1,
 	loading: {
 		ETHBalanceLoading: false,
