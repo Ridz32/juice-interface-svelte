@@ -150,7 +150,6 @@
 		$tokenSymbol = mockTokenSymbol;
 		$tokenAddress = mockTokenAddress;
 
-		console.log($project);
 		loading = false;
 	});
 </script>
@@ -158,7 +157,9 @@
 <section>
 	<div class="content">
 		{#if loading}
-			<Icon name="loading" spin />
+			<div class="loading">
+				<Icon name="loading" spin />
+			</div>
 		{:else}
 			<div>
 				<Head />
@@ -169,10 +170,10 @@
 					<Activity {loading} />
 				</div>
 			</div>
+			<div style="text-align: center; padding: 20px;">
+				<Button type="link" on:click={() => window.scrollTo(0, 0)}>Back to top</Button>
+			</div>
 		{/if}
-		<div style="text-align: center; padding: 20px;">
-			<Button type="link" on:click={() => window.scrollTo(0, 0)}>Back to top</Button>
-		</div>
 		<a
 			class="feedback-button hide-mobile "
 			href="https://auditor.typeform.com/to/REMUTIbQ?project=juicebox&amp;address=0x283e4500fd7c9e1bf83b828f13a597b47311700c&amp;resolution=1139x984&amp;referrer=stoned-banny#"
@@ -194,6 +195,12 @@
 		max-width: 1080px;
 		margin: 0px auto;
 		padding: 20px;
+	}
+
+	.loading {
+		text-align: center;
+		font-size: 2rem;
+		color: var(--text-header);
 	}
 
 	.row {
