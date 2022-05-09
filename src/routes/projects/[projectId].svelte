@@ -236,6 +236,7 @@
 		max-width: 1080px;
 		margin: 0px auto;
 		padding: 20px;
+		width: 100%;
 	}
 
 	.loading {
