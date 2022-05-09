@@ -21,7 +21,7 @@
 <InfoSpaceBetween>
 	<!-- TODO crown if Project owner (i.e. the logged in user) -->
 	<div slot="left">
-		{#if split.projectId}
+		{#if split.projectId && split.projectId != "0x00"}
 			<p>
 				@{split.projectId}:
 			</p>
