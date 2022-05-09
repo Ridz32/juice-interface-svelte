@@ -1,0 +1,1 @@
+<input placeholder="Search projects by handle" class="ant-input" type="text" value="">
