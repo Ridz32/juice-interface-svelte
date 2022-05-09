@@ -15,6 +15,7 @@
 	export let distributionLimitType: DistributionLimitType | undefined = undefined;
 	export let distributionLimit: BigNumber | undefined = undefined;
 	export let currency: Currency | undefined = undefined;
+	export let formatWad: boolean = true;
 </script>
 
 <InfoSpaceBetween>
@@ -49,9 +50,8 @@
 	<p slot="right">
 		{formatSplitPercent(BigNumber.from(split.percent))}%
 		{#if distributionLimitType === DistributionLimitType.Specific}
-			<!-- TODO put formatter in util file -->
-			<!-- TODO URGENT (well, semi) Money component needs to account for decimal values -->
 			(<Money
+				{formatWad}
 				amount={BigNumber.from(parseFloat(formatSplitPercent(BigNumber.from(split.percent))))
 					.mul(distributionLimit)
 					.div(100)}

@@ -11,6 +11,7 @@
 	import { decodeV2FundingCycleMetadata } from '$utils/v2/fundingCycle';
 
 	import { getTruncatedAddress } from '$lib/components/Address.svelte';
+	import SimpleSplits from '$lib/components/SimpleSplits.svelte';
 	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
 	import FundingCycleDetails from '$lib/components/FundingCycleDetails.svelte';
 	import type { V2ProjectContextType } from '$lib/create/stores';
@@ -19,6 +20,7 @@
 	import PopInfo from '$lib/components/PopInfo.svelte';
 	import { formatPercent, formatWad } from '$utils/formatNumber';
 	import { BigNumber } from 'ethers';
+	import PayoutSplits from '$lib/components/PayoutSplits.svelte';
 
 	let clientWidth = 500;
 	let tab = 0;
@@ -27,6 +29,9 @@
 	const tokenSymbol = $projectsContext.tokenSymbol;
 	const tokenAddress = $projectsContext.tokenAddress;
 	const currentFC = $projectsContext.fundingCycle;
+	const payoutSplits = $projectsContext.payoutSplits;
+	const reservedTokensSplits = $projectsContext.reservedTokensSplits;
+
 	const fcMetadata = decodeV2FundingCycleMetadata(currentFC.metadata);
 
 	const hasIssuedERC20 = tokenAddress !== constants.AddressZero;
@@ -91,7 +96,7 @@
 			{/if}
 		</div>
 	{/if}
-	<div>
+	<div class="fundingCycle">
 		<h4>
 			<PopInfo message="">Funding cycle</PopInfo>
 		</h4>
@@ -135,7 +140,24 @@
 					distributionLimitData={{ distributionLimit: $projectsContext.distributionLimit }}
 					currentDistributionLimitCurrencyType={$projectsContext.distributionLimitCurrency}
 				/>
-				<!-- </CollapsibleSection> -->
+			</HeavyBorderBox>
+			<HeavyBorderBox>
+				<PayoutSplits
+					balanceInDistributionLimitCurrency={$projectsContext.balanceInDistributionLimitCurrency}
+					currency={$projectsContext.distributionLimitCurrency}
+					distributionLimit={$projectsContext.distributionLimit}
+					{payoutSplits}
+					projectOwnerAddress={$projectsContext.projectOwnerAddress}
+					usedDistributionLimit={$projectsContext.usedDistributionLimit}
+				/>
+				<!-- {#each payoutSplits as split}
+					<SimpleSplits
+						{split}
+						distributionLimitType={1}
+						distributionLimit={$projectsContext.distributionLimit}
+						currency={$projectsContext.distributionLimitCurrency}
+					/>
+				{/each} -->
 			</HeavyBorderBox>
 		</div>
 	</div>
@@ -208,6 +230,8 @@
 	section {
 		padding: 40px 20px 0px;
 		flex: 0 0 48%;
+		/* display: flex;
+		flex-direction: column; */
 	}
 
 	p.label {
@@ -215,10 +239,6 @@
 		color: var(--text-secondary);
 		display: inline-block;
 		width: 120px;
-	}
-
-	svg {
-		max-width: calc(100vw - 40px);
 	}
 
 	h4 {
@@ -238,6 +258,10 @@
 	.address-balance {
 		display: inline-flex;
 		flex-direction: column;
+	}
+
+	.fundingCycle {
+		flex: 0 0 100%;
 	}
 	.rewards {
 		margin-bottom: 40px;

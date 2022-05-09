@@ -10,15 +10,37 @@
 	import Money from './Money.svelte';
 	import SimpleSplits from './SimpleSplits.svelte';
 	import type { Split } from '$models/v2/splits';
+	import { getEthBalance } from '$data/eth';
+	import { onMount } from 'svelte';
 
-	export let currency: Currency;
-	export let distributionLimit: BigNumber;
+	export let currency: Currency = Currency.ETH;
+	export let distributionLimit: BigNumber = BigNumber.from(0);
 	export let payoutSplits: Split[];
 	// TODO: remove this when create has correct formatted amounts
 	export let isCreatePreview: boolean = false;
 
+	export let balanceInDistributionLimitCurrency: BigNumber | undefined = undefined;
+	export let usedDistributionLimit: BigNumber | undefined = undefined;
+	export let projectOwnerAddress: Address | undefined = undefined;
+
 	let distributionLimitType: DistributionLimitType;
 	let totalSplitPercentagePayoutSplits: number;
+	let distributableAmount = BigNumber.from(0);
+	let ownerBalance = BigNumber.from(0);
+
+	if (usedDistributionLimit) {
+		const untapped = distributionLimit.sub(usedDistributionLimit);
+		distributableAmount = balanceInDistributionLimitCurrency?.gt(untapped)
+			? untapped
+			: balanceInDistributionLimitCurrency;
+	}
+
+	if (projectOwnerAddress) {
+		getEthBalance(projectOwnerAddress).then((balance) => {
+			ownerBalance = balance;
+		});
+		console.log(ownerBalance, 'ownerBalance');
+	}
 
 	function getDistributionLimitType(distributionLimit) {
 		if (distributionLimit.eq(0)) {
@@ -44,7 +66,7 @@
 <InfoSpaceBetween>
 	<div slot="left" class="distribution-splits">
 		<div class="available">
-			<p><Money {currency} /></p>
+			<p><Money {currency} amount={distributableAmount} /></p>
 			<PopInfo
 				message="The funds available to distribution for this funding cycle (before the 2.5% JBX fee is subtracted). This number won't roll over to the next funding cycle, so funds should be distributed before this funding cycle ends."
 				><small class="upper">available</small></PopInfo
@@ -54,12 +76,26 @@
 			<p><small><ETH />0/NO LIMIT distributed</small></p>
 		{:else if distributionLimitType === DistributionLimitType.Specific}
 			<p>
-				<small><Money {currency} amount={BigNumber.from(0)} />/{distributionLimit} </small>
+				<small
+					><Money {currency} amount={BigNumber.from(0)} formatWad={!isCreatePreview} />/<Money
+						{currency}
+						amount={distributionLimit}
+						formatWad={!isCreatePreview}
+					/>
+				</small>
 			</p>
 		{:else}
-			<p><small><ETH />0 distributed</small></p>
+			<p><small><Money amount={usedDistributionLimit} /> distributed</small></p>
 		{/if}
-		<p><small><ETH />0 <Icon name="crown" /> owner balance</small></p>
+		{#if projectOwnerAddress}
+			{#await getEthBalance(projectOwnerAddress)}
+				<Icon name="loadng" spin />
+			{:then amount}
+				<p><small><Money {amount} /> <Icon name="crown" /> owner balance</small></p>
+			{/await}
+		{:else}
+			<p><small><Money amount={ownerBalance} /> <Icon name="crown" /> owner balance</small></p>
+		{/if}
 	</div>
 	<div slot="right"><button disabled={true}>Distribute funds</button></div>
 </InfoSpaceBetween>
@@ -82,7 +118,13 @@
 	</InfoSpaceBetween>
 {/if}
 {#each payoutSplits as split}
-	<SimpleSplits {split} {distributionLimitType} {distributionLimit} {currency} />
+	<SimpleSplits
+		{split}
+		{distributionLimitType}
+		{distributionLimit}
+		{currency}
+		formatWad={!isCreatePreview}
+	/>
 {/each}
 {#if payoutSplits.length}
 	<InfoSpaceBetween>
