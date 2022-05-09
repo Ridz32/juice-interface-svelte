@@ -39,23 +39,6 @@
 	<div class="stats">
 		<InfoSpaceBetween>
 			<div slot="left">
-				<h4>Volume</h4>
-				<Popover
-					placement="right"
-					message="The total amount received by this project through Juicebox since it was created."
-				>
-					<Icon name="questionCircle" />
-				</Popover>
-			</div>
-			<div slot="right">
-				<div class="amount">
-					<!-- TODO -->
-					<!-- <ETHAmount amount={$project.totalPaid} precision={4} /> -->
-				</div>
-			</div>
-		</InfoSpaceBetween>
-		<InfoSpaceBetween>
-			<div slot="left">
 				<h4>In Juicebox</h4>
 				<Popover placement="right" message="The balance of this project in the Juicebox contract.">
 					<Icon name="questionCircle" />
@@ -65,7 +48,7 @@
 				<div class="amount">
 					{#if $projectsContext.distributionLimitCurrency.eq(Currency.ETH)}
 						<h4 class="amount-main">
-							<ETHAmount amount={balance} precision={2} padEnd />
+							<ETHAmount amount={balanceInCurrency} precision={2} padEnd />
 						</h4>
 					{:else}
 						<span class="amount-sub">
@@ -94,27 +77,27 @@
 					</Popover>
 				</div>
 				<div slot="right">
-					<!-- {#if $projectsContext.distributionLimitCurrency.eq(Currency.ETH)}
-							<h4 class="amount-main">
-								<ETHAmount amount={currentFC.tapped} precision={2} padEnd /> / <ETHAmount
-									amount={currentFC.target}
-									precision={2}
-									padEnd
-								/>
-							</h4>
-						{:else}
-							<span class="amount-sub">
-								<USDAmount amount={currentFC.tapped} precision={2} padEnd /> / <USDAmount
-									amount={currentFC.target}
-									precision={2}
-									padEnd
-								/>
-							</span>
-						{/if} -->
+					{#if $projectsContext.distributionLimitCurrency.eq(Currency.ETH)}
+						<h4 class="amount-main">
+							<ETHAmount amount={$projectsContext.usedDistributionLimit} precision={2} padEnd /> / <ETHAmount
+								amount={$projectsContext.distributionLimit}
+								precision={2}
+								padEnd
+							/>
+						</h4>
+					{:else}
+						<span class="amount-sub">
+							<USDAmount amount={$projectsContext.usedDistributionLimit} precision={2} padEnd /> / <USDAmount
+								amount={$projectsContext.distributionLimit}
+								precision={2}
+								padEnd
+							/>
+						</span>
+					{/if}
 				</div>
 			</InfoSpaceBetween>
 			<!-- TODO range / i.e. progressbar that takes in targetAmount overflowAmountinTargetCurrency and balanceInTargetCurrency-->
-			<!-- <range /> -->
+			<!-- <Range showValueBox={false} /> -->
 		{:else}
 			<Popover
 				slot="right"
@@ -145,9 +128,9 @@
 			</div>
 		</InfoSpaceBetween>
 
-		<div class="all-assets" on:click={() => openModal(AllAssetsModal)}>
+		<!-- <div class="all-assets" on:click={() => openModal(AllAssetsModal)}>
 			<p><Trans>All assets</Trans> <Icon name="caret" /></p>
-		</div>
+		</div> -->
 	</div>
 	<div class="payment">
 		<Pay
