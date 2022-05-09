@@ -43,6 +43,7 @@
 
 		$project = res;
 	});
+	console.log($project)
 </script>
 
 <section

@@ -3,12 +3,12 @@ import { parseDeployedERC20EventJson } from '$models/subgraph-entities/deployed-
 import {
 	parseDistributeToPayoutModEvent,
 	type DistributeToPayoutModEvent,
-	type DistributeToPayoutModEventJson,
+	type DistributeToPayoutModEventJson
 } from '$models/subgraph-entities/distribute-to-payout-mod-event';
 import {
 	parseDistributeToTicketModEvent,
 	type DistributeToTicketModEvent,
-	type DistributeToTicketModEventJson,
+	type DistributeToTicketModEventJson
 } from '$models/subgraph-entities/distribute-to-ticket-mod-event';
 import {
 	parseParticipantJson,
@@ -186,7 +186,11 @@ export const formatGraphQuery = <E extends EntityKey, K extends EntityKeys<E>>(
 	)} } }`;
 };
 
-const subgraphUrl = `https://gateway.thegraph.com/api/${import.meta.env.VITE_SUBGRAPH_API_KEY}/subgraphs/id/${import.meta.env.VITE_SUBGRAPH_ID}`;
+// const subgraphUrl = `https://gateway.thegraph.com/api/${
+// 	import.meta.env.VITE_SUBGRAPH_API_KEY
+// }/subgraphs/id/${import.meta.env.VITE_SUBGRAPH_ID}`;
+
+const subgraphUrl = import.meta.env.VITE_SUBGRAPH_URL;
 
 export const trimHexZero = (hexStr: string) => hexStr.replace('0x0', '0x');
 
@@ -292,7 +296,7 @@ export async function querySubgraph<E extends EntityKey, K extends EntityKeys<E>
 		throw new Error('import.meta.env.VITE_SUBGRAPH_URL is missing');
 	}
 
-	if (!opts) return [];
+	if (!opts) return [];;
 
 	const response = await axios.post<{
 		errors?: SubgraphError | SubgraphError[];

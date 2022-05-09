@@ -21,7 +21,7 @@
 			"$models": ["src/models"],
 			"$models/*": ["src/models/*"],
 			"$data": ["src/data"],
-			"$data/*": ["src/data/*"],
+			"$data/*": ["src/data/*"]
 		}
 	}
 }
