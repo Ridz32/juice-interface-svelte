@@ -11,6 +11,10 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import { project } from '$data/mockDataV2';
+	import Money from '$lib/components/Money.svelte';
+	import { Currency } from '$constants';
+	import Usd from '$lib/components/USD.svelte';
+	import Ethereum from '$lib/components/Ethereum.svelte';
 	// TODO move project context from create
 	// import { V2ProjectContext } from 'contexts/v2/projectContext'
 
@@ -48,7 +52,7 @@
 	// MOCK DATA
 	const usedDistributionLimit = BigNumber.from(0);
 	const distributionLimit = BigNumber.from('0x1b1ae4d6e2ef500000');
-
+	const distributionLimitCurrency = Currency.USD;
 	const distributionLimitIsInfinite = false;
 	const distributionLimitIsZero = false;
 	fundingCycle = project.fundingCycle;
@@ -62,7 +66,12 @@
 			</div>
 			<div class="withdrawn">
 				{#if !(distributionLimitIsInfinite || distributionLimitIsZero)}
-					{' '}{formatWad(usedDistributionLimit, { precision: 2 })}/{formatWad(distributionLimit, {
+					{#if distributionLimitCurrency === Currency.USD}
+						<Usd />
+					{:else}
+						<Ethereum />
+					{/if}
+					{formatWad(usedDistributionLimit, { precision: 2 })}/{formatWad(distributionLimit, {
 						precision: 2
 					})} withdrawn
 				{:else}
@@ -85,16 +94,22 @@
 	.number {
 		font-size: 1rem;
 		margin-right: 10px;
-        color: var(--text-header);
+		color: var(--text-header);
 	}
 
-    .wrapper {
-        border-bottom: 1px solid var(--stroke-tertiary);
-        cursor: pointer;
-        padding: 20px;
+    .withdrawn {
+        font-size: 0.8rem;
+        font-weight: 300;
+        color: var(--text-primary);
     }
 
-    .wrapper:hover {
-        transform: scale(1.05);
-    }
+	.wrapper {
+		border-bottom: 1px solid var(--stroke-tertiary);
+		cursor: pointer;
+		padding: 20px;
+	}
+
+	.wrapper:hover {
+		transform: scale(1.05);
+	}
 </style>
