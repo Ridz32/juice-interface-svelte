@@ -37,6 +37,7 @@
 	// TODO have create/Previw/FundingCycleDetails.svelte use this component too
 	// I'm merely testing atm to see how close we might be
 
+	export let expanded;
 	export let fundingCycle;
 	export let fundingCycleMetadata;
 	export let distributionLimit;
@@ -186,7 +187,7 @@
 	}
 </script>
 
-<CollapsibleSection alignCaret="center" expanded={false}>
+<CollapsibleSection alignCaret="center" {expanded}>
 	<div slot="header">
 		<h4 class="collapse-header">
 			{#if fundingCycle.duration.gt(0)}

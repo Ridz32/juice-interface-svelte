@@ -22,6 +22,7 @@
 	import { serializeV2FundingCycleData } from '$utils/v2/serializers';
 	import { hasFundingDuration, V2FundingCycleRiskCount } from '$utils/v2/fundingCycle';
 	import UpcomingFundingCycle from './UpcomingFundingCycle.svelte';
+	import FundingCycleHistory from './FundingCycleHistory.svelte';
 
 	let clientWidth = 500;
 	let tab = 0;
@@ -163,7 +164,7 @@
 			{:else if currentTab === 'upcoming'}
 				<UpcomingFundingCycle />
 			{:else if currentTab === 'history'}
-				[TODO]
+				<FundingCycleHistory />
 			{/if}
 		</div>
 	</div>
