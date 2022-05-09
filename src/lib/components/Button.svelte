@@ -40,6 +40,13 @@
 		box-shadow: 0 8px 12px rgb(0 0 0 / 12%);
 	}
 
+	.sm {
+		height: 26px;
+		font-size: 0.7rem;
+		padding: 0px 2px;
+		margin-top: 0;
+	}
+
 	.md {
 		height: 32px;
 		font-size: 14px;

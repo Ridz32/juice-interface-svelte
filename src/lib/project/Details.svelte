@@ -1,39 +1,35 @@
 <script lang="ts">
 	import Chart from './Chart.svelte';
 	import { getContext, onMount } from 'svelte';
+	import * as constants from '@ethersproject/constants';
 	import DropDown from './DropDown.svelte';
-	import Holders from './Holders.svelte';
-	import DistributeFunds from './DistributeFunds.svelte';
-	import type { Project } from '$models/subgraph-entities/project';
 	import type Store from '$utils/Store';
+	import { connectedAccount } from '$stores/web3';
+
 	import { tokenSymbolText } from '$utils/tokenSymbolText';
 
-	import { decodeFundingCycleMetadata, hasFundingTarget } from '$utils/v1/fundingCycle';
+	import { decodeV2FundingCycleMetadata } from '$utils/v2/fundingCycle';
 
 	import { getTruncatedAddress } from '$lib/components/Address.svelte';
-	import CollapsibleSection from '$lib/create/CollapsibleSection.svelte';
 	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
 	import FundingCycleDetails from '$lib/components/FundingCycleDetails.svelte';
-	import { DistributionLimitType } from '$constants';
 	import type { V2ProjectContextType } from '$lib/create/stores';
-	import { project } from '$data/mockDataV2';
+	import Button from '$lib/components/Button.svelte';
 	import Trans from '$lib/components/Trans.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
-	import { formatWad } from '$utils/formatNumber';
+	import { formatPercent, formatWad } from '$utils/formatNumber';
+	import { BigNumber } from 'ethers';
+
 	let clientWidth = 500;
 	let tab = 0;
 
-	let holdersOpened = false;
-	let distributeOpened = false;
-
 	const projectsContext = getContext('PROJECT') as Store<V2ProjectContextType>;
-	console.log($projectsContext);
 	const tokenSymbol = $projectsContext.tokenSymbol;
 	const tokenAddress = $projectsContext.tokenAddress;
 	const currentFC = $projectsContext.fundingCycle;
-	const fcMetadata = decodeFundingCycleMetadata(currentFC.metadata);
+	const fcMetadata = decodeV2FundingCycleMetadata(currentFC.metadata);
 
-	// $: console.log($project);
+	const hasIssuedERC20 = tokenAddress !== constants.AddressZero;
 
 	const tokenText = tokenSymbolText({
 		tokenSymbol: tokenSymbol,
@@ -41,48 +37,60 @@
 		plural: true
 	});
 
-	onMount(async () => {
-		// new Chart(chartCanvas, {
-		// 	type: 'line',
-		// 	data: {
-		// 		labels: ['3/30', '4/03', '4/08', '4/12', '4/17', '4/21', '4/26'],
-		// 		datasets: [
-		// 			{
-		// 				label: '',
-		// 				backgroundColor: 'rgb(245, 163, 18)',
-		// 				borderColor: 'rgb(245, 163, 18)',
-		// 				data: [
-		// 					6070, 6075, 6073, 6074, 6075, 6270, 6070, 6070, 6070, 6070, 6070, 6070, 6070, 6070,
-		// 					6070, 6070, 6070, 6070, 6070, 6070, 6070, 6070
-		// 				]
-		// 			}
-		// 		]
-		// 	},
-		// 	options: {}
-		// });
+	// TODO contract reader
+	// const claimedBalance = getERC20BalanceOf(tokenAddress, connectedAccount)
+	// const unclaimedBalance = getUserUnclaimedTokenBalance(connectedAccount, projectId)
+	// const totalBalance = useTotalBalance(connectedAccount, projectId)
+	// const userOwnershipPercentage =
+	// 	formatPercent(totalBalance, totalTokenSupply) || '0'
+	const claimedBalance = BigNumber.from(0);
+	const unclaimedBalance = BigNumber.from('0x07f0e10af47c1c700000');
+	// this is arbitrary as mock data
+	const totalBalance = unclaimedBalance;
+	const userOwnershipPercentage =
+		formatPercent(totalBalance, $projectsContext.totalTokenSupply) || '0';
+
+	const claimedBalanceFormatted = formatWad(claimedBalance ?? 0, {
+		precision: 0
+	});
+	const unclaimedBalanceFormatted = formatWad(unclaimedBalance ?? 0, {
+		precision: 0
 	});
 </script>
 
 <section bind:clientWidth>
-	<div class="rewards">
-		<h4>
-			<PopInfo
-				message={`${tokenSymbol} Tokens are distributed to anyone who pays this project. If the project has set a funding target, tokens can be redeemed for a portion of the project's overflow whether or not they have been claimed yet.`}
-				><Trans>Tokens</Trans></PopInfo
-			>
-		</h4>
-		<div>
-			<p class="label"><Trans>Project token</Trans>:</p>
-			<span>{tokenSymbol} ({getTruncatedAddress(tokenAddress)})</span>
+	{#if hasIssuedERC20}
+		<div class="rewards">
+			<h4>
+				<PopInfo
+					message={`${tokenSymbol} Tokens are distributed to anyone who pays this project. If the project has set a funding target, tokens can be redeemed for a portion of the project's overflow whether or not they have been claimed yet.`}
+					><Trans>Tokens</Trans></PopInfo
+				>
+			</h4>
+			<div>
+				<p class="label"><Trans>Project token</Trans>:</p>
+				<span>{tokenSymbol} ({getTruncatedAddress(tokenAddress)})</span>
+			</div>
+			<div>
+				<p class="label"><Trans>Total supply</Trans>:</p>
+				<span>{formatWad($projectsContext.totalTokenSupply)} {tokenText}</span>
+			</div>
+			{#if $connectedAccount}
+				<div>
+					<p class="label"><Trans>Your balance</Trans>:</p>
+					<div class="address-balance">
+						<span>{claimedBalanceFormatted} {tokenText}</span>
+						<span><Trans>{unclaimedBalanceFormatted} {tokenText} claimable</Trans></span>
+						<small><Trans>{userOwnershipPercentage}% of total supply</Trans></small>
+					</div>
+					<!-- TODO modal when onClick -->
+					<Button type="secondary" size="sm">
+						Manage {tokenText}
+					</Button>
+				</div>
+			{/if}
 		</div>
-		<div>
-			<p class="label"><Trans>Total supply</Trans>:</p>
-			<span>{formatWad($projectsContext.totalTokenSupply)} {tokenText}</span>
-		</div>
-		<div>
-			<p class="label"><Trans>Your balance</Trans>:</p>
-		</div>
-	</div>
+	{/if}
 	<div>
 		<h4>
 			<PopInfo message="">Funding cycle</PopInfo>
@@ -219,6 +227,18 @@
 		font-weight: 600;
 	}
 
+	span {
+		font-weight: 300;
+	}
+
+	small {
+		color: var(--text-tertiary);
+	}
+
+	.address-balance {
+		display: inline-flex;
+		flex-direction: column;
+	}
 	.rewards {
 		margin-bottom: 40px;
 	}
