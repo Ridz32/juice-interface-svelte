@@ -1,3 +1,4 @@
+import type { V2ProjectContextType } from '$lib/create/stores';
 import { BigNumber } from 'ethers';
 
 export const project = {
@@ -86,4 +87,4 @@ export const project = {
 		fundingCycleLoading: false,
 		usedDistributionLimitLoading: false
 	}
-};
+} as V2ProjectContextType;

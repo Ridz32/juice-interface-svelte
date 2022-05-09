@@ -11,34 +11,23 @@
 	import { getTruncatedAddress } from '$lib/components/Address.svelte';
 	import CollapsibleSection from '$lib/create/CollapsibleSection.svelte';
 	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
-	import { currentFundingCycle } from '$data/mockData';
 	import FundingCycleDetails from '$lib/components/FundingCycleDetails.svelte';
 	import { DistributionLimitType } from '$constants';
+	import type { V2ProjectContextType } from '$lib/create/stores';
+import { project } from '$data/mockDataV2';
 	let clientWidth = 500;
 	let tab = 0;
 
 	let holdersOpened = false;
 	let distributeOpened = false;
 
-	const projectsContext = getContext('PROJECT') as {
-		project: Store<Project>;
-		// metadata: Store<ProjectMetadataV4>;
-		// currentFC: Store<V1FundingCycle>;
-		balance: Store<number>;
-		balanceInCurrency: Store<number>;
-		overflow: Store<number>;
-		owner: Store<string>;
-		// currency: Store<V1CurrencyOption>;
-		tokenSymbol: Store<string>;
-		tokenAddress: Store<string>;
-	};
+	const projectsContext = (getContext('PROJECT') as Store<V2ProjectContextType>);
+	console.log($projectsContext);
+	const tokenSymbol = $projectsContext.tokenSymbol;
+	const tokenAddress = $projectsContext.tokenAddress;
+	const currentFC = $projectsContext.fundingCycle;
+	const fcMetadata = decodeFundingCycleMetadata(currentFC.metadata);
 
-	const tokenSymbol = projectsContext.tokenSymbol;
-	const tokenAddress = projectsContext.tokenAddress;
-	const currentFC = projectsContext.currentFC;
-	const fcMetadata = decodeFundingCycleMetadata($currentFC.metadata);
-	console.log('fcData', $currentFC);
-	console.log('fcMetadata', fcMetadata);
 	// $: console.log($project);
 
 	onMount(async () => {
@@ -136,7 +125,7 @@
 					<div class="ant-statistic">
 						<div class="ant-statistic-title">
 							<span style="color: rgb(245, 163, 18); font-weight: 600;">
-								<span style="margin-right: 5px;">{$tokenSymbol}</span>
+								<span style="margin-right: 5px;">{tokenSymbol}</span>
 								<span
 									role="img"
 									aria-label="question-circle"
@@ -176,7 +165,7 @@
 														<span class="ant-descriptions-item-content">
 															<div style="width: 100%;">
 																<span style="cursor: default; user-select: all; line-height: 22px;"
-																	>{getTruncatedAddress($tokenAddress)}</span
+																	>{getTruncatedAddress(tokenAddress)}</span
 																>
 															</div>
 														</span>
@@ -215,7 +204,7 @@
 																style="display: flex; flex-wrap: wrap; gap: 5px; justify-content: space-between; width: 100%;"
 															>
 																<div>
-																	<div>0 {$tokenSymbol}</div>
+																	<div>0 {tokenSymbol}</div>
 																	<div>0 claimable</div>
 																	<div
 																		style="cursor: default; font-size: 0.8rem; font-weight: 500; color: var(--text-tertiary);"
@@ -304,13 +293,12 @@
 			<div style="position: relative;">
 				<HeavyBorderBox>
 					<!-- <CollapsibleSection alignCaret="baseline" expanded={false}> -->
-						<!-- TODO get distributionlimittype from target -->
+					<!-- TODO get distributionlimittype from target -->
 					<FundingCycleDetails
-						fundingCycle={$currentFC}
+						fundingCycle={currentFC}
 						fundingCycleMetadata={fcMetadata}
-						distributionLimitData={{ distributionLimit: $currentFC.target }}
-						currentDistributionLimitCurrencyType={$currentFC.currency}
-						currentDistributionLimitType={DistributionLimitType.None}
+						distributionLimitData={{ distributionLimit: $projectsContext.distributionLimit }}
+						currentDistributionLimitCurrencyType={$projectsContext.distributionLimitCurrency}
 					/>
 					<!-- </CollapsibleSection> -->
 				</HeavyBorderBox>

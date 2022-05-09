@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
 	import { modal } from '$stores';
+	import type { V2ProjectContextType } from '$lib/create/stores';
 	import Icon from '$lib/components/Icon.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import Popover from '$lib/components/Popover.svelte';
@@ -23,43 +24,28 @@
 	import Modal, { openModal } from '$lib/components/Modal.svelte';
 	import Pay from '$lib/components/Pay.svelte';
 	import { weightedRate } from '$utils/math';
+	import { Currency } from '$constants';
 
 	const converter = getCurrencyConverter();
 
-	const projectsContext = getContext('PROJECT') as {
-		project: Store<Project>;
-		metadata: Store<ProjectMetadataV4>;
-		currentFC: Store<V1FundingCycle>;
-		balance: Store<number>;
-		balanceInCurrency: Store<number>;
-		overflow: Store<number>;
-		owner: Store<string>;
-		currency: Store<V1CurrencyOption>;
-		tokenSymbol: Store<string>;
-		tokenAddress: Store<string>;
-	};
-	const project = projectsContext.project;
-	const currentFC = projectsContext.currentFC;
-	const balanceInCurrency = projectsContext.balanceInCurrency;
-	const balance = projectsContext.balance;
-	const overflow = projectsContext.overflow;
-	const owner = projectsContext.owner;
-	const metadata = projectsContext.metadata;
-	const tokenSymbol = projectsContext.tokenSymbol;
-	const tokenAddress = projectsContext.tokenAddress;
-	const ownerBalance = getEthBalance($owner);
+	const projectsContext = (getContext('PROJECT') as Store<V2ProjectContextType>);
 
-	const overflowInCurrency = converter.wadToCurrency(
-		$overflow ?? 0,
-		V1CurrencyName($currentFC?.currency.toNumber() as V1CurrencyOption),
-		'ETH'
-	);
+	const currentFC = $projectsContext.fundingCycle;
+	const balanceInCurrency = $projectsContext.balanceInDistributionLimitCurrency;
+	const balance = $projectsContext.ETHBalance;
+	// const overflow = projectsContext.overflow;
+	const owner = $projectsContext.projectOwnerAddress;
+	const metadata = $projectsContext.projectMetadata;
+	const tokenSymbol = $projectsContext.tokenSymbol;
+	const tokenAddress = $projectsContext.tokenAddress;
 
-	const fcMetadata = decodeFundingCycleMetadata($currentFC.metadata);
+	const ownerBalance = getEthBalance(owner);
+
+	const fcMetadata = decodeFundingCycleMetadata(currentFC.metadata);
 	const reservedRate = fcMetadata?.reservedRate;
 </script>
 
-{#if !$currentFC}
+{#if !currentFC}
 	<div />
 {/if}
 
@@ -77,7 +63,8 @@
 			</div>
 			<div slot="right">
 				<div class="amount">
-					<ETHAmount amount={$project.totalPaid} precision={4} />
+					<!-- TODO -->
+					<!-- <ETHAmount amount={$project.totalPaid} precision={4} /> -->
 				</div>
 			</div>
 		</InfoSpaceBetween>
@@ -90,75 +77,75 @@
 			</div>
 			<div slot="right">
 				<div class="amount">
-					{#if $currentFC.currency.eq(V1_CURRENCY_ETH)}
+					{#if $projectsContext.distributionLimitCurrency.eq(Currency.ETH)}
 						<h4 class="amount-main">
-							<ETHAmount amount={$balance} precision={2} padEnd />
+							<ETHAmount amount={balance} precision={2} padEnd />
 						</h4>
 					{:else}
 						<span class="amount-sub">
-							<ETHAmount amount={$balance} precision={2} padEnd />
+							<ETHAmount amount={balance} precision={2} padEnd />
 						</span>
 						<h4 class="amount-main">
-							<USDAmount amount={$balanceInCurrency} precision={2} padEnd />
+							<USDAmount amount={balanceInCurrency} precision={2} padEnd />
 						</h4>
 					{/if}
 				</div>
 			</div>
 		</InfoSpaceBetween>
-		{#if hasFundingTarget($currentFC)}
-			{#if $currentFC.target.gt(0)}
-				<InfoSpaceBetween>
-					<div slot="left">
-						<h4><Trans>Distributed</Trans></h4>
-						<Popover
-							placement="right"
-							message="The amount that has been distributed from the Juicebox balance
+		<!-- {#if hasFundingTarget(currentFC)} -->
+		{#if $projectsContext.distributionLimit.gt(0)}
+			<InfoSpaceBetween>
+				<div slot="left">
+					<h4><Trans>Distributed</Trans></h4>
+					<Popover
+						placement="right"
+						message="The amount that has been distributed from the Juicebox balance
             in this funding cycle, out of the current funding target. No
             more than the funding target can be distributed in a single
             funding cycle—any remaining ETH in Juicebox is overflow, until
             the next cycle begins."
-						>
-							<Icon name="questionCircle" />
-						</Popover>
-					</div>
-					<div slot="right">
-						{#if $currentFC.currency.eq(V1_CURRENCY_ETH)}
+					>
+						<Icon name="questionCircle" />
+					</Popover>
+				</div>
+				<div slot="right">
+					<!-- {#if $projectsContext.distributionLimitCurrency.eq(Currency.ETH)}
 							<h4 class="amount-main">
-								<ETHAmount amount={$currentFC.tapped} precision={2} padEnd /> / <ETHAmount
-									amount={$currentFC.target}
+								<ETHAmount amount={currentFC.tapped} precision={2} padEnd /> / <ETHAmount
+									amount={currentFC.target}
 									precision={2}
 									padEnd
 								/>
 							</h4>
 						{:else}
 							<span class="amount-sub">
-								<USDAmount amount={$currentFC.tapped} precision={2} padEnd /> / <USDAmount
-									amount={$currentFC.target}
+								<USDAmount amount={currentFC.tapped} precision={2} padEnd /> / <USDAmount
+									amount={currentFC.target}
 									precision={2}
 									padEnd
 								/>
 							</span>
-						{/if}
-					</div>
-				</InfoSpaceBetween>
-				<!-- TODO range / i.e. progressbar that takes in targetAmount overflowAmountinTargetCurrency and balanceInTargetCurrency-->
-				<!-- <range /> -->
-			{:else}
-				<Popover
-					slot="right"
-					message="The target for this funding cycle is 0, meaning all funds in Juicebox are currently
+						{/if} -->
+				</div>
+			</InfoSpaceBetween>
+			<!-- TODO range / i.e. progressbar that takes in targetAmount overflowAmountinTargetCurrency and balanceInTargetCurrency-->
+			<!-- <range /> -->
+		{:else}
+			<Popover
+				slot="right"
+				message="The target for this funding cycle is 0, meaning all funds in Juicebox are currently
 		considered overflow. Overflow can be redeemed by token holders, but not distributed."
-				>
-					<Trans>100% overflow</Trans>
-				</Popover>
-			{/if}
+			>
+				<Trans>100% overflow</Trans>
+			</Popover>
 		{/if}
+		<!-- {/if} -->
 
 		<InfoSpaceBetween>
 			<div slot="left">
 				<h4><Trans>In wallet</Trans></h4>
 				<Popover placement="right" message="The balance of the project owner's wallet.">
-					<EtherscanLink slot="content" value={$owner} type="address" truncated />
+					<EtherscanLink slot="content" value={owner} type="address" truncated />
 					<Icon name="questionCircle" />
 				</Popover>
 			</div>
@@ -179,11 +166,11 @@
 	</div>
 	<div class="payment">
 		<Pay
-			payButton={$metadata.payButton}
+			payButton={metadata.payButton}
 			{reservedRate}
-			token={$tokenSymbol}
-			tokenAddress={$tokenAddress}
-			weight={$currentFC.weight}
+			token={tokenSymbol}
+			tokenAddress={tokenAddress}
+			weight={currentFC.weight}
 			weightingFn={weightedRate}
 		/>
 	</div>

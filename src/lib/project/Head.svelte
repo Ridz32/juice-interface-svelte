@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
 	import Drawer from '$lib/components/Drawer.svelte';
+	import type { V2ProjectContextType } from '$lib/create/stores';
 	import type { Project } from '$models/subgraph-entities/project';
 	import type { ProjectMetadata, ProjectMetadataV4 } from '$models/project-metadata';
 	import type Store from '$utils/Store';
@@ -12,12 +13,8 @@
 
 	let drawerShown = false;
 
-	const projectContext = getContext('PROJECT') as {
-		project: Store<Project>;
-		metadata: Store<ProjectMetadataV4>;
-	};
-	const project = projectContext.project;
-	const metadata = projectContext.metadata;
+	const projectContext = (getContext('PROJECT') as Store<V2ProjectContextType>);
+	const metadata = $projectContext.projectMetadata;
 
 	const prettyUrl = (url: string) => {
 		if (url.startsWith('https://')) {
@@ -37,22 +34,23 @@
 
 <section>
 	<div class="logo-wrapper">
-		<img src={$metadata.logoUri} alt="JuiceboxDAO logo" />
+		<img src={metadata.logoUri} alt="JuiceboxDAO logo" />
 	</div>
 
 	<div class="info-wrapper">
 		<InfoSpaceBetween>
 			<h1 slot="left">
-				{$metadata?.name || 'Untitled project'}
+				{metadata?.name || 'Untitled project'}
 			</h1>
 			<div slot="right" style="display: flex; align-items: center;">
 				<span style="color: var(--text-tertiary); padding-right: 10px;"
-					>ID: {$project.id.toString()}
-					{#if $project.terminal}
+					>ID: {$projectContext.projectId.toString()}
+					<!-- TODO -->
+					<!-- {#if $project.terminal}
 						<Popover message="Version of the terminal contract used by this project.">
 							<span class="terminal-version">V1</span>
 						</Popover>
-					{/if}
+					{/if} -->
 				</span>
 				<div class="clickable-icon">
 					<Icon on:click={() => (drawerShown = !drawerShown)} name="tool" />
@@ -62,28 +60,28 @@
 		<div
 			style="display: flex; flex-wrap: wrap; padding-top: 8px; padding-bottom: 4px; font-weight: 500;"
 		>
-			<span class="project-handle">@{$project.handle}</span>
-			{#if $metadata.infoUri}
-				<a href={$metadata.infoUri} target="_blank" rel="noopener noreferrer"
-					>{prettyUrl($metadata.infoUri)}</a
+			<!-- <span class="project-handle">@{$project.handle}</span> -->
+			{#if metadata.infoUri}
+				<a href={metadata.infoUri} target="_blank" rel="noopener noreferrer"
+					>{prettyUrl(metadata.infoUri)}</a
 				>
 			{/if}
-			{#if $metadata.twitter}
+			{#if metadata.twitter}
 				<a
-					href={'https://twitter.com/' + $metadata.twitter}
+					href={'https://twitter.com/' + metadata.twitter}
 					target="_blank"
 					rel="noopener noreferrer"
-					><span style="social-icon"><Icon name="twitter" /></span>@{$metadata.twitter}</a
+					><span style="social-icon"><Icon name="twitter" /></span>@{metadata.twitter}</a
 				>
 			{/if}
-			{#if $metadata.discord}
-				<a href={linkUrl($metadata.discord)} target="_blank" rel="noopener noreferrer"
+			{#if metadata.discord}
+				<a href={linkUrl(metadata.discord)} target="_blank" rel="noopener noreferrer"
 					><span class="social-icon"><Icon name="discord" /></span>Discord</a
 				>
 			{/if}
 		</div>
 
-		<Paragraph description={$metadata.description} characterLimit={250} />
+		<Paragraph description={metadata.description} characterLimit={250} />
 	</div>
 </section>
 

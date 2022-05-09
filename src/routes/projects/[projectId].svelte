@@ -26,95 +26,144 @@
 	import type { ProjectMetadata, ProjectMetadataV4 } from '$models/project-metadata';
 	import { getPaymentsForProject, getProjectMetadata } from '$data/project';
 	import { getCurrencyConverter } from '$data/currency';
-	import {
-		mockBalanceInCurrency,
-		mockBalance,
-		mockOwner,
-		mockOverflow,
-		mockTokenSymbol,
-		currentFundingCycle,
-		mockTokenAddress
-	} from '$data/mockData';
+	import { project as mockProject } from '$data/mockDataV2';
+	import type { V2ProjectContextType } from '$lib/create/stores';
 
-	let project = new Store<Project>();
-	let metadata = new Store<ProjectMetadata>();
-	// TODO populate current funding cycle from the contract
-	let currentFC = new Store<V1FundingCycle>();
-	let balance = new Store<BigNumber>();
-	let balanceInCurrency = new Store<BigNumber>();
-	let overflow = new Store<BigNumber>();
-	let owner = new Store<Address>();
-	let tokenSymbol = new Store<string>();
-	let tokenAddress = new Store<string>();
+	let project = new Store<V2ProjectContextType>();
 
-	// TODO get the url params
-	//   const { handle }: { handle?: string } = useParams()
-	// 	 const location = useLocation()
+	// 	// Calls JBFundingCycleStore.currentOf
+	// 	const { data: fundingCycle, loading: fundingCycleLoading } =
+	//     useProjectCurrentFundingCycle({
+	//       projectId,
+	//     })
+
+	//   const fundingCycleMetadata = fundingCycle
+	//     ? decodeV2FundingCycleMetadata(fundingCycle?.metadata)
+	//     : undefined
+
+	//   const { data: payoutSplits } = useProjectSplits({
+	//     projectId,
+	//     splitGroup: ETH_PAYOUT_SPLIT_GROUP,
+	//     domain: fundingCycle?.configuration?.toString(),
+	//   })
+
+	//   const { data: terminals } = useProjectTerminals({
+	//     projectId,
+	//   })
+
+	//   const location = useLocation()
 	//   const params = new URLSearchParams(location.search)
 	//   const isNewDeploy = Boolean(params.get('newDeploy'))
-	// NOTE we already have the project id in our current setup
-	// should add a [projectHandle].svelte route for handle
-	//   const projectId = useProjectIdForHandle(handle)
 
-	// TODO get all the below data from the contracts, all these hooks are from '/hooks/v1/contractReader'
-	// make functions in data directory
-	//   const owner = useOwnerOfProject(projectId)
-	//   const terminalAddress = useTerminalOfProject(projectId)
-	//   const terminalName = getTerminalName({
-	// 	   address: terminalAddress,
+	//   const primaryTerminal = terminals?.[0] // TODO: make primaryTerminalOf hook and use it
+
+	//   const { data: distributionLimitData, loading: distributionLimitLoading } =
+	//     useProjectDistributionLimit({
+	//       projectId,
+	//       configuration: fundingCycle?.configuration?.toString(),
+	//       terminal: primaryTerminal,
+	//     })
+
+	//   const { data: usedDistributionLimit, loading: usedDistributionLimitLoading } =
+	//     useUsedDistributionLimit({
+	//       projectId,
+	//       terminal: primaryTerminal,
+	//       fundingCycleNumber: fundingCycle?.number,
+	//     })
+
+	//   const [distributionLimit, distributionLimitCurrency] =
+	//     distributionLimitData ?? []
+
+	//   const { data: reservedTokensSplits } = useProjectSplits({
+	//     projectId,
+	//     splitGroup: RESERVED_TOKEN_SPLIT_GROUP,
+	//     domain: fundingCycle?.configuration?.toString(),
 	//   })
-	//   const terminalVersion = getTerminalVersion(terminalAddress)
-	//   const currentFC = useCurrentFundingCycleOfProject(projectId, terminalName)
-	//   const queuedFC = useQueuedFundingCycleOfProject(projectId)
-	//   const currentPayoutMods = useCurrentPayoutModsOfProject(
+
+	//   const { data: ETHBalance, loading: ETHBalanceLoading } =
+	//     usePaymentTerminalBalance({
+	//       terminal: primaryTerminal,
+	//       projectId,
+	//     })
+
+	//   const { data: tokenAddress } = useProjectToken({
 	//     projectId,
-	//     currentFC?.configured,
-	//   )
-	//   const queuedPayoutMods = useQueuedPayoutModsOfProject(
-	//     projectId,
-	//     queuedFC?.configured,
-	//   )
-	//   const currentTicketMods = useCurrentTicketModsOfProject(
-	//     projectId,
-	//     currentFC?.configured,
-	//   )
-	//   const queuedTicketMods = useQueuedTicketModsOfProject(
-	//     projectId,
-	//     queuedFC?.configured,
-	//   )
-	//   const tokenAddress = useTokenAddressOfProject(projectId)
+	//   })
+
 	//   const tokenSymbol = useSymbolOfERC20(tokenAddress)
 
-	//   const balance = useBalanceOfProject(projectId, terminalName)
+	//   const { data: primaryTerminalCurrentOverflow } = useTerminalCurrentOverflow({
+	//     projectId,
+	//     terminal: primaryTerminal,
+	//   })
+
+	//   const converter = useCurrencyConverter()
+	//   const {
+	//     data: balanceInDistributionLimitCurrency,
+	//     loading: balanceInDistributionLimitCurrencyLoading,
+	//   } = useMemo(() => {
+	//     if (ETHBalanceLoading) return { loading: true }
+
+	//     return {
+	//       data: converter.wadToCurrency(
+	//         ETHBalance,
+	//         V2CurrencyName(
+	//           distributionLimitCurrency?.toNumber() as V2CurrencyOption,
+	//         ),
+	//         V2CurrencyName(V2_CURRENCY_ETH),
+	//       ),
+	//       loading: false,
+	//     }
+	//   }, [ETHBalance, ETHBalanceLoading, converter, distributionLimitCurrency])
+
+	//   const { data: projectOwnerAddress } = useProjectOwner(projectId)
+
+	//   const { data: totalTokenSupply } = useProjectTokenTotalSupply(projectId)
+
+	//   const { data: ballotState } = useBallotState(projectId)
+
+	//   if (metadataLoading || metadataURILoading) return <Loading />
+	//   if (isNewDeploy && !metadataCID) {
+	//     return <NewDeployNotAvailable handleOrId={projectId} />
+	//   }
+	//   if (metadataError || !metadataCID) {
+	//     return <Project404 projectId={projectId} />
+	//   }
+
+	//   const project: V2ProjectContextType = {
+	//     projectId,
+	//     projectMetadata,
+	//     fundingCycle,
+	//     fundingCycleMetadata,
+	//     distributionLimit,
+	//     usedDistributionLimit,
+	//     payoutSplits,
+	//     reservedTokensSplits,
+	//     tokenAddress,
+	//     terminals,
+	//     primaryTerminal,
+	//     ETHBalance,
+	//     distributionLimitCurrency,
+	//     balanceInDistributionLimitCurrency,
+	//     tokenSymbol,
+	//     projectOwnerAddress,
+	//     primaryTerminalCurrentOverflow,
+	//     totalTokenSupply,
+	//     ballotState,
+
+	//     loading: {
+	//       ETHBalanceLoading,
+	//       balanceInDistributionLimitCurrencyLoading,
+	//       distributionLimitLoading,
+	//       fundingCycleLoading,
+	//       usedDistributionLimitLoading,
+	//     },
+	//   }
 
 	const converter = getCurrencyConverter();
-	// const balanceInCurrency =
-	// 	balance &&
-	// 	converter.wadToCurrency(
-	// 		balance,
-	// 		V1CurrencyName(currentFC?.currency.toNumber() as V1CurrencyOption),
-	// 		'ETH'
-	// 	);
 
-	//   const overflow = useOverflowOfProject(projectId, terminalName)
-	//   const uri = useUriOfProject(projectId)
-
-	async function getMockCurrentFC() {
-		// Copied from console logging in jb react
-		return new Promise((resolve, reject) => resolve(currentFundingCycle));
-	}
 	let loading = true;
-	setContext('PROJECT', {
-		project,
-		metadata,
-		currentFC,
-		balance,
-		balanceInCurrency,
-		overflow,
-		owner,
-		tokenSymbol,
-		tokenAddress
-	});
+	setContext('PROJECT', project);
 
 	onMount(async () => {
 		const [res] = await querySubgraph({
@@ -138,18 +187,18 @@
 			]
 		});
 
-		$project = res;
+		// $project = res;
 		console.log(res);
-		$metadata = await getProjectMetadata(res.uri);
-		$project.payEvents = await getPaymentsForProject(res.id);
-		$currentFC = currentFundingCycle;
-		$balanceInCurrency = mockBalanceInCurrency;
-		$balance = mockBalance;
-		$overflow = mockOverflow;
-		$owner = mockOwner;
-		$tokenSymbol = mockTokenSymbol;
-		$tokenAddress = mockTokenAddress;
-
+		// $metadata = await getProjectMetadata(res.uri);
+		// $project.payEvents = await getPaymentsForProject(res.id);
+		// $currentFC = currentFundingCycle;
+		// $balanceInCurrency = mockBalanceInCurrency;
+		// $balance = mockBalance;
+		// $overflow = mockOverflow;
+		// $owner = mockOwner;
+		// $tokenSymbol = mockTokenSymbol;
+		// $tokenAddress = mockTokenAddress;
+		$project = mockProject;
 		loading = false;
 	});
 </script>
@@ -167,7 +216,11 @@
 				<Paid />
 				<div class="row">
 					<Details />
-					<Activity {loading} />
+					{#await getPaymentsForProject($project.projectId)}
+						<Activity loading={true} />
+					{:then payEvents}
+						<Activity {payEvents} />
+					{/await}
 				</div>
 			</div>
 			<div style="text-align: center; padding: 20px;">

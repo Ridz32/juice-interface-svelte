@@ -4,8 +4,9 @@
 	import type { Project } from '$models/subgraph-entities/project';
 	import type { ProjectMetadata } from '$models/project-metadata';
 	import Icon from '$lib/components/Icon.svelte';
-	import PayEvent from './PayEvent.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
+	import type { V2ProjectContextType } from '$lib/create/stores';
+	import PayEvent from './PayEvent.svelte';
 
 	enum ActivityType {
 		PAY = 'PAY',
@@ -14,15 +15,13 @@
 		RESERVES = 'RESERVES'
 	}
 
-	const projectContext = getContext('PROJECT') as {
-		project: Store<Project>;
-		metadata: Store<ProjectMetadata>;
-	};
-	const project = projectContext.project;
-	const payEvents = $project.payEvents;
+	// const projectContext = getContext('PROJECT') as Store<V2ProjectContextType>;
+	// const project = projectContext.project;
+	// const payEvents = $project.payEvents;
 
-	export let loading: boolean;
+	export let loading: boolean = false;
 	export let current: ActivityType = ActivityType.PAY;
+	export let payEvents = [];
 </script>
 
 <section>
