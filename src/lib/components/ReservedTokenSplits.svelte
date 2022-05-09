@@ -9,13 +9,16 @@
 	import { BigNumber } from 'ethers';
 	import { formatWad } from '$utils/formatNumber';
 	import { getTruncatedAddress } from './Address.svelte';
+	import type { V2FundingCycleMetadata } from '$models/v2/fundingCycle';
+	import type { Split } from '$models/v2/splits';
 
-	export let fundingCycleMetadata;
-	export let reservedTokensSplits;
+	export let fundingCycleMetadata: V2FundingCycleMetadata;
+	export let reservedTokensSplits: Split[];
 	export let isCreatePreview = false;
 
 	export let tokenSymbol: string | undefined = undefined;
 	export let tokenAddress: string | undefined = undefined;
+	export let hideHeader: boolean = false;
 
 	// TODO contract readerr
 	//   const reservedTokens = getProjectReservedTokens({
@@ -28,22 +31,24 @@
 	$: totalSplitPercentageTokenSplits = getTotalSplitsPercentage(reservedTokensSplits);
 </script>
 
-<InfoSpaceBetween>
-	<div slot="left">
-		<div class="available">
-			<p>{reservedTokens ? formatWad(reservedTokens): "0"}</p>
-			<PopInfo
-				message="The amount of tokens this project has reserved. These tokens can be distributed to reserved token beneficiaries."
-				><small class="upper">{tokenSymbol || 'Tokens'} reserved</small></PopInfo
-			>
+{#if !hideHeader}
+	<InfoSpaceBetween>
+		<div slot="left">
+			<div class="available">
+				<p>{reservedTokens ? formatWad(reservedTokens) : '0'}</p>
+				<PopInfo
+					message="The amount of tokens this project has reserved. These tokens can be distributed to reserved token beneficiaries."
+					><small class="upper">{tokenSymbol || 'Tokens'} reserved</small></PopInfo
+				>
+			</div>
 		</div>
-	</div>
-	<div slot="right"><button disabled={true}>Distribute {tokenSymbol || 'tokens'}</button></div>
-</InfoSpaceBetween>
-{#if tokenAddress}
-	<p class="contract-address">
-		<Trans>{tokenSymbol || 'Tokens'} contract address {getTruncatedAddress(tokenAddress)}</Trans>
-	</p>
+		<div slot="right"><button disabled={true}>Distribute {tokenSymbol || 'tokens'}</button></div>
+	</InfoSpaceBetween>
+	{#if tokenAddress}
+		<p class="contract-address">
+			<Trans>{tokenSymbol || 'Tokens'} contract address {getTruncatedAddress(tokenAddress)}</Trans>
+		</p>
+	{/if}
 {/if}
 <h4>
 	<PopInfo

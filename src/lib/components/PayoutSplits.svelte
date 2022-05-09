@@ -22,6 +22,7 @@
 	export let balanceInDistributionLimitCurrency: BigNumber | undefined = undefined;
 	export let usedDistributionLimit: BigNumber | undefined = undefined;
 	export let projectOwnerAddress: Address | undefined = undefined;
+	export let hideHeader: boolean = false;
 
 	let distributionLimitType: DistributionLimitType;
 	let totalSplitPercentagePayoutSplits: number;
@@ -63,42 +64,44 @@
 	}
 </script>
 
-<InfoSpaceBetween>
-	<div slot="left" class="distribution-splits">
-		<div class="available">
-			<p><Money {currency} amount={distributableAmount} /></p>
-			<PopInfo
-				message="The funds available to distribution for this funding cycle (before the 2.5% JBX fee is subtracted). This number won't roll over to the next funding cycle, so funds should be distributed before this funding cycle ends."
-				><small class="upper">available</small></PopInfo
-			>
+{#if !hideHeader}
+	<InfoSpaceBetween>
+		<div slot="left" class="distribution-splits">
+			<div class="available">
+				<p><Money {currency} amount={distributableAmount} /></p>
+				<PopInfo
+					message="The funds available to distribution for this funding cycle (before the 2.5% JBX fee is subtracted). This number won't roll over to the next funding cycle, so funds should be distributed before this funding cycle ends."
+					><small class="upper">available</small></PopInfo
+				>
+			</div>
+			{#if distributionLimitType === DistributionLimitType.Infinite}
+				<p><small><ETH />0/NO LIMIT distributed</small></p>
+			{:else if distributionLimitType === DistributionLimitType.Specific}
+				<p>
+					<small
+						><Money {currency} amount={BigNumber.from(0)} formatWad={!isCreatePreview} />/<Money
+							{currency}
+							amount={distributionLimit}
+							formatWad={!isCreatePreview}
+						/>
+					</small>
+				</p>
+			{:else}
+				<p><small><Money amount={usedDistributionLimit} /> distributed</small></p>
+			{/if}
+			{#if projectOwnerAddress}
+				{#await getEthBalance(projectOwnerAddress)}
+					<Icon name="loadng" spin />
+				{:then amount}
+					<p><small><Money {amount} /> <Icon name="crown" /> owner balance</small></p>
+				{/await}
+			{:else}
+				<p><small><Money amount={ownerBalance} /> <Icon name="crown" /> owner balance</small></p>
+			{/if}
 		</div>
-		{#if distributionLimitType === DistributionLimitType.Infinite}
-			<p><small><ETH />0/NO LIMIT distributed</small></p>
-		{:else if distributionLimitType === DistributionLimitType.Specific}
-			<p>
-				<small
-					><Money {currency} amount={BigNumber.from(0)} formatWad={!isCreatePreview} />/<Money
-						{currency}
-						amount={distributionLimit}
-						formatWad={!isCreatePreview}
-					/>
-				</small>
-			</p>
-		{:else}
-			<p><small><Money amount={usedDistributionLimit} /> distributed</small></p>
-		{/if}
-		{#if projectOwnerAddress}
-			{#await getEthBalance(projectOwnerAddress)}
-				<Icon name="loadng" spin />
-			{:then amount}
-				<p><small><Money {amount} /> <Icon name="crown" /> owner balance</small></p>
-			{/await}
-		{:else}
-			<p><small><Money amount={ownerBalance} /> <Icon name="crown" /> owner balance</small></p>
-		{/if}
-	</div>
-	<div slot="right"><button disabled={true}>Distribute funds</button></div>
-</InfoSpaceBetween>
+		<div slot="right"><button disabled={true}>Distribute funds</button></div>
+	</InfoSpaceBetween>
+{/if}
 <h4>
 	<PopInfo message="Available funds are distributed according to the payouts below."
 		>Distribution splits</PopInfo

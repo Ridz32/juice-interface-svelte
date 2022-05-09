@@ -39,7 +39,7 @@
 
 	export let fundingCycle;
 	export let fundingCycleMetadata;
-	export let distributionLimitData;
+	export let distributionLimit;
 	export let currentDistributionLimitCurrencyType;
 
 	let fundingCycleRiskProperties: any = {};
@@ -104,7 +104,7 @@
 		{
 			id: 'distributionLimit',
 			label: 'DistributionLimit',
-			value: getDistributionValue(distributionLimitData.distributionLimit)
+			value: getDistributionValue(distributionLimit)
 		},
 		{
 			id: 'duration',
@@ -224,9 +224,9 @@
 				<p class="gap">
 					<b>{label}:</b>
 					{#if currentDistributionLimitCurrencyType === Currency.ETH}
-						<EthAmount amount={distributionLimitData.distributionLimit} />
+						<EthAmount amount={distributionLimit} />
 					{:else}
-						<UsdAmount amount={distributionLimitData.distributionLimit} />
+						<UsdAmount amount={distributionLimit} />
 					{/if}
 				</p>
 			{:else}

@@ -21,6 +21,7 @@
 	import ReservedTokenSplits from '$lib/components/ReservedTokenSplits.svelte';
 	import { serializeV2FundingCycleData } from '$utils/v2/serializers';
 	import { hasFundingDuration, V2FundingCycleRiskCount } from '$utils/v2/fundingCycle';
+	import UpcomingFundingCycle from './UpcomingFundingCycle.svelte';
 
 	let clientWidth = 500;
 	let tab = 0;
@@ -132,32 +133,38 @@
 			{/each}
 		</nav>
 		<div>
-			<HeavyBorderBox>
-				<FundingCycleDetails
-					fundingCycle={currentFC}
-					fundingCycleMetadata={fcMetadata}
-					distributionLimitData={{ distributionLimit: $projectContext.distributionLimit }}
-					currentDistributionLimitCurrencyType={$projectContext.distributionLimitCurrency}
-				/>
-			</HeavyBorderBox>
-			<HeavyBorderBox>
-				<PayoutSplits
-					balanceInDistributionLimitCurrency={$projectContext.balanceInDistributionLimitCurrency}
-					currency={$projectContext.distributionLimitCurrency}
-					distributionLimit={$projectContext.distributionLimit}
-					{payoutSplits}
-					projectOwnerAddress={$projectContext.projectOwnerAddress}
-					usedDistributionLimit={$projectContext.usedDistributionLimit}
-				/>
-			</HeavyBorderBox>
-			<HeavyBorderBox>
-				<ReservedTokenSplits
-					fundingCycleMetadata={fcMetadata}
-					{reservedTokensSplits}
-					{tokenSymbol}
-					{tokenAddress}
-				/>
-			</HeavyBorderBox>
+			{#if currentTab === 'current'}
+				<HeavyBorderBox>
+					<FundingCycleDetails
+						fundingCycle={currentFC}
+						fundingCycleMetadata={fcMetadata}
+						distributionLimit={$projectContext.distributionLimit}
+						currentDistributionLimitCurrencyType={$projectContext.distributionLimitCurrency}
+					/>
+				</HeavyBorderBox>
+				<HeavyBorderBox>
+					<PayoutSplits
+						balanceInDistributionLimitCurrency={$projectContext.balanceInDistributionLimitCurrency}
+						currency={$projectContext.distributionLimitCurrency}
+						distributionLimit={$projectContext.distributionLimit}
+						{payoutSplits}
+						projectOwnerAddress={$projectContext.projectOwnerAddress}
+						usedDistributionLimit={$projectContext.usedDistributionLimit}
+					/>
+				</HeavyBorderBox>
+				<HeavyBorderBox>
+					<ReservedTokenSplits
+						fundingCycleMetadata={fcMetadata}
+						{reservedTokensSplits}
+						{tokenSymbol}
+						{tokenAddress}
+					/>
+				</HeavyBorderBox>
+			{:else if currentTab === 'upcoming'}
+				<UpcomingFundingCycle />
+			{:else if currentTab === 'history'}
+				[TODO]
+			{/if}
 		</div>
 	</div>
 </section>
