@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { BigNumber } from '@ethersproject/bignumber';
 	import { DEFAULT_ISSUANCE_RATE } from '$utils/v2/math';
+	import { Currency } from '$constants';
 	// TODO move
 	import CollapsibleSection from '$lib/create/CollapsibleSection.svelte';
 	import { formattedNum } from '$utils/formatNumber';
@@ -18,18 +19,13 @@
 	} from '$utils/v2/math';
 	import { FUNDING_CYCLE_WARNING_TEXT } from '$constants/fundingWarningText';
 	import Money from '$lib/components/Money.svelte';
-	// import {
-	// 	currentDistributionLimitCurrencyType as currency,
-	// 	currentDistributionLimitCurrencyType,
-	// 	distributionLimitData,
-	// 	fundingCycle,
-	// 	fundingCycleMetadata
-	// } from '../stores';
 	import { getBallotStrategyByAddress } from '$constants/v2/ballotStrategies/getBallotStrategiesByAddress';
 	import {
 		getUnsafeV2FundingCycleProperties,
 		V2FundingCycleRiskCount
 	} from '$utils/v2/fundingCycle';
+	import EthAmount from './ETHAmount.svelte';
+	import UsdAmount from './USDAmount.svelte';
 
 	const riskWarningText = FUNDING_CYCLE_WARNING_TEXT();
 	const isPreviewMode = true;
@@ -110,10 +106,8 @@
 	$: cycleKeyValues = [
 		{
 			id: 'distributionLimit',
-			label: 'Target',
-			value: "No target"
-			// TODO check deserialization of target value
-			// value: getDistributionValue(distributionLimitData.distributionLimit.mul(1000))
+			label: 'DistributionLimit',
+			value: getDistributionValue(distributionLimitData.distributionLimit)
 		},
 		{
 			id: 'duration',
@@ -129,8 +123,8 @@
 		},
 		durationSet && {
 			id: 'end',
-			label: 'End'
-			// value: formatDate(fundingCycle.start.add(fundingCycle.duration).mul(1000))
+			label: 'End',
+			value: formatDate(fundingCycle.start.add(fundingCycle.duration).mul(1000))
 		},
 		fundingCycle.discountRate && {
 			id: 'discountRate',
@@ -138,17 +132,17 @@
 			value: `${formatDiscountRate(fundingCycle.discountRate)}%`,
 			info: 'The ratio of tokens rewarded per payment amount will decrease by this percentage with each new funding cycle. A higher discount rate will incentivize supporters to pay your project earlier than later.'
 		},
-		fundingCycle.redemptionRate && {
+		fundingCycleMetadata.redemptionRate && {
 			id: 'redemptionRate',
 			label: 'Redemption rate',
 			value: `${formatRedemptionRate(fundingCycleMetadata.redemptionRate)}%`,
 			info: 'This rate determines the amount of overflow that each token can be redeemed for at any given time. On a lower bonding curve, redeeming a token increases the value of each remaining token, creating an incentive to hold tokens longer than others. A redemption rate of 100% means all tokens will have equal value regardless of when they are redeemed.'
 		},
-		fundingCycle.reservedRate && {
+		fundingCycleMetadata.reservedRate && {
 			id: 'reservedRate',
 			label: 'Reserved tokens',
 			// value: `${formatReservedRate((fundingCycleMetadata.reservedRate)}%`,
-			value: `${fundingCycleMetadata.reservedRate}%`,
+			value: `${formatReservedRate(fundingCycleMetadata.reservedRate)}%`,
 			info: 'Whenever someone pays your project, this percentage of tokens will be reserved and the rest will go to the payer. Reserve tokens are reserved for the project owner by default, but can also be allocated to other wallet addresses by the owner. Once tokens are reserved, anyone can "mint" them, which distributes them to their intended receivers.',
 			issue:
 				fundingCycleRiskProperties.metadataReservedRate ||
@@ -232,10 +226,11 @@
 			{:else if id === 'distributionLimit' && !value}
 				<p class="gap">
 					<b>{label}:</b>
-					<Money
-						amount={distributionLimitData.distributionLimit}
-						currency={currentDistributionLimitCurrencyType}
-					/>
+					{#if currentDistributionLimitCurrencyType === Currency.ETH}
+						<EthAmount amount={distributionLimitData.distributionLimit} />
+					{:else}
+						<UsdAmount amount={distributionLimitData.distributionLimit} />
+					{/if}
 				</p>
 			{:else}
 				<p class="gap">
