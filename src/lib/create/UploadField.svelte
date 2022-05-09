@@ -1,38 +1,55 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Icon from '$lib/components/Icon.svelte';
+	import { ipfsCidUrl, pinFileToIpfs } from '$utils/ipfs';
+
 	export let onChange: (src: string) => void;
+
+	let problem: string | undefined;
+	let loading = false;
 
 	let file: HTMLInputElement;
 	let isFileSet = false;
 	onMount(() => {
-		file.addEventListener('change', (e) => {
+		file.addEventListener('change', async (e) => {
+			loading = true;
 			// Get the selected file
 			const [file] = (e.target as HTMLInputElement).files;
 			// Get the file name and size
 			const { name: fileName, size } = file;
 			// Convert size in bytes to kilo bytes
-			const fileSize = (size / 1000).toFixed(2);
+			const fileSize = size / 1000;
+			if (fileSize > 500) {
+				problem = 'File size must be less than 500 KB';
+				isFileSet = false;
+				loading = false;
+				return;
+			} else {
+				problem = undefined;
+			}
 			// Set the text content
-			const fileNameAndSize = `${fileName} - ${fileSize}KB`;
-			loadFile(file);
-			document.querySelector('.file-name').textContent = fileNameAndSize;
+			const res = await pinFileToIpfs(file);
+			const ipfsUrl = ipfsCidUrl(res?.IpfsHash);
+			loading = false;
+			loadFile(ipfsUrl);
+			document.querySelector('.file-name').textContent = ipfsUrl;
 		});
 	});
 
-	var loadFile = function (file: Blob | MediaSource) {
-		// Get src url
-		const src = URL.createObjectURL(file);
+	function loadFile(url: string) {
 		if (onChange) {
-			onChange(src);
+			onChange(url);
 		}
 		// Set preview image
 		let image = document.getElementById('output') as HTMLImageElement;
-		image.src = src;
+		image.src = url;
 		isFileSet = true;
-	};
+	}
 </script>
 
+{#if loading}
+	<Icon name="loading" spin />
+{/if}
 <label for="icon"
 	>Logo
 	<input bind:this={file} id="icon" type="file" />
@@ -41,7 +58,14 @@
 		<span>Upload</span>
 	</div>
 </label>
-<img id="output" class={isFileSet && 'file-preview'} src="" alt="Uploaded logo" />
+<div class="preview-wrapper">
+	<img id="output" class={isFileSet && 'file-preview'} src="" alt="Uploaded logo" />
+	<p class="file-name" />
+</div>
+{#if problem}
+	<Icon name="exclamation-circle" />
+	{problem}
+{/if}
 
 <style>
 	input[type='file'] {
@@ -57,7 +81,14 @@
 	img {
 		display: none;
 	}
-
+	.preview-wrapper {
+		display: flex;
+		align-items: center;
+		text-overflow: ellipsis;
+		width: 350px;
+		white-space: nowrap;
+		overflow: hidden;
+	}
 	.file-preview {
 		display: inline-block;
 		max-height: 100px;
