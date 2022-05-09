@@ -8,6 +8,8 @@
 	import Paragraph from '$lib/components/Paragraph.svelte';
 	import Popover from '$lib/components/Popover.svelte';
 	import ToolsDrawer from './ToolsDrawer.svelte';
+	import { openModal } from '$lib/components/Modal.svelte';
+	import ProjectConfiguration from './ProjectConfiguration.svelte';
 
 	let drawerShown = false;
 
@@ -55,7 +57,7 @@
 				</div>
 				{#if showReconfigure}
 					<div class="clickable-icon">
-						<Icon name="setting" />
+						<Icon name="setting" on:click={() => openModal(ProjectConfiguration)} />
 					</div>
 				{/if}
 			</div>
