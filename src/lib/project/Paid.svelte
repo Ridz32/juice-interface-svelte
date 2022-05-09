@@ -2,47 +2,33 @@
 	import { getContext } from 'svelte';
 	import { modal } from '$stores';
 	import type { V2ProjectContextType } from '$lib/create/stores';
+	import { Currency } from '$constants';
+	import { getEthBalance } from '$data/eth';
+	import type Store from '$utils/Store';
 	import Icon from '$lib/components/Icon.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import Popover from '$lib/components/Popover.svelte';
 	import ETHAmount from '$lib/components/ETHAmount.svelte';
 	import USDAmount from '$lib/components/USDAmount.svelte';
 	import Trans from '$lib/components/Trans.svelte';
-	import { readNetwork } from '$constants/networks';
-	import { V1_CURRENCY_ETH, V1_CURRENCY_USD } from '$constants/v1/currency';
-	import { getCurrencyConverter } from '$data/currency';
-	import type { V1CurrencyOption } from '$models/v1/currencyOption';
-	import type { Project } from '$models/subgraph-entities/project';
-	import type { ProjectMetadata, ProjectMetadataV4 } from '$models/project-metadata';
-	import { getEthBalance } from '$data/eth';
-	import { V1CurrencyName } from '$utils/v1/currency';
-	import { decodeFundingCycleMetadata, hasFundingTarget } from '$utils/v1/fundingCycle';
-	import type Store from '$utils/Store';
-	import type { V1FundingCycle } from '$models/v1/fundingCycle';
-	import AllAssetsModal from './AllAssetsModal.svelte';
 	import EtherscanLink from '$lib/components/EtherscanLink.svelte';
 	import Modal, { openModal } from '$lib/components/Modal.svelte';
 	import Pay from '$lib/components/Pay.svelte';
-	import { weightedRate } from '$utils/math';
-	import { Currency } from '$constants';
+	import { weightedAmount } from '$utils/v2/math';
+	import AllAssetsModal from './AllAssetsModal.svelte';
 
-	const converter = getCurrencyConverter();
-
-	const projectsContext = (getContext('PROJECT') as Store<V2ProjectContextType>);
+	const projectsContext = getContext('PROJECT') as Store<V2ProjectContextType>;
 
 	const currentFC = $projectsContext.fundingCycle;
+	const fcMetadata = $projectsContext.fundingCycleMetadata;
 	const balanceInCurrency = $projectsContext.balanceInDistributionLimitCurrency;
 	const balance = $projectsContext.ETHBalance;
-	// const overflow = projectsContext.overflow;
 	const owner = $projectsContext.projectOwnerAddress;
 	const metadata = $projectsContext.projectMetadata;
 	const tokenSymbol = $projectsContext.tokenSymbol;
 	const tokenAddress = $projectsContext.tokenAddress;
 
 	const ownerBalance = getEthBalance(owner);
-
-	const fcMetadata = decodeFundingCycleMetadata(currentFC.metadata);
-	const reservedRate = fcMetadata?.reservedRate;
 </script>
 
 {#if !currentFC}
@@ -92,7 +78,6 @@
 				</div>
 			</div>
 		</InfoSpaceBetween>
-		<!-- {#if hasFundingTarget(currentFC)} -->
 		{#if $projectsContext.distributionLimit.gt(0)}
 			<InfoSpaceBetween>
 				<div slot="left">
@@ -167,11 +152,11 @@
 	<div class="payment">
 		<Pay
 			payButton={metadata.payButton}
-			{reservedRate}
+			reservedRate={fcMetadata.reservedRate.toNumber()}
 			token={tokenSymbol}
-			tokenAddress={tokenAddress}
+			{tokenAddress}
 			weight={currentFC.weight}
-			weightingFn={weightedRate}
+			weightingFn={weightedAmount}
 		/>
 	</div>
 </section>

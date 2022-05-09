@@ -7,7 +7,7 @@ import { fromWad } from '$utils/formatNumber';
 
 export function getEtherPrice() {
 	console.warn('getEtherPrice is not implemented, default value 3000 returned');
-    return 3000;
+    return 2500;
 	// return parseFloat(fromWad(BigNumber.from('3000000000')));
 	//   const [price, setPrice] = useState<number>()
 

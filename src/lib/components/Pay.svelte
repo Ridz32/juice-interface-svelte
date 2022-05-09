@@ -2,22 +2,22 @@
 	import Button from '$lib/components/Button.svelte';
 	import ETH from '$lib/components/Ethereum.svelte';
 	import CurrencyInput from '$lib/components/CurrencyInput.svelte';
-	import type { CurrencyOption } from '$models/currencyOption';
 	import { formatWad, fromWad } from '$utils/formatNumber';
 	import { parseEther } from '@ethersproject/units';
 	import { Currency, CurrencyName } from '$constants';
 	import { BigNumber } from 'ethers';
 	import { getCurrencyConverter, getWeiConverter } from '$data/currency';
 	import { tokenSymbolText } from '$utils/tokenSymbolText';
+	import type { WeightFunction } from '$utils/math';
 
-	// TODO this has been directly copied from create/Preview, use context and reuse
+	// TODO this has been directly copied from create/Preview, reuse
 	export let payButton: string = 'Pay';
 	export let payInCurrency: Currency = Currency.ETH;
-	export let reservedRate;
+	export let reservedRate: number;
 	export let token: string = 'tokens';
 	export let tokenAddress: string;
-	export let weight;
-	export let weightingFn;
+	export let weight: BigNumber;
+	export let weightingFn: WeightFunction;
 
 	let currency = Currency.ETH;
 	let receiveText = 'Receive 1,000,000 tokens/1 ETH';
@@ -29,12 +29,6 @@
 	}
 
 	const converter = getCurrencyConverter();
-
-	const tokenText = tokenSymbolText({
-		tokenSymbol: token,
-		capitalize: false,
-		plural: true
-	});
 
 	function getReceiveText(payInCurrency: Currency) {
 		const formatReceivedTickets = (wei: BigNumber) => {

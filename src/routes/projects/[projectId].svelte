@@ -186,18 +186,6 @@
 				}
 			]
 		});
-
-		// $project = res;
-		console.log(res);
-		// $metadata = await getProjectMetadata(res.uri);
-		// $project.payEvents = await getPaymentsForProject(res.id);
-		// $currentFC = currentFundingCycle;
-		// $balanceInCurrency = mockBalanceInCurrency;
-		// $balance = mockBalance;
-		// $overflow = mockOverflow;
-		// $owner = mockOwner;
-		// $tokenSymbol = mockTokenSymbol;
-		// $tokenAddress = mockTokenAddress;
 		$project = mockProject;
 		loading = false;
 	});
