@@ -194,5 +194,3 @@
 		/>
 	{/each}
 </HeavyBorderBox>
-
-<Modal show={$modal} />
