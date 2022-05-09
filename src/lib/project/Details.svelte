@@ -6,7 +6,14 @@
 	import DistributeFunds from './DistributeFunds.svelte';
 	import type { Project } from '$models/subgraph-entities/project';
 	import type Store from '$utils/Store';
-import { getTruncatedAddress } from '$lib/components/Address.svelte';
+	import { decodeFundingCycleMetadata, hasFundingTarget } from '$utils/v1/fundingCycle';
+
+	import { getTruncatedAddress } from '$lib/components/Address.svelte';
+	import CollapsibleSection from '$lib/create/CollapsibleSection.svelte';
+	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
+	import { currentFundingCycle } from '$data/mockData';
+	import FundingCycleDetails from '$lib/components/FundingCycleDetails.svelte';
+	import { DistributionLimitType } from '$constants';
 	let clientWidth = 500;
 	let tab = 0;
 
@@ -28,7 +35,10 @@ import { getTruncatedAddress } from '$lib/components/Address.svelte';
 
 	const tokenSymbol = projectsContext.tokenSymbol;
 	const tokenAddress = projectsContext.tokenAddress;
-
+	const currentFC = projectsContext.currentFC;
+	const fcMetadata = decodeFundingCycleMetadata($currentFC.metadata);
+	console.log('fcData', $currentFC);
+	console.log('fcMetadata', fcMetadata);
 	// $: console.log($project);
 
 	onMount(async () => {
@@ -292,50 +302,18 @@ import { getTruncatedAddress } from '$lib/components/Address.svelte';
 		</div>
 		<div>
 			<div style="position: relative;">
-				<div style="margin-bottom: 10px;">
-					<div
-						style="background: var(--background-l2); box-shadow: var(--background-l1) 10px 10px; border-radius: 1px; stroke: none; overflow: hidden; padding: 20px;"
-					>
-						<div
-							class="ant-collapse ant-collapse-icon-position-left minimal"
-							style="background: transparent; border: none;"
-						>
-							<div class="ant-collapse-item" style="border: none;">
-								<div class="ant-collapse-header" role="button" tabindex="0" aria-expanded="false">
-									<span
-										role="img"
-										aria-label="right"
-										class="anticon anticon-right ant-collapse-arrow"
-									>
-										<svg
-											viewBox="64 64 896 896"
-											focusable="false"
-											data-icon="right"
-											width="1em"
-											height="1em"
-											fill="currentColor"
-											aria-hidden="true"
-										>
-											<path
-												d="M765.7 486.8L314.9 134.7A7.97 7.97 0 00302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 000-50.4z"
-											/>
-										</svg>
-									</span>
-									<div
-										style="display: flex; width: 100%; justify-content: space-between; cursor: pointer;"
-									>
-										<div>
-											<span>Cycle #20</span>
-										</div>
-										<span style="color: var(--text-secondary); margin-left: 10px;">
-											9d 19h 22m until #21
-										</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				<HeavyBorderBox>
+					<!-- <CollapsibleSection alignCaret="baseline" expanded={false}> -->
+						<!-- TODO get distributionlimittype from target -->
+					<FundingCycleDetails
+						fundingCycle={$currentFC}
+						fundingCycleMetadata={fcMetadata}
+						distributionLimitData={{ distributionLimit: $currentFC.target }}
+						currentDistributionLimitCurrencyType={$currentFC.currency}
+						currentDistributionLimitType={DistributionLimitType.None}
+					/>
+					<!-- </CollapsibleSection> -->
+				</HeavyBorderBox>
 				<div style="margin-bottom: 10px;">
 					<div
 						style="background: var(--background-l2); box-shadow: var(--background-l1) 10px 10px; border-radius: 1px; stroke: none; overflow: hidden; padding: 20px;"
@@ -1399,5 +1377,10 @@ import { getTruncatedAddress } from '$lib/components/Address.svelte';
 <style>
 	svg {
 		max-width: calc(100vw - 40px);
+	}
+
+	h4 {
+		margin-right: 10px;
+		color: var(--text-header);
 	}
 </style>
