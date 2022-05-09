@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { BigNumber } from '@ethersproject/bignumber';
+	import { parseEther } from '@ethersproject/units';
 	import { DEFAULT_ISSUANCE_RATE } from '$utils/v2/math';
 	import { Currency } from '$constants';
 	// TODO move
@@ -9,6 +10,8 @@
 	import PopInfo from '$lib/components/PopInfo.svelte';
 	import Popover from '$lib/components/Popover.svelte';
 	import { formatDate } from '$utils/formatDate';
+	import { formatWad } from '$utils/formatNumber';
+
 	import { detailedTimeUntil, detailedTimeString } from '$utils/formatTime';
 	import {
 		formatDiscountRate,
@@ -63,35 +66,35 @@
 		// TODO fix the weighting issue, not sure what's wrong
 		// Something to do with weight not being a billion
 		// Check default weight, 100% reservedRate is correct
-		const initialReservedTokensPerEth =
-			DEFAULT_ISSUANCE_RATE * ((parseFloat(fundingCycleMetadata.reservedRate) ?? 0) / 100);
-		const initialIssuanceRate = DEFAULT_ISSUANCE_RATE - initialReservedTokensPerEth;
-		// const payerRate = formatWad(
-		// 	weightedAmount(
-		// 		fundingCycle?.weight,
-		// 		fundingCycleMetadata?.reservedRate.toNumber(),
-		// 		parseEther('1'),
-		// 		'payer'
-		// 	),
-		// 	{
-		// 		precision: 0
-		// 	}
-		// );
-		// const reservedRate = formatWad(
-		// 	weightedAmount(
-		// 		fundingCycle?.weight,
-		// 		fundingCycleMetadata?.reservedRate.toNumber(),
-		// 		parseEther('1'),
-		// 		'reserved'
-		// 	),
-		// 	{
-		// 		precision: 0
-		// 	}
-		// );
-		const withReservedRate = `${formattedNum(initialIssuanceRate)} (+ ${formattedNum(
-			initialReservedTokensPerEth
+		// const initialReservedTokensPerEth =
+		// 	DEFAULT_ISSUANCE_RATE * ((parseFloat(fundingCycleMetadata.reservedRate) ?? 0) / 100);
+		// const initialIssuanceRate = DEFAULT_ISSUANCE_RATE - initialReservedTokensPerEth;
+		const payerRate = formatWad(
+			weightedAmount(
+				fundingCycle?.weight,
+				fundingCycleMetadata?.reservedRate.toNumber(),
+				parseEther('1'),
+				'payer'
+			),
+			{
+				precision: 0
+			}
+		);
+		const reservedRate = formatWad(
+			weightedAmount(
+				fundingCycle?.weight,
+				fundingCycleMetadata?.reservedRate.toNumber(),
+				parseEther('1'),
+				'reserved'
+			),
+			{
+				precision: 0
+			}
+		);
+		const withReservedRate = `${formattedNum(payerRate)} (+ ${formattedNum(
+			reservedRate
 		)} reserved) tokens/ETH`;
-		const withoutReservedRate = `${formattedNum(initialIssuanceRate)} tokens/ETH`;
+		const withoutReservedRate = `${formattedNum(payerRate)} tokens/ETH`;
 		return BigNumber.from(fundingCycleMetadata?.reservedRate).gt(0)
 			? withReservedRate
 			: withoutReservedRate;
