@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
 	import Drawer from '$lib/components/Drawer.svelte';
-	import type { V2ProjectContextType } from '$lib/create/stores';
+	import type { V2ProjectContextType } from '$models/project-type';
 	import type Store from '$utils/Store';
 	import Icon from '$lib/components/Icon.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';

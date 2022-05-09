@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
 	import { modal } from '$stores';
-	import type { V2ProjectContextType } from '$lib/create/stores';
+	import type { V2ProjectContextType } from '$models/project-type';
 	import { Currency } from '$constants';
 	import { getEthBalance } from '$data/eth';
 	import type Store from '$utils/Store';

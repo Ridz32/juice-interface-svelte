@@ -10,7 +10,7 @@
 	import { getTruncatedAddress } from '$lib/components/Address.svelte';
 	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
 	import FundingCycleDetails from '$lib/components/FundingCycleDetails.svelte';
-	import type { V2ProjectContextType } from '$lib/create/stores';
+	import type { V2ProjectContextType } from '$models/project-type';
 	import Button from '$lib/components/Button.svelte';
 	import Trans from '$lib/components/Trans.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';

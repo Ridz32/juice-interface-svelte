@@ -2,10 +2,7 @@ import { writable, derived } from 'svelte/store';
 import { BigNumber } from '@ethersproject/bignumber';
 import * as constants from '@ethersproject/constants';
 import Store from '$utils/Store';
-import { connectedAccount } from '$stores/web3';
 import { redemptionRateFrom } from '$utils/v2/math';
-import { V2_CURRENCY_ETH } from '$utils/v2/currency';
-import type { V2BallotState } from '$models/ballot';
 import type { ProjectMetadataV4 } from '$models/project-metadata';
 import type {
 	V2FundingCycle,
@@ -25,44 +22,6 @@ export const visitedFundingDrawers = writable({
 });
 
 export const modal = writable({});
-
-type V2ProjectLoadingStates = {
-	ETHBalanceLoading: boolean;
-	balanceInDistributionLimitCurrencyLoading: boolean;
-	distributionLimitLoading: boolean;
-	fundingCycleLoading: boolean;
-	usedDistributionLimitLoading: boolean;
-};
-
-export type V2ProjectContextType = {
-	isPreviewMode?: boolean;
-
-	projectId: BigNumber | undefined;
-	projectMetadata: ProjectMetadataV4 | undefined;
-	tokenAddress: string | undefined;
-	tokenSymbol: string | undefined;
-	terminals: string[] | undefined; // array of terminal addresses, 0xABC...
-	primaryTerminal: string | undefined;
-	ETHBalance: BigNumber | undefined;
-	projectOwnerAddress: string | undefined;
-	balanceInDistributionLimitCurrency: BigNumber | undefined;
-	usedDistributionLimit: BigNumber | undefined; // how much has been distributed
-
-	fundingCycleMetadata: V2FundingCycleMetadata | undefined;
-	fundingCycle: V2FundingCycle | undefined;
-	ballotState: V2BallotState | undefined;
-
-	distributionLimit: BigNumber | undefined;
-	distributionLimitCurrency: BigNumber | undefined;
-
-	payoutSplits: Split[] | undefined;
-	reservedTokensSplits: Split[] | undefined;
-
-	primaryTerminalCurrentOverflow: BigNumber | undefined;
-	totalTokenSupply: BigNumber | undefined;
-
-	loading: V2ProjectLoadingStates;
-};
 
 const fundingCycleData: V2FundingCycleData = {
 	duration: BigNumber.from(0),
@@ -157,79 +116,3 @@ export const currentDistributionLimitCurrencyType = derived(
 		return Currency.ETH;
 	}
 )
-
-/**
- * The default values for a v2 project
- */
-// const project: V2ProjectContextType = {
-// 	isPreviewMode: true,
-
-// 	projectId: BigNumber.from(0),
-// 	projectMetadata: projectMetadata.get(),
-
-// 	fundingCycle: fundingCycle.get(),
-// 	fundingCycleMetadata,
-
-// 	distributionLimit: undefined,
-// 	distributionLimitCurrency: BigNumber.from(V2_CURRENCY_ETH),
-
-// 	payoutSplits: payoutSplits.get(),
-// 	reservedTokensSplits: reservedTokensSplits.get(),
-
-// 	usedDistributionLimit: BigNumber.from(0),
-// 	ETHBalance: BigNumber.from(0),
-// 	balanceInDistributionLimitCurrency: BigNumber.from(0),
-
-// 	tokenAddress: undefined,
-// 	terminals: [],
-// 	primaryTerminal: undefined,
-// 	tokenSymbol: undefined,
-// 	projectOwnerAddress: connectedAccount.get(),
-// 	ballotState: undefined,
-// 	primaryTerminalCurrentOverflow: undefined,
-// 	totalTokenSupply: undefined,
-
-// 	loading: {
-// 		ETHBalanceLoading: false,
-// 		balanceInDistributionLimitCurrencyLoading: false,
-// 		distributionLimitLoading: false,
-// 		fundingCycleLoading: false,
-// 		usedDistributionLimitLoading: false
-// 	}
-// };
-
-// export const V2ProjectContext = writable<V2ProjectContextType>({
-//   isPreviewMode: false,
-
-//   projectId: undefined,
-//   projectMetadata: undefined,
-//   tokenAddress: undefined,
-//   tokenSymbol: undefined,
-//   terminals: undefined,
-//   primaryTerminal: undefined,
-//   ETHBalance: undefined,
-//   projectOwnerAddress: undefined,
-//   balanceInDistributionLimitCurrency: undefined,
-//   usedDistributionLimit: undefined,
-
-//   fundingCycleMetadata: undefined,
-//   fundingCycle: undefined,
-//   ballotState: undefined,
-
-//   distributionLimit: undefined,
-//   distributionLimitCurrency: undefined,
-
-//   payoutSplits: undefined,
-//   reservedTokensSplits: undefined,
-
-//   primaryTerminalCurrentOverflow: undefined,
-//   totalTokenSupply: undefined,
-
-//   loading: {
-//     ETHBalanceLoading: false,
-//     balanceInDistributionLimitCurrencyLoading: false,
-//     distributionLimitLoading: false,
-//     fundingCycleLoading: false,
-//     usedDistributionLimitLoading: false,
-//   },
-// })

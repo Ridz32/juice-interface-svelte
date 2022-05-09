@@ -27,7 +27,7 @@
 	import { getPaymentsForProject, getProjectMetadata } from '$data/project';
 	import { getCurrencyConverter } from '$data/currency';
 	import { project as mockProject } from '$data/mockDataV2';
-	import type { V2ProjectContextType } from '$lib/create/stores';
+	import type { V2ProjectContextType } from '$models/project-type';
 
 	let project = new Store<V2ProjectContextType>();
 

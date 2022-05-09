@@ -13,7 +13,7 @@
 	import Modal, { bind, openModal } from '$lib/components/Modal.svelte';
 	import { getContext, onMount } from 'svelte';
 	// TODO move the type to somewhere else
-	import type { V2ProjectContextType } from '$lib/create/stores';
+	import type { V2ProjectContextType } from '$models/project-type';
 	import HistoricalFundingCycle from './HistoricalFundingCycle.svelte';
 	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
 
