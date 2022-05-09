@@ -36,7 +36,7 @@
 		right: 0;
 		height: 100%;
 		background-color: var(--background-l0);
-		z-index: 999;
+		z-index: 1000;
 		width: 640px;
 		height: 100%;
 	}

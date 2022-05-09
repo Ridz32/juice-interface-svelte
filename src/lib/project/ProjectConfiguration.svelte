@@ -1,10 +1,22 @@
-<script>
+<script lang="ts">
 	import Button from '$lib/components/Button.svelte';
+	import Drawer from '$lib/components/Drawer.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import Trans from '$lib/components/Trans.svelte';
+	import ProjectDetails from '$lib/create/ProjectDetails.svelte';
 
 	let deployDisabled = true;
 	let deployInProgress = false;
+
+	let drawerOpen = false;
+	let current: Drawers;
+
+	enum Drawers {
+		Metadata = 'Metadata',
+		Funding = 'Funding',
+		Token = 'Token',
+		Rules = 'Rules'
+	}
 </script>
 
 <h3>Project configuration</h3>
@@ -12,7 +24,12 @@
 <section>
 	<h4><Trans>Edit project details</Trans></h4>
 	<p><Trans>Changes to project details will take effect immediately.</Trans></p>
-	<button>Project details <Icon name="caret" /></button>
+	<button
+		on:click={() => {
+			drawerOpen = true;
+			current = Drawers.Metadata;
+		}}>Project details <Icon name="caret" /></button
+	>
 	<br />
 	<h4><Trans>Reconfigure upcoming funding cycles</Trans></h4>
 	<p>
@@ -21,9 +38,24 @@
 			won't be altered.</Trans
 		>
 	</p>
-	<button><Trans>Distribution limit, duration and payouts</Trans> <Icon name="caret" /></button>
-	<button><Trans>Token</Trans> <Icon name="caret" /></button>
-	<button><Trans>Rules</Trans> <Icon name="caret" /></button>
+	<button
+		on:click={() => {
+			drawerOpen = true;
+			current = Drawers.Funding;
+		}}><Trans>Distribution limit, duration and payouts</Trans> <Icon name="caret" /></button
+	>
+	<button
+		on:click={() => {
+			drawerOpen = true;
+			current = Drawers.Token;
+		}}><Trans>Token</Trans> <Icon name="caret" /></button
+	>
+	<button
+		on:click={() => {
+			drawerOpen = true;
+			current = Drawers.Rules;
+		}}><Trans>Rules</Trans> <Icon name="caret" /></button
+	>
 
 	<div class="buttons">
 		<Button size="md" type="secondary">Cancel</Button>
@@ -35,6 +67,27 @@
 		</Button>
 	</div>
 </section>
+
+<Drawer bind:shown={drawerOpen} let:close>
+	<div class="content">
+		{#if current === Drawers.Metadata}
+			<h3>Reconfigure project details</h3>
+			<ProjectDetails
+				info={'Project details reconfigurations will create a separate transaction.'}
+			/>
+            <Button size="md">Save project details</Button>
+		{:else if current === Drawers.Funding}
+			[TODO: FundingDrawer]
+			<!-- <FundingDrawer {close} /> -->
+		{:else if current === Drawers.Rules}
+			[TODO: TokenDrawer]
+			<!-- <TokenDrawer {close} /> -->
+		{:else if current === Drawers.Token}
+			[TODO: Rules]
+			<!-- <RulesDrawer {close} /> -->
+		{/if}
+	</div>
+</Drawer>
 
 <style>
 	section {
@@ -63,5 +116,9 @@
 
 	.buttons {
 		float: right;
+	}
+
+	.content {
+		padding: 2rem;
 	}
 </style>

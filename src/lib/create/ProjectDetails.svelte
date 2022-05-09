@@ -4,6 +4,8 @@
 	import Input from '$lib/components/FormField.svelte';
 	import UploadField from './UploadField.svelte';
 
+	export let info = "You can edit your project details later on at any time.";
+
 	function onLogoChange(src: string) {
 		projectMetadata.update((state: any) => ({ ...state, logoUri: src }));
 	}
@@ -69,7 +71,7 @@
 	];
 </script>
 
-<InfoBox info="You can edit your project details later on at any time." />
+<InfoBox {info} />
 {#each formFields as field}
 	<Input {field} bind:value={$projectMetadata[field.id] }/>
 {/each}
