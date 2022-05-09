@@ -54,6 +54,7 @@
 		currency={$currency}
 		payoutSplits={$payoutSplits}
 		distributionLimit={$distributionLimitData.distributionLimit}
+		isCreatePreview={true}
 	/>
 </HeavyBorderBox>
 <HeavyBorderBox>

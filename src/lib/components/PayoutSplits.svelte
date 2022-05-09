@@ -14,6 +14,8 @@
 	export let currency: Currency;
 	export let distributionLimit: BigNumber;
 	export let payoutSplits: Split[];
+	// TODO: remove this when create has correct formatted amounts
+	export let isCreatePreview: boolean = false;
 
 	let distributionLimitType: DistributionLimitType;
 	let totalSplitPercentagePayoutSplits: number;
@@ -73,7 +75,7 @@
 			{#if distributionLimitType !== DistributionLimitType.Infinite}
 				100%
 				{#if distributionLimitType === DistributionLimitType.Specific}
-					(<Money {currency} amount={distributionLimit} />)
+					(<Money {currency} amount={distributionLimit} formatWad={!isCreatePreview} />)
 				{/if}
 			{/if}
 		</p>
@@ -88,7 +90,11 @@
 		<p slot="right">
 			{100 - totalSplitPercentagePayoutSplits}%
 			{#if distributionLimitType === DistributionLimitType.Specific}
-				(<Money {currency} amount={getOwnerAmountPayoutSplits(totalSplitPercentagePayoutSplits)} />)
+				(<Money
+					{currency}
+					formatWad={!isCreatePreview}
+					amount={getOwnerAmountPayoutSplits(totalSplitPercentagePayoutSplits)}
+				/>)
 			{/if}
 		</p>
 	</InfoSpaceBetween>
