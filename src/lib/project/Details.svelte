@@ -5,13 +5,9 @@
 	import DropDown from './DropDown.svelte';
 	import type Store from '$utils/Store';
 	import { connectedAccount } from '$stores/web3';
-
 	import { tokenSymbolText } from '$utils/tokenSymbolText';
-
 	import { decodeV2FundingCycleMetadata } from '$utils/v2/fundingCycle';
-
 	import { getTruncatedAddress } from '$lib/components/Address.svelte';
-	import SimpleSplits from '$lib/components/SimpleSplits.svelte';
 	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
 	import FundingCycleDetails from '$lib/components/FundingCycleDetails.svelte';
 	import type { V2ProjectContextType } from '$lib/create/stores';
@@ -19,18 +15,20 @@
 	import Trans from '$lib/components/Trans.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
 	import { formatPercent, formatWad } from '$utils/formatNumber';
+	import { formatReservedRate } from '$utils/v2/math';
 	import { BigNumber } from 'ethers';
 	import PayoutSplits from '$lib/components/PayoutSplits.svelte';
+	import ReservedTokenSplits from '$lib/components/ReservedTokenSplits.svelte';
 
 	let clientWidth = 500;
 	let tab = 0;
 
-	const projectsContext = getContext('PROJECT') as Store<V2ProjectContextType>;
-	const tokenSymbol = $projectsContext.tokenSymbol;
-	const tokenAddress = $projectsContext.tokenAddress;
-	const currentFC = $projectsContext.fundingCycle;
-	const payoutSplits = $projectsContext.payoutSplits;
-	const reservedTokensSplits = $projectsContext.reservedTokensSplits;
+	const projectContext = getContext('PROJECT') as Store<V2ProjectContextType>;
+	const tokenSymbol = $projectContext.tokenSymbol;
+	const tokenAddress = $projectContext.tokenAddress;
+	const currentFC = $projectContext.fundingCycle;
+	const payoutSplits = $projectContext.payoutSplits;
+	const reservedTokensSplits = $projectContext.reservedTokensSplits;
 
 	const fcMetadata = decodeV2FundingCycleMetadata(currentFC.metadata);
 
@@ -53,7 +51,7 @@
 	// this is arbitrary as mock data
 	const totalBalance = unclaimedBalance;
 	const userOwnershipPercentage =
-		formatPercent(totalBalance, $projectsContext.totalTokenSupply) || '0';
+		formatPercent(totalBalance, $projectContext.totalTokenSupply) || '0';
 
 	const claimedBalanceFormatted = formatWad(claimedBalance ?? 0, {
 		precision: 0
@@ -78,7 +76,7 @@
 			</div>
 			<div>
 				<p class="label"><Trans>Total supply</Trans>:</p>
-				<span>{formatWad($projectsContext.totalTokenSupply)} {tokenText}</span>
+				<span>{formatWad($projectContext.totalTokenSupply)} {tokenText}</span>
 			</div>
 			{#if $connectedAccount}
 				<div>
@@ -137,27 +135,22 @@
 				<FundingCycleDetails
 					fundingCycle={currentFC}
 					fundingCycleMetadata={fcMetadata}
-					distributionLimitData={{ distributionLimit: $projectsContext.distributionLimit }}
-					currentDistributionLimitCurrencyType={$projectsContext.distributionLimitCurrency}
+					distributionLimitData={{ distributionLimit: $projectContext.distributionLimit }}
+					currentDistributionLimitCurrencyType={$projectContext.distributionLimitCurrency}
 				/>
 			</HeavyBorderBox>
 			<HeavyBorderBox>
 				<PayoutSplits
-					balanceInDistributionLimitCurrency={$projectsContext.balanceInDistributionLimitCurrency}
-					currency={$projectsContext.distributionLimitCurrency}
-					distributionLimit={$projectsContext.distributionLimit}
+					balanceInDistributionLimitCurrency={$projectContext.balanceInDistributionLimitCurrency}
+					currency={$projectContext.distributionLimitCurrency}
+					distributionLimit={$projectContext.distributionLimit}
 					{payoutSplits}
-					projectOwnerAddress={$projectsContext.projectOwnerAddress}
-					usedDistributionLimit={$projectsContext.usedDistributionLimit}
+					projectOwnerAddress={$projectContext.projectOwnerAddress}
+					usedDistributionLimit={$projectContext.usedDistributionLimit}
 				/>
-				<!-- {#each payoutSplits as split}
-					<SimpleSplits
-						{split}
-						distributionLimitType={1}
-						distributionLimit={$projectsContext.distributionLimit}
-						currency={$projectsContext.distributionLimitCurrency}
-					/>
-				{/each} -->
+			</HeavyBorderBox>
+			<HeavyBorderBox>
+				<ReservedTokenSplits fundingCycleMetadata={fcMetadata} {reservedTokensSplits} />
 			</HeavyBorderBox>
 		</div>
 	</div>

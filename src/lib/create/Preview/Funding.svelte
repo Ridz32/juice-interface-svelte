@@ -1,33 +1,17 @@
 <script lang="ts">
-	import { BigNumber } from '@ethersproject/bignumber';
-	import ETH from '$lib/components/Ethereum.svelte';
 	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
-	import Icon from '$lib/components/Icon.svelte';
-	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
-	import Money from '$lib/components/Money.svelte';
-	import SimpleSplits from '$lib/components/SimpleSplits.svelte';
 	import PayoutSplits from '$lib/components/PayoutSplits.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
-	import { formatReservedRate } from '$utils/v2/math';
-	import { DistributionLimitType } from '$constants';
 	import { getTotalSplitsPercentage } from '$utils/v2/distributions';
 	import FundingCycleDetails from './FundingCycleDetails.svelte';
 	import {
 		currentDistributionLimitCurrencyType as currency,
-		currentDistributionLimitType,
 		distributionLimitData,
 		fundingCycleMetadata,
 		payoutSplits,
 		reservedTokensSplits
 	} from '../stores';
-
-	function getOwnerAmountPayoutSplits(summedSplitsPercent: number) {
-		const remainingPercent = 100 - summedSplitsPercent;
-		return $distributionLimitData.distributionLimit.mul(remainingPercent).div(100);
-	}
-
-	$: totalSplitPercentagePayoutSplits = getTotalSplitsPercentage($payoutSplits);
-	$: totalSplitPercentageTokenSplits = getTotalSplitsPercentage($reservedTokensSplits);
+	import ReservedTokenSplits from '$lib/components/ReservedTokenSplits.svelte';
 </script>
 
 <div class="title yellow">
@@ -58,50 +42,27 @@
 	/>
 </HeavyBorderBox>
 <HeavyBorderBox>
-	<InfoSpaceBetween>
-		<div slot="left">
-			<div class="available">
-				<p>0</p>
-				<PopInfo
-					message="The funds available to distribution for this funding cycle (before the 2.5% JBX fee is subtracted). This number won't roll over to the next funding cycle, so funds should be distributed before this funding cycle ends."
-					><small class="upper">Tokens reserved</small></PopInfo
-				>
-			</div>
-		</div>
-		<div slot="right"><button disabled={true}>Distribute tokens</button></div>
-	</InfoSpaceBetween>
-	<h4>
-		<PopInfo message="Available funds are distributed according to the payouts below."
-			>Reserved tokens <span>({formatReservedRate($fundingCycleMetadata.reservedRate)}%)</span
-			></PopInfo
-		>
-	</h4>
-	{#each $reservedTokensSplits as split}
-		<SimpleSplits {split} />
-	{/each}
-	<InfoSpaceBetween>
-		<p slot="left">Project owner (you) <Icon name="crown" />:</p>
-		<p slot="right">{100 - totalSplitPercentageTokenSplits}%</p>
-	</InfoSpaceBetween></HeavyBorderBox
->
+	<ReservedTokenSplits
+		fundingCycleMetadata={$fundingCycleMetadata}
+		reservedTokensSplits={$reservedTokensSplits}
+	/>
+</HeavyBorderBox>
 
 <style>
-	/* TODO these styles are a mess */
-	button {
-		background: transparent;
-		border: 1px solid var(--stroke-disabled);
-		color: var(--text-disabled);
-	}
-	div[slot='left'] {
-		display: flex;
-		flex-direction: column;
-		font-weight: 500;
+	h4 {
+		margin-right: 5px;
+		margin-bottom: 5px;
+		color: var(--text-header);
 	}
 
-	p[slot='left'],
-	p[slot='right'] {
+	p {
+		margin: 0;
+		color: var(--text-secondary);
+	}
+
+	span {
+		margin-left: 10px;
 		color: var(--text-primary);
-		font-weight: 400;
 	}
 	.title {
 		display: flex;
@@ -119,33 +80,6 @@
 	.yellow {
 		color: var(--text-header);
 	}
-	h4 {
-		margin-right: 5px;
-		margin-bottom: 5px;
-		color: var(--text-header);
-	}
-
-	p {
-		margin: 0;
-		color: var(--text-secondary);
-	}
-
-	span {
-		margin-left: 10px;
-		color: var(--text-primary);
-	}
-	.available {
-		display: flex;
-	}
-	.upper {
-		text-transform: uppercase;
-		font-weight: 300;
-	}
-	.available p {
-		margin-right: 5px;
-		color: var(--text-secondary);
-	}
-
 	.sub-header {
 		text-transform: capitalize;
 		font-weight: 600;

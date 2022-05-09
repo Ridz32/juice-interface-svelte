@@ -106,7 +106,7 @@
 </h4>
 {#if payoutSplits.length === 0}
 	<InfoSpaceBetween>
-		<p slot="left">Project owner (you) <Icon name="crown" />:</p>
+		<p slot="left">Project owner {isCreatePreview ? '(you)' : ''} <Icon name="crown" />:</p>
 		<p slot="right">
 			{#if distributionLimitType !== DistributionLimitType.Infinite}
 				100%
@@ -128,7 +128,7 @@
 {/each}
 {#if payoutSplits.length}
 	<InfoSpaceBetween>
-		<p slot="left">Project owner (you) <Icon name="crown" />:</p>
+		<p slot="left">Project owner {isCreatePreview ? '(you)' : ''} <Icon name="crown" />:</p>
 		<p slot="right">
 			{100 - totalSplitPercentagePayoutSplits}%
 			{#if distributionLimitType === DistributionLimitType.Specific}
