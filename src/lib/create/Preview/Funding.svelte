@@ -6,6 +6,7 @@
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import Money from '$lib/components/Money.svelte';
 	import SimpleSplits from '$lib/components/SimpleSplits.svelte';
+	import PayoutSplits from '$lib/components/PayoutSplits.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
 	import { formatReservedRate } from '$utils/v2/math';
 	import { DistributionLimitType } from '$constants';
@@ -49,73 +50,11 @@
 	<FundingCycleDetails />
 </HeavyBorderBox>
 <HeavyBorderBox>
-	<InfoSpaceBetween>
-		<div slot="left" class="distribution-splits">
-			<div class="available">
-				<p><Money currency={$currency} /></p>
-				<PopInfo
-					message="The funds available to distribution for this funding cycle (before the 2.5% JBX fee is subtracted). This number won't roll over to the next funding cycle, so funds should be distributed before this funding cycle ends."
-					><small class="upper">available</small></PopInfo
-				>
-			</div>
-			{#if $currentDistributionLimitType === DistributionLimitType.Infinite}
-				<p><small><ETH />0/NO LIMIT distributed</small></p>
-			{:else if $currentDistributionLimitType === DistributionLimitType.Specific}
-				<p>
-					<small
-						><Money
-							currency={$currency}
-							amount={BigNumber.from(0)}
-						/>/{$distributionLimitData.distributionLimit}
-					</small>
-				</p>
-			{:else}
-				<p><small><ETH />0 distributed</small></p>
-			{/if}
-			<p><small><ETH />0 <Icon name="crown" /> owner balance</small></p>
-		</div>
-		<div slot="right"><button disabled={true}>Distribute funds</button></div>
-	</InfoSpaceBetween>
-	<h4>
-		<PopInfo message="Available funds are distributed according to the payouts below."
-			>Distribution splits</PopInfo
-		>
-	</h4>
-	{#if $payoutSplits.length === 0}
-		<InfoSpaceBetween>
-			<p slot="left">Project owner (you) <Icon name="crown" />:</p>
-			<p slot="right">
-				{#if $currentDistributionLimitType !== DistributionLimitType.Infinite}
-					100%
-					{#if $currentDistributionLimitType === DistributionLimitType.Specific}
-						(<Money currency={$currency} amount={$distributionLimitData.distributionLimit} />)
-					{/if}
-				{/if}
-			</p>
-		</InfoSpaceBetween>
-	{/if}
-	{#each $payoutSplits as split}
-		<SimpleSplits
-			{split}
-			distributionLimitType={$currentDistributionLimitType}
-			distributionLimit={$distributionLimitData.distributionLimit}
-			currency={$currency}
-		/>
-	{/each}
-	{#if $payoutSplits.length}
-		<InfoSpaceBetween>
-			<p slot="left">Project owner (you) <Icon name="crown" />:</p>
-			<p slot="right">
-				{100 - totalSplitPercentagePayoutSplits}%
-				{#if $currentDistributionLimitType === DistributionLimitType.Specific}
-					(<Money
-						currency={$currency}
-						amount={getOwnerAmountPayoutSplits(totalSplitPercentagePayoutSplits)}
-					/>)
-				{/if}
-			</p>
-		</InfoSpaceBetween>
-	{/if}
+	<PayoutSplits
+		currency={$currency}
+		payoutSplits={$payoutSplits}
+		distributionLimit={$distributionLimitData.distributionLimit}
+	/>
 </HeavyBorderBox>
 <HeavyBorderBox>
 	<InfoSpaceBetween>
@@ -204,10 +143,6 @@
 	.available p {
 		margin-right: 5px;
 		color: var(--text-secondary);
-	}
-
-	.distribution-splits {
-		line-height: 1.2;
 	}
 
 	.sub-header {

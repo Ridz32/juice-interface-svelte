@@ -63,12 +63,6 @@
 	}
 
 	const reservedRateText = (fundingCycle, fundingCycleMetadata) => {
-		// TODO fix the weighting issue, not sure what's wrong
-		// Something to do with weight not being a billion
-		// Check default weight, 100% reservedRate is correct
-		// const initialReservedTokensPerEth =
-		// 	DEFAULT_ISSUANCE_RATE * ((parseFloat(fundingCycleMetadata.reservedRate) ?? 0) / 100);
-		// const initialIssuanceRate = DEFAULT_ISSUANCE_RATE - initialReservedTokensPerEth;
 		const payerRate = formatWad(
 			weightedAmount(
 				fundingCycle?.weight,
@@ -192,7 +186,7 @@
 	}
 </script>
 
-<CollapsibleSection alignCaret="center">
+<CollapsibleSection alignCaret="center" expanded={false}>
 	<div slot="header">
 		<h4 class="collapse-header">
 			{#if fundingCycle.duration.gt(0)}

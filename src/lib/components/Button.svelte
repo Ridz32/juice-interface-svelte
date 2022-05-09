@@ -51,8 +51,7 @@
 		height: 32px;
 		font-size: 14px;
 		font-weight: 300;
-		padding: unset;
-		width: 150px;
+		padding: 0px 20px;
 		margin-top: 0;
 	}
 
