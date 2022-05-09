@@ -1,14 +1,29 @@
-<script>
+<script lang="ts">
 	import { formatReservedRate } from '$utils/v2/math';
 	import Icon from '$lib/components/Icon.svelte';
 	import InfoSpaceBetween from './InfoSpaceBetween.svelte';
 	import PopInfo from './PopInfo.svelte';
 	import SimpleSplits from './SimpleSplits.svelte';
+	import Trans from './Trans.svelte';
 	import { getTotalSplitsPercentage } from '$utils/v2/distributions';
+	import { BigNumber } from 'ethers';
+	import { formatWad } from '$utils/formatNumber';
+	import { getTruncatedAddress } from './Address.svelte';
 
 	export let fundingCycleMetadata;
 	export let reservedTokensSplits;
 	export let isCreatePreview = false;
+
+	export let tokenSymbol: string | undefined = undefined;
+	export let tokenAddress: string | undefined = undefined;
+
+	// TODO contract readerr
+	//   const reservedTokens = getProjectReservedTokens({
+	//     projectId,
+	//     reservedRate,
+	//   })
+
+	const reservedTokens = BigNumber.from('0x02a5a058fc295ed00000');
 
 	$: totalSplitPercentageTokenSplits = getTotalSplitsPercentage(reservedTokensSplits);
 </script>
@@ -16,19 +31,25 @@
 <InfoSpaceBetween>
 	<div slot="left">
 		<div class="available">
-			<p>0</p>
+			<p>{reservedTokens ? formatWad(reservedTokens): "0"}</p>
 			<PopInfo
-				message="The funds available to distribution for this funding cycle (before the 2.5% JBX fee is subtracted). This number won't roll over to the next funding cycle, so funds should be distributed before this funding cycle ends."
-				><small class="upper">Tokens reserved</small></PopInfo
+				message="The amount of tokens this project has reserved. These tokens can be distributed to reserved token beneficiaries."
+				><small class="upper">{tokenSymbol || 'Tokens'} reserved</small></PopInfo
 			>
 		</div>
 	</div>
-	<div slot="right"><button disabled={true}>Distribute tokens</button></div>
+	<div slot="right"><button disabled={true}>Distribute {tokenSymbol || 'tokens'}</button></div>
 </InfoSpaceBetween>
+{#if tokenAddress}
+	<p class="contract-address">
+		<Trans>{tokenSymbol || 'Tokens'} contract address {getTruncatedAddress(tokenAddress)}</Trans>
+	</p>
+{/if}
 <h4>
-	<PopInfo message="Available funds are distributed according to the payouts below."
-		>Reserved tokens <span>({formatReservedRate(fundingCycleMetadata.reservedRate)}%)</span
-		></PopInfo
+	<PopInfo
+		message="A project can reserve a percentage of tokens minted from every payment it receives. Reserved tokens can be distributed according to the allocation below at any time."
+		>Reserved {tokenSymbol || 'tokens'}
+		<span>({formatReservedRate(fundingCycleMetadata.reservedRate)}%)</span></PopInfo
 	>
 </h4>
 {#each reservedTokensSplits as split}
@@ -76,12 +97,18 @@
 	.available {
 		display: flex;
 	}
-	.upper {
-		text-transform: uppercase;
-		font-weight: 300;
-	}
 	.available p {
 		margin-right: 5px;
 		color: var(--text-secondary);
+	}
+	.contract-address {
+		margin: 0;
+		margin-bottom: 20px;
+		color: var(--text-secondary);
+		font-size: 0.7rem;
+	}
+	.upper {
+		text-transform: uppercase;
+		font-weight: 300;
 	}
 </style>

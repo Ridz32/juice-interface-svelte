@@ -150,7 +150,12 @@
 				/>
 			</HeavyBorderBox>
 			<HeavyBorderBox>
-				<ReservedTokenSplits fundingCycleMetadata={fcMetadata} {reservedTokensSplits} />
+				<ReservedTokenSplits
+					fundingCycleMetadata={fcMetadata}
+					{reservedTokensSplits}
+					{tokenSymbol}
+					{tokenAddress}
+				/>
 			</HeavyBorderBox>
 		</div>
 	</div>
