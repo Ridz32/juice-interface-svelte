@@ -2,8 +2,6 @@
 	import { getContext } from 'svelte';
 	import Drawer from '$lib/components/Drawer.svelte';
 	import type { V2ProjectContextType } from '$lib/create/stores';
-	import type { Project } from '$models/subgraph-entities/project';
-	import type { ProjectMetadata, ProjectMetadataV4 } from '$models/project-metadata';
 	import type Store from '$utils/Store';
 	import Icon from '$lib/components/Icon.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
@@ -13,8 +11,11 @@
 
 	let drawerShown = false;
 
-	const projectContext = (getContext('PROJECT') as Store<V2ProjectContextType>);
+	const projectContext = getContext('PROJECT') as Store<V2ProjectContextType>;
 	const metadata = $projectContext.projectMetadata;
+
+	// TODO contract reader (useHasPermission)
+	const showReconfigure = true;
 
 	const prettyUrl = (url: string) => {
 		if (url.startsWith('https://')) {
@@ -45,16 +46,18 @@
 			<div slot="right" style="display: flex; align-items: center;">
 				<span style="color: var(--text-tertiary); padding-right: 10px;"
 					>ID: {$projectContext.projectId.toString()}
-					<!-- TODO -->
-					<!-- {#if $project.terminal}
-						<Popover message="Version of the terminal contract used by this project.">
-							<span class="terminal-version">V1</span>
-						</Popover>
-					{/if} -->
+					<Popover message="This project uses the V2 version of the Juicebox contracts.">
+						<span class="terminal-version">V2</span>
+					</Popover>
 				</span>
 				<div class="clickable-icon">
 					<Icon on:click={() => (drawerShown = !drawerShown)} name="tool" />
 				</div>
+				{#if showReconfigure}
+					<div class="clickable-icon">
+						<Icon name="setting" />
+					</div>
+				{/if}
 			</div>
 		</InfoSpaceBetween>
 		<div
@@ -121,6 +124,8 @@
 	.clickable-icon {
 		cursor: pointer;
 		color: var(--icon-action-primary);
+		margin: 0px 5px;
+		font-size: 1rem;
 	}
 	.clickable-icon:hover {
 		color: var(--icon-over-action-highlight);

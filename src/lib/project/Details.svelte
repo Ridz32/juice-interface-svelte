@@ -57,7 +57,7 @@ import { project } from '$data/mockDataV2';
 	style="padding-left: 20px; padding-right: 20px; margin-top: 40px;"
 	bind:clientWidth
 >
-	<div style="margin-bottom: 40px;">
+	<!-- <div style="margin-bottom: 40px;">
 		<div>
 			<div style="display: flex; justify-content: space-between; align-items: baseline;">
 				<div>
@@ -117,7 +117,7 @@ import { project } from '$data/mockDataV2';
 				{/if}
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<div style="margin-bottom: 40px;">
 		<div>
 			<div class="ant-space ant-space-vertical" style="gap: 24px;">
