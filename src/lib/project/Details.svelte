@@ -19,6 +19,8 @@
 	import { BigNumber } from 'ethers';
 	import PayoutSplits from '$lib/components/PayoutSplits.svelte';
 	import ReservedTokenSplits from '$lib/components/ReservedTokenSplits.svelte';
+	import { serializeV2FundingCycleData } from '$utils/v2/serializers';
+	import { hasFundingDuration, V2FundingCycleRiskCount } from '$utils/v2/fundingCycle';
 
 	let clientWidth = 500;
 	let tab = 0;
@@ -59,6 +61,24 @@
 	const unclaimedBalanceFormatted = formatWad(unclaimedBalance ?? 0, {
 		precision: 0
 	});
+
+	const fundingCycleData = serializeV2FundingCycleData(currentFC);
+	const tabs = [
+		{
+			key: 'current',
+			label: 'Current'
+		},
+		hasFundingDuration(fundingCycleData) && {
+			key: 'upcoming',
+			label: 'Upcoming'
+		},
+		{
+			key: 'history',
+			label: 'History'
+		}
+	].filter(Boolean);
+
+	let currentTab = tabs[0].key;
 </script>
 
 <section bind:clientWidth>
@@ -98,38 +118,19 @@
 		<h4>
 			<PopInfo message="">Funding cycle</PopInfo>
 		</h4>
-		<div
-			class="ant-space ant-space-horizontal ant-space-align-center"
-			style="font-size: 0.8rem; margin-bottom: 12px; gap: 16px;"
-		>
-			<div class="ant-space-item" style="">
+		<nav>
+			{#each tabs as tab}
 				<div
-					class="hover-text-secondary"
 					role="button"
-					style="text-transform: uppercase; cursor: pointer; color: var(--text-secondary); font-weight: 600;"
+					class:active={tab.key === currentTab}
+					on:click={() => {
+						currentTab = tab.key;
+					}}
 				>
-					Current
+					{tab.label}
 				</div>
-			</div>
-			<div class="ant-space-item" style="">
-				<div
-					class="hover-text-secondary"
-					role="button"
-					style="text-transform: uppercase; cursor: pointer; color: var(--text-tertiary); font-weight: 500;"
-				>
-					Upcoming
-				</div>
-			</div>
-			<div class="ant-space-item">
-				<div
-					class="hover-text-secondary"
-					role="button"
-					style="text-transform: uppercase; cursor: pointer; color: var(--text-tertiary); font-weight: 500;"
-				>
-					History
-				</div>
-			</div>
-		</div>
+			{/each}
+		</nav>
 		<div>
 			<HeavyBorderBox>
 				<FundingCycleDetails
@@ -239,6 +240,19 @@
 		width: 120px;
 	}
 
+	nav div[role='button'] {
+		display: inline;
+		text-transform: uppercase;
+		color: var(--text-tertiary);
+		font-size: 0.8rem;
+		margin-right: 8px;
+		cursor: pointer;
+	}
+
+	nav div[role='button'].active {
+		color: var(--text-secondary);
+		font-weight: 600;
+	}
 	h4 {
 		margin-right: 10px;
 		color: var(--text-header);
