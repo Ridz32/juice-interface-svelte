@@ -3,7 +3,11 @@
 	import Drawer from '$lib/components/Drawer.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import Trans from '$lib/components/Trans.svelte';
+    // TODO move these files to common area, rewrite their usage of store
+	import FundingDrawer from '$lib/create/FundingCycle/FundingDrawer.svelte';
+	import TokenDrawer from '$lib/create/FundingCycle/TokenDrawer';
 	import ProjectDetails from '$lib/create/ProjectDetails.svelte';
+	import RulesDrawer from '$lib/create/RulesDrawer.svelte';
 
 	let deployDisabled = true;
 	let deployInProgress = false;
@@ -75,16 +79,13 @@
 			<ProjectDetails
 				info={'Project details reconfigurations will create a separate transaction.'}
 			/>
-            <Button size="md">Save project details</Button>
+			<Button size="md">Save project details</Button>
 		{:else if current === Drawers.Funding}
-			[TODO: FundingDrawer]
-			<!-- <FundingDrawer {close} /> -->
+			<FundingDrawer {close} />
 		{:else if current === Drawers.Rules}
-			[TODO: TokenDrawer]
-			<!-- <TokenDrawer {close} /> -->
+			<RulesDrawer {close} />
 		{:else if current === Drawers.Token}
-			[TODO: Rules]
-			<!-- <RulesDrawer {close} /> -->
+			<TokenDrawer {close} />
 		{/if}
 	</div>
 </Drawer>
