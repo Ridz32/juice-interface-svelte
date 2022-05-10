@@ -104,6 +104,7 @@
 		width: 100%;
 		background: transparent;
 		margin: 16px 0px;
+		cursor: pointer;
 	}
 
 	p {
