@@ -1,14 +1,22 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import { BigNumber } from 'ethers';
 	import Icon from '$lib/components/Icon.svelte';
 	import { Currency, CurrencyName } from '$constants';
+import { formatWad } from '$utils/formatNumber';
 
 	export let currency: Currency = Currency.ETH;
 	export let inputValue = 0;
+	export let initialValue: BigNumber | undefined = undefined;
 	export let disabled = false;
 
 	const dispatch = createEventDispatcher();
+
+	onMount(() => {
+		if (initialValue) {
+			inputValue = parseFloat(formatWad(initialValue));
+		}
+	})
 
 	/**
 	 * onBlur dispatches "setValue" event which handles BigNumber conversion

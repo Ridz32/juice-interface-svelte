@@ -143,7 +143,7 @@
 	</select>
 	<br />
 	{#if distributionLimitType === DistributionLimitType.Specific}
-		<CurrencyInput on:setValue={setValue} bind:currency={distributionLimitCurrency} />
+		<CurrencyInput initialValue={distributionLimit} on:setValue={setValue} bind:currency={distributionLimitCurrency} />
 	{:else if distributionLimitType === DistributionLimitType.None}
 		<AlertText
 			>With a distribution limit of Zero, no funds can be distributed by the project. All funds
