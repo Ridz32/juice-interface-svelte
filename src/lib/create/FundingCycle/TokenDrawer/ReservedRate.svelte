@@ -94,6 +94,7 @@
 			onClick={(split) => {
 				openModal(
 					bind(AddTokenReceiverModal, {
+						reservedRate,
 						editingIndex,
 						onFinish: editSplit,
 						split,
