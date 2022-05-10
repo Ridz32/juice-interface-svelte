@@ -1,5 +1,7 @@
-import { BigNumber } from '@ethersproject/bignumber'
-import type { Split } from '$models/v2/splits'
+import { BigNumber } from '@ethersproject/bignumber';
+import type { Split } from '$models/v2/splits';
+import { DistributionLimitType } from '$constants';
+import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
 
 import { formatSplitPercent } from './math'
 
@@ -78,4 +80,14 @@ export function getTotalSplitsPercentage(splits: Split[]) {
       acc + parseFloat(formatSplitPercent(BigNumber.from(curr.percent))),
     0,
   )
+}
+
+export function getDistributionLimitType(distributionLimit: BigNumber) {
+	if (distributionLimit.eq(0)) {
+		return DistributionLimitType.None;
+	}
+	if (distributionLimit.eq(MAX_DISTRIBUTION_LIMIT)) {
+		return DistributionLimitType.Infinite;
+	}
+	return DistributionLimitType.Specific;
 }

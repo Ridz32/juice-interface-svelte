@@ -1,4 +1,4 @@
-import type { V2ProjectContextType } from '$lib/create/stores';
+import type { V2ProjectContextType } from '$models/project-type';
 import { BigNumber } from 'ethers';
 
 export const project = {

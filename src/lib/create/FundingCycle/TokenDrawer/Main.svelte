@@ -1,4 +1,7 @@
 <script type="ts">
+	import { getContext } from 'svelte';
+	import type Store from '$utils/Store';
+	import type { V2ProjectContextType } from '$models/project-type';
 	import Button from '$lib/components/Button.svelte';
 	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
 	import ReservedRate from './ReservedRate.svelte';
@@ -14,34 +17,38 @@
 		reservedRateFrom
 	} from '$utils/v2/math';
 	import InfoBox from '$lib/components/InfoBox.svelte';
-	import {
-		fundingCycle,
-		fundingCycleMetadata,
-		currentDistributionLimitType,
-		reservedTokensSplits
-	} from '../../stores';
+	import { getDistributionLimitType } from '$utils/v2/distributions';
+
+	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
 
 	export let close: () => void;
 
-	let discountRate = parseFloat(formatDiscountRate($fundingCycle.discountRate));
-	let redemptionRate = parseFloat(formatRedemptionRate($fundingCycleMetadata.redemptionRate));
-	let reservedRate = parseFloat(formatReservedRate($fundingCycleMetadata.reservedRate));
+	let discountRate = parseFloat(formatDiscountRate($project.fundingCycle.discountRate));
+	let redemptionRate = parseFloat(
+		formatRedemptionRate($project.fundingCycleMetadata.redemptionRate)
+	);
+	let reservedRate = parseFloat(formatReservedRate($project.fundingCycleMetadata.reservedRate));
 
-	let splits = reservedTokensSplits.get();
+	let splits = $project.reservedTokensSplits;
 
 	function saveTokenConfiguration() {
-		fundingCycle.update((fc) => ({
-			...fc,
-			discountRate: discountRateFrom(discountRate.toString())
+		project.update((current) => ({
+			...current,
+			fundingCycle: {
+				...current.fundingCycle,
+				discountRate: discountRateFrom(discountRate.toString())
+			},
+			fundingCycleMetadata: {
+				...current.fundingCycleMetadata,
+				redemptionRate: redemptionRateFrom(redemptionRate.toString()),
+				reservedRate: reservedRateFrom(reservedRate.toString())
+			},
+			reservedTokensSplits: splits
 		}));
-		fundingCycleMetadata.update((fcm) => ({
-			...fcm,
-			redemptionRate: redemptionRateFrom(redemptionRate.toString()),
-			reservedRate: reservedRateFrom(reservedRate.toString())
-		}));
-		reservedTokensSplits.set(splits);
 		close();
 	}
+
+	$: currentDistributionLimitType = getDistributionLimitType($project.distributionLimit);
 </script>
 
 <h1>Token</h1>
@@ -61,13 +68,13 @@
 		<DiscountRate
 			bind:discountRate
 			{reservedRate}
-			disabled={!$fundingCycle.duration.gt(0)}
+			disabled={!$project.fundingCycle.duration.gt(0)}
 		/>
 	</HeavyBorderBox>
 	<HeavyBorderBox>
 		<RedemptionRate
 			bind:redemptionRate
-			disabled={$currentDistributionLimitType !== DistributionLimitType.Specific}
+			disabled={currentDistributionLimitType !== DistributionLimitType.Specific}
 		/>
 	</HeavyBorderBox>
 	<Button on:click={saveTokenConfiguration}>Save token configuration</Button>

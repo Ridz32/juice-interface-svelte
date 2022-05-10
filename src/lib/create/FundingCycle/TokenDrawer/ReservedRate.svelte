@@ -49,7 +49,7 @@
 	// Tokens received by contributor's per ETH
 	let initialIssuanceRate: BigNumberish;
 	$: {
-		totalSplitsPercentage = getTotalSplitsPercentage(splits);
+		totalSplitsPercentage = getTotalSplitsPercentage(splits || []);
 		reservedRate = rangeValue[0];
 		initialReservedTokensPerEth = DEFAULT_ISSUANCE_RATE * ((reservedRate ?? 0) / 100);
 		initialIssuanceRate = DEFAULT_ISSUANCE_RATE - initialReservedTokensPerEth;
@@ -94,6 +94,7 @@
 			onClick={(split) => {
 				openModal(
 					bind(AddTokenReceiverModal, {
+						reservedRate,
 						editingIndex,
 						onFinish: editSplit,
 						split,

@@ -5,13 +5,12 @@
 	import Icon from '$lib/components/Icon.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
-	import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
 	import { Currency, DistributionLimitType } from '$constants';
 	import Money from './Money.svelte';
 	import SimpleSplits from './SimpleSplits.svelte';
 	import type { Split } from '$models/v2/splits';
 	import { getEthBalance } from '$data/eth';
-	import { onMount } from 'svelte';
+	import { getDistributionLimitType } from '$utils/v2/distributions';
 
 	export let currency: Currency = Currency.ETH;
 	export let distributionLimit: BigNumber = BigNumber.from(0);
@@ -22,6 +21,7 @@
 	export let balanceInDistributionLimitCurrency: BigNumber | undefined = undefined;
 	export let usedDistributionLimit: BigNumber | undefined = undefined;
 	export let projectOwnerAddress: string | undefined = undefined;
+	export let hideHeader: boolean = false;
 
 	let distributionLimitType: DistributionLimitType;
 	let totalSplitPercentagePayoutSplits: number;
@@ -39,17 +39,6 @@
 		getEthBalance(projectOwnerAddress).then((balance) => {
 			ownerBalance = balance;
 		});
-		console.log(ownerBalance, 'ownerBalance');
-	}
-
-	function getDistributionLimitType(distributionLimit) {
-		if (distributionLimit.eq(0)) {
-			return DistributionLimitType.None;
-		}
-		if (distributionLimit.eq(MAX_DISTRIBUTION_LIMIT)) {
-			return DistributionLimitType.Infinite;
-		}
-		return DistributionLimitType.Specific;
 	}
 
 	function getOwnerAmountPayoutSplits(summedSplitsPercent: number) {
@@ -59,46 +48,52 @@
 
 	$: {
 		distributionLimitType = getDistributionLimitType(distributionLimit);
-		totalSplitPercentagePayoutSplits = getTotalSplitsPercentage(payoutSplits);
+		totalSplitPercentagePayoutSplits = getTotalSplitsPercentage(payoutSplits || []);
 	}
 </script>
 
-<InfoSpaceBetween>
-	<div slot="left" class="distribution-splits">
-		<div class="available">
-			<p><Money {currency} amount={distributableAmount} /></p>
-			<PopInfo
-				message="The funds available to distribution for this funding cycle (before the 2.5% JBX fee is subtracted). This number won't roll over to the next funding cycle, so funds should be distributed before this funding cycle ends."
-				><small class="upper">available</small></PopInfo
-			>
+{#if !hideHeader}
+	<InfoSpaceBetween>
+		<div slot="left" class="distribution-splits">
+			<div class="available">
+				<p><Money {currency} amount={distributableAmount} /></p>
+				<PopInfo
+					message="The funds available to distribution for this funding cycle (before the 2.5% JBX fee is subtracted). This number won't roll over to the next funding cycle, so funds should be distributed before this funding cycle ends."
+					><small class="upper">available</small></PopInfo
+				>
+			</div>
+			{#if distributionLimitType === DistributionLimitType.Infinite}
+				<p><small><ETH />0/NO LIMIT distributed</small></p>
+			{:else if distributionLimitType === DistributionLimitType.Specific}
+				<p>
+					<small
+						><Money {currency} amount={BigNumber.from(0)} />/<Money
+							{currency}
+							amount={distributionLimit}
+						/>
+					</small>
+				</p>
+			{:else}
+				<p><small><Money amount={usedDistributionLimit} /> distributed</small></p>
+			{/if}
+			{#if projectOwnerAddress}
+				{#await getEthBalance(projectOwnerAddress)}
+					<Icon name="loadng" spin />
+				{:then amount}
+					<p><small><Money {amount} precision={2} /> <Icon name="crown" /> owner balance</small></p>
+				{/await}
+			{:else}
+				<p>
+					<small
+						><Money amount={ownerBalance} precision={2} />
+						<Icon name="crown" /> owner balance</small
+					>
+				</p>
+			{/if}
 		</div>
-		{#if distributionLimitType === DistributionLimitType.Infinite}
-			<p><small><ETH />0/NO LIMIT distributed</small></p>
-		{:else if distributionLimitType === DistributionLimitType.Specific}
-			<p>
-				<small
-					><Money {currency} amount={BigNumber.from(0)} formatWad={!isCreatePreview} />/<Money
-						{currency}
-						amount={distributionLimit}
-						formatWad={!isCreatePreview}
-					/>
-				</small>
-			</p>
-		{:else}
-			<p><small><Money amount={usedDistributionLimit} /> distributed</small></p>
-		{/if}
-		{#if projectOwnerAddress}
-			{#await getEthBalance(projectOwnerAddress)}
-				<Icon name="loadng" spin />
-			{:then amount}
-				<p><small><Money {amount} /> <Icon name="crown" /> owner balance</small></p>
-			{/await}
-		{:else}
-			<p><small><Money amount={ownerBalance} /> <Icon name="crown" /> owner balance</small></p>
-		{/if}
-	</div>
-	<div slot="right"><button disabled={true}>Distribute funds</button></div>
-</InfoSpaceBetween>
+		<div slot="right"><button disabled={true}>Distribute funds</button></div>
+	</InfoSpaceBetween>
+{/if}
 <h4>
 	<PopInfo message="Available funds are distributed according to the payouts below."
 		>Distribution splits</PopInfo
@@ -106,12 +101,12 @@
 </h4>
 {#if payoutSplits.length === 0}
 	<InfoSpaceBetween>
-		<p slot="left">Project owner (you) <Icon name="crown" />:</p>
+		<p slot="left">Project owner {isCreatePreview ? '(you)' : ''} <Icon name="crown" />:</p>
 		<p slot="right">
 			{#if distributionLimitType !== DistributionLimitType.Infinite}
 				100%
 				{#if distributionLimitType === DistributionLimitType.Specific}
-					(<Money {currency} amount={distributionLimit} formatWad={!isCreatePreview} />)
+					(<Money {currency} amount={distributionLimit} precision={2} />)
 				{/if}
 			{/if}
 		</p>
@@ -123,19 +118,18 @@
 		{distributionLimitType}
 		{distributionLimit}
 		{currency}
-		formatWad={!isCreatePreview}
 	/>
 {/each}
 {#if payoutSplits.length}
 	<InfoSpaceBetween>
-		<p slot="left">Project owner (you) <Icon name="crown" />:</p>
+		<p slot="left">Project owner {isCreatePreview ? '(you)' : ''} <Icon name="crown" />:</p>
 		<p slot="right">
 			{100 - totalSplitPercentagePayoutSplits}%
 			{#if distributionLimitType === DistributionLimitType.Specific}
 				(<Money
 					{currency}
-					formatWad={!isCreatePreview}
 					amount={getOwnerAmountPayoutSplits(totalSplitPercentagePayoutSplits)}
+					precision={2}
 				/>)
 			{/if}
 		</p>

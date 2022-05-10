@@ -1,13 +1,15 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
 	import Drawer from '$lib/components/Drawer.svelte';
-	import type { V2ProjectContextType } from '$lib/create/stores';
+	import type { V2ProjectContextType } from '$models/project-type';
 	import type Store from '$utils/Store';
 	import Icon from '$lib/components/Icon.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import Paragraph from '$lib/components/Paragraph.svelte';
 	import Popover from '$lib/components/Popover.svelte';
 	import ToolsDrawer from './ToolsDrawer.svelte';
+	import { openModal } from '$lib/components/Modal.svelte';
+	import ProjectConfiguration from './ProjectConfiguration.svelte';
 
 	let drawerShown = false;
 
@@ -55,7 +57,7 @@
 				</div>
 				{#if showReconfigure}
 					<div class="clickable-icon">
-						<Icon name="setting" />
+						<Icon name="setting" on:click={() => openModal(ProjectConfiguration)} />
 					</div>
 				{/if}
 			</div>
@@ -144,12 +146,6 @@
 		padding: 2px 4px;
 		background: var(--background-l1);
 		cursor: default;
-	}
-
-	.project-handle {
-		color: var(--text-secondary);
-		margin-right: 20px;
-		font-weight: 600;
 	}
 
 	.logo-wrapper {

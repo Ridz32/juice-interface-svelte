@@ -1,12 +1,12 @@
 <script lang="ts">
-	import {
-		fundingCycle,
-		fundingCycleMetadata,
-		payoutSplits,
-		projectMetadata,
-		reservedTokensSplits
-	} from './stores';
+	import { setContext } from 'svelte';
 	import { modal } from '$stores';
+	import { BigNumber } from '@ethersproject/bignumber';
+	import * as constants from '@ethersproject/constants';
+	import { redemptionRateFrom } from '$utils/v2/math';
+	import Store from '$utils/Store';
+	import type { V2ProjectContextType } from '$models/project-type';
+
 	import { Tab, Tabs, TabList, TabPanel } from './Tabs';
 	import Button from '$lib/components/Button.svelte';
 	import FundingCycle from './FundingCycle';
@@ -16,6 +16,81 @@
 	import { connectedAccount, walletConnect } from '$stores/web3';
 	import { readNetwork } from '$constants/networks';
 	import { uploadProjectMetadata } from '$utils/ipfs';
+	import { DEFAULT_BALLOT_STRATEGY } from '$constants/v2/ballotStrategies';
+	import { Currency, CurrencyValue } from '$constants';
+
+	let project = new Store<V2ProjectContextType>();
+	// Populate project with default data
+	project.set({
+		projectId: undefined,
+		isPreviewMode: false,
+		projectMetadata: {
+			version: 4,
+			name: '',
+			description: '',
+			infoUri: '',
+			logoUri: '',
+			twitter: '',
+			discord: '',
+			tokens: [],
+			payButton: 'Pay',
+			payDisclosure: ''
+		},
+		fundingCycleMetadata: {
+			reservedRate: BigNumber.from(0), // A number from 0-10,000
+			redemptionRate: redemptionRateFrom('100'), // A number from 0-10,000
+			ballotRedemptionRate: redemptionRateFrom('100'), // A number from 0-10,000
+			pausePay: false,
+			pauseDistributions: false,
+			pauseRedeem: false,
+			allowMinting: false,
+			pauseBurn: false,
+			allowChangeToken: false,
+			allowTerminalMigration: false,
+			allowControllerMigration: false,
+			allowSetTerminals: false,
+			allowSetController: false,
+			holdFees: false,
+			useTotalOverflowForRedemptions: false,
+			useDataSourceForPay: false,
+			useDataSourceForRedeem: false,
+			dataSource: constants.AddressZero
+		},
+
+		fundingCycle: {
+			duration: BigNumber.from(0),
+			weight: BigNumber.from('0xd3c21bcecceda1000000'),
+			discountRate: BigNumber.from(0),
+			// TODO ballot, look at hooks/v2/V2ContractLoader.ts for more info
+			// ballot: contracts?.JBETHPaymentTerminal.address ?? '', // hex, contract address
+			ballot: DEFAULT_BALLOT_STRATEGY.address,
+
+			number: BigNumber.from(1),
+			configuration: BigNumber.from(0),
+			basedOn: BigNumber.from(0),
+			start: BigNumber.from(Date.now()).div(1000),
+			metadata: BigNumber.from(0)
+		},
+		payoutSplits: [],
+		reservedTokensSplits: [],
+		distributionLimit: BigNumber.from(0),
+		distributionLimitCurrency: CurrencyValue[Currency.ETH],
+
+		tokenAddress: undefined,
+		tokenSymbol: undefined,
+		terminals: undefined,
+		primaryTerminal: undefined,
+		ETHBalance: undefined,
+		projectOwnerAddress: undefined,
+		balanceInDistributionLimitCurrency: undefined,
+		usedDistributionLimit: undefined,
+		ballotState: undefined,
+		primaryTerminalCurrentOverflow: undefined,
+		totalTokenSupply: undefined,
+		loading: undefined
+	});
+
+	setContext('PROJECT', project);
 
 	let isReviewPanel = false;
 	function checkReview(tabId: string) {
@@ -31,25 +106,20 @@
 
 	async function deployProject() {
 		// console.log('Start serializing');
-
 		// loading = true;
-
 		// console.log('fundingCycle', $fundingCycle);
 		// console.log('projectMetadata', $projectMetadata);
 		// console.log('fundingCycleMetadata', $fundingCycleMetadata);
 		// console.log('payoutSplits', $payoutSplits);
 		// console.log('reservedTokensSplits', $reservedTokensSplits);
-
 		// const uploadedMetadata = await uploadProjectMetadata(
 		// 	$projectMetadata,
 		// 	$projectMetadata.handle
 		// );
-
 		// if (!uploadedMetadata.IpfsHash) {
 		// 	loading = false;
 		// 	return;
 		// }
-
 		// deployProjectTx(
 		// 	{
 		// 		handle: editingProjectInfo.handle,
@@ -77,7 +147,6 @@
 		// 		onDone: () => setLoadingCreate(false),
 		// 		onConfirmed: () => {
 		// 			setDeployProjectModalVisible(false);
-
 		// 			// Add project dependency to metadata and logo files
 		// 			editMetadataForCid(uploadedMetadata.IpfsHash, {
 		// 				name: metadataNameForHandle(editingProjectInfo.handle)
@@ -85,10 +154,8 @@
 		// 			editMetadataForCid(cidFromUrl(editingProjectInfo.metadata.logoUri), {
 		// 				name: logoNameForHandle(editingProjectInfo.handle)
 		// 			});
-
 		// 			resetProjectForm();
 		// 			dispatch(editingProjectActions.resetState());
-
 		// 			window.location.hash =
 		// 				'/p/' + editingProjectInfo.handle + '?newDeploy=true&feedbackModalOpen=true';
 		// 		}
@@ -98,7 +165,7 @@
 
 	let disabled = true;
 
-	$: disabled = !$projectMetadata.name;
+	$: disabled = !$project.projectMetadata.name;
 </script>
 
 <div id="create">

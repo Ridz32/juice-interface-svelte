@@ -9,7 +9,6 @@
 	import { BigNumber } from 'ethers';
 	import Head from '$lib/project/Head.svelte';
 	import Details from '$lib/project/Details.svelte';
-	import Activity from '$lib/project/Activity.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import Paid from '$lib/project/Paid.svelte';
@@ -17,12 +16,12 @@
 	import Store from '$utils/Store';
 
 	import { page } from '$app/stores';
-	import { getProjectMetadata } from '$data/project';
 	import type { V2ProjectContextType } from '$lib/create/stores';
 	import { transactContract } from '$utils/web3/contractReader';
 	import { V2ContractName } from '$models/v2/contracts';
 	import { ETH_PAYOUT_SPLIT_GROUP } from '$constants/v2/splits';
 	import { ETH_TOKEN_ADDRESS } from '$constants/v2/juiceboxTokens';
+	import { getProjectMetadata } from '$data/project';
 
 	let project = new Store<V2ProjectContextType>({} as any);
 
@@ -193,6 +192,7 @@
 		max-width: 1080px;
 		margin: 0px auto;
 		padding: 20px;
+		width: 100%;
 	}
 
 	.loading {

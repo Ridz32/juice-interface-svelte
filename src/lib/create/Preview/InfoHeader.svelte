@@ -1,35 +1,39 @@
 <script lang="ts">
-	import { projectMetadata } from '../stores';
+	import { getContext } from 'svelte';
+	import type Store from '$utils/Store';
 	import Icon from '$lib/components/Icon.svelte';
+	import type { V2ProjectContextType } from '$models/project-type';
+
+	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
 </script>
 
 <!-- The top component showing the logo preview with basic treasury info -->
 <div class="info">
 	<div class="logo">
-		{#if $projectMetadata.logoUri}
-			<img src={$projectMetadata.logoUri} alt="Uploaded logo" />
+		{#if $project.projectMetadata.logoUri}
+			<img src={$project.projectMetadata.logoUri} alt="Uploaded logo" />
 		{:else}
 			<div class="logo-placeholder">🧃</div>
 		{/if}
 	</div>
 	<div class="info-text">
-		<h1>{$projectMetadata.name || 'Untitled project'}</h1>
+		<h1>{$project.projectMetadata.name || 'Untitled project'}</h1>
 		<div class="social-list">
-			<p>{$projectMetadata.infoUri || ''}</p>
-			{#if $projectMetadata.twitter}
+			<p>{$project.projectMetadata.infoUri || ''}</p>
+			{#if $project.projectMetadata.twitter}
 				<p>
 					<Icon name="twitter" />
-					{$projectMetadata.twitter}
+					{$project.projectMetadata.twitter}
 				</p>
 			{/if}
-			{#if $projectMetadata.discord}
+			{#if $project.projectMetadata.discord}
 				<p>
 					<Icon name="discord" />
-					{$projectMetadata.discord}
+					{$project.projectMetadata.discord}
 				</p>
 			{/if}
 		</div>
-		<p class="description">{$projectMetadata.description || ''}</p>
+		<p class="description">{$project.projectMetadata.description || ''}</p>
 	</div>
 </div>
 

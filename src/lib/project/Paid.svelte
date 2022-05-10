@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
 	import { modal } from '$stores';
-	import type { V2ProjectContextType } from '$lib/create/stores';
+	import type { V2ProjectContextType } from '$models/project-type';
 	import { Currency } from '$constants';
 	import { getEthBalance } from '$data/eth';
 	import type Store from '$utils/Store';
@@ -15,7 +15,6 @@
 	import Modal, { openModal } from '$lib/components/Modal.svelte';
 	import Pay from '$lib/components/Pay.svelte';
 	import { weightedAmount } from '$utils/v2/math';
-	import AllAssetsModal from './AllAssetsModal.svelte';
 
 	const projectsContext = getContext('PROJECT') as Store<V2ProjectContextType>;
 
@@ -46,7 +45,7 @@
 			</div>
 			<div slot="right">
 				<div class="amount">
-					{#if $projectsContext?.distributionLimitCurrency?.eq(Currency.ETH)}
+					{#if $projectsContext?.distributionLimitCurrency === Currency.ETH}
 						<h4 class="amount-main">
 							<ETHAmount amount={balanceInCurrency} precision={2} padEnd />
 						</h4>
@@ -77,7 +76,7 @@
 					</Popover>
 				</div>
 				<div slot="right">
-					{#if $projectsContext.distributionLimitCurrency.eq(Currency.ETH)}
+					{#if $projectsContext.distributionLimitCurrency === Currency.ETH}
 						<h4 class="amount-main">
 							<ETHAmount amount={$projectsContext.usedDistributionLimit} precision={2} padEnd /> / <ETHAmount
 								amount={$projectsContext.distributionLimit}

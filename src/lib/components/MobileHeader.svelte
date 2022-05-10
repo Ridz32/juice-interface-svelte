@@ -223,6 +223,9 @@
 		color: var(--text-primary);
 	}
 
+	header {
+		z-index: 1;
+	}
 	span[aria-label='menu'] {
 		transform: scale(1.5);
 	}

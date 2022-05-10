@@ -1,15 +1,22 @@
 <script lang="ts">
 	import { BigNumber } from 'ethers';
+	import { getTruncatedAddress } from '$lib/components/Address.svelte';
+	import Icon from '$lib/components/Icon.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import Money from '$lib/components/Money.svelte';
-	import Icon from '$lib/components/Icon.svelte';
-	import { getTruncatedAddress } from '$lib/components/Address.svelte';
+	import Popover from '$lib/components/Popover.svelte';
+	import type { Split } from '$models/v2/splits';
 	import { formatDate } from '$utils/formatDate';
 	import { formatSplitPercent } from '$utils/v2/math';
 	import { Currency, DistributionLimitType } from '$constants';
 
-	import type { Split } from '$models/v2/splits';
-	import Popover from './Popover.svelte';
+	/**
+	 * This component is used to display the distribution splits for a project
+	 * in places like the Preview panel on the create layout, or Detail
+	 * panel on the project detail layout.
+	 * 
+	 * For the component to edit/remove split, see Split.svelte.
+	 */
 
 	export let split: Split;
 	export let distributionLimitType: DistributionLimitType | undefined = undefined;
@@ -56,6 +63,7 @@
 					.mul(distributionLimit)
 					.div(100)}
 				{currency}
+				precision={2}
 			/>)
 		{/if}
 	</p>

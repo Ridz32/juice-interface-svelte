@@ -1,10 +1,3 @@
-import { writable, derived } from 'svelte/store';
-import { BigNumber } from '@ethersproject/bignumber';
-import * as constants from '@ethersproject/constants';
-import Store from '$utils/Store';
-import { connectedAccount } from '$stores/web3';
-import { redemptionRateFrom } from '$utils/v2/math';
-import { V2_CURRENCY_ETH } from '$utils/v2/currency';
 import type { V2BallotState } from '$models/ballot';
 import type { ProjectMetadataV4 } from '$models/project-metadata';
 import type {
@@ -13,10 +6,14 @@ import type {
 	V2FundingCycleMetadata
 } from '$models/v2/fundingCycle';
 import type { Split } from '$models/v2/splits';
-import { Currency, DistributionLimitType } from '$constants';
-import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
-import { DEFAULT_BALLOT_STRATEGY } from '$constants/v2/ballotStrategies';
 
+import { Currency, DistributionLimitType } from '$constants';
+import { DEFAULT_BALLOT_STRATEGY } from '$constants/v2/ballotStrategies';
+import Store from '$utils/Store';
+import { MAX_DISTRIBUTION_LIMIT, redemptionRateFrom } from '$utils/v2/math';
+import * as constants from '@ethersproject/constants';
+import { BigNumber } from 'ethers';
+import { derived, writable } from 'svelte/store';
 
 export const visitedFundingDrawers = writable({
 	funding: false,
@@ -70,7 +67,7 @@ const fundingCycleData: V2FundingCycleData = {
 	discountRate: BigNumber.from(0),
 	// TODO ballot, look at hooks/v2/V2ContractLoader.ts for more info
 	// ballot: contracts?.JBETHPaymentTerminal.address ?? '', // hex, contract address
-	ballot: DEFAULT_BALLOT_STRATEGY.address,
+	ballot: DEFAULT_BALLOT_STRATEGY.address
 };
 
 export const fundingCycle = new Store<V2FundingCycle>({
@@ -125,19 +122,19 @@ export const reservedTokensSplits = new Store<Split[]>([]);
  * none: BigNumber.from(0)
  * infinte: BigNumber.from(MAX_DISTRIBUTION_LIMIT)
  * specific: BigNumber.from(specificValue)
- * 
+ *
  * Distribution limit currency
  * ETH: BigNumber.from(1)
  * USD: BigNumber.from(2)
  */
 export const distributionLimitData = new Store({
 	distributionLimit: BigNumber.from(0),
-	distributionLimitCurrency: BigNumber.from(1), // ETH
+	distributionLimitCurrency: BigNumber.from(1) // ETH
 });
 
 export const currentDistributionLimitType = derived(
 	distributionLimitData,
-	$distributionLimitData => {
+	($distributionLimitData) => {
 		if ($distributionLimitData.distributionLimit.eq(0)) {
 			return DistributionLimitType.None;
 		}
@@ -146,17 +143,17 @@ export const currentDistributionLimitType = derived(
 		}
 		return DistributionLimitType.Specific;
 	}
-)
+);
 
 export const currentDistributionLimitCurrencyType = derived(
 	distributionLimitData,
-	$distributionLimitData => {
+	($distributionLimitData) => {
 		if ($distributionLimitData.distributionLimitCurrency?.eq(2)) {
 			return Currency.USD;
 		}
 		return Currency.ETH;
 	}
-)
+);
 
 /**
  * The default values for a v2 project

@@ -33,6 +33,7 @@
 			loading = false;
 			loadFile(ipfsUrl);
 			document.querySelector('.file-name').textContent = ipfsUrl;
+			document.querySelector('.file-name').href = ipfsUrl;
 		});
 	});
 
@@ -60,7 +61,7 @@
 </label>
 <div class="preview-wrapper">
 	<img id="output" class={isFileSet && 'file-preview'} src="" alt="Uploaded logo" />
-	<p class="file-name" />
+	<a class="file-name" />
 </div>
 {#if problem}
 	<Icon name="exclamation-circle" />
@@ -83,11 +84,13 @@
 	}
 	.preview-wrapper {
 		display: flex;
+		gap: 20px;
 		align-items: center;
-		text-overflow: ellipsis;
 		width: 350px;
-		white-space: nowrap;
-		overflow: hidden;
+		word-wrap: break-word;
+	}
+	.file-name {
+		max-width: 100%;
 	}
 	.file-preview {
 		display: inline-block;

@@ -5,32 +5,34 @@
 	import DropDown from './DropDown.svelte';
 	import type Store from '$utils/Store';
 	import { connectedAccount } from '$stores/web3';
-
 	import { tokenSymbolText } from '$utils/tokenSymbolText';
-
 	import { decodeV2FundingCycleMetadata } from '$utils/v2/fundingCycle';
-
 	import { getTruncatedAddress } from '$lib/components/Address.svelte';
-	import SimpleSplits from '$lib/components/SimpleSplits.svelte';
 	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
 	import FundingCycleDetails from '$lib/components/FundingCycleDetails.svelte';
-	import type { V2ProjectContextType } from '$lib/create/stores';
+	import type { V2ProjectContextType } from '$models/project-type';
 	import Button from '$lib/components/Button.svelte';
 	import Trans from '$lib/components/Trans.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
 	import { formatPercent, formatWad } from '$utils/formatNumber';
+	import { formatReservedRate } from '$utils/v2/math';
 	import { BigNumber } from 'ethers';
 	import PayoutSplits from '$lib/components/PayoutSplits.svelte';
+	import ReservedTokenSplits from '$lib/components/ReservedTokenSplits.svelte';
+	import { serializeV2FundingCycleData } from '$utils/v2/serializers';
+	import { hasFundingDuration, V2FundingCycleRiskCount } from '$utils/v2/fundingCycle';
+	import UpcomingFundingCycle from './UpcomingFundingCycle.svelte';
+	import FundingCycleHistory from './FundingCycleHistory.svelte';
 
 	let clientWidth = 500;
 	let tab = 0;
 
-	const projectsContext = getContext('PROJECT') as Store<V2ProjectContextType>;
-	const tokenSymbol = $projectsContext.tokenSymbol;
-	const tokenAddress = $projectsContext.tokenAddress;
-	const currentFC = $projectsContext.fundingCycle;
-	const payoutSplits = $projectsContext.payoutSplits;
-	const reservedTokensSplits = $projectsContext.reservedTokensSplits;
+	const projectContext = getContext('PROJECT') as Store<V2ProjectContextType>;
+	const tokenSymbol = $projectContext.tokenSymbol;
+	const tokenAddress = $projectContext.tokenAddress;
+	const currentFC = $projectContext.fundingCycle;
+	const payoutSplits = $projectContext.payoutSplits;
+	const reservedTokensSplits = $projectContext.reservedTokensSplits;
 
 	$: fcMetadata = currentFC ? decodeV2FundingCycleMetadata(currentFC.metadata) : null;
 
@@ -53,7 +55,7 @@
 	// this is arbitrary as mock data
 	const totalBalance = unclaimedBalance;
 	const userOwnershipPercentage =
-		formatPercent(totalBalance, $projectsContext.totalTokenSupply) || '0';
+		formatPercent(totalBalance, $projectContext.totalTokenSupply) || '0';
 
 	const claimedBalanceFormatted = formatWad(claimedBalance ?? 0, {
 		precision: 0
@@ -61,6 +63,24 @@
 	const unclaimedBalanceFormatted = formatWad(unclaimedBalance ?? 0, {
 		precision: 0
 	});
+
+	const fundingCycleData = serializeV2FundingCycleData(currentFC);
+	const tabs = [
+		{
+			key: 'current',
+			label: 'Current'
+		},
+		hasFundingDuration(fundingCycleData) && {
+			key: 'upcoming',
+			label: 'Upcoming'
+		},
+		{
+			key: 'history',
+			label: 'History'
+		}
+	].filter(Boolean);
+
+	let currentTab = tabs[0].key;
 </script>
 
 <section bind:clientWidth>
@@ -78,7 +98,7 @@
 			</div>
 			<div>
 				<p class="label"><Trans>Total supply</Trans>:</p>
-				<span>{formatWad($projectsContext.totalTokenSupply)} {tokenText}</span>
+				<span>{formatWad($projectContext.totalTokenSupply)} {tokenText}</span>
 			</div>
 			{#if $connectedAccount}
 				<div>
@@ -100,65 +120,52 @@
 		<h4>
 			<PopInfo message="">Funding cycle</PopInfo>
 		</h4>
-		<div
-			class="ant-space ant-space-horizontal ant-space-align-center"
-			style="font-size: 0.8rem; margin-bottom: 12px; gap: 16px;"
-		>
-			<div class="ant-space-item" style="">
+		<nav>
+			{#each tabs as tab}
 				<div
-					class="hover-text-secondary"
 					role="button"
-					style="text-transform: uppercase; cursor: pointer; color: var(--text-secondary); font-weight: 600;"
+					class:active={tab.key === currentTab}
+					on:click={() => {
+						currentTab = tab.key;
+					}}
 				>
-					Current
+					{tab.label}
 				</div>
-			</div>
-			<div class="ant-space-item" style="">
-				<div
-					class="hover-text-secondary"
-					role="button"
-					style="text-transform: uppercase; cursor: pointer; color: var(--text-tertiary); font-weight: 500;"
-				>
-					Upcoming
-				</div>
-			</div>
-			<div class="ant-space-item">
-				<div
-					class="hover-text-secondary"
-					role="button"
-					style="text-transform: uppercase; cursor: pointer; color: var(--text-tertiary); font-weight: 500;"
-				>
-					History
-				</div>
-			</div>
-		</div>
+			{/each}
+		</nav>
 		<div>
-			<HeavyBorderBox>
-				<FundingCycleDetails
-					fundingCycle={currentFC}
-					fundingCycleMetadata={fcMetadata}
-					distributionLimitData={{ distributionLimit: $projectsContext.distributionLimit }}
-					currentDistributionLimitCurrencyType={$projectsContext.distributionLimitCurrency}
-				/>
-			</HeavyBorderBox>
-			<HeavyBorderBox>
-				<PayoutSplits
-					balanceInDistributionLimitCurrency={$projectsContext.balanceInDistributionLimitCurrency}
-					currency={$projectsContext.distributionLimitCurrency}
-					distributionLimit={$projectsContext.distributionLimit}
-					{payoutSplits}
-					projectOwnerAddress={$projectsContext.projectOwnerAddress}
-					usedDistributionLimit={$projectsContext.usedDistributionLimit}
-				/>
-				<!-- {#each payoutSplits as split}
-					<SimpleSplits
-						{split}
-						distributionLimitType={1}
-						distributionLimit={$projectsContext.distributionLimit}
-						currency={$projectsContext.distributionLimitCurrency}
+			{#if currentTab === 'current'}
+				<HeavyBorderBox>
+					<FundingCycleDetails
+						fundingCycle={currentFC}
+						fundingCycleMetadata={fcMetadata}
+						distributionLimit={$projectContext.distributionLimit}
+						currentDistributionLimitCurrencyType={$projectContext.distributionLimitCurrency}
 					/>
-				{/each} -->
-			</HeavyBorderBox>
+				</HeavyBorderBox>
+				<HeavyBorderBox>
+					<PayoutSplits
+						balanceInDistributionLimitCurrency={$projectContext.balanceInDistributionLimitCurrency}
+						currency={$projectContext.distributionLimitCurrency}
+						distributionLimit={$projectContext.distributionLimit}
+						{payoutSplits}
+						projectOwnerAddress={$projectContext.projectOwnerAddress}
+						usedDistributionLimit={$projectContext.usedDistributionLimit}
+					/>
+				</HeavyBorderBox>
+				<HeavyBorderBox>
+					<ReservedTokenSplits
+						fundingCycleMetadata={fcMetadata}
+						{reservedTokensSplits}
+						{tokenSymbol}
+						{tokenAddress}
+					/>
+				</HeavyBorderBox>
+			{:else if currentTab === 'upcoming'}
+				<UpcomingFundingCycle />
+			{:else if currentTab === 'history'}
+				<FundingCycleHistory />
+			{/if}
 		</div>
 	</div>
 </section>
@@ -241,6 +248,19 @@
 		width: 120px;
 	}
 
+	nav div[role='button'] {
+		display: inline;
+		text-transform: uppercase;
+		color: var(--text-tertiary);
+		font-size: 0.8rem;
+		margin-right: 8px;
+		cursor: pointer;
+	}
+
+	nav div[role='button'].active {
+		color: var(--text-secondary);
+		font-weight: 600;
+	}
 	h4 {
 		margin-right: 10px;
 		color: var(--text-header);

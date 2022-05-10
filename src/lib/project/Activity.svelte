@@ -5,7 +5,7 @@
 	import type { ProjectMetadata } from '$models/project-metadata';
 	import Icon from '$lib/components/Icon.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
-	import type { V2ProjectContextType } from '$lib/create/stores';
+	import type { V2ProjectContextType } from '$models/project-type';
 	import PayEvent from './PayEvent.svelte';
 
 	enum ActivityType {
