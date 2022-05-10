@@ -1,6 +1,13 @@
 <script lang="ts">
-	import { projectMetadata } from './stores';
-	import { modal } from "$stores";
+	import { setContext } from 'svelte';
+	import { BigNumber } from '@ethersproject/bignumber';
+	import * as constants from '@ethersproject/constants';
+	import { redemptionRateFrom } from '$utils/v2/math';
+	import Store from '$utils/Store';
+	// import { projectMetadata } from './stores';
+	import { modal } from '$stores';
+	import type { V2ProjectContextType } from '$models/project-type';
+
 	import { Tab, Tabs, TabList, TabPanel } from './Tabs';
 	import Button from '$lib/components/Button.svelte';
 	import FundingCycle from './FundingCycle';
@@ -9,7 +16,82 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import { connectedAccount, walletConnect } from '$stores/web3';
 	import { readNetwork } from '$constants/networks';
+	import { DEFAULT_BALLOT_STRATEGY } from '$constants/v2/ballotStrategies';
+import { Currency, CurrencyValue } from '$constants';
 
+	let project = new Store<V2ProjectContextType>();
+	// Populate project with default data
+	project.set({
+		projectId: undefined,
+		isPreviewMode: false,
+		projectMetadata: {
+			version: 4,
+			name: '',
+			description: '',
+			infoUri: '',
+			logoUri: '',
+			twitter: '',
+			discord: '',
+			tokens: [],
+			payButton: 'Pay',
+			payDisclosure: ''
+		},
+		fundingCycleMetadata: {
+			reservedRate: BigNumber.from(0), // A number from 0-10,000
+			redemptionRate: redemptionRateFrom('100'), // A number from 0-10,000
+			ballotRedemptionRate: redemptionRateFrom('100'), // A number from 0-10,000
+			pausePay: false,
+			pauseDistributions: false,
+			pauseRedeem: false,
+			allowMinting: false,
+			pauseBurn: false,
+			allowChangeToken: false,
+			allowTerminalMigration: false,
+			allowControllerMigration: false,
+			allowSetTerminals: false,
+			allowSetController: false,
+			holdFees: false,
+			useTotalOverflowForRedemptions: false,
+			useDataSourceForPay: false,
+			useDataSourceForRedeem: false,
+			dataSource: constants.AddressZero
+		},
+
+		fundingCycle: {
+			duration: BigNumber.from(0),
+			weight: BigNumber.from(100),
+			discountRate: BigNumber.from(0),
+			// TODO ballot, look at hooks/v2/V2ContractLoader.ts for more info
+			// ballot: contracts?.JBETHPaymentTerminal.address ?? '', // hex, contract address
+			ballot: DEFAULT_BALLOT_STRATEGY.address,
+
+			number: BigNumber.from(1),
+			configuration: BigNumber.from(0),
+			basedOn: BigNumber.from(0),
+			start: BigNumber.from(Date.now()).div(1000),
+			metadata: BigNumber.from(0)
+		},
+		payoutSplits: [],
+		reservedTokensSplits: [],
+		distributionLimit: BigNumber.from(0),
+		distributionLimitCurrency: CurrencyValue[Currency.ETH],
+
+		tokenAddress: undefined,
+		tokenSymbol: undefined,
+		terminals: undefined,
+		primaryTerminal: undefined,
+		ETHBalance: undefined,
+		projectOwnerAddress: undefined,
+		balanceInDistributionLimitCurrency: undefined,
+		usedDistributionLimit: undefined,
+		ballotState: undefined,
+		primaryTerminalCurrentOverflow: undefined,
+		totalTokenSupply: undefined,
+		loading: undefined
+	});
+
+	setContext('PROJECT', project);
+	console.log($project)
 
 	let isReviewPanel = false;
 	function checkReview(tabId: string) {
@@ -27,7 +109,7 @@
 
 	let disabled = true;
 
-	$: disabled = !$projectMetadata.name;
+	$: disabled = !$project.projectMetadata.name
 </script>
 
 <div id="create">

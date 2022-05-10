@@ -5,13 +5,12 @@
 	import Icon from '$lib/components/Icon.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
-	import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
 	import { Currency, DistributionLimitType } from '$constants';
 	import Money from './Money.svelte';
 	import SimpleSplits from './SimpleSplits.svelte';
 	import type { Split } from '$models/v2/splits';
 	import { getEthBalance } from '$data/eth';
-	import { onMount } from 'svelte';
+	import { getDistributionLimitType } from '$utils/v2/distributions';
 
 	export let currency: Currency = Currency.ETH;
 	export let distributionLimit: BigNumber = BigNumber.from(0);
@@ -41,16 +40,6 @@
 			ownerBalance = balance;
 		});
 		console.log(ownerBalance, 'ownerBalance');
-	}
-
-	function getDistributionLimitType(distributionLimit) {
-		if (distributionLimit.eq(0)) {
-			return DistributionLimitType.None;
-		}
-		if (distributionLimit.eq(MAX_DISTRIBUTION_LIMIT)) {
-			return DistributionLimitType.Infinite;
-		}
-		return DistributionLimitType.Specific;
 	}
 
 	function getOwnerAmountPayoutSplits(summedSplitsPercent: number) {

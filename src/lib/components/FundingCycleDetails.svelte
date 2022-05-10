@@ -2,7 +2,7 @@
 	import { BigNumber } from '@ethersproject/bignumber';
 	import { parseEther } from '@ethersproject/units';
 	import { DEFAULT_ISSUANCE_RATE } from '$utils/v2/math';
-	import { Currency } from '$constants';
+	import { Currency, DistributionLimitType } from '$constants';
 	// TODO move
 	import CollapsibleSection from '$lib/create/CollapsibleSection.svelte';
 	import { formattedNum } from '$utils/formatNumber';
@@ -43,6 +43,12 @@
 	export let distributionLimit;
 	export let currentDistributionLimitCurrencyType;
 
+
+	$: {
+		console.log('Distribution limit updated', distributionLimit);
+		console.log('Disribution limit currency type', currentDistributionLimitCurrencyType);
+	}
+
 	let fundingCycleRiskProperties: any = {};
 	let fundingCycleRiskCount = 0;
 
@@ -56,11 +62,14 @@
 	}
 
 	function getDistributionValue(distributionLimit: BigNumber) {
+		console.log('gettingDistributionValue', distributionLimit);
 		if (!distributionLimit.gt(0)) {
 			return 'Zero';
 		} else if (distributionLimit.eq(MAX_DISTRIBUTION_LIMIT)) {
 			return 'Infinite';
 		}
+		console.log('setting value to null')
+		return null;
 	}
 
 	const reservedRateText = (fundingCycle, fundingCycleMetadata) => {
@@ -104,7 +113,7 @@
 	$: cycleKeyValues = [
 		{
 			id: 'distributionLimit',
-			label: 'DistributionLimit',
+			label: 'Distribution Limit',
 			value: getDistributionValue(distributionLimit)
 		},
 		{
@@ -185,6 +194,11 @@
 				: `{formattedTimeLeft} left`;
 		}
 	}
+
+	$: currency = currentDistributionLimitCurrencyType.toNumber();
+	$: distributionLimitValue = distributionLimit;
+
+	// $: distributionLimit = getDistributionValue(distributionLimit);
 </script>
 
 <CollapsibleSection alignCaret="center" {expanded}>
@@ -224,11 +238,7 @@
 			{:else if id === 'distributionLimit' && !value}
 				<p class="gap">
 					<b>{label}:</b>
-					{#if currentDistributionLimitCurrencyType === Currency.ETH}
-						<EthAmount amount={distributionLimit} />
-					{:else}
-						<UsdAmount amount={distributionLimit} />
-					{/if}
+					<Money amount={distributionLimitValue} {currency} />
 				</p>
 			{:else}
 				<p class="gap">

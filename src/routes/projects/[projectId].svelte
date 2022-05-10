@@ -31,6 +31,10 @@
 
 	let project = new Store<V2ProjectContextType>();
 
+	const converter = getCurrencyConverter();
+
+	let loading = true;
+	setContext('PROJECT', project);
 	// 	// Calls JBFundingCycleStore.currentOf
 	// 	const { data: fundingCycle, loading: fundingCycleLoading } =
 	//     useProjectCurrentFundingCycle({
@@ -159,12 +163,6 @@
 	//       usedDistributionLimitLoading,
 	//     },
 	//   }
-
-	const converter = getCurrencyConverter();
-
-	let loading = true;
-	setContext('PROJECT', project);
-
 	onMount(async () => {
 		const [res] = await querySubgraph({
 			entity: 'project',

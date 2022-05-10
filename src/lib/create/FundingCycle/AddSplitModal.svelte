@@ -13,6 +13,7 @@
 	import type { Split } from '$models/v2/splits';
 	import type { Currency } from '$constants';
 	import { BigNumber } from 'ethers';
+	import { formatWad } from '$utils/formatNumber';
 	import { formatSplitPercent, MAX_DISTRIBUTION_LIMIT, splitPercentFrom } from '$utils/v2/math';
 	import {
 		getDistributionPercentFromAmount,
@@ -83,7 +84,7 @@
 				beneficiaryType = BeneficiaryType.ProjectID;
 			}
 			if (showAmount) {
-				amount = (rangeValue[0] / 100) * distributionLimit.toNumber();
+				amount = (rangeValue[0] / 100) * formatWad(distributionLimit);
 			}
 			if (split.lockedUntil) {
 				lockedUntil = dateToDateInput(new Date(split.lockedUntil * 1000));

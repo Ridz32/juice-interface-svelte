@@ -7,21 +7,26 @@
 	import Button from '$lib/components/Button.svelte';
 	import CurrencyInput from '$lib/components/CurrencyInput.svelte';
 	import DisplaySplit from '$lib/components/Split.svelte';
+	import type Store from '$utils/Store';
+	import type { V2ProjectContextType } from '$models/project-type';
 	import { bind, openModal } from '$lib/components/Modal.svelte';
 	import { BigNumber } from 'ethers';
-	import {
-		fundingCycle,
-		distributionLimitData,
-		currentDistributionLimitType,
-		currentDistributionLimitCurrencyType,
-		payoutSplits
-		// payoutSplitsPercentage,
-	} from '../stores';
+	// import {
+	// 	fundingCycle,
+	// 	distributionLimitData,
+	// 	currentDistributionLimitType,
+	// 	currentDistributionLimitCurrencyType,
+	// 	payoutSplits
+	// 	// payoutSplitsPercentage,
+	// } from '../stores';
 	import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
 	import { Currency, CurrencyValue, DistributionLimitType } from '$constants';
-	import { onMount } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 	import type { Split } from '$models/v2/splits';
-	import { getTotalSplitsPercentage } from '$utils/v2/distributions';
+	import { getDistributionLimitType, getTotalSplitsPercentage } from '$utils/v2/distributions';
+	import { parseWad, percentToPerbicent, percentToPermyriad } from '$utils/formatNumber';
+
+	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
 
 	export let close: () => void;
 
@@ -30,17 +35,17 @@
 	let distributionLimitType: DistributionLimitType = DistributionLimitType.None;
 	let distributionLimit: BigNumber = BigNumber.from(0);
 	let distributionLimitCurrency: Currency;
-	let splits = payoutSplits.get();
+	let splits = $project.payoutSplits;
 	let totalSplitsPercentage = getTotalSplitsPercentage(splits);
 
 	onMount(() => {
-		if ($fundingCycle.duration.gt(0)) {
-			duration = $fundingCycle.duration;
+		if ($project.fundingCycle.duration.gt(0)) {
+			duration = $project.fundingCycle.duration;
 			fundingCyclesActive = true;
 		}
-		distributionLimit = $distributionLimitData.distributionLimit;
-		distributionLimitType = $currentDistributionLimitType;
-		distributionLimitCurrency = $currentDistributionLimitCurrencyType;
+		distributionLimit = $project.distributionLimit;
+		distributionLimitType = getDistributionLimitType($project.distributionLimit);
+		distributionLimitCurrency = $project.distributionLimitCurrency.toNumber();
 	});
 
 	$: {
@@ -84,16 +89,23 @@
 	}
 
 	function saveFundingConfig() {
-		fundingCycle.update((fc) => ({
-			...fc,
-			duration
+		console.log('Save')
+		console.log(distributionLimitType);
+		console.log(distributionLimit);
+		console.log(distributionLimitCurrency)
+		project.update((current) => ({
+			...current,
+			fundingCycle: {
+				...current.fundingCycle,
+				duration
+			},
+			distributionLimit:
+				distributionLimitType == DistributionLimitType.Specific
+					? parseWad(distributionLimit)
+					: distributionLimit,
+			distributionLimitCurrency: CurrencyValue[distributionLimitCurrency],
+			payoutSplits: splits
 		}));
-		distributionLimitData.update((dl) => ({
-			...dl,
-			distributionLimit,
-			distributionLimitCurrency: CurrencyValue[distributionLimitCurrency]
-		}));
-		payoutSplits.set(splits);
 		close();
 	}
 </script>
