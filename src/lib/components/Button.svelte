@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Icon from './Icon.svelte';
+
 	export let disabled = false;
 	export let size: 'sm' | 'md' | 'lg' | 'xl' = 'lg';
 	export let type:
@@ -12,9 +14,15 @@
 		| 'light'
 		| 'link'
 		| 'dark' = 'primary';
+	export let loading = false;
 </script>
 
-<button class={`${size} ${type}`} {disabled} on:click><slot /></button>
+<button class={`${size} ${type}`} disabled={disabled || loading} on:click
+	><slot />
+	{#if loading}
+		<Icon name="loading" spin />
+	{/if}
+</button>
 
 <style>
 	button {
