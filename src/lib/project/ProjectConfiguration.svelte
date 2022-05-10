@@ -3,7 +3,7 @@
 	import Drawer from '$lib/components/Drawer.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import Trans from '$lib/components/Trans.svelte';
-    // TODO move these files to common area, rewrite their usage of store
+	// TODO move these files to common area
 	import FundingDrawer from '$lib/create/FundingCycle/FundingDrawer.svelte';
 	import TokenDrawer from '$lib/create/FundingCycle/TokenDrawer';
 	import ProjectDetails from '$lib/create/ProjectDetails.svelte';
@@ -21,6 +21,9 @@
 		Token = 'Token',
 		Rules = 'Rules'
 	}
+
+	const info =
+		'Updates you make to this section will only be applied to <b>upcoming</b> funding cycles.';
 </script>
 
 <h3>Project configuration</h3>
@@ -81,11 +84,38 @@
 			/>
 			<Button size="md">Save project details</Button>
 		{:else if current === Drawers.Funding}
-			<FundingDrawer {close} />
+			<FundingDrawer {close}>
+				<header slot="header">
+					<h3>Reconfigure funding</h3>
+					<p>
+						<Trans>
+							{@html info}
+						</Trans>
+					</p>
+				</header>
+			</FundingDrawer>
 		{:else if current === Drawers.Rules}
-			<RulesDrawer {close} />
+			<RulesDrawer {close}>
+				<header slot="header">
+					<h3>Reconfigure rules</h3>
+					<p>
+						<Trans>
+							{@html info}
+						</Trans>
+					</p>
+				</header>
+			</RulesDrawer>
 		{:else if current === Drawers.Token}
-			<TokenDrawer {close} />
+			<TokenDrawer {close}>
+				<header slot="header">
+					<h3>Reconfigure token</h3>
+					<p>
+						<Trans>
+							{@html info}
+						</Trans>
+					</p>
+				</header>
+			</TokenDrawer>
 		{/if}
 	</div>
 </Drawer>

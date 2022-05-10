@@ -51,15 +51,7 @@
 	$: currentDistributionLimitType = getDistributionLimitType($project.distributionLimit);
 </script>
 
-<h1>Token</h1>
-<InfoBox
-	info={`
-    By default, the issuance rate for your project's token is
-    1,000,000 tokens / 1 ETH. For example, a 1 ETH contribution to
-    your project will return 1,000,000 tokens. You can manipulate the
-    issuance rate with the following configurations.`}
-/>
-<br />
+<slot name="header" />
 <section id="tokenDrawer">
 	<HeavyBorderBox>
 		<ReservedRate bind:reservedRate bind:splits />

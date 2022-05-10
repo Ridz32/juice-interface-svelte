@@ -65,7 +65,7 @@
 	}
 </script>
 
-<h1>Rules</h1>
+<slot name="header" />
 <HeavyBorderBox>
 	<div class="option">
 		<Toggle id="pausePayments" bind:checked={pausePay}>Pause payments</Toggle>
