@@ -10,22 +10,20 @@
 	import { tokenSymbolText } from '$utils/tokenSymbolText';
 	import type { WeightFunction } from '$utils/math';
 
-	// TODO this has been directly copied from create/Preview, reuse
 	export let payButton: string = 'Pay';
 	export let payInCurrency: Currency = Currency.ETH;
 	export let reservedRate: number;
 	export let token: string = 'tokens';
-	export let tokenAddress: string;
 	export let weight: BigNumber;
 	export let weightingFn: WeightFunction;
 
 	let currency = Currency.ETH;
 	let receiveText = 'Receive 1,000,000 tokens/1 ETH';
-	let amount: BigNumber = BigNumber.from('0');
+	let amount: string = '0';
 	let formattedETHAmount: string;
 
 	function setValue(value) {
-		amount = value?.detail.value;
+		amount = formatWad(value?.detail.value);
 	}
 
 	const converter = getCurrencyConverter();
