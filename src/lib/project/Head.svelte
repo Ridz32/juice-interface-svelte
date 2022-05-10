@@ -148,12 +148,6 @@
 		cursor: default;
 	}
 
-	.project-handle {
-		color: var(--text-secondary);
-		margin-right: 20px;
-		font-weight: 600;
-	}
-
 	.logo-wrapper {
 		display: flex;
 		align-items: center;
