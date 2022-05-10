@@ -180,7 +180,7 @@ export async function getLatestPayments(days = 7) {
 	});
 }
 
-export async function getProjectsFromIds(ids: string[], keys) {
+export async function getProjectsFromIds(ids: string[]) {
 	return await querySubgraph({
 		entity: 'project',
 		keys,
@@ -190,6 +190,18 @@ export async function getProjectsFromIds(ids: string[], keys) {
 			operator: 'in'
 		}
 	});
+}
+
+export async function trendingProjectsQuery(count: number, trendingWindowDays: number) {
+	const payments = await getLatestPayments(trendingWindowDays);
+	const projectStats = await getProjectStatsFromPayments(payments);
+	const ids = Object.keys(projectStats);
+	const projectsQuery = await getProjectsFromIds(ids);
+	const trendingProjects = getTrendingProjectsFromProjectsAndStats(
+		projectsQuery,
+		projectStats
+	).slice(0, count);
+	return trendingProjects;
 }
 
 export async function myProjectsQuery(wallet: string | undefined) {
@@ -263,5 +275,5 @@ export async function holdingsProjectsQuery(wallet: string | undefined) {
 			: null
 	);
 
-	return projectsQuery
+	return projectsQuery;
 }
