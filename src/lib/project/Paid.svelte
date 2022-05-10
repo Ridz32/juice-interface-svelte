@@ -46,7 +46,7 @@
 			</div>
 			<div slot="right">
 				<div class="amount">
-					{#if $projectsContext.distributionLimitCurrency.eq(Currency.ETH)}
+					{#if $projectsContext?.distributionLimitCurrency?.eq(Currency.ETH)}
 						<h4 class="amount-main">
 							<ETHAmount amount={balanceInCurrency} precision={2} padEnd />
 						</h4>
@@ -138,7 +138,7 @@
 			reservedRate={fcMetadata.reservedRate.toNumber()}
 			token={tokenSymbol}
 			{tokenAddress}
-			weight={currentFC.weight}
+			weight={currentFC?.weight}
 			weightingFn={weightedAmount}
 		/>
 	</div>

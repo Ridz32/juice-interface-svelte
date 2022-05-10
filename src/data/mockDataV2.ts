@@ -4,6 +4,7 @@ import { BigNumber } from 'ethers';
 export const project = {
 	projectId: BigNumber.from('0x55'),
 	projectMetadata: {
+		version: 4,
 		name: 'Baguette',
 		infoUri: 'slapbag.xyz',
 		logoUri: 'https://gateway.pinata.cloud/ipfs/QmdA1nzv7Mrxs5HeQSzbNsUeZjsTQwY53PWwHHWaeAwaUb',
@@ -11,7 +12,6 @@ export const project = {
 		twitter: 'whoslapbaguette',
 		discord: '',
 		tokens: [],
-		version: 4,
 		payButton: 'HonHonHon 🥖',
 		payDisclosure: 'Bread is nice, give.'
 	},
@@ -73,7 +73,7 @@ export const project = {
 	terminals: ['0x0E5a62BA8f946AB98c1E801Fc0a7264408f6B838'],
 	primaryTerminal: '0x0E5a62BA8f946AB98c1E801Fc0a7264408f6B838',
 	ETHBalance: BigNumber.from('0xb1a2bc2ec50000'),
-	distributionLimitCurrency: BigNumber.from('0x02'),
+	distributionLimitCurrency: 2,
 	balanceInDistributionLimitCurrency: BigNumber.from('0x067374ed82cf7c0000'),
 	tokenSymbol: 'BREAD',
 	projectOwnerAddress: '0x78E4A5778c2ea75d1720c80EAC3043d84838718f',

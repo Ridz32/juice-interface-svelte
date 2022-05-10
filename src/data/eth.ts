@@ -1,6 +1,5 @@
 import { readProvider } from '$constants/readProvider';
 import { BigNumber } from '@ethersproject/bignumber';
-import { V1ContractName } from '$models/v1/contracts';
 import { fromWad } from '$utils/formatNumber';
 
 // import useContractReader from './contractReader/ContractReader'

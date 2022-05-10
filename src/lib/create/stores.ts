@@ -53,7 +53,7 @@ export type V2ProjectContextType = {
 	ballotState: V2BallotState | undefined;
 
 	distributionLimit: BigNumber | undefined;
-	distributionLimitCurrency: BigNumber | undefined;
+	distributionLimitCurrency: Currency | undefined;
 
 	payoutSplits: Split[] | undefined;
 	reservedTokensSplits: Split[] | undefined;

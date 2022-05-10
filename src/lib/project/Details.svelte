@@ -32,7 +32,7 @@
 	const payoutSplits = $projectsContext.payoutSplits;
 	const reservedTokensSplits = $projectsContext.reservedTokensSplits;
 
-	const fcMetadata = decodeV2FundingCycleMetadata(currentFC.metadata);
+	$: fcMetadata = currentFC ? decodeV2FundingCycleMetadata(currentFC.metadata) : null;
 
 	const hasIssuedERC20 = tokenAddress !== constants.AddressZero;
 

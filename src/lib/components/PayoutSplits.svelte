@@ -21,7 +21,7 @@
 
 	export let balanceInDistributionLimitCurrency: BigNumber | undefined = undefined;
 	export let usedDistributionLimit: BigNumber | undefined = undefined;
-	export let projectOwnerAddress: Address | undefined = undefined;
+	export let projectOwnerAddress: string | undefined = undefined;
 
 	let distributionLimitType: DistributionLimitType;
 	let totalSplitPercentagePayoutSplits: number;

@@ -19,6 +19,9 @@
 		"i18n:compile": "lingui compile"
 	},
 	"devDependencies": {
+		"@ethersproject/bignumber": "^5.6.0",
+		"@ethersproject/contracts": "^5.6.0",
+		"@jbx-protocol/contracts-v2": "^4.0.0",
 		"@lingui/cli": "^3.13.3",
 		"@lingui/core": "^3.13.3",
 		"@playwright/test": "^1.20.0",

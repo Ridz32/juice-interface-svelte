@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Icon from '$lib/components/Icon.svelte';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
-	import { getProjects } from '$data/project';
 	import { querySubgraph } from '$utils/graph';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import ETHAmount from '$lib/components/ETHAmount.svelte';
@@ -30,7 +29,7 @@
 <section>
 	<div class="left">
 		<h1><Trans>Projects using Juicebox</Trans></h1>
-		{#await getProjects({ pageSize: 4 })}
+		{#await []}
 			<Icon name="loading" spin={true} />
 		{:then projects}
 			{#each projects as project}

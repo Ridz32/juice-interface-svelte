@@ -1,6 +1,12 @@
 <script lang="ts">
-	import { projectMetadata } from './stores';
-	import { modal } from "$stores";
+	import {
+		fundingCycle,
+		fundingCycleMetadata,
+		payoutSplits,
+		projectMetadata,
+		reservedTokensSplits
+	} from './stores';
+	import { modal } from '$stores';
 	import { Tab, Tabs, TabList, TabPanel } from './Tabs';
 	import Button from '$lib/components/Button.svelte';
 	import FundingCycle from './FundingCycle';
@@ -9,7 +15,7 @@
 	import Modal from '$lib/components/Modal.svelte';
 	import { connectedAccount, walletConnect } from '$stores/web3';
 	import { readNetwork } from '$constants/networks';
-
+	import { uploadProjectMetadata } from '$utils/ipfs';
 
 	let isReviewPanel = false;
 	function checkReview(tabId: string) {
@@ -21,8 +27,73 @@
 		window.scrollTo(0, 0);
 	}
 
-	function deployProject() {
-		console.log('Start serializing');
+	let loading = false;
+
+	async function deployProject() {
+		// console.log('Start serializing');
+
+		// loading = true;
+
+		// console.log('fundingCycle', $fundingCycle);
+		// console.log('projectMetadata', $projectMetadata);
+		// console.log('fundingCycleMetadata', $fundingCycleMetadata);
+		// console.log('payoutSplits', $payoutSplits);
+		// console.log('reservedTokensSplits', $reservedTokensSplits);
+
+		// const uploadedMetadata = await uploadProjectMetadata(
+		// 	$projectMetadata,
+		// 	$projectMetadata.handle
+		// );
+
+		// if (!uploadedMetadata.IpfsHash) {
+		// 	loading = false;
+		// 	return;
+		// }
+
+		// deployProjectTx(
+		// 	{
+		// 		handle: editingProjectInfo.handle,
+		// 		projectMetadataCid: uploadedMetadata.IpfsHash,
+		// 		properties: {
+		// 			target: editingFC.target,
+		// 			currency: editingFC.currency,
+		// 			duration: editingFC.duration,
+		// 			discountRate: editingFC.discountRate,
+		// 			cycleLimit: editingFC.cycleLimit,
+		// 			ballot: editingFC.ballot
+		// 		},
+		// 		fundingCycleMetadata: {
+		// 			reservedRate: editingFC.reserved.toNumber(),
+		// 			bondingCurveRate: editingFC.bondingCurveRate.toNumber(),
+		// 			reconfigurationBondingCurveRate: editingFC.bondingCurveRate.toNumber(),
+		// 			payIsPaused: editingFC.payIsPaused,
+		// 			ticketPrintingIsAllowed: editingFC.ticketPrintingIsAllowed,
+		// 			treasuryExtension: constants.AddressZero
+		// 		},
+		// 		payoutMods: editingPayoutMods,
+		// 		ticketMods: editingTicketMods
+		// 	},
+		// 	{
+		// 		onDone: () => setLoadingCreate(false),
+		// 		onConfirmed: () => {
+		// 			setDeployProjectModalVisible(false);
+
+		// 			// Add project dependency to metadata and logo files
+		// 			editMetadataForCid(uploadedMetadata.IpfsHash, {
+		// 				name: metadataNameForHandle(editingProjectInfo.handle)
+		// 			});
+		// 			editMetadataForCid(cidFromUrl(editingProjectInfo.metadata.logoUri), {
+		// 				name: logoNameForHandle(editingProjectInfo.handle)
+		// 			});
+
+		// 			resetProjectForm();
+		// 			dispatch(editingProjectActions.resetState());
+
+		// 			window.location.hash =
+		// 				'/p/' + editingProjectInfo.handle + '?newDeploy=true&feedbackModalOpen=true';
+		// 		}
+		// 	}
+		// );
 	}
 
 	let disabled = true;

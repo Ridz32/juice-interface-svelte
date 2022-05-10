@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import * as constants from '@ethersproject/constants';
-	import { archivedProjectIds } from '$constants/v1/archivedProjects';
 	import { formatDate } from '$utils/formatDate';
 	// import { getTerminalVersion } from '$utils/v1/terminals';
 	import type { ProjectMetadataV4 } from '$models/project-metadata';
@@ -25,7 +24,7 @@
 	// If the total paid is greater than 0, but less than 10 ETH, show two decimal places.
 	const precision = project.totalPaid?.gt(0) && project.totalPaid.lt(constants.WeiPerEther) ? 2 : 0;
 	// const terminalVersion = getTerminalVersion(project.terminal);
-	const isArchived = archivedProjectIds.includes(project.id.toNumber()) || metadata?.archived;
+	const isArchived = false;
 </script>
 
 <li>

@@ -6,187 +6,143 @@
 </script>
 
 <script lang="ts">
-	import type { BigNumber } from 'ethers';
+	import { BigNumber } from 'ethers';
 	import Head from '$lib/project/Head.svelte';
-	import Stats from '$lib/project/Stats.svelte';
 	import Details from '$lib/project/Details.svelte';
 	import Activity from '$lib/project/Activity.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import Paid from '$lib/project/Paid.svelte';
 	import { onMount, setContext } from 'svelte';
-	import { querySubgraph } from '$utils/graph';
 	import Store from '$utils/Store';
-	import type { Project } from '$models/subgraph-entities/project';
-	import type { V1FundingCycle } from '$models/v1/fundingCycle';
-	import { getTerminalName, getTerminalVersion } from '$utils/v1/terminals';
-	import { V1CurrencyName } from '$utils/v1/currency';
 
 	import { page } from '$app/stores';
-	import type { ProjectMetadata, ProjectMetadataV4 } from '$models/project-metadata';
-	import { getPaymentsForProject, getProjectMetadata } from '$data/project';
-	import { getCurrencyConverter } from '$data/currency';
-	import { project as mockProject } from '$data/mockDataV2';
+	import { getProjectMetadata } from '$data/project';
 	import type { V2ProjectContextType } from '$lib/create/stores';
+	import { transactContract } from '$utils/web3/contractReader';
+	import { V2ContractName } from '$models/v2/contracts';
+	import { ETH_PAYOUT_SPLIT_GROUP } from '$constants/v2/splits';
+	import { ETH_TOKEN_ADDRESS } from '$constants/v2/juiceboxTokens';
 
-	let project = new Store<V2ProjectContextType>();
+	let project = new Store<V2ProjectContextType>({} as any);
 
-	// 	// Calls JBFundingCycleStore.currentOf
-	// 	const { data: fundingCycle, loading: fundingCycleLoading } =
-	//     useProjectCurrentFundingCycle({
-	//       projectId,
-	//     })
-
-	//   const fundingCycleMetadata = fundingCycle
-	//     ? decodeV2FundingCycleMetadata(fundingCycle?.metadata)
-	//     : undefined
-
-	//   const { data: payoutSplits } = useProjectSplits({
-	//     projectId,
-	//     splitGroup: ETH_PAYOUT_SPLIT_GROUP,
-	//     domain: fundingCycle?.configuration?.toString(),
-	//   })
-
-	//   const { data: terminals } = useProjectTerminals({
-	//     projectId,
-	//   })
-
-	//   const location = useLocation()
-	//   const params = new URLSearchParams(location.search)
-	//   const isNewDeploy = Boolean(params.get('newDeploy'))
-
-	//   const primaryTerminal = terminals?.[0] // TODO: make primaryTerminalOf hook and use it
-
-	//   const { data: distributionLimitData, loading: distributionLimitLoading } =
-	//     useProjectDistributionLimit({
-	//       projectId,
-	//       configuration: fundingCycle?.configuration?.toString(),
-	//       terminal: primaryTerminal,
-	//     })
-
-	//   const { data: usedDistributionLimit, loading: usedDistributionLimitLoading } =
-	//     useUsedDistributionLimit({
-	//       projectId,
-	//       terminal: primaryTerminal,
-	//       fundingCycleNumber: fundingCycle?.number,
-	//     })
-
-	//   const [distributionLimit, distributionLimitCurrency] =
-	//     distributionLimitData ?? []
-
-	//   const { data: reservedTokensSplits } = useProjectSplits({
-	//     projectId,
-	//     splitGroup: RESERVED_TOKEN_SPLIT_GROUP,
-	//     domain: fundingCycle?.configuration?.toString(),
-	//   })
-
-	//   const { data: ETHBalance, loading: ETHBalanceLoading } =
-	//     usePaymentTerminalBalance({
-	//       terminal: primaryTerminal,
-	//       projectId,
-	//     })
-
-	//   const { data: tokenAddress } = useProjectToken({
-	//     projectId,
-	//   })
-
-	//   const tokenSymbol = useSymbolOfERC20(tokenAddress)
-
-	//   const { data: primaryTerminalCurrentOverflow } = useTerminalCurrentOverflow({
-	//     projectId,
-	//     terminal: primaryTerminal,
-	//   })
-
-	//   const converter = useCurrencyConverter()
-	//   const {
-	//     data: balanceInDistributionLimitCurrency,
-	//     loading: balanceInDistributionLimitCurrencyLoading,
-	//   } = useMemo(() => {
-	//     if (ETHBalanceLoading) return { loading: true }
-
-	//     return {
-	//       data: converter.wadToCurrency(
-	//         ETHBalance,
-	//         V2CurrencyName(
-	//           distributionLimitCurrency?.toNumber() as V2CurrencyOption,
-	//         ),
-	//         V2CurrencyName(V2_CURRENCY_ETH),
-	//       ),
-	//       loading: false,
-	//     }
-	//   }, [ETHBalance, ETHBalanceLoading, converter, distributionLimitCurrency])
-
-	//   const { data: projectOwnerAddress } = useProjectOwner(projectId)
-
-	//   const { data: totalTokenSupply } = useProjectTokenTotalSupply(projectId)
-
-	//   const { data: ballotState } = useBallotState(projectId)
-
-	//   if (metadataLoading || metadataURILoading) return <Loading />
-	//   if (isNewDeploy && !metadataCID) {
-	//     return <NewDeployNotAvailable handleOrId={projectId} />
-	//   }
-	//   if (metadataError || !metadataCID) {
-	//     return <Project404 projectId={projectId} />
-	//   }
-
-	//   const project: V2ProjectContextType = {
-	//     projectId,
-	//     projectMetadata,
-	//     fundingCycle,
-	//     fundingCycleMetadata,
-	//     distributionLimit,
-	//     usedDistributionLimit,
-	//     payoutSplits,
-	//     reservedTokensSplits,
-	//     tokenAddress,
-	//     terminals,
-	//     primaryTerminal,
-	//     ETHBalance,
-	//     distributionLimitCurrency,
-	//     balanceInDistributionLimitCurrency,
-	//     tokenSymbol,
-	//     projectOwnerAddress,
-	//     primaryTerminalCurrentOverflow,
-	//     totalTokenSupply,
-	//     ballotState,
-
-	//     loading: {
-	//       ETHBalanceLoading,
-	//       balanceInDistributionLimitCurrencyLoading,
-	//       distributionLimitLoading,
-	//       fundingCycleLoading,
-	//       usedDistributionLimitLoading,
-	//     },
-	//   }
-
-	const converter = getCurrencyConverter();
+	// const converter = getCurrencyConverter();
 
 	let loading = true;
 	setContext('PROJECT', project);
 
 	onMount(async () => {
-		const [res] = await querySubgraph({
-			entity: 'project',
-			keys: [
-				'id',
-				'handle',
-				'createdAt',
-				'creator',
-				'uri',
-				'currentBalance',
-				'distributeToPayoutModEvents',
-				'totalPaid',
-				'totalRedeemed'
-			],
-			where: [
-				{
-					key: 'id',
-					value: $page.params.projectId
-				}
-			]
+		// $project = mockProject;
+		await new Promise((r) => setTimeout(r, 1000));
+		$project.projectId = BigNumber.from($page.params.projectId);
+		const [cid] = await transactContract(V2ContractName.JBProjects, 'metadataContentOf', [
+			$project.projectId,
+			0
+		]);
+		const metadata = await getProjectMetadata(cid);
+		$project.projectMetadata = metadata;
+
+		/****/
+		[$project.fundingCycle, $project.fundingCycleMetadata] = await transactContract(
+			V2ContractName.JBController,
+			'currentFundingCycleOf',
+			[$project.projectId]
+		);
+
+		/****/
+		const [splitResult] = await transactContract(
+			V2ContractName.JBSplitsStore,
+			'splitsOf',
+			$project.projectId && $project?.fundingCycle?.configuration?.toString()
+				? [
+						$project.projectId.toHexString(),
+						$project?.fundingCycle?.configuration?.toString(),
+						ETH_PAYOUT_SPLIT_GROUP
+				  ]
+				: null
+		);
+
+		$project.payoutSplits = splitResult.map((split) => {
+			return {
+				percent: split?.percent?.toNumber(),
+				lockedUntil: split?.lockedUntil?.toNumber(),
+				projectId: split?.projectId?.toHexString(),
+				beneficiary: split?.beneficiary,
+				allocator: split?.allocator,
+				preferClaimed: split?.preferClaimed
+			};
 		});
-		$project = mockProject;
+		/****/
+
+		const [terminals] =
+			(await transactContract(
+				V2ContractName.JBDirectory,
+				'terminalsOf',
+				$project.projectId ? [$project.projectId.toHexString()] : []
+			)) || [];
+
+		$project.primaryTerminal = terminals?.[0];
+
+		/****/
+		[$project.tokenAddress] = await transactContract(
+			V2ContractName.JBTokenStore,
+			'tokenOf',
+			$project.projectId ? [$project.projectId.toHexString()] : []
+		);
+
+		/****/
+		const [value] = await transactContract(
+			V2ContractName.JBSplitsStore,
+			'splitsOf',
+			$project.projectId && $project.fundingCycle?.configuration?.toString()
+				? [
+						$project.projectId.toHexString(),
+						$project.fundingCycle?.configuration?.toString(),
+						ETH_PAYOUT_SPLIT_GROUP
+				  ]
+				: null
+		);
+
+		$project.payoutSplits = value.map((split) => {
+			return {
+				percent: split.percent.toNumber(),
+				lockedUntil: split.lockedUntil.toNumber(),
+				projectId: split.projectId.toHexString(),
+				beneficiary: split.beneficiary,
+				allocator: split.allocator,
+				preferClaimed: split.preferClaimed
+			};
+		});
+
+		/****/
+
+		[$project.distributionLimit, $project.distributionLimitCurrency] = await transactContract(
+			V2ContractName.JBController,
+			'distributionLimitOf',
+			$project.projectId &&
+				$project.fundingCycle?.configuration?.toString() &&
+				$project.primaryTerminal
+				? [
+						$project.projectId,
+						$project.fundingCycle?.configuration?.toString(),
+						$project.primaryTerminal,
+						ETH_TOKEN_ADDRESS
+				  ]
+				: []
+		);
+
+		/****/
+
+		const [ret] = await transactContract(
+			V2ContractName.JBProjects,
+			'ownerOf',
+			$project.projectId ? [BigNumber.from($project.projectId).toHexString()] : null
+		);
+
+		$project.projectOwnerAddress = ret;
+
+		console.log($project);
+
 		loading = false;
 	});
 </script>
@@ -204,11 +160,12 @@
 				<Paid />
 				<div class="row">
 					<Details />
-					{#await getPaymentsForProject($project.projectId)}
+					<!-- WIP -->
+					<!-- {#await getPaymentsForProject($project.projectId)}
 						<Activity loading={true} />
 					{:then payEvents}
 						<Activity {payEvents} />
-					{/await}
+					{/await} -->
 				</div>
 			</div>
 			<div style="text-align: center; padding: 20px;">
