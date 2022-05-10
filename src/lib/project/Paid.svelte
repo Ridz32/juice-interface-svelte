@@ -12,8 +12,9 @@
 	import USDAmount from '$lib/components/USDAmount.svelte';
 	import Trans from '$lib/components/Trans.svelte';
 	import EtherscanLink from '$lib/components/EtherscanLink.svelte';
-	import Modal, { openModal } from '$lib/components/Modal.svelte';
+	import Modal, { bind, openModal } from '$lib/components/Modal.svelte';
 	import Pay from '$lib/components/Pay.svelte';
+	import PayHeadsUp from '$lib/components/PayHeadsUp.svelte';
 	import { weightedAmount } from '$utils/v2/math';
 
 	const projectsContext = getContext('PROJECT') as Store<V2ProjectContextType>;
@@ -28,6 +29,13 @@
 	const tokenAddress = $projectsContext.tokenAddress;
 
 	const ownerBalance = getEthBalance(owner);
+
+	async function payTreasury() {
+		// TODO contract
+		setTimeout(() => {
+			console.warn('🛠 TODO payTreasury');
+		}, 300);
+	}
 </script>
 
 {#if !currentFC}
@@ -138,6 +146,7 @@
 	</div>
 	<div class="payment">
 		<Pay
+			on:click={() => openModal(bind(PayHeadsUp, { onConfirm: payTreasury }))}
 			payButton={metadata.payButton}
 			reservedRate={fcMetadata.reservedRate.toNumber()}
 			token={tokenSymbol}
