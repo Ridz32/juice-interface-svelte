@@ -98,13 +98,18 @@
 			<!-- TODO range / i.e. progressbar that takes in targetAmount overflowAmountinTargetCurrency and balanceInTargetCurrency-->
 			<!-- <Range showValueBox={false} /> -->
 		{:else}
-			<Popover
-				slot="right"
-				message="The target for this funding cycle is 0, meaning all funds in Juicebox are currently
-		considered overflow. Overflow can be redeemed by token holders, but not distributed."
-			>
-				<Trans>100% overflow</Trans>
-			</Popover>
+			<InfoSpaceBetween>
+				<div slot="left" />
+				<div slot="right">
+					<Popover
+						slot="right"
+						message="The target for this funding cycle is 0, meaning all funds in Juicebox are currently
+			considered overflow. Overflow can be redeemed by token holders, but not distributed."
+					>
+						<Trans>100% overflow</Trans>
+					</Popover>
+				</div>
+			</InfoSpaceBetween>
 		{/if}
 		<!-- {/if} -->
 
