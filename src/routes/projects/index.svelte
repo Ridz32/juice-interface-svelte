@@ -7,7 +7,8 @@
 	import ProjectsTabs from '$lib/projects/ProjectsTabs.svelte';
 	import ProjectsSearch from '$lib/projects/ProjectsSearch.svelte';
 
-	import { selectedProjectsTab } from '$stores/selectedProjectsTab';
+	import { selectedProjectsTab } from '$stores/projectsForm';
+	import ProjectsFilterAndSort from '$lib/projects/ProjectsFilterAndSort.svelte';
 </script>
 
 <section
@@ -18,7 +19,12 @@
 		<div style="max-width: 1080px; margin: 0px auto; padding: 20px;">
 			<ProjectsInfo />
 			<ProjectsSearch />
-			<ProjectsTabs />
+			<div class="controls">
+				<ProjectsTabs />
+				{#if $selectedProjectsTab === 'all'}
+					<ProjectsFilterAndSort />
+				{/if}
+			</div>
 			{#if $selectedProjectsTab === 'trending'}
 				<TrendingProjects />
 			{:else if $selectedProjectsTab === 'holdings'}
@@ -31,3 +37,13 @@
 		</div>
 	</div>
 </section>
+
+<style>
+	.controls {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		flex-wrap: wrap;
+		max-width: 100vw;
+	}
+</style>
