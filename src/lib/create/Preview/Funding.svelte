@@ -38,7 +38,7 @@
 </HeavyBorderBox>
 <HeavyBorderBox>
 	<PayoutSplits
-		currency={$project.distributionLimitCurrency.toNumber()}
+		currency={$project.distributionLimitCurrency}
 		payoutSplits={$project.payoutSplits}
 		distributionLimit={$project.distributionLimit}
 	/>

@@ -12,7 +12,7 @@
 	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
 
 	$: currentDistributionLimitType = getDistributionLimitType($project.distributionLimit);
-	$: currency = $project.distributionLimitCurrency.toNumber();
+	$: currency = $project.distributionLimitCurrency;
 </script>
 
 <!-- TODO: rename this component, quite undescriptive given other sibling is "Funding" -->

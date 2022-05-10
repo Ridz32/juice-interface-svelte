@@ -37,7 +37,7 @@
 		}
 		distributionLimit = $project.distributionLimit;
 		distributionLimitType = getDistributionLimitType($project.distributionLimit);
-		distributionLimitCurrency = $project.distributionLimitCurrency.toNumber();
+		distributionLimitCurrency = $project.distributionLimitCurrency;
 	});
 
 	$: {
@@ -88,7 +88,7 @@
 				duration
 			},
 			distributionLimit,
-			distributionLimitCurrency: CurrencyValue[distributionLimitCurrency],
+			distributionLimitCurrency: CurrencyValue[distributionLimitCurrency].toNumber(),
 			payoutSplits: splits
 		}));
 		close();
@@ -166,7 +166,7 @@
 		<!-- TODO href for jb treasury -->
 		<AlertText
 			>Distributing payouts to addresses outside the Juicebox contracts incurs a 2.5% JBX membership
-			fee. The ETH from the fee will go to the <a href="">JuiceboxDAO treasury</a>, and the
+			fee. The ETH from the fee will go to the <a href="/#">JuiceboxDAO treasury</a>, and the
 			resulting JBX will go to the project's owner.</AlertText
 		>
 		{#each splits as split, editingIndex}

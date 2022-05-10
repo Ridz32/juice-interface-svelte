@@ -18,6 +18,9 @@
 	import { uploadProjectMetadata } from '$utils/ipfs';
 	import { DEFAULT_BALLOT_STRATEGY } from '$constants/v2/ballotStrategies';
 	import { Currency, CurrencyValue } from '$constants';
+	import { contracts, transactContract } from '$utils/web3/contractReader';
+import { V2ContractName } from '$models/v2/contracts';
+import { JUICEBOX_MONEY_METADATA_DOMAIN } from '$constants/v2/metadataDomain';
 
 	let project = new Store<V2ProjectContextType>();
 	// Populate project with default data
@@ -74,7 +77,7 @@
 		payoutSplits: [],
 		reservedTokensSplits: [],
 		distributionLimit: BigNumber.from(0),
-		distributionLimitCurrency: CurrencyValue[Currency.ETH],
+		distributionLimitCurrency: CurrencyValue[Currency.ETH]?.toNumber(),
 
 		tokenAddress: undefined,
 		tokenSymbol: undefined,
@@ -105,62 +108,97 @@
 	let loading = false;
 
 	async function deployProject() {
-		// console.log('Start serializing');
+		console.log('Start serializing');
 		// loading = true;
-		// console.log('fundingCycle', $fundingCycle);
-		// console.log('projectMetadata', $projectMetadata);
-		// console.log('fundingCycleMetadata', $fundingCycleMetadata);
-		// console.log('payoutSplits', $payoutSplits);
-		// console.log('reservedTokensSplits', $reservedTokensSplits);
-		// const uploadedMetadata = await uploadProjectMetadata(
-		// 	$projectMetadata,
-		// 	$projectMetadata.handle
-		// );
-		// if (!uploadedMetadata.IpfsHash) {
-		// 	loading = false;
-		// 	return;
-		// }
-		// deployProjectTx(
+		console.log('fundingCycle', $project.fundingCycle);
+		console.log('projectMetadata', $project.projectMetadata);
+		console.log('fundingCycleMetadata', $project.fundingCycleMetadata);
+		console.log('payoutSplits', $project.payoutSplits);
+		console.log('reservedTokensSplits', $project.reservedTokensSplits);
+		const uploadedMetadata = await uploadProjectMetadata(
+			$project.projectMetadata,
+			$project.projectMetadata.name.toLowerCase().replace(/[^\w]+/g, '_')
+		);
+		console.log('uploadedMetadata', uploadedMetadata);
+		if (!uploadedMetadata.IpfsHash) {
+			loading = false;
+			return;
+		}
+
+		// projectMetadataCID: string
+		// fundingCycleData: V2FundingCycleData
+		// fundingCycleMetadata: V2FundingCycleMetadata
+		// fundAccessConstraints: V2FundAccessConstraint[]
+		// groupedSplits?: GroupedSplits<SplitGroup>[]
+		// mustStartAtOrAfter?: string
+
+		// const args = [
+		// 	$connectedAccount, // _owner
+		// 	[uploadedMetadata.IpfsHash, JUICEBOX_MONEY_METADATA_DOMAIN], // _projectMetadata (JBProjectMetadata)
 		// 	{
-		// 		handle: editingProjectInfo.handle,
-		// 		projectMetadataCid: uploadedMetadata.IpfsHash,
-		// 		properties: {
-		// 			target: editingFC.target,
-		// 			currency: editingFC.currency,
-		// 			duration: editingFC.duration,
-		// 			discountRate: editingFC.discountRate,
-		// 			cycleLimit: editingFC.cycleLimit,
-		// 			ballot: editingFC.ballot
-		// 		},
-		// 		fundingCycleMetadata: {
-		// 			reservedRate: editingFC.reserved.toNumber(),
-		// 			bondingCurveRate: editingFC.bondingCurveRate.toNumber(),
-		// 			reconfigurationBondingCurveRate: editingFC.bondingCurveRate.toNumber(),
-		// 			payIsPaused: editingFC.payIsPaused,
-		// 			ticketPrintingIsAllowed: editingFC.ticketPrintingIsAllowed,
-		// 			treasuryExtension: constants.AddressZero
-		// 		},
-		// 		payoutMods: editingPayoutMods,
-		// 		ticketMods: editingTicketMods
+		// 		duration: $project.fundingCycle.duration,
+		// 		weight: $project.fundingCycle.weight,
+		// 		discountRate: $project.fundingCycle.discountRate,
+		// 		ballot: $project.fundingCycle.ballot,
+		// 	}, // _data (JBFundingCycleData)
+		// 	$project.fundingCycleMetadata, // _metadata (JBFundingCycleMetadata)
+		// 	'1', // _mustStartAtOrAfter DEFAULT
+		// 	groupedSplits, // _groupedSplits,
+		// 	$project.fundAccessConstraints, // _fundAccessConstraints,
+		// 	[contracts.JBETHPaymentTerminal.address], //  _terminals (contract address of the JBETHPaymentTerminal)
+		// 	DEFAULT_MEMO
+		// ];
+
+		// return transactContract(V2ContractName.JBController, 'launchProjectFor', args);
+
+		// const groupedSplits = [payoutGroupedSplits, reservedTokensGroupedSplits];
+
+		// const txSuccessful = await launchProjectTx(
+		// 	{
+		// 		projectMetadataCID: uploadedMetadata.IpfsHash,
+		// 		fundingCycleData,
+		// 		fundingCycleMetadata,
+		// 		fundAccessConstraints,
+		// 		groupedSplits
 		// 	},
 		// 	{
-		// 		onDone: () => setLoadingCreate(false),
-		// 		onConfirmed: () => {
-		// 			setDeployProjectModalVisible(false);
-		// 			// Add project dependency to metadata and logo files
-		// 			editMetadataForCid(uploadedMetadata.IpfsHash, {
-		// 				name: metadataNameForHandle(editingProjectInfo.handle)
-		// 			});
-		// 			editMetadataForCid(cidFromUrl(editingProjectInfo.metadata.logoUri), {
-		// 				name: logoNameForHandle(editingProjectInfo.handle)
-		// 			});
-		// 			resetProjectForm();
-		// 			dispatch(editingProjectActions.resetState());
-		// 			window.location.hash =
-		// 				'/p/' + editingProjectInfo.handle + '?newDeploy=true&feedbackModalOpen=true';
+		// 		onDone() {
+		// 			console.info('Transaction executed. Awaiting confirmation...');
+		// 			setTransactionPending(true);
+		// 		},
+		// 		async onConfirmed(result) {
+		// 			const txHash = result?.transaction?.hash;
+		// 			if (!txHash) {
+		// 				return; // TODO error notififcation
+		// 			}
+
+		// 			const txReceipt = await findTransactionReceipt(txHash);
+		// 			if (!txReceipt) {
+		// 				return; // TODO error notififcation
+		// 			}
+		// 			console.info('Found tx receipt.');
+
+		// 			const projectId = getProjectIdFromReceipt(txReceipt);
+		// 			if (projectId === undefined) {
+		// 				return; // TODO error notififcation
+		// 			}
+
+		// 			// Reset Redux state/localstorage after deploying
+		// 			dispatch(editingV2ProjectActions.resetState());
+
+		// 			history.push(`/v2/p/${projectId}?newDeploy=true`);
+		// 		},
+		// 		onCancelled() {
+		// 			setDeployLoading(false);
+		// 			setTransactionPending(false);
 		// 		}
 		// 	}
 		// );
+
+		// if (!txSuccessful) {
+		// 	setDeployLoading(false);
+		// 	setTransactionPending(false);
+		// }
 	}
 
 	let disabled = true;

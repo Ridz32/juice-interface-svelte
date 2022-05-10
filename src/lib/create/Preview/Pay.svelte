@@ -8,7 +8,7 @@
 	const project = getContext('PROJECT') as Store<V2ProjectContextType>;
 
 	$: payButton = $project?.projectMetadata?.payButton || 'Pay';
-	$: currency = $project.distributionLimitCurrency.toNumber();
+	$: currency = $project.distributionLimitCurrency;
 </script>
 
 <Pay
