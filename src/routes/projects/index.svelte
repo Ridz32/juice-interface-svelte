@@ -7,8 +7,15 @@
 	import ProjectsTabs from '$lib/projects/ProjectsTabs.svelte';
 	import ProjectsSearch from '$lib/projects/ProjectsSearch.svelte';
 
-	import { selectedProjectsTab } from '$stores/projectsForm';
+	import {
+		selectedProjectsTab,
+		hasSearched,
+		searchResults,
+		isSearching,
+		searchText
+	} from '$stores/projectsForm';
 	import ProjectsFilterAndSort from '$lib/projects/ProjectsFilterAndSort.svelte';
+	import ProjectsSearchResults from '$lib/projects/ProjectsSearchResults.svelte';
 </script>
 
 <section
@@ -19,20 +26,29 @@
 		<div style="max-width: 1080px; margin: 0px auto; padding: 20px;">
 			<ProjectsInfo />
 			<ProjectsSearch />
-			<div class="controls">
-				<ProjectsTabs />
-				{#if $selectedProjectsTab === 'all'}
-					<ProjectsFilterAndSort />
+			{#if $hasSearched}
+				<ProjectsSearchResults
+					projects={$searchResults}
+					loading={$isSearching}
+					searchText={$searchText}
+				/>
+			{:else}
+				<div class="controls">
+					<ProjectsTabs />
+					{#if $selectedProjectsTab === 'all'}
+						<ProjectsFilterAndSort />
+					{/if}
+				</div>
+
+				{#if $selectedProjectsTab === 'trending'}
+					<TrendingProjects />
+				{:else if $selectedProjectsTab === 'holdings'}
+					<HoldingsProjects />
+				{:else if $selectedProjectsTab === 'myprojects'}
+					<MyProjects />
+				{:else if $selectedProjectsTab === 'all'}
+					<AllProjects />
 				{/if}
-			</div>
-			{#if $selectedProjectsTab === 'trending'}
-				<TrendingProjects />
-			{:else if $selectedProjectsTab === 'holdings'}
-				<HoldingsProjects />
-			{:else if $selectedProjectsTab === 'myprojects'}
-				<MyProjects />
-			{:else if $selectedProjectsTab === 'all'}
-				<AllProjects />
 			{/if}
 		</div>
 	</div>

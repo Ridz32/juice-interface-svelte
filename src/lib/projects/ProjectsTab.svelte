@@ -1,5 +1,5 @@
 <script>
-	import { selectedProjectsTab } from '$stores/selectedProjectsTab';
+	import { selectedProjectsTab } from '$stores/projectsForm';
 
 	export let type;
 	export let title;

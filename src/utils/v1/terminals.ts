@@ -6,8 +6,12 @@ import type { V1TerminalName } from '$models/v1/terminals';
 
 import { readNetwork } from '$constants/networks';
 
-const loadTerminalAddress = (network: NetworkName, terminal: V1TerminalName): string =>
-	require(`@jbx-protocol/contracts-v1/deployments/${network}/${terminal}.json`).address;
+// const loadTerminalAddress = (network: NetworkName, terminal: V1TerminalName): string =>
+// 	require(`@jbx-protocol/contracts-v1/deployments/${network}/${terminal}.json`).address;
+// TODO: Remove hardcoded terminal addresses
+const loadTerminalAddress = () => {
+	return '0xE7432E80A75F957121Cb523BA842Db27C6C25F69';
+};
 
 export const getTerminalAddress = (version?: V1TerminalVersion): string | undefined => {
 	if (!version) return;

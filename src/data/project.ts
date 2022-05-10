@@ -110,6 +110,18 @@ export async function getProjects(opts: ProjectsOptions) {
 	});
 }
 
+export function getProjectsByHandle(handle: string | undefined) {
+	return querySubgraph(
+		handle
+			? {
+					text: `${handle}:*`,
+					entity: 'projectSearch',
+					keys
+			  }
+			: null
+	);
+}
+
 export async function getProjectMetadata(uri: string | undefined) {
 	if (!uri) {
 		console.error('No uri provided');
@@ -276,4 +288,10 @@ export async function holdingsProjectsQuery(wallet: string | undefined) {
 	);
 
 	return projectsQuery;
+}
+
+export function infiniteProjectsQuery(opts: ProjectsOptions) {
+	return querySubgraphExhaustive(
+		queryOpts(opts) as InfiniteGraphQueryOpts<'project', EntityKeys<'project'>>
+	);
 }
