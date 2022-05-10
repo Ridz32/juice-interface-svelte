@@ -1,17 +1,14 @@
 <script lang="ts">
+	import { getContext } from 'svelte';
 	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
 	import PayoutSplits from '$lib/components/PayoutSplits.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
-	import { getTotalSplitsPercentage } from '$utils/v2/distributions';
-	import FundingCycleDetails from './FundingCycleDetails.svelte';
-	import {
-		currentDistributionLimitCurrencyType as currency,
-		distributionLimitData,
-		fundingCycleMetadata,
-		payoutSplits,
-		reservedTokensSplits
-	} from '../stores';
+	import FundingCycleDetails from '$lib/components/FundingCycleDetails.svelte';
 	import ReservedTokenSplits from '$lib/components/ReservedTokenSplits.svelte';
+	import type { V2ProjectContextType } from '$models/project-type';
+	import type Store from '$utils/Store';
+
+	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
 </script>
 
 <div class="title yellow">
@@ -31,20 +28,25 @@
 </div>
 <p class="sub-header">CURRENT</p>
 <HeavyBorderBox>
-	<FundingCycleDetails />
+	<FundingCycleDetails
+		expanded
+		fundingCycle={$project.fundingCycle}
+		fundingCycleMetadata={$project.fundingCycleMetadata}
+		distributionLimit={$project.distributionLimit}
+		currentDistributionLimitCurrencyType={$project.distributionLimitCurrency}
+	/>
 </HeavyBorderBox>
 <HeavyBorderBox>
 	<PayoutSplits
-		currency={$currency}
-		payoutSplits={$payoutSplits}
-		distributionLimit={$distributionLimitData.distributionLimit}
-		isCreatePreview={true}
+		currency={$project.distributionLimitCurrency.toNumber()}
+		payoutSplits={$project.payoutSplits}
+		distributionLimit={$project.distributionLimit}
 	/>
 </HeavyBorderBox>
 <HeavyBorderBox>
 	<ReservedTokenSplits
-		fundingCycleMetadata={$fundingCycleMetadata}
-		reservedTokensSplits={$reservedTokensSplits}
+		fundingCycleMetadata={$project.fundingCycleMetadata}
+		reservedTokensSplits={$project.reservedTokensSplits}
 	/>
 </HeavyBorderBox>
 

@@ -5,13 +5,12 @@
 	import Icon from '$lib/components/Icon.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
-	import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
 	import { Currency, DistributionLimitType } from '$constants';
 	import Money from './Money.svelte';
 	import SimpleSplits from './SimpleSplits.svelte';
 	import type { Split } from '$models/v2/splits';
 	import { getEthBalance } from '$data/eth';
-	import { onMount } from 'svelte';
+	import { getDistributionLimitType } from '$utils/v2/distributions';
 
 	export let currency: Currency = Currency.ETH;
 	export let distributionLimit: BigNumber = BigNumber.from(0);
@@ -40,17 +39,6 @@
 		getEthBalance(projectOwnerAddress).then((balance) => {
 			ownerBalance = balance;
 		});
-		console.log(ownerBalance, 'ownerBalance');
-	}
-
-	function getDistributionLimitType(distributionLimit) {
-		if (distributionLimit.eq(0)) {
-			return DistributionLimitType.None;
-		}
-		if (distributionLimit.eq(MAX_DISTRIBUTION_LIMIT)) {
-			return DistributionLimitType.Infinite;
-		}
-		return DistributionLimitType.Specific;
 	}
 
 	function getOwnerAmountPayoutSplits(summedSplitsPercent: number) {
@@ -79,10 +67,9 @@
 			{:else if distributionLimitType === DistributionLimitType.Specific}
 				<p>
 					<small
-						><Money {currency} amount={BigNumber.from(0)} formatWad={!isCreatePreview} />/<Money
+						><Money {currency} amount={BigNumber.from(0)} />/<Money
 							{currency}
 							amount={distributionLimit}
-							formatWad={!isCreatePreview}
 						/>
 					</small>
 				</p>
@@ -93,10 +80,15 @@
 				{#await getEthBalance(projectOwnerAddress)}
 					<Icon name="loadng" spin />
 				{:then amount}
-					<p><small><Money {amount} /> <Icon name="crown" /> owner balance</small></p>
+					<p><small><Money {amount} precision={2} /> <Icon name="crown" /> owner balance</small></p>
 				{/await}
 			{:else}
-				<p><small><Money amount={ownerBalance} /> <Icon name="crown" /> owner balance</small></p>
+				<p>
+					<small
+						><Money amount={ownerBalance} precision={2} />
+						<Icon name="crown" /> owner balance</small
+					>
+				</p>
 			{/if}
 		</div>
 		<div slot="right"><button disabled={true}>Distribute funds</button></div>
@@ -114,7 +106,7 @@
 			{#if distributionLimitType !== DistributionLimitType.Infinite}
 				100%
 				{#if distributionLimitType === DistributionLimitType.Specific}
-					(<Money {currency} amount={distributionLimit} formatWad={!isCreatePreview} />)
+					(<Money {currency} amount={distributionLimit} precision={2} />)
 				{/if}
 			{/if}
 		</p>
@@ -126,7 +118,6 @@
 		{distributionLimitType}
 		{distributionLimit}
 		{currency}
-		formatWad={!isCreatePreview}
 	/>
 {/each}
 {#if payoutSplits.length}
@@ -137,8 +128,8 @@
 			{#if distributionLimitType === DistributionLimitType.Specific}
 				(<Money
 					{currency}
-					formatWad={!isCreatePreview}
 					amount={getOwnerAmountPayoutSplits(totalSplitPercentagePayoutSplits)}
+					precision={2}
 				/>)
 			{/if}
 		</p>

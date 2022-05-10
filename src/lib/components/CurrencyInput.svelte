@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { createEventDispatcher, onMount } from 'svelte';
-	import { BigNumber } from 'ethers';
-	import Icon from '$lib/components/Icon.svelte';
+	import { createEventDispatcher, onMount } from 'svelte'
+	import type { BigNumber } from 'ethers';
 	import { Currency, CurrencyName } from '$constants';
-import { formatWad } from '$utils/formatNumber';
+	import { formatWad } from '$utils/formatNumber';
+	import { parseWad } from '$utils/formatNumber';
+	import Icon from '$lib/components/Icon.svelte';
 
 	export let currency: Currency = Currency.ETH;
 	export let inputValue = 0;
@@ -16,7 +17,7 @@ import { formatWad } from '$utils/formatNumber';
 		if (initialValue) {
 			inputValue = parseFloat(formatWad(initialValue));
 		}
-	})
+	});
 
 	/**
 	 * onBlur dispatches "setValue" event which handles BigNumber conversion
@@ -26,7 +27,7 @@ import { formatWad } from '$utils/formatNumber';
 	 */
 	function onBlur(e: Event) {
 		const target = e.target as HTMLInputElement;
-		const value = BigNumber.from(target.value);
+		const value = parseWad(target.value);
 		dispatch('setValue', { value });
 	}
 
