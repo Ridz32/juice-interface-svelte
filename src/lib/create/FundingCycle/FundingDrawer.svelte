@@ -11,20 +11,12 @@
 	import type { V2ProjectContextType } from '$models/project-type';
 	import { bind, openModal } from '$lib/components/Modal.svelte';
 	import { BigNumber } from 'ethers';
-	// import {
-	// 	fundingCycle,
-	// 	distributionLimitData,
-	// 	currentDistributionLimitType,
-	// 	currentDistributionLimitCurrencyType,
-	// 	payoutSplits
-	// 	// payoutSplitsPercentage,
-	// } from '../stores';
 	import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
 	import { Currency, CurrencyValue, DistributionLimitType } from '$constants';
 	import { getContext, onMount } from 'svelte';
 	import type { Split } from '$models/v2/splits';
 	import { getDistributionLimitType, getTotalSplitsPercentage } from '$utils/v2/distributions';
-	import { parseWad, percentToPerbicent, percentToPermyriad } from '$utils/formatNumber';
+	import { formatWad } from '$utils/formatNumber';
 
 	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
 
@@ -89,20 +81,13 @@
 	}
 
 	function saveFundingConfig() {
-		console.log('Save')
-		console.log(distributionLimitType);
-		console.log(distributionLimit);
-		console.log(distributionLimitCurrency)
 		project.update((current) => ({
 			...current,
 			fundingCycle: {
 				...current.fundingCycle,
 				duration
 			},
-			distributionLimit:
-				distributionLimitType == DistributionLimitType.Specific
-					? parseWad(distributionLimit)
-					: distributionLimit,
+			distributionLimit,
 			distributionLimitCurrency: CurrencyValue[distributionLimitCurrency],
 			payoutSplits: splits
 		}));
@@ -155,7 +140,11 @@
 	</select>
 	<br />
 	{#if distributionLimitType === DistributionLimitType.Specific}
-		<CurrencyInput initialValue={distributionLimit} on:setValue={setValue} bind:currency={distributionLimitCurrency} />
+		<CurrencyInput
+			initialValue={distributionLimit}
+			on:setValue={setValue}
+			bind:currency={distributionLimitCurrency}
+		/>
 	{:else if distributionLimitType === DistributionLimitType.None}
 		<AlertText
 			>With a distribution limit of Zero, no funds can be distributed by the project. All funds
@@ -188,7 +177,8 @@
 					openModal(
 						bind(AddSplitModal, {
 							currency: distributionLimitCurrency,
-							distributionLimit,
+							distributionLimit: formatWad(distributionLimit),
+							showAmount: distributionLimitType === DistributionLimitType.Specific,
 							editingIndex,
 							onFinish: editSplit,
 							split,
@@ -212,7 +202,8 @@
 				openModal(
 					bind(AddSplitModal, {
 						currency: distributionLimitCurrency,
-						distributionLimit,
+						distributionLimit: formatWad(distributionLimit),
+						showAmount: distributionLimitType === DistributionLimitType.Specific,
 						onFinish: addSplit,
 						splits
 					})

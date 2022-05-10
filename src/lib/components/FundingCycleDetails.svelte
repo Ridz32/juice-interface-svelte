@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { BigNumber } from '@ethersproject/bignumber';
 	import { parseEther } from '@ethersproject/units';
-	import type { Currency, DistributionLimitType } from '$constants';
 	// TODO move
 	import CollapsibleSection from '$lib/create/CollapsibleSection.svelte';
 	import { formattedNum } from '$utils/formatNumber';
@@ -207,7 +206,7 @@
 			{#if distributionLimitValue}
 				<span>{distributionLimitValue}</span>
 			{:else}
-				<Money amount={BigNumber.from(formatWad(distributionLimit))} {currency} formatWad={false} />
+				<Money amount={formatWad(distributionLimit)} {currency} formatWad={false} />
 			{/if}
 		</div>
 		{#each cycleKeyValues as { label, value, info, issue, issueText }}

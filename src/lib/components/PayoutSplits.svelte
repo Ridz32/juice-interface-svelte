@@ -39,7 +39,6 @@
 		getEthBalance(projectOwnerAddress).then((balance) => {
 			ownerBalance = balance;
 		});
-		console.log(ownerBalance, 'ownerBalance');
 	}
 
 	function getOwnerAmountPayoutSplits(summedSplitsPercent: number) {
@@ -68,10 +67,9 @@
 			{:else if distributionLimitType === DistributionLimitType.Specific}
 				<p>
 					<small
-						><Money {currency} amount={BigNumber.from(0)} formatWad={!isCreatePreview} />/<Money
+						><Money {currency} amount={BigNumber.from(0)} />/<Money
 							{currency}
 							amount={distributionLimit}
-							formatWad={!isCreatePreview}
 						/>
 					</small>
 				</p>
@@ -82,10 +80,15 @@
 				{#await getEthBalance(projectOwnerAddress)}
 					<Icon name="loadng" spin />
 				{:then amount}
-					<p><small><Money {amount} /> <Icon name="crown" /> owner balance</small></p>
+					<p><small><Money {amount} precision={2} /> <Icon name="crown" /> owner balance</small></p>
 				{/await}
 			{:else}
-				<p><small><Money amount={ownerBalance} /> <Icon name="crown" /> owner balance</small></p>
+				<p>
+					<small
+						><Money amount={ownerBalance} precision={2} />
+						<Icon name="crown" /> owner balance</small
+					>
+				</p>
 			{/if}
 		</div>
 		<div slot="right"><button disabled={true}>Distribute funds</button></div>
@@ -103,7 +106,7 @@
 			{#if distributionLimitType !== DistributionLimitType.Infinite}
 				100%
 				{#if distributionLimitType === DistributionLimitType.Specific}
-					(<Money {currency} amount={distributionLimit} formatWad={!isCreatePreview} />)
+					(<Money {currency} amount={distributionLimit} precision={2} />)
 				{/if}
 			{/if}
 		</p>
@@ -115,7 +118,6 @@
 		{distributionLimitType}
 		{distributionLimit}
 		{currency}
-		formatWad={!isCreatePreview}
 	/>
 {/each}
 {#if payoutSplits.length}
@@ -126,8 +128,8 @@
 			{#if distributionLimitType === DistributionLimitType.Specific}
 				(<Money
 					{currency}
-					formatWad={!isCreatePreview}
 					amount={getOwnerAmountPayoutSplits(totalSplitPercentagePayoutSplits)}
+					precision={2}
 				/>)
 			{/if}
 		</p>

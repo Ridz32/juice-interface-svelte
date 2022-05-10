@@ -1,11 +1,10 @@
 <script lang="ts">
 	import { setContext } from 'svelte';
+	import { modal } from '$stores';
 	import { BigNumber } from '@ethersproject/bignumber';
 	import * as constants from '@ethersproject/constants';
 	import { redemptionRateFrom } from '$utils/v2/math';
 	import Store from '$utils/Store';
-	// import { projectMetadata } from './stores';
-	import { modal } from '$stores';
 	import type { V2ProjectContextType } from '$models/project-type';
 
 	import { Tab, Tabs, TabList, TabPanel } from './Tabs';
@@ -17,7 +16,7 @@
 	import { connectedAccount, walletConnect } from '$stores/web3';
 	import { readNetwork } from '$constants/networks';
 	import { DEFAULT_BALLOT_STRATEGY } from '$constants/v2/ballotStrategies';
-import { Currency, CurrencyValue } from '$constants';
+	import { Currency, CurrencyValue } from '$constants';
 
 	let project = new Store<V2ProjectContextType>();
 	// Populate project with default data
@@ -59,7 +58,7 @@ import { Currency, CurrencyValue } from '$constants';
 
 		fundingCycle: {
 			duration: BigNumber.from(0),
-			weight: BigNumber.from(100),
+			weight: BigNumber.from('0xd3c21bcecceda1000000'),
 			discountRate: BigNumber.from(0),
 			// TODO ballot, look at hooks/v2/V2ContractLoader.ts for more info
 			// ballot: contracts?.JBETHPaymentTerminal.address ?? '', // hex, contract address
@@ -91,7 +90,6 @@ import { Currency, CurrencyValue } from '$constants';
 	});
 
 	setContext('PROJECT', project);
-	console.log($project)
 
 	let isReviewPanel = false;
 	function checkReview(tabId: string) {
@@ -109,7 +107,7 @@ import { Currency, CurrencyValue } from '$constants';
 
 	let disabled = true;
 
-	$: disabled = !$project.projectMetadata.name
+	$: disabled = !$project.projectMetadata.name;
 </script>
 
 <div id="create">

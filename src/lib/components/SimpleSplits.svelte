@@ -56,6 +56,7 @@
 					.mul(distributionLimit)
 					.div(100)}
 				{currency}
+				precision={2}
 			/>)
 		{/if}
 	</p>

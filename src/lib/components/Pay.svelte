@@ -2,7 +2,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import ETH from '$lib/components/Ethereum.svelte';
 	import CurrencyInput from '$lib/components/CurrencyInput.svelte';
-	import { formatWad, fromWad } from '$utils/formatNumber';
+	import { formatWad } from '$utils/formatNumber';
 	import { parseEther } from '@ethersproject/units';
 	import { Currency, CurrencyName } from '$constants';
 	import { BigNumber } from 'ethers';
