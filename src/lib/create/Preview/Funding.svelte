@@ -4,21 +4,11 @@
 	import PayoutSplits from '$lib/components/PayoutSplits.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
 	import FundingCycleDetails from '$lib/components/FundingCycleDetails.svelte';
-	import {
-		currentDistributionLimitCurrencyType as currency,
-		distributionLimitData,
-		fundingCycle,
-		fundingCycleMetadata,
-		payoutSplits,
-		reservedTokensSplits
-	} from '../stores';
 	import ReservedTokenSplits from '$lib/components/ReservedTokenSplits.svelte';
 	import type { V2ProjectContextType } from '$models/project-type';
 	import type Store from '$utils/Store';
 
 	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
-
-	console.log('In funding', $project);
 </script>
 
 <div class="title yellow">

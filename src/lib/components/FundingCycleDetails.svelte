@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { BigNumber } from '@ethersproject/bignumber';
 	import { parseEther } from '@ethersproject/units';
-	import { DEFAULT_ISSUANCE_RATE } from '$utils/v2/math';
-	import { Currency, DistributionLimitType } from '$constants';
+	import type { Currency, DistributionLimitType } from '$constants';
 	// TODO move
 	import CollapsibleSection from '$lib/create/CollapsibleSection.svelte';
 	import { formattedNum } from '$utils/formatNumber';
@@ -27,27 +26,18 @@
 		getUnsafeV2FundingCycleProperties,
 		V2FundingCycleRiskCount
 	} from '$utils/v2/fundingCycle';
-	import EthAmount from './ETHAmount.svelte';
-	import UsdAmount from './USDAmount.svelte';
+	import Trans from './Trans.svelte';
+	import type { V2FundingCycle, V2FundingCycleMetadata } from '$models/v2/fundingCycle';
 
 	const riskWarningText = FUNDING_CYCLE_WARNING_TEXT();
 	const isPreviewMode = true;
 	const isFundingCycleRecurring = true;
 
-	// TODO have create/Previw/FundingCycleDetails.svelte use this component too
-	// I'm merely testing atm to see how close we might be
-
-	export let expanded;
-	export let fundingCycle;
-	export let fundingCycleMetadata;
-	export let distributionLimit;
-	export let currentDistributionLimitCurrencyType;
-
-
-	$: {
-		console.log('Distribution limit updated', distributionLimit);
-		console.log('Disribution limit currency type', currentDistributionLimitCurrencyType);
-	}
+	export let expanded: boolean = true;
+	export let fundingCycle: V2FundingCycle;
+	export let fundingCycleMetadata: V2FundingCycleMetadata;
+	export let distributionLimit: BigNumber;
+	export let currentDistributionLimitCurrencyType: BigNumber;
 
 	let fundingCycleRiskProperties: any = {};
 	let fundingCycleRiskCount = 0;
@@ -62,13 +52,11 @@
 	}
 
 	function getDistributionValue(distributionLimit: BigNumber) {
-		console.log('gettingDistributionValue', distributionLimit);
 		if (!distributionLimit.gt(0)) {
 			return 'Zero';
 		} else if (distributionLimit.eq(MAX_DISTRIBUTION_LIMIT)) {
 			return 'Infinite';
 		}
-		console.log('setting value to null')
 		return null;
 	}
 
@@ -110,12 +98,8 @@
 	}
 	$: currentBallotStrategy = getBallotStrategyByAddress(fundingCycle.ballot);
 	$: durationSet = fundingCycle.duration.gt(0);
+	$: distributionLimitValue = getDistributionValue(distributionLimit);
 	$: cycleKeyValues = [
-		{
-			id: 'distributionLimit',
-			label: 'Distribution Limit',
-			value: getDistributionValue(distributionLimit)
-		},
 		{
 			id: 'duration',
 			label: 'Duration',
@@ -196,9 +180,6 @@
 	}
 
 	$: currency = currentDistributionLimitCurrencyType.toNumber();
-	$: distributionLimitValue = distributionLimit;
-
-	// $: distributionLimit = getDistributionValue(distributionLimit);
 </script>
 
 <CollapsibleSection alignCaret="center" {expanded}>
@@ -221,7 +202,15 @@
 		{/if}
 	</div>
 	<div class="current-cycle">
-		{#each cycleKeyValues as { id, label, value, info, issue, issueText }}
+		<div class="gap">
+			<b><Trans>Distribution limit</Trans>:</b>
+			{#if distributionLimitValue}
+				<span>{distributionLimitValue}</span>
+			{:else}
+				<Money amount={BigNumber.from(formatWad(distributionLimit))} {currency} formatWad={false} />
+			{/if}
+		</div>
+		{#each cycleKeyValues as { label, value, info, issue, issueText }}
 			{#if info}
 				<div class="title gap">
 					<PopInfo message={info}><p><b>{label}</b></p></PopInfo>:<span class:risk={issue}
@@ -235,11 +224,6 @@
 						</span>
 					{/if}
 				</div>
-			{:else if id === 'distributionLimit' && !value}
-				<p class="gap">
-					<b>{label}:</b>
-					<Money amount={distributionLimitValue} {currency} />
-				</p>
 			{:else}
 				<p class="gap">
 					<b>{label}:</b>
