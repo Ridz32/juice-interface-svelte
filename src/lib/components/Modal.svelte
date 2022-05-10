@@ -17,7 +17,8 @@ v1.3.0
 				...options,
 				props: {
 					...props,
-					...options.props
+					...options.props,
+					closeModal,
 				}
 			});
 		};
@@ -493,7 +494,7 @@ v1.3.0
 
 	.window {
 		position: relative;
-		width: 35rem;
+		width: fit-content;
 		max-width: 100%;
 		max-height: 100%;
 		margin: 2rem auto;
