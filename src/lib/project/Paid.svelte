@@ -137,7 +137,6 @@
 			payButton={metadata.payButton}
 			reservedRate={fcMetadata.reservedRate.toNumber()}
 			token={tokenSymbol}
-			{tokenAddress}
 			weight={currentFC.weight}
 			weightingFn={weightedAmount}
 		/>
