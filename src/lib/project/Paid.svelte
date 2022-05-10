@@ -15,6 +15,7 @@
 	import Modal, { bind, openModal } from '$lib/components/Modal.svelte';
 	import Pay from '$lib/components/Pay.svelte';
 	import PayHeadsUp from '$lib/components/PayHeadsUp.svelte';
+	import PayCheckout from '$lib/project/PayCheckout.svelte';
 	import { weightedAmount } from '$utils/v2/math';
 
 	const projectsContext = getContext('PROJECT') as Store<V2ProjectContextType>;
@@ -32,9 +33,15 @@
 
 	async function payTreasury() {
 		// TODO contract
-		setTimeout(() => {
-			console.warn('🛠 TODO payTreasury');
-		}, 300);
+		openModal(
+			bind(PayCheckout, {
+				tokenSymbol,
+				payDisclosure: metadata.payDisclosure,
+			})
+		);
+		// setTimeout(() => {
+		// 	console.warn('🛠 TODO payTreasury');
+		// }, 300);
 	}
 </script>
 
@@ -146,7 +153,7 @@
 	</div>
 	<div class="payment">
 		<Pay
-			on:click={() => openModal(bind(PayHeadsUp, { onConfirm: payTreasury }))}
+			on:click={() => openModal(bind(PayHeadsUp, { click: payTreasury }))}
 			payButton={metadata.payButton}
 			reservedRate={fcMetadata.reservedRate.toNumber()}
 			token={tokenSymbol}

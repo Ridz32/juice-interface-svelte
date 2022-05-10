@@ -1,13 +1,7 @@
 <script lang="ts">
 	import Button from './Button.svelte';
 
-	export let closeModal = () => {};
-	export let onConfirm: () => void;
-
-	async function click() {
-		onConfirm();
-		closeModal();
-	}
+	export let click;
 </script>
 
 <main>
