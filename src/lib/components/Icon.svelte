@@ -5,8 +5,8 @@
 	export const directions = ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'];
 </script>
 
-<script>
-	export let name = 'arrow';
+<script lang="ts">
+	export let name: keyof typeof pathsByName | 'discord' | 'sun' | 'moon' = 'caret';
 	export let direction = 'n';
 	export let spin = false;
 	$: paths = pathsByName[name] || [];
