@@ -12,8 +12,10 @@
 	import USDAmount from '$lib/components/USDAmount.svelte';
 	import Trans from '$lib/components/Trans.svelte';
 	import EtherscanLink from '$lib/components/EtherscanLink.svelte';
-	import Modal, { openModal } from '$lib/components/Modal.svelte';
+	import Modal, { bind, openModal } from '$lib/components/Modal.svelte';
 	import Pay from '$lib/components/Pay.svelte';
+	import PayHeadsUp from '$lib/components/PayHeadsUp.svelte';
+	import PayCheckout from '$lib/project/PayCheckout.svelte';
 	import { weightedAmount } from '$utils/v2/math';
 
 	const projectsContext = getContext('PROJECT') as Store<V2ProjectContextType>;
@@ -28,6 +30,19 @@
 	const tokenAddress = $projectsContext.tokenAddress;
 
 	const ownerBalance = getEthBalance(owner);
+
+	async function payTreasury() {
+		// TODO contract
+		openModal(
+			bind(PayCheckout, {
+				tokenSymbol,
+				payDisclosure: metadata.payDisclosure,
+			})
+		);
+		// setTimeout(() => {
+		// 	console.warn('🛠 TODO payTreasury');
+		// }, 300);
+	}
 </script>
 
 {#if !currentFC}
@@ -98,13 +113,18 @@
 			<!-- TODO range / i.e. progressbar that takes in targetAmount overflowAmountinTargetCurrency and balanceInTargetCurrency-->
 			<!-- <Range showValueBox={false} /> -->
 		{:else}
-			<Popover
-				slot="right"
-				message="The target for this funding cycle is 0, meaning all funds in Juicebox are currently
-		considered overflow. Overflow can be redeemed by token holders, but not distributed."
-			>
-				<Trans>100% overflow</Trans>
-			</Popover>
+			<InfoSpaceBetween>
+				<div slot="left" />
+				<div slot="right">
+					<Popover
+						slot="right"
+						message="The target for this funding cycle is 0, meaning all funds in Juicebox are currently
+			considered overflow. Overflow can be redeemed by token holders, but not distributed."
+					>
+						<Trans>100% overflow</Trans>
+					</Popover>
+				</div>
+			</InfoSpaceBetween>
 		{/if}
 		<!-- {/if} -->
 
@@ -133,6 +153,7 @@
 	</div>
 	<div class="payment">
 		<Pay
+			on:click={() => openModal(bind(PayHeadsUp, { click: payTreasury }))}
 			payButton={metadata.payButton}
 			reservedRate={fcMetadata.reservedRate.toNumber()}
 			token={tokenSymbol}

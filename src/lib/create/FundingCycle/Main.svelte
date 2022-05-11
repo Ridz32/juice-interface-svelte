@@ -55,16 +55,36 @@ You can reconfigure your project's funding cycles later on, and changes will tak
 <Drawer bind:shown={drawerOpen} let:close>
 	<div class="content">
 		{#if current === 'Funding'}
-			<FundingDrawer {close} />
+			<FundingDrawer {close}>
+				<h1 slot="header">Funding</h1>
+			</FundingDrawer>
 		{:else if current === 'Token'}
-			<TokenDrawer {close} />
+			<TokenDrawer {close}>
+				<header slot="header">
+					<h1>Token</h1>
+					<InfoBox
+						info={`
+    By default, the issuance rate for your project's token is
+    1,000,000 tokens / 1 ETH. For example, a 1 ETH contribution to
+    your project will return 1,000,000 tokens. You can manipulate the
+    issuance rate with the following configurations.`}
+					/>
+					<br />
+				</header>
+			</TokenDrawer>
 		{:else if current === 'Rules'}
-			<RulesDrawer {close} />
+			<RulesDrawer {close}>
+				<h1 slot="header">Rules</h1>
+			</RulesDrawer>
 		{/if}
 	</div>
 </Drawer>
 
 <style>
+	h1 {
+		font-weight: 500;
+		color: var(--text-header);
+	}
 	.buttons {
 		margin-top: 40px;
 	}

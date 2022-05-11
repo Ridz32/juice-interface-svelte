@@ -79,7 +79,8 @@
 		<small>{receiveText}</small>
 	</div>
 	<div class="stacked">
-		<Button size="md" on:click={console.log}>{payButton}</Button>
+		<!-- TODO need input from pay button, pass in onClick -->
+		<Button size="md" on:click>{payButton}</Button>
 		{#if currency === Currency.USD}
 			<small>Paid as <ETH />{formattedETHAmount}</small>
 		{/if}

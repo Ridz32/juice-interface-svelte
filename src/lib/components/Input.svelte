@@ -6,6 +6,7 @@
 
 <style>
 	input {
+		height: 28px;
 		width: 100%;
 		background: transparent;
 		border: 1px solid var(--stroke-tertiary);

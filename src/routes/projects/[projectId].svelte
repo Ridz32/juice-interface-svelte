@@ -11,6 +11,7 @@
 	import Details from '$lib/project/Details.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Icon from '$lib/components/Icon.svelte';
+	import Issue from '$lib/components/Issue.svelte';
 	import Paid from '$lib/project/Paid.svelte';
 	import { onMount, setContext } from 'svelte';
 	import Store from '$utils/Store';
@@ -22,132 +23,146 @@
 	import { ETH_PAYOUT_SPLIT_GROUP } from '$constants/v2/splits';
 	import { ETH_TOKEN_ADDRESS } from '$constants/v2/juiceboxTokens';
 	import { getProjectMetadata } from '$data/project';
+import Activity from '$lib/project/Activity.svelte';
 
 	let project = new Store<V2ProjectContextType>({} as any);
+
+	setContext('PROJECT', project);
 
 	// const converter = getCurrencyConverter();
 
 	let loading = true;
-	setContext('PROJECT', project);
+	let issue: string | false = false;
 
 	onMount(async () => {
 		// $project = mockProject;
-		await new Promise((r) => setTimeout(r, 1000));
-		$project.projectId = BigNumber.from($page.params.projectId);
-		const [cid] = await transactContract(V2ContractName.JBProjects, 'metadataContentOf', [
-			$project.projectId,
-			0
-		]);
-		const metadata = await getProjectMetadata(cid);
-		$project.projectMetadata = metadata;
-		console.log('metadata: ', metadata);
+		try {
+			await new Promise((r) => setTimeout(r, 1000));
+			$project.projectId = BigNumber.from($page.params.projectId);
+			const [cid] = await transactContract(V2ContractName.JBProjects, 'metadataContentOf', [
+				$project.projectId,
+				0
+			]);
+			const metadata = await getProjectMetadata(cid);
+			$project.projectMetadata = metadata;
 
-		/****/
-		[$project.fundingCycle, $project.fundingCycleMetadata] = await transactContract(
-			V2ContractName.JBController,
-			'currentFundingCycleOf',
-			[$project.projectId]
-		);
+			/****/
+			[$project.fundingCycle, $project.fundingCycleMetadata] = await transactContract(
+				V2ContractName.JBController,
+				'currentFundingCycleOf',
+				[$project.projectId]
+			);
 
-		/****/
-		const [splitResult] = await transactContract(
-			V2ContractName.JBSplitsStore,
-			'splitsOf',
-			$project.projectId && $project?.fundingCycle?.configuration?.toString()
-				? [
-						$project.projectId.toHexString(),
-						$project?.fundingCycle?.configuration?.toString(),
-						ETH_PAYOUT_SPLIT_GROUP
-				  ]
-				: null
-		);
+			/****/
+			const [splitResult] = await transactContract(
+				V2ContractName.JBSplitsStore,
+				'splitsOf',
+				$project.projectId && $project?.fundingCycle?.configuration?.toString()
+					? [
+							$project.projectId.toHexString(),
+							$project?.fundingCycle?.configuration?.toString(),
+							ETH_PAYOUT_SPLIT_GROUP
+					  ]
+					: null
+			);
 
-		$project.payoutSplits = splitResult.map((split) => {
-			return {
-				percent: split?.percent?.toNumber(),
-				lockedUntil: split?.lockedUntil?.toNumber(),
-				projectId: split?.projectId?.toHexString(),
-				beneficiary: split?.beneficiary,
-				allocator: split?.allocator,
-				preferClaimed: split?.preferClaimed
-			};
-		});
-		/****/
+			$project.payoutSplits = splitResult.map((split) => {
+				return {
+					percent: split?.percent?.toNumber(),
+					lockedUntil: split?.lockedUntil?.toNumber(),
+					projectId: split?.projectId?.toHexString(),
+					beneficiary: split?.beneficiary,
+					allocator: split?.allocator,
+					preferClaimed: split?.preferClaimed
+				};
+			});
+			/****/
 
-		const [terminals] =
-			(await transactContract(
-				V2ContractName.JBDirectory,
-				'terminalsOf',
+			const [terminals] =
+				(await transactContract(
+					V2ContractName.JBDirectory,
+					'terminalsOf',
+					$project.projectId ? [$project.projectId.toHexString()] : []
+				)) || [];
+
+			$project.primaryTerminal = terminals?.[0];
+
+			/****/
+			[$project.tokenAddress] = await transactContract(
+				V2ContractName.JBTokenStore,
+				'tokenOf',
 				$project.projectId ? [$project.projectId.toHexString()] : []
-			)) || [];
+			);
 
-		$project.primaryTerminal = terminals?.[0];
+			/****/
+			const [value] = await transactContract(
+				V2ContractName.JBSplitsStore,
+				'splitsOf',
+				$project.projectId && $project.fundingCycle?.configuration?.toString()
+					? [
+							$project.projectId.toHexString(),
+							$project.fundingCycle?.configuration?.toString(),
+							ETH_PAYOUT_SPLIT_GROUP
+					  ]
+					: null
+			);
 
-		/****/
-		[$project.tokenAddress] = await transactContract(
-			V2ContractName.JBTokenStore,
-			'tokenOf',
-			$project.projectId ? [$project.projectId.toHexString()] : []
-		);
+			$project.payoutSplits = value.map((split) => {
+				return {
+					percent: split.percent.toNumber(),
+					lockedUntil: split.lockedUntil.toNumber(),
+					projectId: split.projectId.toHexString(),
+					beneficiary: split.beneficiary,
+					allocator: split.allocator,
+					preferClaimed: split.preferClaimed
+				};
+			});
 
-		/****/
-		const [value] = await transactContract(
-			V2ContractName.JBSplitsStore,
-			'splitsOf',
-			$project.projectId && $project.fundingCycle?.configuration?.toString()
-				? [
-						$project.projectId.toHexString(),
-						$project.fundingCycle?.configuration?.toString(),
-						ETH_PAYOUT_SPLIT_GROUP
-				  ]
-				: null
-		);
+			/****/
 
-		$project.payoutSplits = value.map((split) => {
-			return {
-				percent: split.percent.toNumber(),
-				lockedUntil: split.lockedUntil.toNumber(),
-				projectId: split.projectId.toHexString(),
-				beneficiary: split.beneficiary,
-				allocator: split.allocator,
-				preferClaimed: split.preferClaimed
-			};
-		});
+			[$project.distributionLimit, $project.distributionLimitCurrency] = await transactContract(
+				V2ContractName.JBController,
+				'distributionLimitOf',
+				$project.projectId &&
+					$project.fundingCycle?.configuration?.toString() &&
+					$project.primaryTerminal
+					? [
+							$project.projectId,
+							$project.fundingCycle?.configuration?.toString(),
+							$project.primaryTerminal,
+							ETH_TOKEN_ADDRESS
+					  ]
+					: []
+			);
 
-		/****/
+			/****/
 
-		[$project.distributionLimit, $project.distributionLimitCurrency] = await transactContract(
-			V2ContractName.JBController,
-			'distributionLimitOf',
-			$project.projectId &&
-				$project.fundingCycle?.configuration?.toString() &&
-				$project.primaryTerminal
-				? [
-						$project.projectId,
-						$project.fundingCycle?.configuration?.toString(),
-						$project.primaryTerminal,
-						ETH_TOKEN_ADDRESS
-				  ]
-				: []
-		);
+			const [ret] = await transactContract(
+				V2ContractName.JBProjects,
+				'ownerOf',
+				$project.projectId ? [BigNumber.from($project.projectId).toHexString()] : null
+			);
 
-		/****/
+			$project.projectOwnerAddress = ret;
 
-		const [ret] = await transactContract(
-			V2ContractName.JBProjects,
-			'ownerOf',
-			$project.projectId ? [BigNumber.from($project.projectId).toHexString()] : null
-		);
+			console.log($project);
 
 		$project.projectOwnerAddress = ret;
 
-		loading = false;
+			loading = false;
+		} catch (e) {
+			issue = e.message;
+		}
 	});
 </script>
 
 <section>
 	<div class="content">
-		{#if loading}
+		{#if issue}
+			<Issue center>
+				{issue}
+			</Issue>
+		{:else if loading}
 			<div class="loading">
 				<Icon name="loading" spin />
 			</div>

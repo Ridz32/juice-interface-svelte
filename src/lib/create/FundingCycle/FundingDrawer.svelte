@@ -95,7 +95,7 @@
 	}
 </script>
 
-<h1>Funding</h1>
+<slot name="header" />
 <HeavyBorderBox>
 	<Toggle bind:checked={fundingCyclesActive}><h3>Funding cycles</h3></Toggle>
 	<p>Set the length of your funding cycles, which can enable:</p>
@@ -217,12 +217,8 @@
 </Button>
 
 <style>
-	h1,
 	h3 {
 		color: var(--text-header);
-	}
-	h1 {
-		font-weight: 500;
 	}
 
 	h3 {
