@@ -189,6 +189,7 @@
 							</div>
 							<div class="ant-space-item" style="">
 								<a
+									href="#faq"
 									class="nav-menu-item hover-opacity"
 									style="cursor: pointer; display: flex; align-items: center; font-weight: 600; color: var(--text-primary);"
 									>FAQ</a
