@@ -9,6 +9,8 @@
 	import ProjectDetails from '$lib/create/ProjectDetails.svelte';
 	import RulesDrawer from '$lib/create/RulesDrawer.svelte';
 
+	export let close: () => void;
+
 	let deployDisabled = true;
 	let deployInProgress = false;
 
@@ -65,7 +67,7 @@
 	>
 
 	<div class="buttons">
-		<Button size="md" type="secondary">Cancel</Button>
+		<Button size="md" type="secondary" on:click={close}>Cancel</Button>
 		<Button size="md" disabled={deployDisabled}>
 			Deploy new project configuration
 			{#if deployInProgress}
@@ -136,6 +138,7 @@
 		background: transparent;
 		margin: 16px 0px;
 		cursor: pointer;
+		color: var(--stroke-action-primary);
 	}
 
 	p {

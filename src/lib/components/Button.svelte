@@ -15,6 +15,7 @@
 		| 'link'
 		| 'dark' = 'primary';
 	export let loading = false;
+	export let buttonProps: any = {};
 </script>
 
 <button class={`${size} ${type}`} disabled={disabled || loading} {...buttonProps} on:click

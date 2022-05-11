@@ -14,7 +14,7 @@
 	import InfoBox from '$lib/components/InfoBox.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
 	import Trans from '$lib/components/Trans.svelte';
-	import UploadField from '$lib/create/UploadField.svelte';
+	import UploadField from '$lib/components/UploadField.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import { bind, closeModal, openModal } from '$lib/components/Modal.svelte';

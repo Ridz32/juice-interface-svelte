@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Chart from './Chart.svelte';
 	import { getContext, onMount } from 'svelte';
+	import { modal } from '$stores';
 	import * as constants from '@ethersproject/constants';
 	import DropDown from './DropDown.svelte';
 	import type Store from '$utils/Store';
@@ -20,7 +21,8 @@
 	import PayoutSplits from '$lib/components/PayoutSplits.svelte';
 	import ReservedTokenSplits from '$lib/components/ReservedTokenSplits.svelte';
 	import { serializeV2FundingCycleData } from '$utils/v2/serializers';
-	import { hasFundingDuration, V2FundingCycleRiskCount } from '$utils/v2/fundingCycle';
+	import { hasFundingDuration } from '$utils/v2/fundingCycle';
+	import Modal, { openModal } from '$lib/components/Modal.svelte';
 	import UpcomingFundingCycle from './UpcomingFundingCycle.svelte';
 	import FundingCycleHistory from './FundingCycleHistory.svelte';
 	import ManageToken from './ManageToken.svelte';
