@@ -1,14 +1,17 @@
 <script lang="ts">
 	import { getContext, onMount } from 'svelte';
-
 	import type { BigNumber } from 'ethers';
 	import type { V2ProjectContextType } from '$models/project-type';
 	import type Store from '$utils/Store';
+	import { formatWad } from '$utils/formatNumber';
+	import { weightedAmount } from '$utils/v2/math';
 	import Input from '$lib/components/Input.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
 	import Trans from '$lib/components/Trans.svelte';
-	import { formatWad } from '$utils/formatNumber';
-	import { weightedAmount } from '$utils/v2/math';
+	import UploadField from '$lib/create/UploadField.svelte';
+	import Button from '$lib/components/Button.svelte';
+	import Checkbox from '$lib/components/Checkbox.svelte';
+	import { closeModal } from '$lib/components/Modal.svelte';
 
 	const projectContext = getContext('PROJECT') as Store<V2ProjectContextType>;
 
@@ -24,12 +27,27 @@
 	// re decentralisation
 	let memo: string;
 	let checked = false;
+	let erc20 = false;
 	let receivedTickets: string;
 	let ownerTickets: string;
+	let customBeneficiary: string;
+
+	function autosize() {
+		const textarea = document.querySelector('textarea');
+		setTimeout(function () {
+			textarea.style.cssText = 'height:auto; padding:0';
+			textarea.style.cssText = 'height:' + textarea.scrollHeight + 'px';
+		}, 0);
+	}
+
+	function payProject() {
+		// TODO contract
+		console.log('🛠 TODO payProject');
+	}
 
 	onMount(() => {
-        // TODO there's something weird here with the reserved rate
-        // PLS HELP, I CANNOT FIGURE OUT WHAT IS GOING ON
+		// TODO there's something weird here with the reserved rate
+		// PLS HELP, I CANNOT FIGURE OUT WHAT IS GOING ON
 		receivedTickets = weightedAmount(
 			fundingCycle?.weight,
 			fundingCycleMetadata.reservedRate.toNumber(),
@@ -42,6 +60,9 @@
 			weiAmount,
 			'reserved'
 		);
+		// Autosize the textarea for memo
+		const textarea = document.querySelector('textarea');
+		textarea.addEventListener('keydown', autosize);
 	});
 </script>
 
@@ -78,14 +99,54 @@
 			></tbody
 		>
 	</table>
-	<label for="memo">Memo</label>
-	<Input bind:value={memo} placeholder="(Optioal) Add a memo to this payment on-chain" />
-
-	<div class="beneficiary">
-		<p>Custom token beneficiary</p>
+	<div class="item">
+		<label for="memo">Memo</label>
+		<textarea
+			bind:value={memo}
+			rows="1"
+			disabled={memo?.length >= 256}
+			placeholder="(Optioal) Add a memo to this payment on-chain"
+		/>
+		<p class="right">{(memo || '').length} / 256</p>
+	</div>
+	<UploadField
+		onChange={(url) => {
+			memo = url;
+			autosize();
+		}}
+	/>
+	<div class="row">
+		<label for="tokenBeneficiary">Custom token beneficiary</label>
 		<Toggle bind:checked />
 	</div>
-	<small>Mint tokes to a custom address.</small>
+	<small><Trans>Mint tokens to a custom address.</Trans></small>
+	{#if checked}
+		<Input
+			bind:value={customBeneficiary}
+			placeholder={'juicebox.eth / 0x0000000000000000000000000000000000000000'}
+		/>
+	{/if}
+
+	<div class="item">
+		<p><b>Receive ERC-20</b></p>
+		<div class="row">
+			<div class="checkbox-wrapper">
+				<Checkbox bind:checked={erc20} />
+			</div>
+			<p>
+				<Trans>
+					Check this to mint this project's ERC-20 tokens to your wallet. Leave unchecked to have
+					your token balance tracked by Juicebox, saving gas on this transaction. You can always
+					claim your ERC-20 tokens later.
+				</Trans>
+			</p>
+		</div>
+	</div>
+
+	<div class="buttons">
+		<Button on:click={closeModal} type="secondary" size="md">Close</Button>
+		<Button on:click={payProject} type="primary" size="md">Pay</Button>
+	</div>
 </main>
 
 <style>
@@ -122,14 +183,41 @@
 	}
 
 	p {
+		font-weight: 300;
 		margin: 0;
 	}
-	.beneficiary {
-		display: flex;
-		margin-top: 1rem;
-		/* font-weight: 300; */
-	}
-	.beneficiary p {
+
+	label {
+		margin: 10px 0px;
 		margin-right: 10px;
+	}
+
+	small {
+		font-weight: 300;
+		font-size: 0.8rem;
+	}
+	textarea {
+		border: 1px solid var(--stroke-primary);
+		width: 100%;
+		height: auto;
+		background: transparent;
+	}
+
+	.buttons {
+		float: right;
+	}
+	.row {
+		align-items: center;
+		margin-top: 1rem;
+		display: flex;
+	}
+	.row p {
+		margin-right: 10px;
+	}
+	.item {
+		margin: 20px 0px;
+	}
+	.right {
+		float: right;
 	}
 </style>
