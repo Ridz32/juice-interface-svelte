@@ -5,7 +5,13 @@
 	import type Store from '$utils/Store';
 	import { formatWad } from '$utils/formatNumber';
 	import { weightedAmount } from '$utils/v2/math';
+	import {
+		getUnsafeV2FundingCycleProperties,
+		V2FundingCycleRiskCount
+	} from '$utils/v2/fundingCycle';
+	import { FUNDING_CYCLE_WARNING_TEXT } from '$constants/fundingWarningText';
 	import Input from '$lib/components/Input.svelte';
+	import InfoBox from '$lib/components/InfoBox.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
 	import Trans from '$lib/components/Trans.svelte';
 	import UploadField from '$lib/create/UploadField.svelte';
@@ -31,6 +37,8 @@
 	let receivedTickets: string;
 	let ownerTickets: string;
 	let customBeneficiary: string;
+	let riskCount: number;
+	let warnings = [];
 
 	function autosize() {
 		const textarea = document.querySelector('textarea');
@@ -60,6 +68,12 @@
 			weiAmount,
 			'reserved'
 		);
+		// Get the risk properties for the InfoBox
+		const risk = getUnsafeV2FundingCycleProperties(fundingCycle);
+		riskCount = V2FundingCycleRiskCount(fundingCycle);
+		warnings = Object.keys(risk)
+			.filter((k) => risk[k])
+			.map((k) => FUNDING_CYCLE_WARNING_TEXT()[k]);
 		// Autosize the textarea for memo
 		const textarea = document.querySelector('textarea');
 		textarea.addEventListener('keydown', autosize);
@@ -79,7 +93,22 @@
 		<h4>Notice from {project.tokenSymbol}:</h4>
 		<p>{metadata.payDisclosure}</p>
 	{/if}
-	<!-- TODO add the riskcount here -->
+	{#if riskCount}
+		<InfoBox>
+			<b><Trans>Potential risks</Trans></b>
+			<p class="secondary">
+				<Trans
+					>Some properties of the project's current funding cycle may indicate risk for
+					contributors.</Trans
+				>
+			</p>
+			<ul>
+				{#each warnings as warning}
+					<li>{warning}</li>
+				{/each}
+			</ul>
+		</InfoBox>
+	{/if}
 	<table>
 		<tbody
 			><tr
@@ -143,7 +172,7 @@
 		</div>
 	</div>
 
-	<div class="buttons">
+	<div class="right">
 		<Button on:click={closeModal} type="secondary" size="md">Close</Button>
 		<Button on:click={payProject} type="primary" size="md">Pay</Button>
 	</div>
@@ -202,9 +231,8 @@
 		height: auto;
 		background: transparent;
 	}
-
-	.buttons {
-		float: right;
+	ul {
+		margin-top: 20px;
 	}
 	.row {
 		align-items: center;
@@ -219,5 +247,9 @@
 	}
 	.right {
 		float: right;
+	}
+
+	.secondary {
+		color: var(--text-secondary);
 	}
 </style>
