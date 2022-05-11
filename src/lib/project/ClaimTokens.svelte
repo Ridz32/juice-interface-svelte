@@ -86,6 +86,7 @@
 		font-weight: 300;
 	}
 
+	/* TODO this is now reused across three components, find abstraction */
 	div[slot='addon'] {
 		cursor: pointer;
 		color: var(--text-action-primary);

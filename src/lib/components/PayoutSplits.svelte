@@ -6,11 +6,13 @@
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
 	import { Currency, DistributionLimitType } from '$constants';
-	import Money from './Money.svelte';
-	import SimpleSplits from './SimpleSplits.svelte';
+	import Money from '$lib/components/Money.svelte';
+	import SimpleSplits from '$lib/components/SimpleSplits.svelte';
 	import type { Split } from '$models/v2/splits';
 	import { getEthBalance } from '$data/eth';
 	import { getDistributionLimitType } from '$utils/v2/distributions';
+	import { openModal } from '$lib/components/Modal.svelte';
+	import DistributeFunds from '$lib/project/DistributeFunds.svelte';
 
 	export let currency: Currency = Currency.ETH;
 	export let distributionLimit: BigNumber = BigNumber.from(0);
@@ -91,7 +93,10 @@
 				</p>
 			{/if}
 		</div>
-		<div slot="right"><button disabled={true}>Distribute funds</button></div>
+		<!-- TODO check when this is supposed to be disabled and not -->
+		<div slot="right">
+			<button on:click={() => openModal(DistributeFunds)}>Distribute funds</button>
+		</div>
 	</InfoSpaceBetween>
 {/if}
 <h4>
@@ -113,12 +118,7 @@
 	</InfoSpaceBetween>
 {/if}
 {#each payoutSplits as split}
-	<SimpleSplits
-		{split}
-		{distributionLimitType}
-		{distributionLimit}
-		{currency}
-	/>
+	<SimpleSplits {split} {distributionLimitType} {distributionLimit} {currency} />
 {/each}
 {#if payoutSplits.length}
 	<InfoSpaceBetween>
@@ -141,6 +141,7 @@
 		background: transparent;
 		border: 1px solid var(--stroke-disabled);
 		color: var(--text-disabled);
+		cursor: pointer;
 	}
 	div[slot='left'] {
 		display: flex;
