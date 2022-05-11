@@ -1,13 +1,19 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import Trans from '$lib/components/Trans.svelte';
+	import { closeModal } from '$lib/components/Modal.svelte';
+
+	onMount(() => {
+		setTimeout(() => {
+			console.log('TODO implement pending transaction functionality');
+			closeModal();
+		}, 3000);
+	});
 </script>
 
 <section>
 	<div>
-		<img
-			src="/images/quint.gif"
-			alt={'Juicebox loading animation'}
-		/>
+		<img src="/images/quint.gif" alt={'Juicebox loading animation'} />
 		<h2>
 			<Trans>Transaction pending...</Trans>
 		</h2>
@@ -30,7 +36,7 @@
 		text-align: center;
 	}
 
-    img {
-        max-width: 100px;
-    }
+	img {
+		max-width: 100px;
+	}
 </style>

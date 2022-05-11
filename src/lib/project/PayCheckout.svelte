@@ -17,7 +17,8 @@
 	import UploadField from '$lib/create/UploadField.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
-	import { closeModal } from '$lib/components/Modal.svelte';
+	import { bind, closeModal, openModal } from '$lib/components/Modal.svelte';
+	import PendingTransaction from '$lib/components/PendingTransaction.svelte';
 
 	const projectContext = getContext('PROJECT') as Store<V2ProjectContextType>;
 
@@ -51,6 +52,7 @@
 	function payProject() {
 		// TODO contract
 		console.log('🛠 TODO payProject');
+		openModal(bind(PendingTransaction));
 	}
 
 	onMount(() => {
@@ -140,7 +142,7 @@
 	</div>
 	<UploadField
 		onChange={(url) => {
-			if(url) {
+			if (url) {
 				memo = `${url}   ${memo || ''}`;
 				autosize();
 			}
