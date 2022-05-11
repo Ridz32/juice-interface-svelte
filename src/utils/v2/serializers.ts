@@ -9,7 +9,7 @@ import { fromWad, parseWad } from '$utils/formatNumber';
 export type SerializedV2FundingCycleMetadata = Record<
 	keyof Omit<
 		V2FundingCycleMetadata,
-		'reservedRate' | 'redemptionRate' | 'ballotRedemptionRate' | 'dataSource' | 'version'
+		'reservedRate' | 'redemptionRate' | 'ballotRedemptionRate' | 'dataSource' | 'version' | 'global'
 	>,
 	boolean
 > &
@@ -19,7 +19,8 @@ export type SerializedV2FundingCycleMetadata = Record<
 			'reservedRate' | 'redemptionRate' | 'ballotRedemptionRate' | 'dataSource'
 		>,
 		string
-	>;
+	> &
+	Pick<V2FundingCycleMetadata, 'global'>;
 
 export type SerializedV2FundingCycleData = Record<keyof V2FundingCycleData, string>;
 
@@ -28,29 +29,35 @@ export type SerializedV2FundAccessConstraint = Record<keyof V2FundAccessConstrai
 export const serializeV2FundingCycleMetadata = (
 	fundingCycleMetadata: V2FundingCycleMetadata
 ): SerializedV2FundingCycleMetadata => ({
+	global: {
+		allowSetTerminals: fundingCycleMetadata.global.allowSetTerminals,
+		allowSetController: fundingCycleMetadata.global.allowSetController
+	},
 	reservedRate: fundingCycleMetadata.reservedRate.toString(),
 	redemptionRate: fundingCycleMetadata.redemptionRate.toString(),
 	ballotRedemptionRate: fundingCycleMetadata.ballotRedemptionRate.toString(),
+	dataSource: fundingCycleMetadata.dataSource, // hex, contract address
 	pausePay: fundingCycleMetadata.pausePay,
 	pauseDistributions: fundingCycleMetadata.pauseDistributions,
 	pauseRedeem: fundingCycleMetadata.pauseRedeem,
-	allowMinting: fundingCycleMetadata.allowMinting,
 	pauseBurn: fundingCycleMetadata.pauseBurn,
+	allowMinting: fundingCycleMetadata.allowMinting,
 	allowChangeToken: fundingCycleMetadata.allowChangeToken,
 	allowTerminalMigration: fundingCycleMetadata.allowTerminalMigration,
 	allowControllerMigration: fundingCycleMetadata.allowControllerMigration,
-	allowSetTerminals: fundingCycleMetadata.allowSetTerminals,
-	allowSetController: fundingCycleMetadata.allowSetController,
 	holdFees: fundingCycleMetadata.holdFees,
 	useTotalOverflowForRedemptions: fundingCycleMetadata.useTotalOverflowForRedemptions,
 	useDataSourceForPay: fundingCycleMetadata.useDataSourceForPay,
-	useDataSourceForRedeem: fundingCycleMetadata.useDataSourceForRedeem,
-	dataSource: fundingCycleMetadata.dataSource // hex, contract address
+	useDataSourceForRedeem: fundingCycleMetadata.useDataSourceForRedeem
 });
 
 export const deserializeV2FundingCycleMetadata = (
 	serializedFundingCycleMetadata: SerializedV2FundingCycleMetadata
 ): Omit<V2FundingCycleMetadata, 'version'> => ({
+	global: {
+		allowSetTerminals: serializedFundingCycleMetadata.global.allowSetTerminals,
+		allowSetController: serializedFundingCycleMetadata.global.allowSetController
+	},
 	reservedRate: BigNumber.from(serializedFundingCycleMetadata.reservedRate),
 	redemptionRate: BigNumber.from(serializedFundingCycleMetadata.redemptionRate),
 	ballotRedemptionRate: BigNumber.from(serializedFundingCycleMetadata.ballotRedemptionRate),
@@ -62,8 +69,6 @@ export const deserializeV2FundingCycleMetadata = (
 	allowChangeToken: serializedFundingCycleMetadata.allowChangeToken,
 	allowTerminalMigration: serializedFundingCycleMetadata.allowTerminalMigration,
 	allowControllerMigration: serializedFundingCycleMetadata.allowControllerMigration,
-	allowSetTerminals: serializedFundingCycleMetadata.allowSetTerminals,
-	allowSetController: serializedFundingCycleMetadata.allowSetController,
 	holdFees: serializedFundingCycleMetadata.holdFees,
 	useTotalOverflowForRedemptions: serializedFundingCycleMetadata.useTotalOverflowForRedemptions,
 	useDataSourceForPay: serializedFundingCycleMetadata.useDataSourceForPay,

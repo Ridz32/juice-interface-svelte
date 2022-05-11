@@ -1,7 +1,15 @@
-<script>
+<script lang="ts">
 	import ConnectButton from './ConnectButton.svelte';
 	import DarkmodeToggle from './DarkmodeToggle.svelte';
 	import { darkMode } from '$stores';
+	import LanguageSelectDropdown from './LanguageSelectDropdown.svelte';
+	import { getContext } from 'svelte';
+	import type { I18n } from 'lingui_core/esm';
+	import type Store from '$utils/Store';
+	import Trans from './Trans.svelte';
+
+	const i18n = getContext('i18n') as Store<I18n>;
+	let changeLangOpened = false;
 </script>
 
 <header
@@ -26,15 +34,15 @@
 				class="nav-menu-item hover-opacity"
 				href="/projects"
 				style="cursor: pointer; display: flex; align-items: center; font-weight: 600; color: var(--text-primary);"
-				>Projects</a
+				><Trans>Projects</Trans></a
 			>
 		</div>
 		<div class="ant-space-item" style="">
 			<a
-				href="/#/faq"
+				href="#faq"
 				class="nav-menu-item hover-opacity"
 				style="cursor: pointer; display: flex; align-items: center; font-weight: 600; color: var(--text-primary);"
-				>FAQ</a
+				><Trans>FAQ</Trans></a
 			>
 		</div>
 		<div class="ant-space-item" style="">
@@ -44,7 +52,7 @@
 				target="_blank"
 				rel="noreferrer"
 				style="cursor: pointer; display: flex; align-items: center; font-weight: 600; color: var(--text-primary);"
-				>Discord</a
+				><Trans>Discord</Trans></a
 			>
 		</div>
 		<div class="ant-space-item">
@@ -52,7 +60,7 @@
 				class="ant-dropdown-trigger nav-menu-item hover-opacity ant-dropdown-open"
 				style="cursor: pointer; display: flex; align-items: center; font-weight: 600; color: var(--text-primary);"
 			>
-				Resources<span
+				<Trans>Resources</Trans><span
 					role="img"
 					aria-label="down"
 					class="anticon anticon-down"
@@ -77,8 +85,13 @@
 		class="ant-space ant-space-horizontal ant-space-align-center"
 		style="display: flex; align-items: center; gap: 16px;"
 	>
-		<div class="ant-space-item" style="">
-			<div class="language-selector" style="cursor: pointer;">
+		<div class="ant-space-item" style="position:relative">
+			<LanguageSelectDropdown bind:opended={changeLangOpened} />
+			<div
+				class="language-selector"
+				style="cursor: pointer;"
+				on:click={() => (changeLangOpened = !changeLangOpened)}
+			>
 				<span
 					role="img"
 					aria-label="global"
@@ -102,8 +115,8 @@
 					style="display: flex; align-items: center; justify-content: space-evenly; cursor: pointer; height: 30px; font-weight: 500;"
 				>
 					<div class="ant-select-selector">
-						<span class="ant-select-selection-search"
-							><input
+						<span class="ant-select-selection-search">
+							<input
 								autocomplete="off"
 								type="search"
 								class="ant-select-selection-search-input"
@@ -119,8 +132,11 @@
 								value=""
 								style="opacity: 0;"
 								id="rc_select_0"
-							/></span
-						><span class="ant-select-selection-item" title="EN">EN</span>
+							/>
+						</span>
+						<span class="ant-select-selection-item" title={$i18n.locale?.toUpperCase() || 'EN'}>
+							{$i18n.locale?.toUpperCase() || 'EN'}
+						</span>
 					</div>
 					<span
 						class="ant-select-arrow"

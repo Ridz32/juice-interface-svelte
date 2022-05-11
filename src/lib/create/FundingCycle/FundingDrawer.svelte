@@ -7,21 +7,18 @@
 	import Button from '$lib/components/Button.svelte';
 	import CurrencyInput from '$lib/components/CurrencyInput.svelte';
 	import DisplaySplit from '$lib/components/Split.svelte';
-	import { bind, openModal } from '../Modal.svelte';
+	import type Store from '$utils/Store';
+	import type { V2ProjectContextType } from '$models/project-type';
+	import { bind, openModal } from '$lib/components/Modal.svelte';
 	import { BigNumber } from 'ethers';
-	import {
-		fundingCycle,
-		distributionLimitData,
-		currentDistributionLimitType,
-		currentDistributionLimitCurrencyType,
-		payoutSplits
-		// payoutSplitsPercentage,
-	} from '../stores';
 	import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
 	import { Currency, CurrencyValue, DistributionLimitType } from '$constants';
-	import { onMount } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 	import type { Split } from '$models/v2/splits';
-	import { getTotalSplitsPercentage } from '$utils/v2/distributions';
+	import { getDistributionLimitType, getTotalSplitsPercentage } from '$utils/v2/distributions';
+	import { formatWad } from '$utils/formatNumber';
+
+	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
 
 	export let close: () => void;
 
@@ -30,17 +27,17 @@
 	let distributionLimitType: DistributionLimitType = DistributionLimitType.None;
 	let distributionLimit: BigNumber = BigNumber.from(0);
 	let distributionLimitCurrency: Currency;
-	let splits = payoutSplits.get();
+	let splits = $project.payoutSplits;
 	let totalSplitsPercentage = getTotalSplitsPercentage(splits);
 
 	onMount(() => {
-		if ($fundingCycle.duration.gt(0)) {
-			duration = $fundingCycle.duration;
+		if ($project.fundingCycle.duration.gt(0)) {
+			duration = $project.fundingCycle.duration;
 			fundingCyclesActive = true;
 		}
-		distributionLimit = $distributionLimitData.distributionLimit;
-		distributionLimitType = $currentDistributionLimitType;
-		distributionLimitCurrency = $currentDistributionLimitCurrencyType;
+		distributionLimit = $project.distributionLimit;
+		distributionLimitType = getDistributionLimitType($project.distributionLimit);
+		distributionLimitCurrency = $project.distributionLimitCurrency;
 	});
 
 	$: {
@@ -55,7 +52,7 @@
 			case DistributionLimitType.Specific:
 				break;
 		}
-		totalSplitsPercentage = getTotalSplitsPercentage(splits);
+		totalSplitsPercentage = getTotalSplitsPercentage(splits || []);
 	}
 
 	function setValue(e: any) {
@@ -84,21 +81,21 @@
 	}
 
 	function saveFundingConfig() {
-		fundingCycle.update((fc) => ({
-			...fc,
-			duration
-		}));
-		distributionLimitData.update((dl) => ({
-			...dl,
+		project.update((current) => ({
+			...current,
+			fundingCycle: {
+				...current.fundingCycle,
+				duration
+			},
 			distributionLimit,
-			distributionLimitCurrency: CurrencyValue[distributionLimitCurrency]
+			distributionLimitCurrency: CurrencyValue[distributionLimitCurrency].toNumber(),
+			payoutSplits: splits
 		}));
-		payoutSplits.set(splits);
 		close();
 	}
 </script>
 
-<h1>Funding</h1>
+<slot name="header" />
 <HeavyBorderBox>
 	<Toggle bind:checked={fundingCyclesActive}><h3>Funding cycles</h3></Toggle>
 	<p>Set the length of your funding cycles, which can enable:</p>
@@ -143,7 +140,11 @@
 	</select>
 	<br />
 	{#if distributionLimitType === DistributionLimitType.Specific}
-		<CurrencyInput on:setValue={setValue} bind:currency={distributionLimitCurrency} />
+		<CurrencyInput
+			initialValue={distributionLimit}
+			on:setValue={setValue}
+			bind:currency={distributionLimitCurrency}
+		/>
 	{:else if distributionLimitType === DistributionLimitType.None}
 		<AlertText
 			>With a distribution limit of Zero, no funds can be distributed by the project. All funds
@@ -165,7 +166,7 @@
 		<!-- TODO href for jb treasury -->
 		<AlertText
 			>Distributing payouts to addresses outside the Juicebox contracts incurs a 2.5% JBX membership
-			fee. The ETH from the fee will go to the <a href="">JuiceboxDAO treasury</a>, and the
+			fee. The ETH from the fee will go to the <a href="/#">JuiceboxDAO treasury</a>, and the
 			resulting JBX will go to the project's owner.</AlertText
 		>
 		{#each splits as split, editingIndex}
@@ -176,7 +177,8 @@
 					openModal(
 						bind(AddSplitModal, {
 							currency: distributionLimitCurrency,
-							distributionLimit,
+							distributionLimit: formatWad(distributionLimit),
+							showAmount: distributionLimitType === DistributionLimitType.Specific,
 							editingIndex,
 							onFinish: editSplit,
 							split,
@@ -196,11 +198,12 @@
 			type="tertiary"
 			size="md"
 			disabled={totalSplitsPercentage > 100}
-			onClick={() => {
+			on:click={() => {
 				openModal(
 					bind(AddSplitModal, {
 						currency: distributionLimitCurrency,
-						distributionLimit,
+						distributionLimit: formatWad(distributionLimit),
+						showAmount: distributionLimitType === DistributionLimitType.Specific,
 						onFinish: addSplit,
 						splits
 					})
@@ -209,17 +212,13 @@
 		>
 	{/if}
 </HeavyBorderBox>
-<Button disabled={totalSplitsPercentage > 100} onClick={saveFundingConfig}
-	>Save funding configuration</Button
->
+<Button disabled={totalSplitsPercentage > 100} on:click={saveFundingConfig}>
+	Save funding configuration
+</Button>
 
 <style>
-	h1,
 	h3 {
 		color: var(--text-header);
-	}
-	h1 {
-		font-weight: 500;
 	}
 
 	h3 {

@@ -1,26 +1,34 @@
 <script lang="ts">
 	import { BigNumber } from 'ethers';
+	import { getTruncatedAddress } from '$lib/components/Address.svelte';
+	import Icon from '$lib/components/Icon.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import Money from '$lib/components/Money.svelte';
-	import Icon from '$lib/components/Icon.svelte';
-	import { getTruncatedAddress } from '$lib/components/Address.svelte';
+	import Popover from '$lib/components/Popover.svelte';
+	import type { Split } from '$models/v2/splits';
 	import { formatDate } from '$utils/formatDate';
 	import { formatSplitPercent } from '$utils/v2/math';
 	import { Currency, DistributionLimitType } from '$constants';
 
-	import type { Split } from '$models/v2/splits';
-	import Popover from './Popover.svelte';
+	/**
+	 * This component is used to display the distribution splits for a project
+	 * in places like the Preview panel on the create layout, or Detail
+	 * panel on the project detail layout.
+	 * 
+	 * For the component to edit/remove split, see Split.svelte.
+	 */
 
 	export let split: Split;
 	export let distributionLimitType: DistributionLimitType | undefined = undefined;
 	export let distributionLimit: BigNumber | undefined = undefined;
 	export let currency: Currency | undefined = undefined;
+	export let formatWad: boolean = true;
 </script>
 
 <InfoSpaceBetween>
 	<!-- TODO crown if Project owner (i.e. the logged in user) -->
 	<div slot="left">
-		{#if split.projectId}
+		{#if split.projectId && split.projectId != "0x00"}
 			<p>
 				@{split.projectId}:
 			</p>
@@ -49,13 +57,13 @@
 	<p slot="right">
 		{formatSplitPercent(BigNumber.from(split.percent))}%
 		{#if distributionLimitType === DistributionLimitType.Specific}
-			<!-- TODO put formatter in util file -->
-			<!-- TODO URGENT (well, semi) Money component needs to account for decimal values -->
 			(<Money
+				{formatWad}
 				amount={BigNumber.from(parseFloat(formatSplitPercent(BigNumber.from(split.percent))))
 					.mul(distributionLimit)
 					.div(100)}
 				{currency}
+				precision={2}
 			/>)
 		{/if}
 	</p>

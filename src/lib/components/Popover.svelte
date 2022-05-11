@@ -6,6 +6,7 @@
 <div class="wrapper">
 	<slot />
 	<div class={`content ${placement}`}>
+		<slot name="content" />
 		<p class="message">{message}</p>
 	</div>
 </div>

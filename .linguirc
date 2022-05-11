@@ -10,19 +10,23 @@
 			]
 		}
 	],
-	"compileNamespace": "cjs",
+	"compileNamespace": "ts",
 	"extractBabelOptions": {},
 	"compilerBabelOptions": {},
 	"fallbackLocales": {},
 	"format": "po",
 	"locales": [
 		"en",
+		"uk",
 		"zh",
 		"ru",
 		"tr",
 		"es",
 		"pt",
-		"fr"
+		"fr",
+		"id",
+		"ja",
+		"hi"
 	],
 	"extractors": [
 		"babel"
@@ -31,7 +35,7 @@
 	"pseudoLocale": "",
 	"rootDir": ".",
 	"runtimeConfigModule": [
-		"@lingui/core",
+		"lingui_core",
 		"i18n"
 	],
 	"sourceLocale": ""

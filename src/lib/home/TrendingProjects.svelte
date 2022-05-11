@@ -3,7 +3,7 @@
 	import Icon from '$lib/components/Icon.svelte';
 	import type { TrendingProject } from '$models/subgraph-entities/project';
 	import TrendingProjectsCard from '$lib/components/TrendingProjectsCard.svelte';
-	import { trendingProjectsQuery } from '$data/project';
+	import Trans from '$lib/components/Trans.svelte';
 
 	export let days = 7;
 	export let count = 6;
@@ -12,7 +12,7 @@
 	let trendingProjectsLoading = true;
 
 	onMount(async () => {
-		trendingProjects = await trendingProjectsQuery(count, days);
+		trendingProjects = [];
 		trendingProjectsLoading = false;
 	});
 </script>
@@ -23,8 +23,9 @@
 			<img src="/images/green_orange.png" alt="green_orange" />
 		</div>
 		<div class="projects">
-			<h1>Trending projects</h1>
-			<!-- <Icon name="loading" spin={true} /> -->
+			<h1>
+				<Trans message="Trending projects" />
+			</h1>
 			{#if trendingProjectsLoading}
 				<div class="loading">
 					<Icon name="loading" spin={true} />
@@ -67,6 +68,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 10px;
+		padding-inline-start: 0px;
 	}
 
 	.loading {

@@ -1,4 +1,4 @@
-import { BigNumber } from 'ethers';
+import type { BigNumber } from 'ethers';
 import { SECONDS_IN_DAY } from '$constants/numbers';
 import axios from 'axios';
 import { consolidateMetadata } from '$models/project-metadata';
@@ -17,12 +17,18 @@ import { archivedProjectIds } from '$constants/v1/archivedProjects';
 
 import type { Project, TrendingProject } from '$models/subgraph-entities/project';
 
-/**
- * TODO
- * [ ] Caching with ipfs
- * [ ] Wether to refetch data after x seconds, i.e. use store and perge when
- *    the data is stale
- */
+// export async function getProjects(opts: ProjectsOptions) {
+//     return querySubgraph(
+//         {
+//             ...(queryOpts(opts) as GraphQueryOpts<'project', EntityKeys<'project'>>),
+//             first: opts.pageSize,
+//             skip:
+//                 opts.pageNumber && opts.pageSize
+//                     ? opts.pageNumber * opts.pageSize
+//                     : undefined,
+//         }
+//     )
+// }
 
 // TODO don't hardcode this here, use the utils/ipfs after issue with @pinata/sdk has been solved
 import { IPFS_GATEWAY_HOSTNAME } from '$constants/ipfs';

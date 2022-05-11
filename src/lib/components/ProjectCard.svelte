@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import * as constants from '@ethersproject/constants';
-	import { archivedProjectIds } from '$constants/v1/archivedProjects';
 	import { formatDate } from '$utils/formatDate';
 	// import { getTerminalVersion } from '$utils/v1/terminals';
 	import type { ProjectMetadataV4 } from '$models/project-metadata';

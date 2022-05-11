@@ -1,5 +1,6 @@
-<script>
+<script lang="ts">
 	import Button from '$lib/components/Button.svelte';
+	import Trans from '$lib/components/Trans.svelte';
 	import { darkMode } from '$stores';
 
 	const list = [
@@ -12,26 +13,33 @@
 
 <section>
 	<article>
-		<h1>Community funding for people and projects</h1>
+		<h1><Trans message="Community funding for people and projects" /></h1>
 		<p>
-			Build a community around a project, fund it, and program its spending. Light enough for a
-			group of friends, powerful enough for a global network of anons.
+			<Trans>
+				Build a community around a project, fund it, and program its spending. Light enough for a
+				group of friends, powerful enough for a global network of anons.
+			</Trans>
 		</p>
 		<p>
-			Powered by public smart contracts on <a href="https://ethereum.org/en/what-is-ethereum/"
-				>Ethereum.</a
-			>
+			<Trans message={'Powered by public smart contracts on'} />
+			<a href="https://ethereum.org/en/what-is-ethereum/">Ethereum</a>.
 		</p>
 		<br />
 		<p class="sub-header">Built for:</p>
 		{#each list as item}
 			<div class="item">
 				<img src="/images/bolt.png" alt="⚡️" />
-				<p>{item}</p>
+				<p>
+					<Trans>
+						{item}
+					</Trans>
+				</p>
 			</div>
 		{/each}
 		<a href="/create">
-			<Button>Design your project</Button>
+			<Button>
+				<Trans>Design your project</Trans>
+			</Button>
 		</a>
 	</article>
 	<img

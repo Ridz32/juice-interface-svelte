@@ -1,7 +1,9 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import type { Split } from '$models/v2/splits';
+import { DistributionLimitType } from '$constants';
+import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
 
-import { formatSplitPercent } from './math';
+import { formatSplitPercent } from './math'
 
 /**
  * Gets distribution amount from percent of the distribution limit and then applies
@@ -12,24 +14,27 @@ import { formatSplitPercent } from './math';
  * @returns {number} distribution amount
  */
 export function getDistributionAmountFromPercentAfterFee({
-	percent,
-	distributionLimit,
-	feePercentage
+  percent,
+  distributionLimit,
+  feePercentage,
 }: {
-	percent: number;
-	distributionLimit: string;
-	feePercentage: string;
+  percent: number
+  distributionLimit: string
+  feePercentage: string
 }) {
-	const amountBeforeFee = amountFromPercent({
-		percent,
-		amount: distributionLimit
-	});
+  const amountBeforeFee = amountFromPercent({
+    percent,
+    amount: distributionLimit,
+  })
 
-	if (!amountBeforeFee) return;
+  if (!amountBeforeFee) return
 
-	return parseFloat(
-		(amountBeforeFee - (amountBeforeFee * parseFloat(feePercentage)) / 100).toFixed(4)
-	);
+  return parseFloat(
+    (
+      amountBeforeFee -
+      (amountBeforeFee * parseFloat(feePercentage)) / 100
+    ).toFixed(4),
+  )
 }
 
 /**
@@ -38,8 +43,14 @@ export function getDistributionAmountFromPercentAfterFee({
  * @param amount string (hexString)
  * @returns {number} distribution amount
  */
-export function amountFromPercent({ percent, amount }: { percent: number; amount: string }) {
-	return parseFloat(((percent / 100) * parseFloat(amount)).toFixed(8));
+export function amountFromPercent({
+  percent,
+  amount,
+}: {
+  percent: number
+  amount: string
+}) {
+  return parseFloat(((percent / 100) * parseFloat(amount)).toFixed(8))
 }
 
 /**
@@ -49,13 +60,13 @@ export function amountFromPercent({ percent, amount }: { percent: number; amount
  * @returns {number} percent as an actual percentage of distribution limit (/100)
  */
 export function getDistributionPercentFromAmount({
-	amount, // Distribution amount before fee
-	distributionLimit
+  amount, // Distribution amount before fee
+  distributionLimit,
 }: {
-	amount: number;
-	distributionLimit: string;
+  amount: number
+  distributionLimit: string
 }) {
-	return (amount / parseFloat(distributionLimit)) * 100;
+  return (amount / parseFloat(distributionLimit)) * 100
 }
 
 /**
@@ -64,8 +75,19 @@ export function getDistributionPercentFromAmount({
  * @returns {number} sum of all split percentanges
  */
 export function getTotalSplitsPercentage(splits: Split[]) {
-	return splits.reduce(
-		(acc, curr) => acc + parseFloat(formatSplitPercent(BigNumber.from(curr.percent))),
-		0
-	);
+  return splits.reduce(
+    (acc, curr) =>
+      acc + parseFloat(formatSplitPercent(BigNumber.from(curr.percent))),
+    0,
+  )
+}
+
+export function getDistributionLimitType(distributionLimit: BigNumber) {
+	if (distributionLimit.eq(0)) {
+		return DistributionLimitType.None;
+	}
+	if (distributionLimit.eq(MAX_DISTRIBUTION_LIMIT)) {
+		return DistributionLimitType.Infinite;
+	}
+	return DistributionLimitType.Specific;
 }

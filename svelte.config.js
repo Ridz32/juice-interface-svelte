@@ -29,7 +29,7 @@ const config = {
 			// but people with the same issue with the static-adapter
 			// solved it this way
 			ssr: {
-				noExternal: ['@lingui/*']
+				noExternal: ['@lingui/*', 'lingui-core/*']
 			},
 			resolve: {
 				alias: {

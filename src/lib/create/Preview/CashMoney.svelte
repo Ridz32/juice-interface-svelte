@@ -1,14 +1,18 @@
 <script lang="ts">
+	import { getContext, onMount } from 'svelte';
+	import type Store from '$utils/Store';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
+	import type { V2ProjectContextType } from '$models/project-type';
 
-	import { Currency, DistributionLimitType } from '$constants';
-	import {
-		distributionLimitData,
-		currentDistributionLimitType,
-		currentDistributionLimitCurrencyType as currency
-	} from '../stores';
+	import { DistributionLimitType } from '$constants';
 	import Money from '$lib/components/Money.svelte';
+	import { getDistributionLimitType } from '$utils/v2/distributions';
+
+	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
+
+	$: currentDistributionLimitType = getDistributionLimitType($project.distributionLimit);
+	$: currency = $project.distributionLimitCurrency;
 </script>
 
 <!-- TODO: rename this component, quite undescriptive given other sibling is "Funding" -->
@@ -18,7 +22,7 @@
 			><p>In juicebox</p></PopInfo
 		>
 	</div>
-	<p slot="right" class="money"><Money currency={$currency} /></p>
+	<p slot="right" class="money"><Money {currency} /></p>
 </InfoSpaceBetween>
 <InfoSpaceBetween>
 	<div slot="left">
@@ -29,22 +33,19 @@
 		>
 	</div>
 	<div slot="right">
-		{#if $currentDistributionLimitType === DistributionLimitType.None}
+		{#if currentDistributionLimitType === DistributionLimitType.None}
 			<PopInfo
 				message="The target for this funding cycle is 0, meaning all funds in Juicebox are currently considered overflow. Overflow can be redeemed by token holders, but not distributed."
 				><p>100% Overflow</p></PopInfo
 			>
-		{:else if $currentDistributionLimitType === DistributionLimitType.Infinite}
-			<Money currency={$currency} />/ NO LIMIT
+		{:else if currentDistributionLimitType === DistributionLimitType.Infinite}
+			<Money {currency} />/ NO LIMIT
 		{:else}
-			<Money currency={$currency} />/ <Money
-				currency={$currency}
-				amount={$distributionLimitData.distributionLimit}
-			/>
+			<Money {currency} />/ <Money {currency} amount={$project.distributionLimit} />
 		{/if}
 	</div>
 </InfoSpaceBetween>
-{#if $currentDistributionLimitType === DistributionLimitType.Specific}
+{#if currentDistributionLimitType === DistributionLimitType.Specific}
 	<progress max="100" value="" />
 {/if}
 <InfoSpaceBetween>

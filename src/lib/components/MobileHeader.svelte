@@ -189,6 +189,7 @@
 							</div>
 							<div class="ant-space-item" style="">
 								<a
+									href="#faq"
 									class="nav-menu-item hover-opacity"
 									style="cursor: pointer; display: flex; align-items: center; font-weight: 600; color: var(--text-primary);"
 									>FAQ</a
@@ -222,10 +223,10 @@
 		font-weight: 600;
 		color: var(--text-primary);
 	}
-	header {
-		z-index: 1000;
-	}
 
+	header {
+		z-index: 1;
+	}
 	span[aria-label='menu'] {
 		transform: scale(1.5);
 	}
@@ -241,6 +242,7 @@
 	}
 	.ant-collapse {
 		background: var(--background-l0);
+		z-index: 999;
 		position: absolute;
 		width: 100%;
 		top: 0px;

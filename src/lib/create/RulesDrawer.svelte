@@ -4,8 +4,9 @@
 </script>
 
 <script lang="ts">
+	import { getContext } from 'svelte';
 	import { constants } from 'ethers';
-	import { isAddress } from '@ethersproject/address'
+	import { isAddress } from '@ethersproject/address';
 	import type { BallotStrategy } from '$constants/v2/ballotStrategies';
 	import AlertText from '$lib/components/AlertText.svelte';
 	import Button from '$lib/components/Button.svelte';
@@ -15,12 +16,15 @@
 	import Input from '$lib/components/Input.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
 	import ReconBox from '$lib/components/ReconBox.svelte';
-	import { fundingCycle, fundingCycleMetadata } from './stores';
+	import type Store from '$utils/Store';
+	import type { V2ProjectContextType } from '$models/project-type';
+
+	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
 
 	export let close: () => void;
 
-	let pausePay = $fundingCycleMetadata.pausePay;
-	let allowMinting = $fundingCycleMetadata.allowMinting;
+	let pausePay = $project.fundingCycleMetadata.pausePay;
+	let allowMinting = $project.fundingCycleMetadata.allowMinting;
 
 	let selected = DEFAULT_BALLOT_STRATEGY;
 	let customBallotAddress: Address | undefined;
@@ -28,24 +32,27 @@
 
 	function selectBallotStrategy(strategy: BallotStrategy) {
 		selected = strategy;
-        if (strategy.name !== 'custom') {
-            disabled = false;
-        }
+		if (strategy.name !== 'custom') {
+			disabled = false;
+		}
 	}
 
-    function validate(address: Address) {
+	function validate(address: Address) {
 		return isAddress(address) && address !== constants.AddressZero;
-    }
+	}
 
 	function onSaveRules() {
-		fundingCycleMetadata.update((fcm) => ({
-			...fcm,
-			pausePay,
-			allowMinting
-		}));
-		fundingCycle.update((fc) => ({
-			...fc,
-			ballot: selected.address
+		project.update((current) => ({
+			...current,
+			fundingCycle: {
+				...current.fundingCycle,
+				ballot: selected.address
+			},
+			fundingCycleMetadata: {
+				...current.fundingCycleMetadata,
+				pausePay,
+				allowMinting
+			}
 		}));
 		close();
 	}
@@ -58,7 +65,7 @@
 	}
 </script>
 
-<h1>Rules</h1>
+<slot name="header" />
 <HeavyBorderBox>
 	<div class="option">
 		<Toggle id="pausePayments" bind:checked={pausePay}>Pause payments</Toggle>
@@ -114,7 +121,7 @@
 		</div>
 	</ReconBox>
 </HeavyBorderBox>
-<Button {disabled} onClick={onSaveRules}>Save rules</Button>
+<Button {disabled} on:click={onSaveRules}>Save rules</Button>
 
 <style>
 	h1 {

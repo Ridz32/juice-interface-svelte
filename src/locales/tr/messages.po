@@ -169,7 +169,7 @@ msgid "<0>This project has no overflow</0>, so you will not receive any ETH for 
 msgstr "<0>Bu projede taşma bulunmadığından</0> token'ları yakma karşılığında ETH almayacaksınız."
 
 #: src/components/Landing/TrendingSection.tsx
-msgid "<0>Trending projects</0><1><2/></1>"
+msgid "Trending projects"
 msgstr "Çok konuşulan projeler"
 
 #: src/components/v1/V1Project/modals/ConfirmUnstakeTokensModal.tsx
@@ -1257,7 +1257,7 @@ msgid "Latest"
 msgstr "En son"
 
 #: src/components/Landing/index.tsx
-msgid "Latest payments"
+msgid "Latest Payments"
 msgstr "Son ödemeler"
 
 #: src/components/Navbar/Mobile/ThemePickerMobile.tsx
@@ -1610,8 +1610,8 @@ msgid "Potential risks"
 msgstr ""
 
 #: src/components/Landing/index.tsx
-msgid "Powered by public smart contracts on <0>Ethereum</0>."
-msgstr "Ethereum'daki halka açık akıllı sözleşmelerle desteklenmektedir."
+msgid "Powered by public smart contracts on"
+msgstr "'daki halka açık akıllı sözleşmelerle desteklenmektedir."
 
 #: src/components/v1/V1Create/index.tsx
 #: src/components/v2/V2Create/ProjectConfigurationFieldsContainer.tsx

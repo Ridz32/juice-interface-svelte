@@ -1,8 +1,8 @@
-import { i18n } from '@lingui/core';
+import { i18n } from 'lingui_core/esm/index.js';
 import { detect, fromUrl, fromStorage, fromNavigator } from '@lingui/detect-locale';
 import { en, zh, ru, tr, es, pt, fr } from 'make-plural/plurals';
-
 import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from '$constants/locale';
+import type { Messages } from '@lingui/core';
 
 // load plural configs
 i18n.loadLocaleData({
@@ -26,15 +26,18 @@ const getLocale = (): string => {
 };
 
 const activateDefaultLocale = async () => {
-	const { messages } = await import(`../locales/${DEFAULT_LOCALE}/messages.js`);
+	const { messages }: { messages: Messages } = await import(
+		`../../locales/${DEFAULT_LOCALE}/messages.ts`
+	);
 	i18n.load(DEFAULT_LOCALE, messages);
 	i18n.activate(DEFAULT_LOCALE);
 };
 
-const dynamicActivate = async (locale: string) => {
+export const dynamicActivateLocale = async (locale: string) => {
 	try {
-		const { messages } = await import(`../locales/${locale}/messages.js`);
-
+		const { messages }: { messages: Messages } = await import(
+			`../../locales/${locale}/messages.ts`
+		);
 		i18n.load(locale, messages);
 		i18n.activate(locale);
 	} catch (e) {
@@ -50,7 +53,7 @@ export function loadLocale() {
 	if (locale === DEFAULT_LOCALE) {
 		return activateDefaultLocale();
 	}
-	dynamicActivate(locale);
+	dynamicActivateLocale(locale);
 }
 
 // export default function LanguageProvider({
@@ -64,8 +67,16 @@ export function loadLocale() {
 //       return activateDefaultLocale()
 //     }
 
-//     dynamicActivate(locale)
+//     dynamicActivateLocale(locale)
 //   }, [])
 
 //   return <I18nProvider i18n={i18n}>{children}</I18nProvider>
 // }
+
+export function getText([key]: TemplateStringsArray) {
+	return i18n.messages[key];
+}
+
+export function toLocaleText(text: string, props?: Record<string, string>) {
+	return i18n._(text, props || {});
+}

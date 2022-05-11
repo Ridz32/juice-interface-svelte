@@ -1,5 +1,6 @@
 <script>
 	import ExternalLink from '$lib/components/ExternalLink.svelte';
+	import Trans from '$lib/components/Trans.svelte';
 </script>
 
 <section>
@@ -7,37 +8,47 @@
 		<img src="/images/pina.png" alt="Pinepple geek artist holding a paintbrush" />
 	</div>
 	<div class="right">
-		<h1>Programmable spending</h1>
+		<h1><Trans>Programmable spending</Trans></h1>
 		<p>
-			Commit portions of your funds to the people or projects you want to support, or the
-			contributors you want to pay. When you get paid, so do they.
+			<Trans>
+				Commit portions of your funds to the people or projects you want to support, or the
+				contributors you want to pay. When you get paid, so do they.
+			</Trans>
 		</p>
 		<p />
-		<h1>ERC-20 community tokens</h1>
+		<h1><Trans message="ERC-20 community tokens" /></h1>
 		<p>
-			When someone pays your project, they'll receive your project's tokens in return. Tokens can be
-			redeemed for a portion of your project's overflow funds; when you win, your community wins
-			with you. Leverage your project's token to grant governance rights, community access, or other
-			membership perks.
+			<Trans>
+				When someone pays your project, they'll receive your project's tokens in return. Tokens can
+				be redeemed for a portion of your project's overflow funds; when you win, your community
+				wins with you. Leverage your project's token to grant governance rights, community access,
+				or other membership perks.
+			</Trans>
 		</p>
 		<p />
-		<h1>Redistributable surplus</h1>
+		<h1><Trans>Redistributable surplus</Trans></h1>
 		<p>
-			Set a funding target to cover predictable expenses. Any extra funds (<a href="">overflow</a>)
-			can be claimed by anyone holding your project's tokens alongside you.
+			<Trans
+				message={"Set a funding target to cover predictable expenses. Any extra funds (<0>overflow</0>) can be claimed by anyone holding your project's tokens alongside you."}
+				props={{ 0: '0' }}
+			/>
 		</p>
 		<p />
-		<h1>Transparency & accountability</h1>
+		<h1><Trans>Transparency & accountability</Trans></h1>
 		<p>
-			Changes to your project's funding configuration require a community-approved period to take
-			effect, which acts as a safeguard against rug pulls. Your supporters don't have to trust you —
-			even though they already do.
+			<Trans>
+				Changes to your project's funding configuration require a community-approved period to take
+				effect, which acts as a safeguard against rug pulls. Your supporters don't have to trust you
+				— even though they already do.
+			</Trans>
 		</p>
 		<p />
 
 		<p>
-			Note: Juicebox is new, unaudited, and not guaranteed to work perfectly. Before spending money,
-			do your own research:
+			<!-- TODO fix trans component to interpolate <0> and <1> if passed props -->
+			<Trans
+				message={'Note: Juicebox is new, unaudited, and not guaranteed to work perfectly. Before spending money, do your own research: <0>ask questions</0>, <1>check out the code</1>, and understand the risks!'}
+			/>
 			<ExternalLink href="https://discord.gg/6jXrJSyDFf">ask questions</ExternalLink>,
 			<ExternalLink href="https://github.com/jbx-protocol/juice-interface"
 				>check out the code</ExternalLink
@@ -59,6 +70,7 @@
 		margin-bottom: 40px;
 		max-width: 1200px;
 		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
 		margin: auto;
 	}
@@ -79,8 +91,10 @@
 
 	/* On smaller screens full size */
 	@media (max-width: 700px) {
-		img {
+		.left,
+		.right {
 			flex: 0 0 100%;
+			max-width: 100%;
 		}
 	}
 </style>

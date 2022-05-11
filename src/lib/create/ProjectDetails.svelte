@@ -1,11 +1,23 @@
 <script lang="ts">
-	import { projectMetadata } from './stores';
+	import { getContext } from 'svelte';
+	import type Store from '$utils/Store';
+	import type { V2ProjectContextType } from '$models/project-type';
 	import InfoBox from '$lib/components/InfoBox.svelte';
 	import Input from '$lib/components/FormField.svelte';
 	import UploadField from './UploadField.svelte';
 
+	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
+
+	export let info = 'You can edit your project details later on at any time.';
+
 	function onLogoChange(src: string) {
-		projectMetadata.update((state: any) => ({ ...state, logoUri: src }));
+		project.update((state: any) => ({
+			...state,
+			projectMetadata: {
+				...state.projectMetadata,
+				logoUri: src
+			}
+		}));
 	}
 
 	const formFields = [
@@ -69,8 +81,8 @@
 	];
 </script>
 
-<InfoBox info="You can edit your project details later on at any time." />
+<InfoBox {info} />
 {#each formFields as field}
-	<Input {field} bind:value={$projectMetadata[field.id] }/>
+	<Input {field} bind:value={$project.projectMetadata[field.id]} />
 {/each}
 <UploadField onChange={onLogoChange} />

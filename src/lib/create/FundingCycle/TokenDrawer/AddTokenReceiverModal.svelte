@@ -9,7 +9,7 @@
 	import type { Split } from '$models/v2/splits';
 	import { validateEthAddress, validatePercentage } from '$utils/validators';
 	import { dateToDateInput } from '$utils/formatDate';
-	import { closeModal } from '../../Modal.svelte';
+	import { closeModal } from '$lib/components/Modal.svelte';
 
 	const today = dateToDateInput(new Date());
 
@@ -153,8 +153,8 @@
 	</p>
 </section>
 <div class="actions">
-	<Button onClick={closeModal} size="md" type="secondary">Cancel</Button>
-	<Button size="md" onClick={addSplit}>{editingExistingSplit ? 'Save' : 'Add'} token receiver</Button>
+	<Button on:click={closeModal} size="md" type="secondary">Cancel</Button>
+	<Button size="md" on:click={addSplit}>{editingExistingSplit ? 'Save' : 'Add'} token receiver</Button>
 </div>
 
 <style>

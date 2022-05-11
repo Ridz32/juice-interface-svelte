@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import type { BigNumberish } from 'ethers';
-import { i18n } from '@lingui/core';
+import { i18n } from 'lingui_core/esm/index.js';
 // TODO can't get macro to work outside of svelte components
 // import { t } from '@lingui/macro'
 

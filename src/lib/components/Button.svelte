@@ -1,6 +1,7 @@
 <script lang="ts">
+	import Icon from './Icon.svelte';
+
 	export let disabled = false;
-	export let onClick: (e: Event) => void = () => {};
 	export let size: 'sm' | 'md' | 'lg' | 'xl' = 'lg';
 	export let type:
 		| 'primary'
@@ -11,10 +12,17 @@
 		| 'warning'
 		| 'info'
 		| 'light'
+		| 'link'
 		| 'dark' = 'primary';
+	export let loading = false;
 </script>
 
-<button class={`${size} ${type}`} {disabled} on:click={onClick}><slot /></button>
+<button class={`${size} ${type}`} disabled={disabled || loading} on:click
+	><slot />
+	{#if loading}
+		<Icon name="loading" spin />
+	{/if}
+</button>
 
 <style>
 	button {
@@ -40,12 +48,18 @@
 		box-shadow: 0 8px 12px rgb(0 0 0 / 12%);
 	}
 
+	.sm {
+		height: 26px;
+		font-size: 0.7rem;
+		padding: 0px 2px;
+		margin-top: 0;
+	}
+
 	.md {
 		height: 32px;
 		font-size: 14px;
 		font-weight: 300;
-		padding: unset;
-		width: 150px;
+		padding: 0px 20px;
 		margin-top: 0;
 	}
 
@@ -67,5 +81,21 @@
 	.tertiary:hover {
 		border: 1px dashed var(--background-action-primary);
 		box-shadow: unset;
+	}
+	.link {
+		border: none;
+		background: transparent;
+		box-shadow: unset;
+		margin: 0;
+		display: inline;
+		height: unset;
+		padding: unset;
+		color: var(--text-action-secondary);
+		font-size: inherit;
+	}
+
+	.link:hover {
+		color: var(--text-action-highlight);
+		box-shadow: none;
 	}
 </style>

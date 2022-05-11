@@ -1,54 +1,21 @@
 <script lang="ts">
-	import { projectMetadata } from '../stores';
-	import Button from '../../components/Button.svelte';
-	import ETH from '../Ethereum.svelte';
-	import CurrencyInput from '$lib/components/CurrencyInput.svelte';
-	import { Currency } from '$constants';
-	import { BigNumber } from 'ethers';
+	import { getContext } from 'svelte';
+	import type Store from '$utils/Store';
+	import type { V2ProjectContextType } from '$models/project-type';
+	import Pay from '$lib/components/Pay.svelte';
+	import { weightedAmount } from '$utils/v2/math';
 
-	let currency = Currency.ETH;
-	let receiveText = 'Receive 1,000,000 tokens/1 ETH';
-	let amount: BigNumber = BigNumber.from('0');
+	const project = getContext('PROJECT') as Store<V2ProjectContextType>;
 
-	// TODO dollar value should be calculated from ETH conversion rate
-	$: receiveText =
-		currency === Currency.ETH ? 'Receive 1,000,000 tokens/1 ETH' : 'Receive 357 tokens/1 USD';
-
-	function setValue(value) {
-		amount = value;
-	}
+	$: payButton = $project?.projectMetadata?.payButton || 'Pay';
+	$: currency = $project.distributionLimitCurrency;
 </script>
 
-<div class="wrapper">
-	<div class="stacked expand">
-		<CurrencyInput bind:currency on:setValue={setValue} />
-		<small>{receiveText}</small>
-	</div>
-	<div class="stacked">
-		<Button size="md" onClick={console.log}>{$projectMetadata.payButton}</Button>
-		{#if currency === Currency.USD}
-			<small>Paid as <ETH />0.00071584</small>
-		{/if}
-	</div>
-</div>
-
-<style>
-	.wrapper {
-		margin: 40px 0;
-		display: flex;
-	}
-
-	.expand {
-		flex: 1;
-		margin-right: 10px;
-	}
-
-	.stacked {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.stacked:last-of-type {
-		text-align: center;
-	}
-</style>
+<Pay
+	{payButton}
+	onClick={() => console.info('🛠 TODO pay in create preview')}
+	payInCurrency={currency}
+	reservedRate={$project.fundingCycleMetadata.reservedRate.toNumber()}
+	weight={$project.fundingCycle.weight}
+	weightingFn={weightedAmount}
+/>

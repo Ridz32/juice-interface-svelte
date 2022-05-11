@@ -1,18 +1,19 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
-	import * as constants from '@ethersproject/constants'	
+	import * as constants from '@ethersproject/constants';
 	import Button from '$lib/components/Button.svelte';
 	import FormField from '$lib/components/FormField.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import Select from '$lib/components/Select.svelte';
-	import { closeModal } from '../Modal.svelte';
+	import { closeModal } from '$lib/components/Modal.svelte';
 	import Range from '$lib/components/Range.svelte';
 	import CurrencyInput from '$lib/components/CurrencyInput.svelte';
 	import type { Split } from '$models/v2/splits';
 	import type { Currency } from '$constants';
 	import { BigNumber } from 'ethers';
+	import { formatWad } from '$utils/formatNumber';
 	import { formatSplitPercent, MAX_DISTRIBUTION_LIMIT, splitPercentFrom } from '$utils/v2/math';
 	import {
 		getDistributionPercentFromAmount,
@@ -44,7 +45,7 @@
 	};
 
 	// The distribution limit dictates if there is a paymount amount field
-	export let distributionLimit: BigNumber | null = null;
+	export let distributionLimit: number | null = null;
 	export let currency: Currency | null = null;
 
 	// Wether an already existing split is being edited
@@ -54,6 +55,7 @@
 	export let splits: Split[] = [];
 	// A callback function to set the splint in the store
 	export let onFinish: (split: Split) => void;
+	export let showAmount: boolean;
 
 	enum BeneficiaryType {
 		Address = 1,
@@ -70,7 +72,7 @@
 	// and stores don't know how to handle embedded values
 	let percent = 0;
 	let rangeValue = [percent];
-	let showAmount = distributionLimit && !distributionLimit.eq(MAX_DISTRIBUTION_LIMIT);
+	// let showAmount = distributionLimit && !BigNumber.from(distributionLimit).eq(MAX_DISTRIBUTION_LIMIT);
 
 	let editingExistingSplit = !!split;
 
@@ -83,7 +85,7 @@
 				beneficiaryType = BeneficiaryType.ProjectID;
 			}
 			if (showAmount) {
-				amount = (rangeValue[0] / 100) * distributionLimit.toNumber();
+				amount = (rangeValue[0] / 100) * distributionLimit;
 			}
 			if (split.lockedUntil) {
 				lockedUntil = dateToDateInput(new Date(split.lockedUntil * 1000));
@@ -139,7 +141,7 @@
 	function setRangeValue(e: { detail: { value: BigNumber } }) {
 		const value = e.detail.value;
 		percent = getDistributionPercentFromAmount({
-			amount: value.toNumber(),
+			amount: formatWad(value),
 			distributionLimit: distributionLimit.toString()
 		});
 		rangeValue[0] = percent;
@@ -173,7 +175,7 @@
 	$: {
 		if (showAmount) {
 			// Set the input value when the range value changes
-			amount = (rangeValue[0] / 100) * distributionLimit.toNumber();
+			amount = (rangeValue[0] / 100) * distributionLimit;
 			setAmountAfterFee(rangeValue[0]);
 		}
 	}
@@ -242,8 +244,8 @@
 	</p>
 </section>
 <div class="actions">
-	<Button onClick={closeModal} size="md" type="secondary">Cancel</Button>
-	<Button size="md" onClick={addSplit}>{editingExistingSplit ? 'Edit' : 'Add'} split</Button>
+	<Button on:click={closeModal} size="md" type="secondary">Cancel</Button>
+	<Button size="md" on:click={addSplit}>{editingExistingSplit ? 'Edit' : 'Add'} split</Button>
 </div>
 
 <style>

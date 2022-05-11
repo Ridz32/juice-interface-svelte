@@ -169,8 +169,8 @@ msgid "<0>This project has no overflow</0>, so you will not receive any ETH for 
 msgstr ""
 
 #: src/components/Landing/TrendingSection.tsx
-msgid "<0>Trending projects</0><1><2/></1>"
-msgstr "<0>热门项目</0><1><2/></1>"
+msgid "Trending projects"
+msgstr "热门项目"
 
 #: src/components/v1/V1Project/modals/ConfirmUnstakeTokensModal.tsx
 msgid "<0>Your unclaimed {tokenSymbol} tokens:</0> {0}"
@@ -1257,7 +1257,7 @@ msgid "Latest"
 msgstr "最近"
 
 #: src/components/Landing/index.tsx
-msgid "Latest payments"
+msgid "Latest Payments"
 msgstr "最近付款"
 
 #: src/components/Navbar/Mobile/ThemePickerMobile.tsx
@@ -1610,8 +1610,8 @@ msgid "Potential risks"
 msgstr ""
 
 #: src/components/Landing/index.tsx
-msgid "Powered by public smart contracts on <0>Ethereum</0>."
-msgstr "由<0>以太坊</0>公共智能合约提供支持。"
+msgid "Powered by public smart contracts on"
+msgstr "由公共智能合约提供支持 "
 
 #: src/components/v1/V1Create/index.tsx
 #: src/components/v2/V2Create/ProjectConfigurationFieldsContainer.tsx

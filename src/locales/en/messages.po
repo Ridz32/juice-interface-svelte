@@ -164,8 +164,8 @@ msgid "<0>This project has no overflow</0>, so you will not receive any ETH for 
 msgstr "<0>This project has no overflow</0>, so you will not receive any ETH for burning tokens."
 
 #: src/components/Landing/TrendingSection.tsx
-msgid "<0>Trending projects</0><1><2/></1>"
-msgstr "<0>Trending projects</0><1><2/></1>"
+msgid "Trending projects"
+msgstr "Trending projects"
 
 #: src/components/v1/V1Project/modals/ConfirmUnstakeTokensModal.tsx
 msgid "<0>Your unclaimed {tokenSymbol} tokens:</0> {0}"
@@ -1252,7 +1252,7 @@ msgid "Latest"
 msgstr "Latest"
 
 #: src/components/Landing/index.tsx
-msgid "Latest payments"
+msgid "Latest Payments"
 msgstr ""
 
 #: src/components/Navbar/Mobile/ThemePickerMobile.tsx
@@ -1605,7 +1605,7 @@ msgid "Potential risks"
 msgstr "Potential risks"
 
 #: src/components/Landing/index.tsx
-msgid "Powered by public smart contracts on <0>Ethereum</0>."
+msgid "Powered by public smart contracts on"
 msgstr ""
 
 #: src/components/v1/V1Create/index.tsx

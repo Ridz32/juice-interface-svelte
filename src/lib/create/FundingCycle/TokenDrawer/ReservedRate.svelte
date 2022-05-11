@@ -8,7 +8,7 @@
 	import Range from '$lib/components/Range.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import DisplaySplit from '$lib/components/Split.svelte';
-	import { bind, openModal } from '../../Modal.svelte';
+	import { bind, openModal } from '$lib/components/Modal.svelte';
 	import type { Split } from '$models/v2/splits';
 	import { getTotalSplitsPercentage } from '$utils/v2/distributions';
 
@@ -49,7 +49,7 @@
 	// Tokens received by contributor's per ETH
 	let initialIssuanceRate: BigNumberish;
 	$: {
-		totalSplitsPercentage = getTotalSplitsPercentage(splits);
+		totalSplitsPercentage = getTotalSplitsPercentage(splits || []);
 		reservedRate = rangeValue[0];
 		initialReservedTokensPerEth = DEFAULT_ISSUANCE_RATE * ((reservedRate ?? 0) / 100);
 		initialIssuanceRate = DEFAULT_ISSUANCE_RATE - initialReservedTokensPerEth;
@@ -94,6 +94,7 @@
 			onClick={(split) => {
 				openModal(
 					bind(AddTokenReceiverModal, {
+						reservedRate,
 						editingIndex,
 						onFinish: editSplit,
 						split,
@@ -113,7 +114,7 @@
 	<Button
 		type="tertiary"
 		size="md"
-		onClick={() =>
+		on:click={() =>
 			openModal(bind(AddTokenReceiverModal, { reservedRate, onFinish: addSplit, splits }))}
 	>
 		Add token receiver</Button
