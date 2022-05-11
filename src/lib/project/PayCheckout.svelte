@@ -1,32 +1,64 @@
 <script lang="ts">
+	import { getContext, onMount } from 'svelte';
+
+	import type { BigNumber } from 'ethers';
+	import type { V2ProjectContextType } from '$models/project-type';
+	import type Store from '$utils/Store';
 	import Input from '$lib/components/Input.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
 	import Trans from '$lib/components/Trans.svelte';
+	import { formatWad } from '$utils/formatNumber';
+	import { weightedAmount } from '$utils/v2/math';
 
-	export let amountString: string = '';
-	export let tokenSymbol: string = '';
-	export let payDisclosure: string = '';
+	const projectContext = getContext('PROJECT') as Store<V2ProjectContextType>;
 
-	let memo;
+	export let weiAmount: BigNumber;
+
+	const project = $projectContext;
+	const metadata = $projectContext.projectMetadata;
+	const fundingCycle = $projectContext.fundingCycle;
+	const fundingCycleMetadata = $projectContext.fundingCycleMetadata;
+
+	$: amountString = formatWad(weiAmount);
+	// TODO we need to prepend memo with something to align with the snapshot
+	// re decentralisation
+	let memo: string;
 	let checked = false;
-	// TODO get the correct data
-	let buyerTokens = 300;
-	let reservedTokens = 100;
+	let receivedTickets: string;
+	let ownerTickets: string;
+
+	onMount(() => {
+        // TODO there's something weird here with the reserved rate
+        // PLS HELP, I CANNOT FIGURE OUT WHAT IS GOING ON
+		receivedTickets = weightedAmount(
+			fundingCycle?.weight,
+			fundingCycleMetadata.reservedRate.toNumber(),
+			weiAmount,
+			'payer'
+		);
+		ownerTickets = weightedAmount(
+			fundingCycle?.weight,
+			fundingCycleMetadata.reservedRate.toNumber(),
+			weiAmount,
+			'reserved'
+		);
+	});
 </script>
 
 <main>
-	<h3><Trans>Pay {tokenSymbol}</Trans></h3>
+	<h3><Trans>Pay {project.tokenSymbol || ''}</Trans></h3>
 	<p>
 		<Trans
-			>Paying <b>{tokenSymbol}</b> is not an investment — it's a way to support the project. Any value
-			or utility of the tokens you receive is determined by Baguette.</Trans
+			>Paying <b>{project.tokenSymbol || ''}</b> is not an investment — it's a way to support the
+			project. Any value or utility of the tokens you receive is determined by {metadata.name}.</Trans
 		>
 	</p>
 
-	{#if payDisclosure}
-		<h4>Notice from {tokenSymbol}:</h4>
-		<p>{payDisclosure}</p>
+	{#if metadata.payDisclosure}
+		<h4>Notice from {project.tokenSymbol}:</h4>
+		<p>{metadata.payDisclosure}</p>
 	{/if}
+	<!-- TODO add the riskcount here -->
 	<table>
 		<tbody
 			><tr
@@ -35,13 +67,13 @@
 			><tr
 				><th colspan="1"><span>Tokens for you</span></th><td colspan="1"
 					><span
-						><div>{buyerTokens}</div>
+						><div>{formatWad(receivedTickets, { precision: 0 })}</div>
 						<div /></span
 					></td
 				></tr
 			><tr
-				><th colspan="1"><span>{tokenSymbol} reserved</span></th><td colspan="1"
-					><span>{reservedTokens}</span></td
+				><th colspan="1"><span>{project.tokenSymbol || 'Tokens'} reserved</span></th><td colspan="1"
+					><span>{formatWad(ownerTickets, { precision: 0 })}</span></td
 				></tr
 			></tbody
 		>
@@ -53,11 +85,12 @@
 		<p>Custom token beneficiary</p>
 		<Toggle bind:checked />
 	</div>
-    <small>Mint tokes to a custom address.</small>
+	<small>Mint tokes to a custom address.</small>
 </main>
 
 <style>
-	h3, h4 {
+	h3,
+	h4 {
 		color: var(--text-header);
 	}
 	main {

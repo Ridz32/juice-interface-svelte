@@ -123,6 +123,7 @@
 <style>
 	section {
 		padding: 20px 0px;
+		max-width: 650px;
 	}
 
 	button {
