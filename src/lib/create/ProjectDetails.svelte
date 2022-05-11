@@ -1,26 +1,5 @@
-<script lang="ts">
-	import { getContext } from 'svelte';
-	import type Store from '$utils/Store';
-	import type { V2ProjectContextType } from '$models/project-type';
-	import InfoBox from '$lib/components/InfoBox.svelte';
-	import Input from '$lib/components/FormField.svelte';
-	import UploadField from './UploadField.svelte';
-
-	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
-
-	export let info = 'You can edit your project details later on at any time.';
-
-	function onLogoChange(src: string) {
-		project.update((state: any) => ({
-			...state,
-			projectMetadata: {
-				...state.projectMetadata,
-				logoUri: src
-			}
-		}));
-	}
-
-	const formFields = [
+<script context="module">
+	export const metadataFields = [
 		{
 			id: 'name',
 			label: 'Project name',
@@ -81,8 +60,31 @@
 	];
 </script>
 
+<script lang="ts">
+	import { getContext } from 'svelte';
+	import type Store from '$utils/Store';
+	import type { V2ProjectContextType } from '$models/project-type';
+	import InfoBox from '$lib/components/InfoBox.svelte';
+	import Input from '$lib/components/FormField.svelte';
+	import UploadField from './UploadField.svelte';
+
+	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
+
+	export let info = 'You can edit your project details later on at any time.';
+
+	function onLogoChange(src: string) {
+		project.update((state: any) => ({
+			...state,
+			projectMetadata: {
+				...state.projectMetadata,
+				logoUri: src
+			}
+		}));
+	}
+</script>
+
 <InfoBox {info} />
-{#each formFields as field}
+{#each metadataFields as field}
 	<Input {field} bind:value={$project.projectMetadata[field.id]} />
 {/each}
 <UploadField onChange={onLogoChange} />

@@ -24,6 +24,7 @@
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import { fromWad } from '$utils/formatNumber';
 	import { V2_CURRENCY_ETH } from '$utils/v2/currency';
+	import FinalPreview from './FinalPreview.svelte';
 
 	let project = new Store<V2ProjectContextType>();
 	// Populate project with default data
@@ -205,35 +206,39 @@
 			<Tab id="review" onClick={checkReview}>3. Review and deploy</Tab>
 		</TabList>
 		<div class="row">
-			<section class={isReviewPanel && 'collapse'}>
-				<TabPanel>
-					<ProjectDetails />
-					<Button on:click={() => onClick('funding')}>Next: Funding cycle</Button>
-				</TabPanel>
-				<TabPanel>
-					<FundingCycle />
-					<Button on:click={() => onClick('review')}>Next: Review and deploy</Button>
-				</TabPanel>
-			</section>
-			<section class:full={isReviewPanel}>
-				{#if isReviewPanel}
-					<h2>Review project configuration</h2>
-				{/if}
-				<Preview />
-				{#if isReviewPanel}
-					<Button {disabled} on:click={$connectedAccount ? deployProject : () => walletConnect()}>
-						{#if $connectedAccount}
-							{#if deploying}
-								...
+			{#if isReviewPanel}
+				<FinalPreview />
+			{:else}
+				<section>
+					<TabPanel>
+						<ProjectDetails />
+						<Button on:click={() => onClick('funding')}>Next: Funding cycle</Button>
+					</TabPanel>
+					<TabPanel>
+						<FundingCycle />
+						<Button on:click={() => onClick('review')}>Next: Review and deploy</Button>
+					</TabPanel>
+				</section>
+				<section>
+					{#if isReviewPanel}
+						<h2>Review project configuration</h2>
+					{/if}
+					<Preview />
+					{#if isReviewPanel}
+						<Button {disabled} on:click={$connectedAccount ? deployProject : () => walletConnect()}>
+							{#if $connectedAccount}
+								{#if deploying}
+									...
+								{:else}
+									Deploy project to {readNetwork.name}
+								{/if}
 							{:else}
-								Deploy project to {readNetwork.name}
+								Connect wallet to deploy
 							{/if}
-						{:else}
-							Connect wallet to deploy
-						{/if}
-					</Button>
-				{/if}
-			</section>
+						</Button>
+					{/if}
+				</section>
+			{/if}
 		</div>
 	</Tabs>
 </div>
