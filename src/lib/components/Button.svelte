@@ -17,7 +17,7 @@
 	export let loading = false;
 </script>
 
-<button class={`${size} ${type}`} disabled={disabled || loading} on:click
+<button class={`${size} ${type}`} disabled={disabled || loading} {...buttonProps} on:click
 	><slot />
 	{#if loading}
 		<Icon name="loading" spin />
