@@ -207,7 +207,20 @@
 		</TabList>
 		<div class="row">
 			{#if isReviewPanel}
-				<FinalPreview />
+				<main>
+					<FinalPreview />
+					<Button {disabled} on:click={$connectedAccount ? deployProject : () => walletConnect()}>
+						{#if $connectedAccount}
+							{#if deploying}
+								...
+							{:else}
+								Deploy project to {readNetwork.name}
+							{/if}
+						{:else}
+							Connect wallet to deploy
+						{/if}
+					</Button>
+				</main>
 			{:else}
 				<section>
 					<TabPanel>
@@ -220,23 +233,7 @@
 					</TabPanel>
 				</section>
 				<section>
-					{#if isReviewPanel}
-						<h2>Review project configuration</h2>
-					{/if}
 					<Preview />
-					{#if isReviewPanel}
-						<Button {disabled} on:click={$connectedAccount ? deployProject : () => walletConnect()}>
-							{#if $connectedAccount}
-								{#if deploying}
-									...
-								{:else}
-									Deploy project to {readNetwork.name}
-								{/if}
-							{:else}
-								Connect wallet to deploy
-							{/if}
-						</Button>
-					{/if}
 				</section>
 			{/if}
 		</div>
@@ -273,20 +270,12 @@
 		flex: 0 0 42%;
 		max-width: 42%;
 	}
-	section:first-of-type.collapse {
-		display: none;
-	}
 
 	section:last-of-type {
 		flex: 0 0 56%;
 		max-width: 56%;
 		padding-left: 40px;
 		border-left: 1px solid rgba(0, 0, 0, 0.094);
-	}
-
-	section:last-of-type.full {
-		border-left: none;
-		margin: 0 auto;
 	}
 
 	@media (max-width: 850px) {

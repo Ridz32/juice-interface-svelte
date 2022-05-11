@@ -112,22 +112,6 @@
 					</div>
 				{/if}
 			{/each}
-			<!-- <div class="info-item">
-                <h4><Trans>Duration</Trans></h4>
-                <p>Not set</p>
-            </div>
-            <div class="info-item">
-                <h4><Trans>Reserved tokens</Trans></h4>
-                <p>Not set</p>
-            </div>
-            <div class="info-item">
-                <h4><Trans>Initial issuace rate</Trans></h4>
-                <p>Not set</p>
-            </div>
-            <div class="info-item">
-                <h4><Trans>Duration</Trans></h4>
-                <p>Not set</p>
-            </div> -->
 		</div>
 	</div>
 </section>
@@ -153,8 +137,6 @@
 		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 		grid-row-gap: 40px;
 		grid-column-gap: 40px;
-
-		/* auto wrap rows when overflow */
 		grid-auto-flow: row;
 	}
 
@@ -173,6 +155,9 @@
 		color: var(--text-header);
 	}
 
-	.info-item {
+	.info-item p {
+		font-size: 18px;
+		font-weight: 300;
+		color: var(--text-primary);
 	}
 </style>
