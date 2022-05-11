@@ -1,12 +1,17 @@
 <script lang="ts">
-    export let value: string | number | undefined = undefined;
+	export let value: string | number | undefined = undefined;
 </script>
 
-<input {...$$props} bind:value />
+<div class="input-wrapper">
+	<input {...$$props} bind:value />
+	<div class="addon">
+		<slot name="addon" />
+	</div>
+</div>
 
 <style>
 	input {
-		height: 28px;
+		height: 30px;
 		width: 100%;
 		background: transparent;
 		border: 1px solid var(--stroke-tertiary);
@@ -27,5 +32,17 @@
 
 	input:hover {
 		border: var(--background-action-primary) 1px solid;
+	}
+
+	.input-wrapper {
+		position: relative;
+	}
+
+	.addon {
+		position: absolute;
+		top: 5px;
+		right: 10px;
+		width: 40px;
+		height: 20px;
 	}
 </style>
