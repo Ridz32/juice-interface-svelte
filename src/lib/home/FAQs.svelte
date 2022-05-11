@@ -245,16 +245,15 @@
           Juicebox projects.`
 			]
 		},
-		// TODO
-		// {
-		// 	q: `
-		//   Do I have to make my project open source to use Juicebox as its
-		//   business model?`,
-		// 	img: {
-		// 		src: '/assets/cooler_if_you_did.png',
-		// 		alt: t`It'd be a lot cooler if you did`
-		// 	}
-		// },
+		{
+			q: `
+		  Do I have to make my project open source to use Juicebox as its
+		  business model?`,
+			img: {
+				src: '/images/cooler_if_you_did.png',
+				alt: `It'd be a lot cooler if you did`
+			}
+		},
 		{
 			q: `Who is Peel?`,
 			a: [
@@ -293,9 +292,14 @@
 		<div class="border-wrapper">
 			<CollapsibleSection expanded={false}>
 				<h4 slot="header"><Trans>{faq.q}</Trans></h4>
-				{#each faq.a as answer}
-					<p><Trans>{@html answer}</Trans></p>
-				{/each}
+				{#if faq.a}
+					{#each faq.a as answer}
+						<p><Trans>{@html answer}</Trans></p>
+					{/each}
+				{:else if faq.img}
+					<!-- svelte-ignore a11y-missing-attribute -->
+					<img {...faq.img} />
+				{/if}
 			</CollapsibleSection>
 		</div>
 	{/each}
