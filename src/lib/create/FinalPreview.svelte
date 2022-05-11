@@ -40,7 +40,7 @@
 		{#each metadataFields as field}
 			<div class="info-item">
 				<h4>{field.label}</h4>
-				<p>--</p>
+				<p>{$project.projectMetadata[field.id] || '--'}</p>
 			</div>
 		{/each}
 	</div>
@@ -95,7 +95,19 @@
 			{#each fundingCycleDetails as detail}
 				{#if !hiddenFCDetails.includes(detail.id)}
 					<div class="info-item">
-						<h4><Trans>{detail.label}</Trans></h4>
+						{#if detail.info}
+							<h4>
+								<Trans>{detail.label}</Trans>
+								<Popover
+									placement="right"
+									message="The maximum amount of funds allowed to be distributed from the project's treasury each funding cycle."
+								>
+									<Icon name="questionCircle" />
+								</Popover>
+							</h4>
+						{:else}
+							<h4><Trans>{detail.label}</Trans></h4>
+						{/if}
 						<p>{detail.value}</p>
 					</div>
 				{/if}
@@ -137,13 +149,13 @@
 
 	.details {
 		display: grid;
-        grid-auto-rows: auto;
+		grid-auto-rows: auto;
 		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 		grid-row-gap: 40px;
-        grid-column-gap: 40px;
+		grid-column-gap: 40px;
 
-        /* auto wrap rows when overflow */
-        grid-auto-flow: row;
+		/* auto wrap rows when overflow */
+		grid-auto-flow: row;
 	}
 
 	.distributionLimit {
@@ -163,5 +175,4 @@
 
 	.info-item {
 	}
-
 </style>
