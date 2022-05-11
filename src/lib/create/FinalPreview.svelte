@@ -8,6 +8,7 @@
 	import PopInfo from '$lib/components/PopInfo.svelte';
 	import Popover from '$lib/components/Popover.svelte';
 	import { getDistributionLimitType } from '$utils/v2/distributions';
+	import { getFundingCycleDetails } from '$utils/v2/fundingCycle';
 	import { metadataFields } from './ProjectDetails.svelte';
 	import { DistributionLimitType } from '$constants';
 	import Money from '$lib/components/Money.svelte';
@@ -17,6 +18,13 @@
 	const hasDuration = $project.fundingCycle.duration && $project.fundingCycle.duration.gt(0);
 
 	const distributionLimitType = getDistributionLimitType($project.distributionLimit);
+
+	const fundingCycleDetails = getFundingCycleDetails(
+		$project.fundingCycle,
+		$project.fundingCycleMetadata
+	);
+
+	const hiddenFCDetails = ['start', 'end'];
 </script>
 
 <section>
@@ -51,38 +59,63 @@
 				immediately.
 			</Trans>
 		{/if}
-		<div class="fundingCycleGrid">
+		<div class="details">
 			<div class="distributionLimit">
 				<!-- <div class="info-item"> -->
-					<h4>
-						<Trans>Distribution Limit</Trans>
-						<Popover
-							placement="right"
-							message="The maximum amount of funds allowed to be distributed from the project's treasury each funding cycle."
-						>
-							<Icon name="questionCircle" />
-						</Popover>
-					</h4>
-					<p>
-						{#if distributionLimitType === DistributionLimitType.None}
-							<Trans>
-								Distribution limit is 0: All funds will be considered overflow and can be redeemed
-								by token holders.
-							</Trans>
-						{:else if distributionLimitType === DistributionLimitType.Infinite}
-							<Money
-								currency={$project.distributionLimitCurrency}
-								amount={$project.distributionLimit}
-							/>
-						{:else}
-							<Trans>
-								Distribution limit is infinite: The project will control how all funds are
-								distributed, and none can be redeemed by token holders.
-							</Trans>
-						{/if}
-					</p>
+				<h4>
+					<Trans>Distribution Limit</Trans>
+					<Popover
+						placement="right"
+						message="The maximum amount of funds allowed to be distributed from the project's treasury each funding cycle."
+					>
+						<Icon name="questionCircle" />
+					</Popover>
+				</h4>
+				<p>
+					{#if distributionLimitType === DistributionLimitType.None}
+						<Trans>
+							Distribution limit is 0: All funds will be considered overflow and can be redeemed by
+							token holders.
+						</Trans>
+					{:else if distributionLimitType === DistributionLimitType.Infinite}
+						<Money
+							currency={$project.distributionLimitCurrency}
+							amount={$project.distributionLimit}
+						/>
+					{:else}
+						<Trans>
+							Distribution limit is infinite: The project will control how all funds are
+							distributed, and none can be redeemed by token holders.
+						</Trans>
+					{/if}
+				</p>
 				<!-- </div> -->
 			</div>
+			<!-- TODO discount rate and redemption rate aren't shown when no funding cycle duration -->
+			{#each fundingCycleDetails as detail}
+				{#if !hiddenFCDetails.includes(detail.id)}
+					<div class="info-item">
+						<h4><Trans>{detail.label}</Trans></h4>
+						<p>{detail.value}</p>
+					</div>
+				{/if}
+			{/each}
+			<!-- <div class="info-item">
+                <h4><Trans>Duration</Trans></h4>
+                <p>Not set</p>
+            </div>
+            <div class="info-item">
+                <h4><Trans>Reserved tokens</Trans></h4>
+                <p>Not set</p>
+            </div>
+            <div class="info-item">
+                <h4><Trans>Initial issuace rate</Trans></h4>
+                <p>Not set</p>
+            </div>
+            <div class="info-item">
+                <h4><Trans>Duration</Trans></h4>
+                <p>Not set</p>
+            </div> -->
 		</div>
 	</div>
 </section>
@@ -104,32 +137,31 @@
 
 	.details {
 		display: grid;
-		grid-template-columns: repeat(4, minmax(200px, 1fr));
-		grid-row-gap: 20px;
+        grid-auto-rows: auto;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		grid-row-gap: 40px;
+        grid-column-gap: 40px;
+
+        /* auto wrap rows when overflow */
+        grid-auto-flow: row;
 	}
 
 	.distributionLimit {
 		margin-top: 20px;
-        grid-column: span 3;
+		grid-column: span 3;
 	}
 
-    .distributionLimit p {
-        font-size: 18px;
-        font-weight: 400;
-    }
+	.distributionLimit p {
+		font-size: 18px;
+		font-weight: 400;
+	}
 
 	.distributionLimit h4 {
 		margin: 0;
 		color: var(--text-header);
 	}
 
-    .info-item {
-
-    }
-
-	.fundingCycleGrid {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(200px, 1fr));
-		grid-row-gap: 20px;
+	.info-item {
 	}
+
 </style>
