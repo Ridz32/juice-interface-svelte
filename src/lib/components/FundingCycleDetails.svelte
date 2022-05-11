@@ -207,7 +207,7 @@
 			{#if distributionLimitValue}
 				<span>{distributionLimitValue}</span>
 			{:else}
-				<Money amount={BigNumber.from(distributionLimit)} {currency} formatWad={false} />
+				<Money amount={BigNumber.from(distributionLimit)} {currency} />
 			{/if}
 		</div>
 		{#each cycleKeyValues as { label, value, info, issue, issueText }}
