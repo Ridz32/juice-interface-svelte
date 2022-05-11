@@ -162,8 +162,6 @@
 	</div>
 </section>
 
-<Modal show={$modal} />
-
 <style>
 	section {
 		display: flex;
