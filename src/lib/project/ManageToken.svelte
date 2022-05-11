@@ -2,28 +2,42 @@
 	import { getContext } from 'svelte';
 	import type { V2ProjectContextType } from '$models/project-type';
 	import type Store from '$utils/Store';
+	import Button from '$lib/components/Button.svelte';
+	import BurnTokens from './BurnTokens.svelte';
+	import ClaimTokens from './ClaimTokens.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import Trans from '$lib/components/Trans.svelte';
-	import Button from '$lib/components/Button.svelte';
+	import { openModal } from '$lib/components/Modal.svelte';
 
-    export let close: () => void;
+	export let close: () => void;
 
 	const project = getContext('PROJECT') as Store<V2ProjectContextType>;
 	// MOCK data for now
 	const tokenSymbol = 'BREAD';
 
+	// TODO check when these buttons are disabled, and what disabled text to show
 	const buttons = [
 		{
 			label: `Redeem ${tokenSymbol}`,
-			body: "Redeem your BONE for a portion of the project's overflow. Any BONE you redeem will be burned."
+			body: "Redeem your BONE for a portion of the project's overflow. Any BONE you redeem will be burned.",
+			onClick: () => {
+				console.log('TODO redeem modal');
+			},
+			// TODO this modal isn't built yet, set to disabled to
+			// style the disabled state
+			disabled: true
 		},
 		{
 			label: `Burn ${tokenSymbol}`,
-			body: "Burn your BONE. You won't receive ETH in return because this project has no overflow."
+			body: "Burn your BONE. You won't receive ETH in return because this project has no overflow.",
+			onClick: () => openModal(BurnTokens),
+			disabled: false
 		},
 		{
 			label: `Claim ${tokenSymbol} as ERC-20`,
-			body: 'Move your BONE from the Juicebox contract to your wallet.'
+			body: 'Move your BONE from the Juicebox contract to your wallet.',
+			onClick: () => openModal(ClaimTokens),
+			disabled: false
 		}
 	];
 </script>
@@ -31,7 +45,7 @@
 <main>
 	<h3>Manage {$project.tokenSymbol || ''} tokens</h3>
 	{#each buttons as button}
-		<button>
+		<button on:click={button.onClick} disabled={button.disabled}>
 			<div>
 				<h4><Trans>{button.label}</Trans></h4>
 				<p>{button.body}</p>
@@ -49,7 +63,7 @@
 <style>
 	h3 {
 		color: var(--text-header);
-        margin-bottom: 40px;
+		margin-bottom: 40px;
 	}
 
 	h4,
@@ -84,11 +98,21 @@
 		margin: 5px 0px;
 	}
 
+	button:disabled,
+	button:disabled h4,
+	button:disabled .icon {
+		color: var(--text-disabled);
+	}
+	button:disabled {
+		border: 1px solid var(--stroke-disabled);
+		cursor: not-allowed;
+	}
+
 	.buttons {
 		float: right;
 	}
 
-    .icon {
-        margin-left: 10px;
-    }
+	.icon {
+		margin-left: 10px;
+	}
 </style>

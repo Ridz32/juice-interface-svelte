@@ -23,6 +23,7 @@
 	import { hasFundingDuration, V2FundingCycleRiskCount } from '$utils/v2/fundingCycle';
 	import UpcomingFundingCycle from './UpcomingFundingCycle.svelte';
 	import FundingCycleHistory from './FundingCycleHistory.svelte';
+	import ManageToken from './ManageToken.svelte';
 
 	let clientWidth = 500;
 	let tab = 0;
@@ -108,8 +109,7 @@
 						<span><Trans>{unclaimedBalanceFormatted} {tokenText} claimable</Trans></span>
 						<small><Trans>{userOwnershipPercentage}% of total supply</Trans></small>
 					</div>
-					<!-- TODO modal when onClick -->
-					<Button type="secondary" size="sm">
+					<Button on:click={() => openModal(ManageToken)} type="secondary" size="sm">
 						Manage {tokenText}
 					</Button>
 				</div>
@@ -169,6 +169,7 @@
 		</div>
 	</div>
 </section>
+<Modal show={$modal} />
 
 <!-- NOTE: keeping this to add back the Chart at later date -->
 
