@@ -29,21 +29,21 @@
 			}
 			// Set the text content
 			const res = await pinFileToIpfs(file);
-			const ipfsUrl = ipfsCidUrl(res?.IpfsHash);
+			const ipfsUrl = res?.IpfsHash;
 			loading = false;
-			loadFile(ipfsUrl);
-			document.querySelector('.file-name').textContent = ipfsUrl;
-			document.querySelector('.file-name').href = ipfsUrl;
+			loadFile(res?.IpfsHash);
+			document.querySelector('.file-name').textContent = ipfsCidUrl(res?.IpfsHash);
+			(document.querySelector('.file-name') as HTMLAnchorElement).href = ipfsUrl;
 		});
 	});
 
-	function loadFile(url: string) {
+	function loadFile(cid: string) {
 		if (onChange) {
-			onChange(url);
+			onChange(cid);
 		}
 		// Set preview image
 		let image = document.getElementById('output') as HTMLImageElement;
-		image.src = url;
+		image.src = ipfsCidUrl(cid);
 		isFileSet = true;
 	}
 </script>

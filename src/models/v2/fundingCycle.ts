@@ -10,6 +10,10 @@ export type V2FundingCycleData = {
 export type V2FundingCycleMetadataGlobal = {};
 
 export type V2FundingCycleMetadata = {
+	global: {
+		allowSetController: boolean;
+		allowSetTerminals: boolean;
+	};
 	version?: number;
 	reservedRate: BigNumber;
 	redemptionRate: BigNumber;
@@ -27,8 +31,6 @@ export type V2FundingCycleMetadata = {
 	useDataSourceForPay: boolean;
 	useDataSourceForRedeem: boolean;
 	dataSource: string; // hex, contract address
-	allowSetController: boolean;
-	allowSetTerminals: boolean;
 };
 
 export type V2FundAccessConstraint = {

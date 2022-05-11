@@ -1,26 +1,29 @@
 <script lang="ts">
+	import { ethers, type ContractTransaction } from 'ethers';
 	import { setContext } from 'svelte';
 	import { modal } from '$stores';
 	import { BigNumber } from '@ethersproject/bignumber';
 	import * as constants from '@ethersproject/constants';
-	import { redemptionRateFrom } from '$utils/v2/math';
+	import { MAX_DISTRIBUTION_LIMIT, redemptionRateFrom } from '$utils/v2/math';
 	import Store from '$utils/Store';
 	import type { V2ProjectContextType } from '$models/project-type';
-
 	import { Tab, Tabs, TabList, TabPanel } from './Tabs';
 	import Button from '$lib/components/Button.svelte';
 	import FundingCycle from './FundingCycle';
 	import Preview from './Preview';
 	import ProjectDetails from './ProjectDetails.svelte';
 	import Modal from '$lib/components/Modal.svelte';
-	import { connectedAccount, walletConnect } from '$stores/web3';
+	import { connectedAccount, provider, walletConnect } from '$stores/web3';
 	import { readNetwork } from '$constants/networks';
 	import { uploadProjectMetadata } from '$utils/ipfs';
 	import { DEFAULT_BALLOT_STRATEGY } from '$constants/v2/ballotStrategies';
 	import { Currency, CurrencyValue } from '$constants';
 	import { contracts, transactContract } from '$utils/web3/contractReader';
-import { V2ContractName } from '$models/v2/contracts';
-import { JUICEBOX_MONEY_METADATA_DOMAIN } from '$constants/v2/metadataDomain';
+	import { V2ContractName } from '$models/v2/contracts';
+	import { JUICEBOX_MONEY_METADATA_DOMAIN } from '$constants/v2/metadataDomain';
+	import ProjectCard from '$lib/components/ProjectCard.svelte';
+	import { fromWad } from '$utils/formatNumber';
+	import { V2_CURRENCY_ETH } from '$utils/v2/currency';
 
 	let project = new Store<V2ProjectContextType>();
 	// Populate project with default data
@@ -40,6 +43,10 @@ import { JUICEBOX_MONEY_METADATA_DOMAIN } from '$constants/v2/metadataDomain';
 			payDisclosure: ''
 		},
 		fundingCycleMetadata: {
+			global: {
+				allowSetTerminals: false,
+				allowSetController: false
+			},
 			reservedRate: BigNumber.from(0), // A number from 0-10,000
 			redemptionRate: redemptionRateFrom('100'), // A number from 0-10,000
 			ballotRedemptionRate: redemptionRateFrom('100'), // A number from 0-10,000
@@ -51,8 +58,6 @@ import { JUICEBOX_MONEY_METADATA_DOMAIN } from '$constants/v2/metadataDomain';
 			allowChangeToken: false,
 			allowTerminalMigration: false,
 			allowControllerMigration: false,
-			allowSetTerminals: false,
-			allowSetController: false,
 			holdFees: false,
 			useTotalOverflowForRedemptions: false,
 			useDataSourceForPay: false,
@@ -93,6 +98,8 @@ import { JUICEBOX_MONEY_METADATA_DOMAIN } from '$constants/v2/metadataDomain';
 		loading: undefined
 	});
 
+	let deploying = false;
+
 	setContext('PROJECT', project);
 
 	let isReviewPanel = false;
@@ -105,53 +112,83 @@ import { JUICEBOX_MONEY_METADATA_DOMAIN } from '$constants/v2/metadataDomain';
 		window.scrollTo(0, 0);
 	}
 
-	let loading = false;
-
 	async function deployProject() {
 		console.log('Start serializing');
-		// loading = true;
 		console.log('fundingCycle', $project.fundingCycle);
 		console.log('projectMetadata', $project.projectMetadata);
 		console.log('fundingCycleMetadata', $project.fundingCycleMetadata);
 		console.log('payoutSplits', $project.payoutSplits);
 		console.log('reservedTokensSplits', $project.reservedTokensSplits);
+		deploying = true;
+		console.log("LOGO:", $project.projectMetadata.logoUri);
 		const uploadedMetadata = await uploadProjectMetadata(
 			$project.projectMetadata,
 			$project.projectMetadata.name.toLowerCase().replace(/[^\w]+/g, '_')
 		);
 		console.log('uploadedMetadata', uploadedMetadata);
 		if (!uploadedMetadata.IpfsHash) {
-			loading = false;
+			deploying = false;
 			return;
 		}
 
-		// projectMetadataCID: string
-		// fundingCycleData: V2FundingCycleData
-		// fundingCycleMetadata: V2FundingCycleMetadata
-		// fundAccessConstraints: V2FundAccessConstraint[]
-		// groupedSplits?: GroupedSplits<SplitGroup>[]
-		// mustStartAtOrAfter?: string
+		const fundAccessConstraints = [
+			{
+				terminal: contracts.JBETHPaymentTerminal.address, // address probably
+				token: '0x000000000000000000000000000000000000eeee', // address
+				distributionLimit: $project.distributionLimit ?? '0' ?? fromWad(MAX_DISTRIBUTION_LIMIT),
+				distributionLimitCurrency: (1).toString() ?? V2_CURRENCY_ETH,
+				overflowAllowance: '0',
+				overflowAllowanceCurrency: '0'
+			}
+		];
 
-		// const args = [
-		// 	$connectedAccount, // _owner
-		// 	[uploadedMetadata.IpfsHash, JUICEBOX_MONEY_METADATA_DOMAIN], // _projectMetadata (JBProjectMetadata)
-		// 	{
-		// 		duration: $project.fundingCycle.duration,
-		// 		weight: $project.fundingCycle.weight,
-		// 		discountRate: $project.fundingCycle.discountRate,
-		// 		ballot: $project.fundingCycle.ballot,
-		// 	}, // _data (JBFundingCycleData)
-		// 	$project.fundingCycleMetadata, // _metadata (JBFundingCycleMetadata)
-		// 	'1', // _mustStartAtOrAfter DEFAULT
-		// 	groupedSplits, // _groupedSplits,
-		// 	$project.fundAccessConstraints, // _fundAccessConstraints,
-		// 	[contracts.JBETHPaymentTerminal.address], //  _terminals (contract address of the JBETHPaymentTerminal)
-		// 	DEFAULT_MEMO
-		// ];
+		const args = [
+			$connectedAccount,
+			[uploadedMetadata.IpfsHash, JUICEBOX_MONEY_METADATA_DOMAIN],
+			{
+				duration: $project.fundingCycle.duration,
+				weight: $project.fundingCycle.weight,
+				discountRate: $project.fundingCycle.discountRate,
+				ballot: $project.fundingCycle.ballot
+			},
+			$project.fundingCycleMetadata,
+			'0x01',
+			[
+				{
+					group: 1,
+					splits: $project.payoutSplits
+				},
+				{
+					group: 2,
+					splits: $project.reservedTokensSplits
+				}
+			],
+			fundAccessConstraints,
+			[contracts.JBETHPaymentTerminal.address],
+			``
+		];
 
-		// return transactContract(V2ContractName.JBController, 'launchProjectFor', args);
+		console.log('Deploying with arguments', args);
 
-		// const groupedSplits = [payoutGroupedSplits, reservedTokensGroupedSplits];
+		const txnResponse: ContractTransaction = await transactContract(
+			V2ContractName.JBController,
+			'launchProjectFor',
+			args
+		);
+		console.log('Pending txn:', txnResponse.hash);
+		const txn = await txnResponse.wait();
+
+		const eventAbi = [
+			'event LaunchProject (uint256 configuration, uint256 projectId, string memo, address caller)'
+		];
+		let iface = new ethers.utils.Interface(eventAbi);
+
+		const event = iface.parseLog(txn.logs[txn.logs.length - 1]);
+		const projectId = event.args[1];
+
+		console.log('Created project [ID]:', projectId);
+
+		deploying = false;
 
 		// const txSuccessful = await launchProjectTx(
 		// 	{

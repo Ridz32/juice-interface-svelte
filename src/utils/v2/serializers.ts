@@ -20,7 +20,7 @@ export type SerializedV2FundingCycleMetadata = Record<
 		>,
 		string
 	> &
-	Pick<V2FundingCycleMetadata, 'allowSetTerminals' | 'allowSetController'>;
+	Pick<V2FundingCycleMetadata, 'global'>;
 
 export type SerializedV2FundingCycleData = Record<keyof V2FundingCycleData, string>;
 
@@ -29,6 +29,10 @@ export type SerializedV2FundAccessConstraint = Record<keyof V2FundAccessConstrai
 export const serializeV2FundingCycleMetadata = (
 	fundingCycleMetadata: V2FundingCycleMetadata
 ): SerializedV2FundingCycleMetadata => ({
+	global: {
+		allowSetTerminals: fundingCycleMetadata.global.allowSetTerminals,
+		allowSetController: fundingCycleMetadata.global.allowSetController
+	},
 	reservedRate: fundingCycleMetadata.reservedRate.toString(),
 	redemptionRate: fundingCycleMetadata.redemptionRate.toString(),
 	ballotRedemptionRate: fundingCycleMetadata.ballotRedemptionRate.toString(),
@@ -44,16 +48,16 @@ export const serializeV2FundingCycleMetadata = (
 	holdFees: fundingCycleMetadata.holdFees,
 	useTotalOverflowForRedemptions: fundingCycleMetadata.useTotalOverflowForRedemptions,
 	useDataSourceForPay: fundingCycleMetadata.useDataSourceForPay,
-	useDataSourceForRedeem: fundingCycleMetadata.useDataSourceForRedeem,
-	allowSetTerminals: fundingCycleMetadata.allowSetTerminals,
-	allowSetController: fundingCycleMetadata.allowSetController
+	useDataSourceForRedeem: fundingCycleMetadata.useDataSourceForRedeem
 });
 
 export const deserializeV2FundingCycleMetadata = (
 	serializedFundingCycleMetadata: SerializedV2FundingCycleMetadata
 ): Omit<V2FundingCycleMetadata, 'version'> => ({
-	allowSetTerminals: serializedFundingCycleMetadata.allowSetTerminals,
-	allowSetController: serializedFundingCycleMetadata.allowSetController,
+	global: {
+		allowSetTerminals: serializedFundingCycleMetadata.global.allowSetTerminals,
+		allowSetController: serializedFundingCycleMetadata.global.allowSetController
+	},
 	reservedRate: BigNumber.from(serializedFundingCycleMetadata.reservedRate),
 	redemptionRate: BigNumber.from(serializedFundingCycleMetadata.redemptionRate),
 	ballotRedemptionRate: BigNumber.from(serializedFundingCycleMetadata.ballotRedemptionRate),

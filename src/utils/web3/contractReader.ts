@@ -1,6 +1,6 @@
 import type { V2ContractName, V2Contracts } from '$models/v2/contracts';
 import { readNetwork } from '$constants/networks';
-import { provider, getConnectedAccount } from '$stores/web3';
+import { provider, getConnectedAccount, connectedAccount } from '$stores/web3';
 import { ethers } from 'ethers';
 import type { NetworkName } from '$models/network-name';
 import type { JsonRpcProvider, JsonRpcSigner } from '@ethersproject/providers';
@@ -44,10 +44,7 @@ export async function transactContract(
 	const contract = new ethers.Contract(
 		contracts[contractName].address,
 		contracts[contractName].abi,
-		_provider
+		_provider.getSigner()
 	);
-	const returnValue = await contract.functions[functionName](...args);
-
-	return returnValue;
+	return await contract[functionName](...args);
 }
-

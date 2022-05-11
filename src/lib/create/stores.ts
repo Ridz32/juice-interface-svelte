@@ -93,6 +93,10 @@ export const projectMetadata = new Store<ProjectMetadataV4>({
 });
 
 export const fundingCycleMetadata = new Store<V2FundingCycleMetadata>({
+	global: {
+		allowSetTerminals: false,
+		allowSetController: false
+	},
 	reservedRate: BigNumber.from(0), // A number from 0-10,000
 	redemptionRate: redemptionRateFrom('100'), // A number from 0-10,000
 	ballotRedemptionRate: redemptionRateFrom('100'), // A number from 0-10,000
@@ -104,8 +108,6 @@ export const fundingCycleMetadata = new Store<V2FundingCycleMetadata>({
 	allowChangeToken: false,
 	allowTerminalMigration: false,
 	allowControllerMigration: false,
-	allowSetTerminals: false,
-	allowSetController: false,
 	holdFees: false,
 	useTotalOverflowForRedemptions: false,
 	useDataSourceForPay: false,

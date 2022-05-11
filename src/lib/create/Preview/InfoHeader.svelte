@@ -3,6 +3,7 @@
 	import type Store from '$utils/Store';
 	import Icon from '$lib/components/Icon.svelte';
 	import type { V2ProjectContextType } from '$models/project-type';
+	import { ipfsCidUrl } from '$utils/ipfs';
 
 	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
 </script>
@@ -11,7 +12,7 @@
 <div class="info">
 	<div class="logo">
 		{#if $project.projectMetadata.logoUri}
-			<img src={$project.projectMetadata.logoUri} alt="Uploaded logo" />
+			<img src={ipfsCidUrl($project.projectMetadata.logoUri)} alt="Uploaded logo" />
 		{:else}
 			<div class="logo-placeholder">🧃</div>
 		{/if}
