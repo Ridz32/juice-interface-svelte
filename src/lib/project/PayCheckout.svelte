@@ -140,8 +140,10 @@
 	</div>
 	<UploadField
 		onChange={(url) => {
-			memo = url;
-			autosize();
+			if(url) {
+				memo = `${url}   ${memo || ''}`;
+				autosize();
+			}
 		}}
 	/>
 	<div class="row">
@@ -230,6 +232,7 @@
 		width: 100%;
 		height: auto;
 		background: transparent;
+		min-height: 28px;
 	}
 	ul {
 		margin-top: 20px;
