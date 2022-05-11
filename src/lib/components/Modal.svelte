@@ -553,7 +553,7 @@ v1.3.0
 	}
 
 	.close:hover {
-		background: black;
+		background: var(--icon-action-primary);
 	}
 
 	.close:hover:before,
