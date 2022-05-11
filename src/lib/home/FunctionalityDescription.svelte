@@ -45,6 +45,7 @@
 		<p />
 
 		<p>
+			<!-- TODO fix trans component to interpolate <0> and <1> if passed props -->
 			<Trans
 				message={'Note: Juicebox is new, unaudited, and not guaranteed to work perfectly. Before spending money, do your own research: <0>ask questions</0>, <1>check out the code</1>, and understand the risks!'}
 			/>

@@ -25,6 +25,7 @@
 </script>
 
 {#if message}
+	<!-- TODO fix me, don't interpolate the passed props -->
 	{#if message.match(/<\w+/) && message.match(/>/)}
 		{@html $i18n._(message, props)}
 	{:else}
