@@ -66,7 +66,12 @@
 	.secondary {
 		background: transparent;
 		color: var(--background-action-primary);
+		border: 1px solid var(--background-action-secondary);
+	}
+
+	.secondary:hover {
 		border: 1px solid var(--background-action-primary);
+		transition: all 0.5s ease-in-out;
 	}
 
 	.tertiary {
