@@ -66,7 +66,7 @@
 	import type { V2ProjectContextType } from '$models/project-type';
 	import InfoBox from '$lib/components/InfoBox.svelte';
 	import Input from '$lib/components/FormField.svelte';
-	import UploadField from './UploadField.svelte';
+	import UploadField from '$lib/components/UploadField.svelte';
 
 	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
 

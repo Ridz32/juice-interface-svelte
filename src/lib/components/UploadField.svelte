@@ -22,7 +22,7 @@
 			}
 			// Get the selected file
 			const [file] = inputElement.files;
-			if (!inputElement) {
+			if (!file) {
 				loading = false;
 				return;
 			}
