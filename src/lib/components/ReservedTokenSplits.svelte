@@ -11,6 +11,8 @@
 	import { getTruncatedAddress } from './Address.svelte';
 	import type { V2FundingCycleMetadata } from '$models/v2/fundingCycle';
 	import type { Split } from '$models/v2/splits';
+	import DistributeTokens from '$lib/project/DistributeTokens.svelte';
+	import { openModal } from './Modal.svelte';
 
 	export let fundingCycleMetadata: V2FundingCycleMetadata;
 	export let reservedTokensSplits: Split[];
@@ -42,7 +44,11 @@
 				>
 			</div>
 		</div>
-		<div slot="right"><button disabled={true}>Distribute {tokenSymbol || 'tokens'}</button></div>
+		<div slot="right">
+			<button on:click={() => openModal(DistributeTokens)}
+				>Distribute {tokenSymbol || 'tokens'}</button
+			>
+		</div>
 	</InfoSpaceBetween>
 	{#if tokenAddress}
 		<p class="contract-address">
@@ -72,6 +78,7 @@
 		background: transparent;
 		border: 1px solid var(--stroke-disabled);
 		color: var(--text-disabled);
+		cursor: pointer;
 	}
 	div[slot='left'] {
 		display: flex;
