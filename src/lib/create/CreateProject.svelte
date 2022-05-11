@@ -120,7 +120,7 @@
 		console.log('payoutSplits', $project.payoutSplits);
 		console.log('reservedTokensSplits', $project.reservedTokensSplits);
 		deploying = true;
-		console.log("LOGO:", $project.projectMetadata.logoUri);
+		console.log('LOGO:', $project.projectMetadata.logoUri);
 		const uploadedMetadata = await uploadProjectMetadata(
 			$project.projectMetadata,
 			$project.projectMetadata.name.toLowerCase().replace(/[^\w]+/g, '_')
@@ -184,63 +184,16 @@
 		let iface = new ethers.utils.Interface(eventAbi);
 
 		const event = iface.parseLog(txn.logs[txn.logs.length - 1]);
-		const projectId = event.args[1];
+		const projectId = event.args[1] as BigNumber;
 
-		console.log('Created project [ID]:', projectId);
+		console.log('Created project [ID]:', projectId.toNumber());
 
 		deploying = false;
-
-		// const txSuccessful = await launchProjectTx(
-		// 	{
-		// 		projectMetadataCID: uploadedMetadata.IpfsHash,
-		// 		fundingCycleData,
-		// 		fundingCycleMetadata,
-		// 		fundAccessConstraints,
-		// 		groupedSplits
-		// 	},
-		// 	{
-		// 		onDone() {
-		// 			console.info('Transaction executed. Awaiting confirmation...');
-		// 			setTransactionPending(true);
-		// 		},
-		// 		async onConfirmed(result) {
-		// 			const txHash = result?.transaction?.hash;
-		// 			if (!txHash) {
-		// 				return; // TODO error notififcation
-		// 			}
-
-		// 			const txReceipt = await findTransactionReceipt(txHash);
-		// 			if (!txReceipt) {
-		// 				return; // TODO error notififcation
-		// 			}
-		// 			console.info('Found tx receipt.');
-
-		// 			const projectId = getProjectIdFromReceipt(txReceipt);
-		// 			if (projectId === undefined) {
-		// 				return; // TODO error notififcation
-		// 			}
-
-		// 			// Reset Redux state/localstorage after deploying
-		// 			dispatch(editingV2ProjectActions.resetState());
-
-		// 			history.push(`/v2/p/${projectId}?newDeploy=true`);
-		// 		},
-		// 		onCancelled() {
-		// 			setDeployLoading(false);
-		// 			setTransactionPending(false);
-		// 		}
-		// 	}
-		// );
-
-		// if (!txSuccessful) {
-		// 	setDeployLoading(false);
-		// 	setTransactionPending(false);
-		// }
 	}
 
 	let disabled = true;
 
-	$: disabled = !$project.projectMetadata.name;
+	$: disabled = !$project.projectMetadata.name || deploying;
 </script>
 
 <div id="create">
@@ -270,7 +223,11 @@
 				{#if isReviewPanel}
 					<Button {disabled} on:click={$connectedAccount ? deployProject : () => walletConnect()}>
 						{#if $connectedAccount}
-							Deploy project to {readNetwork.name}
+							{#if deploying}
+								...
+							{:else}
+								Deploy project to {readNetwork.name}
+							{/if}
 						{:else}
 							Connect wallet to deploy
 						{/if}

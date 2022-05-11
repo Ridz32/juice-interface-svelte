@@ -40,6 +40,7 @@
 		]);
 		const metadata = await getProjectMetadata(cid);
 		$project.projectMetadata = metadata;
+		console.log('metadata: ', metadata);
 
 		/****/
 		[$project.fundingCycle, $project.fundingCycleMetadata] = await transactContract(
@@ -139,8 +140,6 @@
 		);
 
 		$project.projectOwnerAddress = ret;
-
-		console.log($project);
 
 		loading = false;
 	});
