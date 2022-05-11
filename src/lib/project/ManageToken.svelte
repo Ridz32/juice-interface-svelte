@@ -5,7 +5,8 @@
 	import Icon from '$lib/components/Icon.svelte';
 	import Trans from '$lib/components/Trans.svelte';
 	import Button from '$lib/components/Button.svelte';
-    import { closeModal } from '$lib/components/Modal.svelte';
+
+    export let close: () => void;
 
 	const project = getContext('PROJECT') as Store<V2ProjectContextType>;
 	// MOCK data for now
@@ -42,8 +43,7 @@
 	{/each}
 </main>
 <div class="buttons">
-    <!-- TODO why won't it close -->
-	<Button type="secondary" size="md" on:click={closeModal}>Cancel</Button>
+	<Button type="secondary" size="md" on:click={close}>Cancel</Button>
 </div>
 
 <style>

@@ -18,7 +18,6 @@ v1.3.0
 				props: {
 					...props,
 					...options.props,
-					closeModal,
 				}
 			});
 		};
@@ -278,7 +277,7 @@ v1.3.0
 	let onClosed = toVoid;
 
 	const open = (NewComponent, newProps = {}, options = {}, callback = {}) => {
-		Component = bind(NewComponent, newProps);
+		Component = bind(NewComponent, {...newProps, close });
 		state = { ...defaultState, ...options };
 		updateStyleTransition();
 		disableScroll();
