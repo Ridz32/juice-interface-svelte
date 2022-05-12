@@ -1,11 +1,21 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition';
+	import { createEventDispatcher } from 'svelte';
 
 	export let options: { [key: string]: any }[];
-
 	export let value = options[0].value;
-	$: selectedOption = options.find((option) => option.value === value);
+
 	let isOpen = false;
+
+	const dispatch = createEventDispatcher();
+
+	function selectedItem(optionValue) {
+		value = optionValue;
+		isOpen = false;
+        dispatch('select', { value });
+	}
+
+	$: selectedOption = options.find((option) => option.value === value);
 </script>
 
 <div class="custom-select">
@@ -23,10 +33,7 @@
 				<div
 					class="select-item"
 					class:active={option.value === value}
-					on:click={() => {
-						value = option.value;
-						isOpen = false;
-					}}
+					on:click={() => selectedItem(option.value)}
 				>
 					{option.label}
 				</div>
@@ -45,8 +52,8 @@
 	}
 
 	.dropdown {
-        position: absolute;
-        width: 100%;
+		position: absolute;
+		width: 100%;
 		margin-top: 1px;
 		background: var(--background-l0);
 		z-index: 900;
