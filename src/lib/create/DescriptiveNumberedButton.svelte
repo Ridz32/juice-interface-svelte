@@ -28,7 +28,7 @@
 	.icon {
 		align-self: center;
 		margin-left: auto;
-		fill: rgb(24, 180, 199);
+		fill: var(--text-action-primary);
 		width: 15px;
 		height: 15px;
 		/* padding-left: 20px; */
@@ -51,8 +51,8 @@
 		padding: 15px;
 		border-radius: 1px;
 		font-weight: 500;
-		color: rgb(24, 180, 199);
-		border-color: rgb(24, 180, 199);
+		color: var(--text-action-primary);
+		border-color: var(--text-action-primary);
 		border-style: solid;
 		border-width: 1px;
 		margin-bottom: 16px;
