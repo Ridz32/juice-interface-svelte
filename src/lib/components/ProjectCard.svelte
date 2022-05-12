@@ -31,17 +31,15 @@
 <li>
 	{#if loading}
 		<div class="loading">
-			{handle}
-			<Icon name="loading" spin={true} />
+			<Icon name="loading" spin />
 		</div>
-		<Icon name="loading" spin />
 	{:else}
 		<ProjectLogo uri={metadata.logoUri} size={110} />
 		<section>
 			<h1>{metadata.name}</h1>
 			<div>
 				<span class="handle">
-					@{project.handle}
+					Project {project.id}
 				</span>
 			</div>
 			<EthAmount amount={project.totalPaid} {precision} />
@@ -96,10 +94,10 @@
 		height: 110px;
 	}
 	.archived {
-		position: 'absolute';
+		position: absolute;
 		top: 0;
 		right: 0;
-		padding: '2px 4px';
+		padding: 2px 4px;
 		background: var(--background-l1);
 		font-size: 0.7rem;
 		color: var(--text-tertiary);
@@ -117,10 +115,12 @@
 		font-weight: 500;
 	}
 	.loading {
-		display: 'flex';
+		display: flex;
 		flex: 1;
-		justify-content: 'space-between';
-		align-items: 'center';
+		justify-content: center;
+		align-items: center;
+		color: var(--text-header);
+		transform: scale(2);
 	}
 	/* .version {
 		font-weight: 500;
