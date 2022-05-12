@@ -17,6 +17,7 @@
 	import Trans from '$lib/components/Trans.svelte';
 	import type { V2ProjectContextType } from '$models/project-type';
 	import Input from '$lib/components/Input.svelte';
+	import OwnerCrown from '$lib/components/OwnerCrown.svelte';
 
 	export let close: () => {};
 	let amount: number;
@@ -30,7 +31,7 @@
 	// MOCK Data
 	const totalFunds = '500'; // as formatted value
 	const fee = amountFromPercent({ percent: 2.5, amount: totalFunds });
-	const totalAfterFee = parseFloat(totalFunds) - fee
+	const totalAfterFee = parseFloat(totalFunds) - fee;
 
 	function getOwnerAmountPayoutSplits(summedSplitsPercent: number) {
 		const remainingPercent = 100 - summedSplitsPercent;
@@ -38,12 +39,12 @@
 	}
 
 	function setMax() {
-		console.log("TODO: setMax to available balance");
+		console.log('TODO: setMax to available balance');
 		amount = totalAfterFee;
 	}
 
 	function distributeFunds() {
-		console.log("TODO: distributeFunds");
+		console.log('TODO: distributeFunds');
 	}
 </script>
 
@@ -91,7 +92,7 @@
 		<SimpleSplits {split} />
 	{/each}
 	<InfoSpaceBetween>
-		<p slot="left">Project owner <Icon name="crown" />:</p>
+		<p slot="left">Project owner <OwnerCrown />:</p>
 		<p slot="right">
 			{100 - totalSplitPercentagePayoutSplits}%
 			{#if distributionLimitType === DistributionLimitType.Specific}

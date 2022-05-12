@@ -1,6 +1,8 @@
 <script lang="ts">
 	export let message: string;
 	export let placement: 'left' | 'right' | 'top' | 'bottom' = 'left';
+
+	// Potentially borrow calcualte function from here: https://github.com/vaheqelyan/svelte-popover/blob/master/src/Content.svelte
 </script>
 
 <div class="wrapper">

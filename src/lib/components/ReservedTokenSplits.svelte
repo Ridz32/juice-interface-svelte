@@ -13,6 +13,7 @@
 	import type { Split } from '$models/v2/splits';
 	import DistributeTokens from '$lib/project/DistributeTokens.svelte';
 	import { openModal } from './Modal.svelte';
+	import OwnerCrown from './OwnerCrown.svelte';
 
 	export let fundingCycleMetadata: V2FundingCycleMetadata;
 	export let reservedTokensSplits: Split[];
@@ -68,7 +69,7 @@
 {/each}
 <!-- TODO check if currentAccount is projectOwner -->
 <InfoSpaceBetween>
-	<p slot="left">Project owner {isCreatePreview ? '(you)' : ''} <Icon name="crown" />:</p>
+	<p slot="left">Project owner {isCreatePreview ? '(you)' : ''} <OwnerCrown />:</p>
 	<p slot="right">{100 - totalSplitPercentageTokenSplits}%</p>
 </InfoSpaceBetween>
 

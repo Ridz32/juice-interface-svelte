@@ -13,6 +13,7 @@
 	import { getDistributionLimitType } from '$utils/v2/distributions';
 	import { openModal } from '$lib/components/Modal.svelte';
 	import DistributeFunds from '$lib/project/DistributeFunds.svelte';
+	import OwnerCrown from './OwnerCrown.svelte';
 
 	export let currency: Currency = Currency.ETH;
 	export let distributionLimit: BigNumber = BigNumber.from(0);
@@ -82,13 +83,13 @@
 				{#await getEthBalance(projectOwnerAddress)}
 					<Icon name="loadng" spin />
 				{:then amount}
-					<p><small><Money {amount} precision={2} /> <Icon name="crown" /> owner balance</small></p>
+					<p><small><Money {amount} precision={2} /> <OwnerCrown /> owner balance</small></p>
 				{/await}
 			{:else}
 				<p>
 					<small
 						><Money amount={ownerBalance} precision={2} />
-						<Icon name="crown" /> owner balance</small
+						<OwnerCrown /> owner balance</small
 					>
 				</p>
 			{/if}
@@ -106,7 +107,7 @@
 </h4>
 {#if payoutSplits.length === 0}
 	<InfoSpaceBetween>
-		<p slot="left">Project owner {isCreatePreview ? '(you)' : ''} <Icon name="crown" />:</p>
+		<p slot="left">Project owner {isCreatePreview ? '(you)' : ''} <OwnerCrown /> :</p>
 		<p slot="right">
 			{#if distributionLimitType !== DistributionLimitType.Infinite}
 				100%
@@ -122,7 +123,7 @@
 {/each}
 {#if payoutSplits.length}
 	<InfoSpaceBetween>
-		<p slot="left">Project owner {isCreatePreview ? '(you)' : ''} <Icon name="crown" />:</p>
+		<p slot="left">Project owner {isCreatePreview ? '(you)' : ''} <OwnerCrown />:</p>
 		<p slot="right">
 			{100 - totalSplitPercentagePayoutSplits}%
 			{#if distributionLimitType === DistributionLimitType.Specific}

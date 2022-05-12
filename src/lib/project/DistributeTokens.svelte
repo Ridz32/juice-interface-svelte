@@ -9,10 +9,11 @@
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import SimpleSplits from '$lib/components/SimpleSplits.svelte';
 	import { formattedNum } from '$utils/formatNumber';
+	import OwnerCrown from '$lib/components/OwnerCrown.svelte';
 
 	export let close: () => {};
-    // TODO show the reserved amounts... could probably send 
-    // in the reserved amount to SimpleSplit as the distribution limit
+	// TODO show the reserved amounts... could probably send
+	// in the reserved amount to SimpleSplit as the distribution limit
 	const project = getContext('PROJECT') as Store<V2ProjectContextType>;
 	const reservedRate = $project.fundingCycleMetadata.reservedRate;
 	const totalSplitPercentageTokenSplits = getTotalSplitsPercentage(
@@ -42,7 +43,7 @@
 		{/each}
 	{/if}
 	<InfoSpaceBetween>
-		<p slot="left">Project owner <Icon name="crown" />:</p>
+		<p slot="left">Project owner <OwnerCrown />:</p>
 		<p slot="right">{100 - totalSplitPercentageTokenSplits}%</p>
 	</InfoSpaceBetween>
 	<div slot="footer">
