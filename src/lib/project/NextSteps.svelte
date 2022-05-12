@@ -6,7 +6,7 @@
 	import DescriptiveNumberedButton from '$lib/create/DescriptiveNumberedButton.svelte';
 	import Trans from '$lib/components/Trans.svelte';
 	import Button from '$lib/components/Button.svelte';
-	import Modal from '$lib/components/Modal.svelte';
+	import Modal, { bind } from '$lib/components/Modal.svelte';
 	import IssueErc20 from './IssueERC20.svelte';
 
 	export let close: () => void;
@@ -33,7 +33,11 @@
 			description:
 				'Create your own ERC-20 token to represent stake in your project. Contributors will receive these tokens when they pay your project.',
 			onClick: () => {
-				currentSubModal = IssueErc20;
+				currentSubModal = bind(IssueErc20, {
+					onSuccess: () => {
+						done[NextOptions.erc20] = true;
+					}
+				});
 			}
 		},
 		{
@@ -69,7 +73,12 @@
 		</Trans>
 	</p>
 	{#each buttons as button, number}
-		<DescriptiveNumberedButton {...button} number={number + 1} visited={done[button.id]} />
+		<DescriptiveNumberedButton
+			{...button}
+			number={number + 1}
+			visited={done[button.id]}
+			disabled={done[button.id]}
+		/>
 	{/each}
 
 	<div class="right">
