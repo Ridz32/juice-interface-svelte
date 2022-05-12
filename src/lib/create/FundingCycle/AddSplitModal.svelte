@@ -6,7 +6,6 @@
 	import FormField from '$lib/components/FormField.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
 	import Icon from '$lib/components/Icon.svelte';
-	import Select from '$lib/components/Select.svelte';
 	import Range from '$lib/components/Range.svelte';
 	import CurrencyInput from '$lib/components/CurrencyInput.svelte';
 	import type { Split } from '$models/v2/splits';
@@ -260,6 +259,7 @@
 	section {
 		margin: 40px 0;
 		color: var(--text-primary);
+		max-width: 500px;
 	}
 	label {
 		display: block;
