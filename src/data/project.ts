@@ -12,7 +12,7 @@ import {
 } from '$utils/graph';
 import type { ProjectState } from '$models/project-visibility';
 
-import type { Project, TrendingProject } from '$models/subgraph-entities/project';
+import type { Project, TrendingProject } from '$models/subgraph-entities/vX/project';
 
 // TODO don't hardcode this here, use the utils/ipfs after issue with @pinata/sdk has been solved
 import { IPFS_GATEWAY_HOSTNAME } from '$constants/ipfs';

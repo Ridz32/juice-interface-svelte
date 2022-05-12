@@ -14,20 +14,20 @@ import {
 	parseParticipantJson,
 	type Participant,
 	type ParticipantJson
-} from '$models/subgraph-entities/participant';
+} from '$models/subgraph-entities/vX/participant';
 import {
 	parsePayEventJson,
 	type PayEvent,
 	type PayEventJson
-} from '$models/subgraph-entities/pay-event';
+} from '$models/subgraph-entities/vX/pay-event';
 import { parsePrintPremineEventJson } from '$models/subgraph-entities/print-premine-event';
 import {
 	parsePrintReservesEventJson,
 	type PrintReservesEvent,
 	type PrintReservesEventJson
 } from '$models/subgraph-entities/print-reserves-event';
-import { parseProjectJson, type Project } from '$models/subgraph-entities/project';
-import type { ProjectJson } from '$models/subgraph-entities/project';
+import { parseProjectJson, type Project } from '$models/subgraph-entities/vX/project';
+import type { ProjectJson } from '$models/subgraph-entities/vX/project';
 import {
 	parseRedeemEventJson,
 	type RedeemEvent,
