@@ -18,43 +18,49 @@
 	import ProjectsSearchResults from '$lib/projects/ProjectsSearchResults.svelte';
 </script>
 
-<section
-	class="ant-layout"
-	style="display: flex; flex-direction: column; height: 100%; background: transparent;"
->
-	<div class="ant-layout-content">
-		<div style="max-width: 1080px; margin: 0px auto; padding: 20px;">
-			<ProjectsInfo />
-			<ProjectsSearch />
-			{#if $hasSearched}
-				<ProjectsSearchResults
-					projects={$searchResults}
-					loading={$isSearching}
-					searchText={$searchText}
-				/>
-			{:else}
-				<div class="controls">
-					<ProjectsTabs />
-					{#if $selectedProjectsTab === 'all'}
-						<ProjectsFilterAndSort />
-					{/if}
-				</div>
-
-				{#if $selectedProjectsTab === 'trending'}
-					<TrendingProjects />
-				{:else if $selectedProjectsTab === 'holdings'}
-					<HoldingsProjects />
-				{:else if $selectedProjectsTab === 'myprojects'}
-					<MyProjects />
-				{:else if $selectedProjectsTab === 'all'}
-					<AllProjects />
-				{/if}
+<section id="projects">
+	<ProjectsInfo />
+	<ProjectsSearch />
+	{#if $hasSearched}
+		<ProjectsSearchResults
+			projects={$searchResults}
+			loading={$isSearching}
+			searchText={$searchText}
+		/>
+	{:else}
+		<div class="controls">
+			<ProjectsTabs />
+			{#if $selectedProjectsTab === 'all'}
+				<ProjectsFilterAndSort />
 			{/if}
 		</div>
-	</div>
+
+		{#if $selectedProjectsTab === 'trending'}
+			<TrendingProjects />
+		{:else if $selectedProjectsTab === 'holdings'}
+			<HoldingsProjects />
+		{:else if $selectedProjectsTab === 'myprojects'}
+			<MyProjects />
+		{:else if $selectedProjectsTab === 'all'}
+			<AllProjects />
+		{/if}
+	{/if}
 </section>
 
 <style>
+	:global(#projects .loading) {
+		position: absolute;
+		left: 0;
+		text-align: center;
+		transform: scale(2);
+		width: 100vw;
+		margin-top: 4rem;
+	}
+
+	section {
+		max-width: 1000px;
+		margin: auto;
+	}
 	.controls {
 		display: flex;
 		justify-content: space-between;
