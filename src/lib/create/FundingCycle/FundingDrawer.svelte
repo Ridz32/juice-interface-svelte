@@ -108,12 +108,16 @@
 			A <b>discount rate</b> to automatically reduce the issuance rate of your project's token (tokens/ETH)
 			each new funding cycle.
 		</li>
-		<li>
-			Restrict how the owner can reconfigure upcoming funding cycles to mitigate abuse of power. <a
-				href="/">Learn more</a
-			>.
-		</li>
 	</ol>
+	<AlertText>
+		With no funding cycles, the project's owner can start a new funding cycle (Funding Cycle #2)
+		on-demand.
+		<a
+			href="https://info.juicebox.money/docs/protocol/learn/risks"
+			target="_blank"
+			rel="noopener noreferrer">Learn more.</a
+		>
+	</AlertText>
 	{#if fundingCyclesActive}
 		<Input bind:value={duration} />
 	{/if}
