@@ -38,6 +38,7 @@
 </HeavyBorderBox>
 <HeavyBorderBox>
 	<PayoutSplits
+		isPreview
 		currency={$project.distributionLimitCurrency}
 		payoutSplits={$project.payoutSplits}
 		distributionLimit={$project.distributionLimit}
@@ -45,6 +46,7 @@
 </HeavyBorderBox>
 <HeavyBorderBox>
 	<ReservedTokenSplits
+		isPreview
 		fundingCycleMetadata={$project.fundingCycleMetadata}
 		reservedTokensSplits={$project.reservedTokensSplits}
 	/>

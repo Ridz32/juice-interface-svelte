@@ -19,7 +19,7 @@
 	export let distributionLimit: BigNumber = BigNumber.from(0);
 	export let payoutSplits: Split[];
 	// TODO: remove this when create has correct formatted amounts
-	export let isCreatePreview: boolean = false;
+	export let isPreview: boolean = false;
 
 	export let balanceInDistributionLimitCurrency: BigNumber | undefined = undefined;
 	export let usedDistributionLimit: BigNumber | undefined = undefined;
@@ -96,7 +96,7 @@
 		</div>
 		<!-- TODO check when this is supposed to be disabled and not -->
 		<div slot="right">
-			<button on:click={() => openModal(DistributeFunds)}>Distribute funds</button>
+			<button on:click={() => openModal(DistributeFunds)} disabled={isPreview}>Distribute funds</button>
 		</div>
 	</InfoSpaceBetween>
 {/if}
@@ -107,7 +107,7 @@
 </h4>
 {#if payoutSplits.length === 0}
 	<InfoSpaceBetween>
-		<p slot="left">Project owner {isCreatePreview ? '(you)' : ''} <OwnerCrown /> :</p>
+		<p slot="left">Project owner {isPreview ? '(you)' : ''} <OwnerCrown /> :</p>
 		<p slot="right">
 			{#if distributionLimitType !== DistributionLimitType.Infinite}
 				100%
@@ -123,7 +123,7 @@
 {/each}
 {#if payoutSplits.length}
 	<InfoSpaceBetween>
-		<p slot="left">Project owner {isCreatePreview ? '(you)' : ''} <OwnerCrown />:</p>
+		<p slot="left">Project owner {isPreview ? '(you)' : ''} <OwnerCrown />:</p>
 		<p slot="right">
 			{100 - totalSplitPercentagePayoutSplits}%
 			{#if distributionLimitType === DistributionLimitType.Specific}

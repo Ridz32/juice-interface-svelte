@@ -17,7 +17,7 @@
 
 	export let fundingCycleMetadata: V2FundingCycleMetadata;
 	export let reservedTokensSplits: Split[];
-	export let isCreatePreview = false;
+	export let isPreview = false;
 
 	export let tokenSymbol: string | undefined = undefined;
 	export let tokenAddress: string | undefined = undefined;
@@ -46,7 +46,7 @@
 			</div>
 		</div>
 		<div slot="right">
-			<button on:click={() => openModal(DistributeTokens)}
+			<button disabled={isPreview} on:click={() => openModal(DistributeTokens)}
 				>Distribute {tokenSymbol || 'tokens'}</button
 			>
 		</div>
@@ -69,7 +69,7 @@
 {/each}
 <!-- TODO check if currentAccount is projectOwner -->
 <InfoSpaceBetween>
-	<p slot="left">Project owner {isCreatePreview ? '(you)' : ''} <OwnerCrown />:</p>
+	<p slot="left">Project owner {isPreview ? '(you)' : ''} <OwnerCrown />:</p>
 	<p slot="right">{100 - totalSplitPercentageTokenSplits}%</p>
 </InfoSpaceBetween>
 
