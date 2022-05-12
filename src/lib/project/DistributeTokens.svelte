@@ -23,7 +23,7 @@
 
 	const reservedAmount = 5500;
 
-	// TODO write for distributing funds
+	// TODO contract write for distributing funds
 	function distributeFunds() {
 		console.log('TODO: distributeFunds');
 	}

@@ -381,9 +381,13 @@ v1.3.0
 	};
 
 	const enableScroll = () => {
-		document.body.style.position = prevBodyPosition || '';
+		// NOTE we're not using `prevBodyPosition` here because
+		// we have a couple of nested modals, so the previous 
+		// state can be fixed and overflow hidden. Fix this
+		// in the future, for now just unset.
+		document.body.style.position = '';
+		document.body.style.overflow = '';
 		document.body.style.top = '';
-		document.body.style.overflow = prevBodyOverflow || '';
 		document.body.style.width = prevBodyWidth || '';
 		window.scrollTo(0, scrollY);
 	};
