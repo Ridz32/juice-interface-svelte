@@ -280,7 +280,7 @@
 
 	@media (max-width: 850px) {
 		#create {
-			padding: 20px 20px 80px;
+			padding: 40px 20px 80px;
 		}
 		.row {
 			flex-flow: row wrap;
