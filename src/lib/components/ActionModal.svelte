@@ -22,7 +22,7 @@
 		margin-bottom: 40px;
 	}
     main {
-        width: 450px;
+        max-width: 450px;
     }
 	footer {
         margin-top: 40px;
