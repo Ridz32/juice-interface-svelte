@@ -30,7 +30,7 @@ interface ProjectsOptions {
 	pageNumber?: number;
 	projectId?: BigNumber;
 	handle?: string;
-	uri?: string;
+	metadataUri?: string;
 	orderBy?: 'createdAt' | 'currentBalance' | 'totalPaid';
 	orderDirection?: 'asc' | 'desc';
 	pageSize?: number;
@@ -42,9 +42,9 @@ interface ProjectsOptions {
 const keys: (keyof Project)[] = [
 	'id',
 	'handle',
-	'creator',
+	'owner',
 	'createdAt',
-	'uri',
+	'metadataUri',
 	'currentBalance',
 	'totalPaid',
 	'totalRedeemed',
@@ -96,12 +96,12 @@ export function getProjectsByHandle(handle: string | undefined) {
 	);
 }
 
-export async function getProjectMetadata(uri: string | undefined) {
-	if (!uri) {
-		console.error('No uri provided');
+export async function getProjectMetadata(metadataUri: string | undefined) {
+	if (!metadataUri) {
+		console.error('No metadataUri provided');
 		return;
 	}
-	const url = ipfsCidUrl(uri);
+	const url = ipfsCidUrl(metadataUri);
 	const response = await axios.get(url);
 	return consolidateMetadata(response.data);
 }
@@ -197,7 +197,7 @@ export async function myProjectsQuery(wallet: string | undefined) {
 					entity: 'project',
 					keys,
 					where: {
-						key: 'creator',
+						key: 'owner',
 						operator: 'in',
 						value: [wallet]
 					}
