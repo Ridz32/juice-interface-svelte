@@ -501,7 +501,6 @@ v1.3.0
 		max-width: 100%;
 		max-height: 100%;
 		margin: 2rem auto;
-		color: black;
 		background: var(--background-l0);
 	}
 
@@ -535,7 +534,7 @@ v1.3.0
 		top: 50%;
 		width: 1rem;
 		height: 1px;
-		background: black;
+		background: var(--text-primary);
 		transform-origin: center;
 		transition: height 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),
 			background 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
