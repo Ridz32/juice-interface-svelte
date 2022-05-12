@@ -1,23 +1,38 @@
 <script lang="ts">
-	export let options: any = undefined;
+	import { slide } from 'svelte/transition';
+
+	export let options: { [key: string]: any }[];
 
 	export let value = options[0].value;
-	let selectedOption: any = options.find((option) => option.value === value);
-	let isOpen = true;
+	$: selectedOption = options.find((option) => option.value === value);
+	let isOpen = false;
 </script>
 
 <div class="custom-select">
-	<div class="select-selected">
+	<div
+		class="select-selected"
+		on:click={() => {
+			isOpen = !isOpen;
+		}}
+	>
 		{selectedOption.label}
 	</div>
-	<div class="dropdown" class:hidden={!isOpen}>
-		{#each options as option}
-			<div class="select-item" class:active={option.value === value}>
-				{option.label}
-			</div>
-		{/each}
-	</div>
-
+	{#if isOpen}
+		<div class="dropdown" transition:slide={{ duration: 300 }}>
+			{#each options as option}
+				<div
+					class="select-item"
+					class:active={option.value === value}
+					on:click={() => {
+						value = option.value;
+						isOpen = false;
+					}}
+				>
+					{option.label}
+				</div>
+			{/each}
+		</div>
+	{/if}
 </div>
 
 <style>
@@ -30,7 +45,9 @@
 	}
 
 	.dropdown {
-        margin-top: 1px;
+        position: absolute;
+        width: 100%;
+		margin-top: 1px;
 		background: var(--background-l0);
 		z-index: 900;
 		box-shadow: 0 3px 6px -4px rgb(0 0 0 / 12%), 0 6px 16px 0 rgb(0 0 0 / 8%),
@@ -42,10 +59,11 @@
 		cursor: pointer;
 	}
 
-    .active {
-        font-weight: 600px;
-    }
-	.active, .select-item:hover {
+	.active {
+		font-weight: 600px;
+	}
+	.active,
+	.select-item:hover {
 		background: var(--background-l2);
 	}
 
@@ -62,7 +80,7 @@
 		width: 0;
 		height: 0;
 		border: 6px solid transparent;
-		border-color: #fff transparent transparent transparent;
+		border-color: var(--text-primary) transparent transparent transparent;
 	}
 
 	.select-selected {
@@ -72,10 +90,5 @@
 		border: 1px solid transparent;
 		border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
 		cursor: pointer;
-	}
-
-	/* Hide the items when the select box is closed: */
-	.hidden {
-		display: none;
 	}
 </style>

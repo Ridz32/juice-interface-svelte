@@ -17,6 +17,7 @@
 	import type { Split } from '$models/v2/splits';
 	import { getDistributionLimitType, getTotalSplitsPercentage } from '$utils/v2/distributions';
 	import { formatWad } from '$utils/formatNumber';
+	import Dropdown from '$lib/components/Dropdown.svelte';
 
 	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
 
@@ -137,11 +138,23 @@
 		<a href="/">Learn more</a> about overflow.
 	</p>
 	<label for="distributionLimit">Distribution limit</label>
-	<select id="distributionLimit" bind:value={distributionLimitType}>
-		<option value={DistributionLimitType.None}>Zero, no funds can be distributed</option>
-		<option value={DistributionLimitType.Infinite}>No limit (infinite)</option>
-		<option value={DistributionLimitType.Specific}>Specific target</option>
-	</select>
+	<Dropdown
+		bind:value={distributionLimitType}
+		options={[
+			{
+				label: 'Zero, no funds can be distributed',
+				value: DistributionLimitType.None
+			},
+			{
+				label: 'No limit (infinite)',
+				value: DistributionLimitType.Infinite
+			},
+			{
+				label: 'Specific limit',
+				value: DistributionLimitType.Specific
+			}
+		]}
+	/>
 	<br />
 	{#if distributionLimitType === DistributionLimitType.Specific}
 		<CurrencyInput
