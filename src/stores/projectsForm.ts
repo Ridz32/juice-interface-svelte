@@ -15,5 +15,6 @@ export const searchFilter = new Store<{ filterType: ProjectSearchFilter; selecte
 ]);
 export const searchText = new Store<string>('');
 export const searchResults = new Store<Project[]>([]);
+export const scrollTarget = new Store<HTMLElement | null>(null);
 export const hasSearched = new Store<boolean>(false);
 export const isSearching = new Store<boolean>(false);

@@ -7,12 +7,13 @@
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import InfiniteScroll from '$lib/components/InfiniteScroll.svelte';
+	import { scrollTarget } from '$stores/projectsForm';
 
 	let loading = false;
 	let pageNumber = 0;
 	let projects: Project[] | undefined = [];
 	let newBatch: Project[] | undefined = [];
-	let scrollTarget: HTMLElement;
+	// let scrollTarget: HTMLElement;
 
 	const showArchived = false;
 	const pageSize = 10;
@@ -42,41 +43,31 @@
 	$: projects = [...projects, ...newBatch];
 </script>
 
-<main bind:this={scrollTarget}>
-	<section>
-		{#if !projects.length && loading}
-			<div class="loading">
-				<Icon name="loading" spin />
-			</div>
-		{/if}
-		{#each projects as project}
-			<ProjectCard {project} />
-		{/each}
-		<InfiniteScroll
-			elementScroll={scrollTarget}
-			hasMore={!!newBatch.length}
-			threshold={100}
-			on:loadMore={() => {
-				pageNumber += 1;
-				fetchData();
-			}}
-		/>
-	</section>
-</main>
+<section>
+	{#if !projects.length && loading}
+		<div class="loading">
+			<Icon name="loading" spin />
+		</div>
+	{/if}
+	{#each projects as project}
+		<ProjectCard {project} />
+	{/each}
+	<InfiniteScroll
+		elementScroll={$scrollTarget}
+		hasMore={!!newBatch.length}
+		threshold={100}
+		on:loadMore={() => {
+			pageNumber += 1;
+			fetchData();
+		}}
+	/>
+</section>
 
 <style>
-	main {
-		max-height: 80vh;
-		overflow-y: scroll;
-		position: absolute;
-		left: 0;
-		width: 100vw;
-	}
 	section {
 		margin: auto;
 		display: grid;
 		max-width: 1000px;
-		padding: 0 20px;
 		grid-column-gap: 20px;
 		grid-row-gap: 12px;
 		grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));

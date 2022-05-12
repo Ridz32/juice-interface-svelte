@@ -9,6 +9,7 @@
 
 	import {
 		selectedProjectsTab,
+		scrollTarget,
 		hasSearched,
 		searchResults,
 		isSearching,
@@ -18,34 +19,36 @@
 	import ProjectsSearchResults from '$lib/projects/ProjectsSearchResults.svelte';
 </script>
 
-<section id="projects">
-	<ProjectsInfo />
-	<ProjectsSearch />
-	{#if $hasSearched}
-		<ProjectsSearchResults
-			projects={$searchResults}
-			loading={$isSearching}
-			searchText={$searchText}
-		/>
-	{:else}
-		<div class="controls">
-			<ProjectsTabs />
-			{#if $selectedProjectsTab === 'all'}
-				<ProjectsFilterAndSort />
-			{/if}
-		</div>
+<div bind:this={$scrollTarget} class="wrapper">
+	<section id="projects">
+		<ProjectsInfo />
+		<ProjectsSearch />
+		{#if $hasSearched}
+			<ProjectsSearchResults
+				projects={$searchResults}
+				loading={$isSearching}
+				searchText={$searchText}
+			/>
+		{:else}
+			<div class="controls">
+				<ProjectsTabs />
+				{#if $selectedProjectsTab === 'all'}
+					<ProjectsFilterAndSort />
+				{/if}
+			</div>
 
-		{#if $selectedProjectsTab === 'trending'}
-			<TrendingProjects />
-		{:else if $selectedProjectsTab === 'holdings'}
-			<HoldingsProjects />
-		{:else if $selectedProjectsTab === 'myprojects'}
-			<MyProjects />
-		{:else if $selectedProjectsTab === 'all'}
-			<AllProjects />
+			{#if $selectedProjectsTab === 'trending'}
+				<TrendingProjects />
+			{:else if $selectedProjectsTab === 'holdings'}
+				<HoldingsProjects />
+			{:else if $selectedProjectsTab === 'myprojects'}
+				<MyProjects />
+			{:else if $selectedProjectsTab === 'all'}
+				<AllProjects />
+			{/if}
 		{/if}
-	{/if}
-</section>
+	</section>
+</div>
 
 <style>
 	:global(#projects .loading) {
@@ -69,5 +72,11 @@
 		flex-wrap: wrap;
 		max-width: 100vw;
 		height: 80px;
+		position: relative;
+	}
+
+	.wrapper {
+		height: 100vh;
+		overflow-y: scroll;
 	}
 </style>
