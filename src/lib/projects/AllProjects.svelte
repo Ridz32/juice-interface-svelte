@@ -61,7 +61,6 @@
 		}}
 	/>
 </section>
-<Button type="link">Load more</Button>
 
 <style>
 	section {
