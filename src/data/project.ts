@@ -269,3 +269,44 @@ export function infiniteProjectsQuery(opts: ProjectsOptions) {
 		queryOpts(opts) as InfiniteGraphQueryOpts<'project', EntityKeys<'project'>>
 	);
 }
+
+export async function getTrendingProjects(days: number, count: number) {
+    console.info('Loading trending cache')
+    const cache = await getIpfsCache(IpfsCacheName.trending, { ttl: 12, deserialize: data => data.map(parseTrendingProjectJson) });
+
+    if (cache && cache.length >= count) {
+        console.info('Using trending cache')
+        return cache.slice(0, count);
+    }
+
+    console.info('Trending cache missing or expired')
+
+    const payments = await getLatestPayments(days);
+    const projectStats = getProjectStatsFromPayments(payments);
+    // Now get the project data for all the projectStats
+    const projectsQuery = await getProjectsFromIds(Object.keys(projectStats));
+    const trendingProjects = getTrendingProjectsFromProjectsAndStats(projectsQuery, projectStats).slice(
+        0,
+        count
+    );
+
+    if (trendingProjects.length) {
+        // Update the cache
+        const serialized = trendingProjects.map(p =>
+            Object.entries(p).reduce(
+                (acc, [key, val]) => ({
+                    ...acc,
+                    // Serialize all BigNumbers to strings
+                    [key]: BigNumber.isBigNumber(val) ? val.toString() : val,
+                }),
+                {} as TrendingProjectJson,
+            ),
+        )
+        console.log(serialized)
+        uploadIpfsJsonCache(IpfsCacheName.trending, serialized).then(() => {
+            console.info("Uploaded new trending cache")
+        });
+    }
+
+    return trendingProjects;
+}
