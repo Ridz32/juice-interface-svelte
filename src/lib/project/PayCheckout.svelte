@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Input from '$lib/components/Input.svelte';
+	import { closeModal } from '$lib/components/Modal.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
 	import Trans from '$lib/components/Trans.svelte';
 
@@ -53,11 +54,19 @@
 		<p>Custom token beneficiary</p>
 		<Toggle bind:checked />
 	</div>
-    <small>Mint tokes to a custom address.</small>
+	<small>Mint tokes to a custom address.</small>
+
+	<div class="ant-modal-footer" style="margin-top: 1rem">
+		<button type="button" class="ant-btn" on:click={closeModal}>
+			<span>Close</span>
+		</button>
+		<button type="button" class="ant-btn ant-btn-primary"><span>Pay</span></button>
+	</div>
 </main>
 
 <style>
-	h3, h4 {
+	h3,
+	h4 {
 		color: var(--text-header);
 	}
 	main {

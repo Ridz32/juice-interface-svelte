@@ -18,7 +18,7 @@ v1.3.0
 				props: {
 					...props,
 					...options.props,
-					closeModal,
+					closeModal
 				}
 			});
 		};
@@ -42,13 +42,11 @@ v1.3.0
 </script>
 
 <script>
-	import * as svelte from 'svelte';
+	import { onDestroy, onMount, setContext as baseSetContext } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
-
-	const baseSetContext = svelte.setContext;
 
 	/**
 	 * Svelte component to be shown as the modal
@@ -403,11 +401,11 @@ v1.3.0
 		}
 	}
 
-	svelte.onDestroy(() => {
+	onDestroy(() => {
 		if (isMounted) close();
 	});
 
-	svelte.onMount(() => {
+	onMount(() => {
 		isMounted = true;
 	});
 </script>

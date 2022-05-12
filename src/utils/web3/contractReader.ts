@@ -39,7 +39,8 @@ export async function transactContract(
 	contractName: V2ContractName,
 	functionName: string,
 	args: Any[],
-	prompt = false
+	prompt = false,
+	opts = {}
 ): Promise<any> {
 	const _provider = provider.get();
 	const contract = new ethers.Contract(
@@ -48,7 +49,7 @@ export async function transactContract(
 		_provider.getSigner()
 	);
 	if (prompt) {
-		return await contract[functionName](...args);
+		return await contract[functionName](...args, opts);
 	} else {
 		return await contract.functions[functionName](...args);
 	}
