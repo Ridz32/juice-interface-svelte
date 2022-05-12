@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Icon from '$lib/components/Icon.svelte';
-	import type { TrendingProject } from '$models/subgraph-entities/project';
+	import type { TrendingProject } from '$models/subgraph-entities/vX/project';
 	import TrendingProjectsCard from '$lib/components/TrendingProjectsCard.svelte';
 	import Trans from '$lib/components/Trans.svelte';
+import { trendingProjectsQuery } from '$data/project';
 
 	export let days = 7;
 	export let count = 6;
@@ -12,7 +13,7 @@
 	let trendingProjectsLoading = true;
 
 	onMount(async () => {
-		trendingProjects = [];
+		trendingProjects = await trendingProjectsQuery(6, 7);
 		trendingProjectsLoading = false;
 	});
 </script>
