@@ -3,7 +3,6 @@
 	import { getContext, onMount } from 'svelte';
 	import { modal } from '$stores';
 	import * as constants from '@ethersproject/constants';
-	import DropDown from './DropDown.svelte';
 	import type Store from '$utils/Store';
 	import { connectedAccount } from '$stores/web3';
 	import { tokenSymbolText } from '$utils/tokenSymbolText';
