@@ -36,9 +36,9 @@
 </script>
 
 <InfoBox
-	info={`Funding Cycle #1 will start immediately after you deploy your project. Once deployed, <b>Funding Cycle #1 can't be reconfigured.</b>
+	info={`The configs below can be edited on a per-cycle basis. <br><br> Funding Cycle #1 will start immediately after you deploy your project. Once deployed, <b>Funding Cycle #1 can't be reconfigured.</b>
 <br><br>
-You can reconfigure your project's funding cycles later on, and changes will take effect in the next funding cycle (Funding Cycle #2).`}
+You can reconfigure your project's next funding cycle (Funding Cycle #2) at any time within the bounds of the rules set below.`}
 />
 
 <section class="buttons">

@@ -6,17 +6,20 @@
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
 	import { Currency, DistributionLimitType } from '$constants';
-	import Money from './Money.svelte';
-	import SimpleSplits from './SimpleSplits.svelte';
+	import Money from '$lib/components/Money.svelte';
+	import SimpleSplits from '$lib/components/SimpleSplits.svelte';
 	import type { Split } from '$models/v2/splits';
 	import { getEthBalance } from '$data/eth';
 	import { getDistributionLimitType } from '$utils/v2/distributions';
+	import { openModal } from '$lib/components/Modal.svelte';
+	import DistributeFunds from '$lib/project/DistributeFunds.svelte';
+	import OwnerCrown from './OwnerCrown.svelte';
 
 	export let currency: Currency = Currency.ETH;
 	export let distributionLimit: BigNumber = BigNumber.from(0);
 	export let payoutSplits: Split[];
 	// TODO: remove this when create has correct formatted amounts
-	export let isCreatePreview: boolean = false;
+	export let isPreview: boolean = false;
 
 	export let balanceInDistributionLimitCurrency: BigNumber | undefined = undefined;
 	export let usedDistributionLimit: BigNumber | undefined = undefined;
@@ -80,18 +83,21 @@
 				{#await getEthBalance(projectOwnerAddress)}
 					<Icon name="loadng" spin />
 				{:then amount}
-					<p><small><Money {amount} precision={2} /> <Icon name="crown" /> owner balance</small></p>
+					<p><small><Money {amount} precision={2} /> <OwnerCrown /> owner balance</small></p>
 				{/await}
 			{:else}
 				<p>
 					<small
 						><Money amount={ownerBalance} precision={2} />
-						<Icon name="crown" /> owner balance</small
+						<OwnerCrown /> owner balance</small
 					>
 				</p>
 			{/if}
 		</div>
-		<div slot="right"><button disabled={true}>Distribute funds</button></div>
+		<!-- TODO check when this is supposed to be disabled and not -->
+		<div slot="right">
+			<button on:click={() => openModal(DistributeFunds)} disabled={isPreview}>Distribute funds</button>
+		</div>
 	</InfoSpaceBetween>
 {/if}
 <h4>
@@ -101,7 +107,7 @@
 </h4>
 {#if payoutSplits.length === 0}
 	<InfoSpaceBetween>
-		<p slot="left">Project owner {isCreatePreview ? '(you)' : ''} <Icon name="crown" />:</p>
+		<p slot="left">Project owner {isPreview ? '(you)' : ''} <OwnerCrown /> :</p>
 		<p slot="right">
 			{#if distributionLimitType !== DistributionLimitType.Infinite}
 				100%
@@ -113,16 +119,11 @@
 	</InfoSpaceBetween>
 {/if}
 {#each payoutSplits as split}
-	<SimpleSplits
-		{split}
-		{distributionLimitType}
-		{distributionLimit}
-		{currency}
-	/>
+	<SimpleSplits {split} {distributionLimitType} {distributionLimit} {currency} />
 {/each}
 {#if payoutSplits.length}
 	<InfoSpaceBetween>
-		<p slot="left">Project owner {isCreatePreview ? '(you)' : ''} <Icon name="crown" />:</p>
+		<p slot="left">Project owner {isPreview ? '(you)' : ''} <OwnerCrown />:</p>
 		<p slot="right">
 			{100 - totalSplitPercentagePayoutSplits}%
 			{#if distributionLimitType === DistributionLimitType.Specific}
@@ -141,6 +142,7 @@
 		background: transparent;
 		border: 1px solid var(--stroke-disabled);
 		color: var(--text-disabled);
+		cursor: pointer;
 	}
 	div[slot='left'] {
 		display: flex;

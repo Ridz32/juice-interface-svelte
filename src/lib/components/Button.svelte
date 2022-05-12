@@ -15,9 +15,10 @@
 		| 'link'
 		| 'dark' = 'primary';
 	export let loading = false;
+	export let buttonProps: any = {};
 </script>
 
-<button class={`${size} ${type}`} disabled={disabled || loading} on:click
+<button class={`${size} ${type}`} disabled={disabled || loading} {...buttonProps} on:click
 	><slot />
 	{#if loading}
 		<Icon name="loading" spin />
@@ -66,7 +67,12 @@
 	.secondary {
 		background: transparent;
 		color: var(--background-action-primary);
+		border: 1px solid var(--background-action-secondary);
+	}
+
+	.secondary:hover {
 		border: 1px solid var(--background-action-primary);
+		transition: all 0.5s ease-in-out;
 	}
 
 	.tertiary {

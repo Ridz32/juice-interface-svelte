@@ -23,7 +23,7 @@
 		viewBox="64 64 896 896"
 		focusable="false"
 		aria-hidden="true"
-		style={`transform: rotate(${rotation}deg)`}
+		style={rotation !== 0 && `transform: rotate(${rotation}deg)`}
 	>
 		>
 		{#each paths as path}
@@ -103,8 +103,7 @@
 
 <style>
 	svg {
-		/* width: 1em;
-    height: 1em; */
+		z-index: 0;
 		fill: currentColor;
 		transition: all 0.3s ease-out;
 		overflow: visible;

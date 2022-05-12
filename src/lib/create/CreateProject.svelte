@@ -24,6 +24,7 @@
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import { fromWad } from '$utils/formatNumber';
 	import { V2_CURRENCY_ETH } from '$utils/v2/currency';
+	import FinalPreview from './FinalPreview.svelte';
 
 	let project = new Store<V2ProjectContextType>();
 	// Populate project with default data
@@ -205,22 +206,9 @@
 			<Tab id="review" onClick={checkReview}>3. Review and deploy</Tab>
 		</TabList>
 		<div class="row">
-			<section class={isReviewPanel && 'collapse'}>
-				<TabPanel>
-					<ProjectDetails />
-					<Button on:click={() => onClick('funding')}>Next: Funding cycle</Button>
-				</TabPanel>
-				<TabPanel>
-					<FundingCycle />
-					<Button on:click={() => onClick('review')}>Next: Review and deploy</Button>
-				</TabPanel>
-			</section>
-			<section class:full={isReviewPanel}>
-				{#if isReviewPanel}
-					<h2>Review project configuration</h2>
-				{/if}
-				<Preview />
-				{#if isReviewPanel}
+			{#if isReviewPanel}
+				<main>
+					<FinalPreview />
 					<Button {disabled} on:click={$connectedAccount ? deployProject : () => walletConnect()}>
 						{#if $connectedAccount}
 							{#if deploying}
@@ -232,8 +220,22 @@
 							Connect wallet to deploy
 						{/if}
 					</Button>
-				{/if}
-			</section>
+				</main>
+			{:else}
+				<section>
+					<TabPanel>
+						<ProjectDetails />
+						<Button on:click={() => onClick('funding')}>Next: Funding cycle</Button>
+					</TabPanel>
+					<TabPanel>
+						<FundingCycle />
+						<Button on:click={() => onClick('review')}>Next: Review and deploy</Button>
+					</TabPanel>
+				</section>
+				<section>
+					<Preview />
+				</section>
+			{/if}
 		</div>
 	</Tabs>
 </div>
@@ -268,9 +270,6 @@
 		flex: 0 0 42%;
 		max-width: 42%;
 	}
-	section:first-of-type.collapse {
-		display: none;
-	}
 
 	section:last-of-type {
 		flex: 0 0 56%;
@@ -279,14 +278,9 @@
 		border-left: 1px solid rgba(0, 0, 0, 0.094);
 	}
 
-	section:last-of-type.full {
-		border-left: none;
-		margin: 0 auto;
-	}
-
 	@media (max-width: 850px) {
 		#create {
-			padding: 20px 20px 80px;
+			padding: 40px 20px 80px;
 		}
 		.row {
 			flex-flow: row wrap;

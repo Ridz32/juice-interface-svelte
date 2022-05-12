@@ -1,6 +1,8 @@
 <script lang="ts">
+	import Input from './Input.svelte';
+
 	export let field: FormField;
-	export let value: any = "";
+	export let value: any = '';
 
 	interface FormField {
 		id: string;
@@ -21,24 +23,19 @@
 	{#if field.props?.required}<small>*</small>{/if}
 	{field.label}
 </label>
-<div class="input-container">
-	{#if field.prefix} <div class="prefix">{field.prefix}</div> {/if}
-	{#if field.type === 'input' || !field.type}
-		<input
-			id={field.id}
-			placeholder={field.placeholder}
-			bind:value={value}
-			{...field.props}
-		/>
-	{:else if field.type === 'textarea'}
-		<textarea
-			id={field.id}
-			placeholder={field.placeholder}
-			bind:value={value}
-			{...field.props}
-		/>
-	{/if}
-</div>
+{#if field.type === 'input' || !field.type}
+	<div class="input">
+		{#if field.prefix}
+			<Input id={field.id} placeholder={field.placeholder} bind:value {...field.props}>
+				<p slot="prefix">{field.prefix}</p>
+			</Input>
+		{:else}
+			<Input id={field.id} placeholder={field.placeholder} bind:value {...field.props} />
+		{/if}
+	</div>
+{:else if field.type === 'textarea'}
+	<textarea id={field.id} placeholder={field.placeholder} bind:value {...field.props} />
+{/if}
 {#if field.description}
 	<p class="description">{field.description}</p>
 {/if}
@@ -53,7 +50,6 @@
 		color: red;
 		vertical-align: text-top;
 	}
-	input,
 	textarea {
 		flex-grow: 1;
 		margin: 0;
@@ -71,11 +67,17 @@
 		color: var(--text-primary);
 		line-height: 1.5715;
 		background-color: transparent;
-		border: none;
+		border: 1px solid var(--stroke-primary);
 		transition: all 0.3s;
+		width: 100%;
+	}
+
+	.input {
+		width: 100%;
 	}
 
 	.input-container {
+		/* width: 100%; */
 		display: flex;
 		flex-direction: row;
 		align-items: center;

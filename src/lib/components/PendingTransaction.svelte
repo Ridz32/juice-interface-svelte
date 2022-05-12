@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Trans from '$lib/components/Trans.svelte';
-	import { closeModal } from '$lib/components/Modal.svelte';
+
+	export let close: () => void;
 
 	onMount(() => {
 		setTimeout(() => {
 			console.log('TODO implement pending transaction functionality');
-			closeModal();
+			close();
 		}, 3000);
 	});
 </script>

@@ -14,14 +14,15 @@
 	import InfoBox from '$lib/components/InfoBox.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
 	import Trans from '$lib/components/Trans.svelte';
-	import UploadField from '$lib/create/UploadField.svelte';
+	import UploadField from '$lib/components/UploadField.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
-	import { bind, closeModal, openModal } from '$lib/components/Modal.svelte';
+	import { bind, openModal } from '$lib/components/Modal.svelte';
 	import PendingTransaction from '$lib/components/PendingTransaction.svelte';
 
 	const projectContext = getContext('PROJECT') as Store<V2ProjectContextType>;
 
+	export let close: () => {}
 	export let weiAmount: BigNumber;
 
 	const project = $projectContext;
@@ -177,7 +178,7 @@
 	</div>
 
 	<div class="right">
-		<Button on:click={closeModal} type="secondary" size="md">Close</Button>
+		<Button on:click={close} type="secondary" size="md">Close</Button>
 		<Button on:click={payProject} type="primary" size="md">Pay</Button>
 	</div>
 </main>

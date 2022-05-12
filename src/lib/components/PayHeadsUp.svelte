@@ -2,6 +2,8 @@
 	import Button from './Button.svelte';
 
 	export let click;
+	// NOTE: this is here to not show the unknown prop in console
+	export let close = () => {};
 </script>
 
 <main>

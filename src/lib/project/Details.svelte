@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Chart from './Chart.svelte';
 	import { getContext, onMount } from 'svelte';
+	import { modal } from '$stores';
 	import * as constants from '@ethersproject/constants';
-	import DropDown from './DropDown.svelte';
 	import type Store from '$utils/Store';
 	import { connectedAccount } from '$stores/web3';
 	import { tokenSymbolText } from '$utils/tokenSymbolText';
@@ -20,9 +20,11 @@
 	import PayoutSplits from '$lib/components/PayoutSplits.svelte';
 	import ReservedTokenSplits from '$lib/components/ReservedTokenSplits.svelte';
 	import { serializeV2FundingCycleData } from '$utils/v2/serializers';
-	import { hasFundingDuration, V2FundingCycleRiskCount } from '$utils/v2/fundingCycle';
+	import { hasFundingDuration } from '$utils/v2/fundingCycle';
+	import Modal, { openModal } from '$lib/components/Modal.svelte';
 	import UpcomingFundingCycle from './UpcomingFundingCycle.svelte';
 	import FundingCycleHistory from './FundingCycleHistory.svelte';
+	import ManageToken from './ManageToken.svelte';
 
 	let clientWidth = 500;
 	let tab = 0;
@@ -108,8 +110,7 @@
 						<span><Trans>{unclaimedBalanceFormatted} {tokenText} claimable</Trans></span>
 						<small><Trans>{userOwnershipPercentage}% of total supply</Trans></small>
 					</div>
-					<!-- TODO modal when onClick -->
-					<Button type="secondary" size="sm">
+					<Button on:click={() => openModal(ManageToken)} type="secondary" size="sm">
 						Manage {tokenText}
 					</Button>
 				</div>
@@ -169,6 +170,7 @@
 		</div>
 	</div>
 </section>
+<Modal show={$modal} />
 
 <!-- NOTE: keeping this to add back the Chart at later date -->
 

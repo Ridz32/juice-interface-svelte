@@ -1,11 +1,13 @@
 <script lang="ts">
 	export let message: string;
 	export let placement: 'left' | 'right' | 'top' | 'bottom' = 'left';
+
+	// Potentially borrow calcualte function from here: https://github.com/vaheqelyan/svelte-popover/blob/master/src/Content.svelte
 </script>
 
 <div class="wrapper">
 	<slot />
-	<div class={`content ${placement}`}>
+	<div id="popover" class={`content ${placement}`}>
 		<slot name="content" />
 		<p class="message">{message}</p>
 	</div>
@@ -25,7 +27,8 @@
 
 		background: var(--background-l0);
 		box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-		width: 170px;
+		max-width: max-content;
+		width: 200px;
 	}
 
 	.left {
@@ -46,10 +49,11 @@
 		visibility: visible;
 		transition: all 0.5s cubic-bezier(0.75, -0.02, 0.2, 0.97);
 	}
-	.message {
-		/* font-family: 'DM Mono', monospace; */
-		font-size: 11px;
+	#popover .message {
+		font-weight: 300;
+		font-size: 12px;
 		color: var(--text-primary);
 		margin: 0;
+		text-align: left;
 	}
 </style>

@@ -14,13 +14,13 @@
 </script>
 
 {#if formatWad}
-	{#if currency === Currency.ETH}
-		<EthAmount {amount} {precision} />
-	{:else}
+	{#if currency === Currency.USD}
 		<UsdAmount {amount} {precision} />
+	{:else}
+		<EthAmount {amount} {precision} />
 	{/if}
-{:else if currency === Currency.ETH}
-	<Ethereum />{amount}
-{:else}
+{:else if currency === Currency.USD}
 	<USD />{amount}
+{:else}
+	<Ethereum />{amount}
 {/if}

@@ -5,32 +5,25 @@
 	import CollapsibleSection from '$lib/create/CollapsibleSection.svelte';
 	import { formattedNum } from '$utils/formatNumber';
 	import Icon from '$lib/components/Icon.svelte';
+	import Money from '$lib/components/Money.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
 	import Popover from '$lib/components/Popover.svelte';
-	import { formatDate } from '$utils/formatDate';
 	import { formatWad } from '$utils/formatNumber';
 
-	import { detailedTimeUntil, detailedTimeString } from '$utils/formatTime';
+	import { detailedTimeUntil } from '$utils/formatTime';
 	import {
-		formatDiscountRate,
-		formatRedemptionRate,
-		formatReservedRate,
 		MAX_DISTRIBUTION_LIMIT,
 		weightedAmount
 	} from '$utils/v2/math';
-	import { FUNDING_CYCLE_WARNING_TEXT } from '$constants/fundingWarningText';
-	import Money from '$lib/components/Money.svelte';
 	import { getBallotStrategyByAddress } from '$constants/v2/ballotStrategies/getBallotStrategiesByAddress';
 	import {
-		getUnsafeV2FundingCycleProperties,
+		getFundingCycleDetails,
 		V2FundingCycleRiskCount
 	} from '$utils/v2/fundingCycle';
 	import Trans from './Trans.svelte';
 	import type { V2FundingCycle, V2FundingCycleMetadata } from '$models/v2/fundingCycle';
 	import type { Currency } from '$constants';
 
-	const riskWarningText = FUNDING_CYCLE_WARNING_TEXT();
-	const isPreviewMode = true;
 	const isFundingCycleRecurring = true;
 
 	export let expanded: boolean = true;
@@ -38,18 +31,6 @@
 	export let fundingCycleMetadata: V2FundingCycleMetadata;
 	export let distributionLimit: BigNumber;
 	export let currentDistributionLimitCurrencyType: Currency;
-
-	let fundingCycleRiskProperties: any = {};
-	let fundingCycleRiskCount = 0;
-
-	function getDurationValue(seconds: BigNumber) {
-		if (!seconds.gt(0)) {
-			return 'Not set';
-		}
-		return detailedTimeString({
-			timeSeconds: seconds.toNumber()
-		});
-	}
 
 	function getDistributionValue(distributionLimit: BigNumber) {
 		if (!distributionLimit.gt(0)) {
@@ -92,80 +73,11 @@
 			: withoutReservedRate;
 	};
 
-	$: {
-		fundingCycleRiskProperties = getUnsafeV2FundingCycleProperties(fundingCycle);
-		fundingCycleRiskCount = V2FundingCycleRiskCount(fundingCycle);
-	}
+	$: currency = BigNumber.from(currentDistributionLimitCurrencyType)?.toNumber();
 	$: currentBallotStrategy = getBallotStrategyByAddress(fundingCycle.ballot);
-	$: durationSet = fundingCycle.duration.gt(0);
+	$: cycleKeyValues = getFundingCycleDetails(fundingCycle, fundingCycleMetadata);
 	$: distributionLimitValue = getDistributionValue(distributionLimit);
-	$: cycleKeyValues = [
-		{
-			id: 'duration',
-			label: 'Duration',
-			value: getDurationValue(fundingCycle.duration),
-			issue: fundingCycleRiskProperties.duration,
-			issueText: riskWarningText.duration
-		},
-		durationSet && {
-			id: 'start',
-			label: 'Start',
-			value: formatDate(fundingCycle.start.mul(1000))
-		},
-		durationSet && {
-			id: 'end',
-			label: 'End',
-			value: formatDate(fundingCycle.start.add(fundingCycle.duration).mul(1000))
-		},
-		fundingCycle.discountRate && {
-			id: 'discountRate',
-			label: 'Discount rate',
-			value: `${formatDiscountRate(fundingCycle.discountRate)}%`,
-			info: 'The ratio of tokens rewarded per payment amount will decrease by this percentage with each new funding cycle. A higher discount rate will incentivize supporters to pay your project earlier than later.'
-		},
-		fundingCycleMetadata.redemptionRate && {
-			id: 'redemptionRate',
-			label: 'Redemption rate',
-			value: `${formatRedemptionRate(fundingCycleMetadata.redemptionRate)}%`,
-			info: 'This rate determines the amount of overflow that each token can be redeemed for at any given time. On a lower bonding curve, redeeming a token increases the value of each remaining token, creating an incentive to hold tokens longer than others. A redemption rate of 100% means all tokens will have equal value regardless of when they are redeemed.'
-		},
-		fundingCycleMetadata.reservedRate && {
-			id: 'reservedRate',
-			label: 'Reserved tokens',
-			// value: `${formatReservedRate((fundingCycleMetadata.reservedRate)}%`,
-			value: `${formatReservedRate(fundingCycleMetadata.reservedRate)}%`,
-			info: 'Whenever someone pays your project, this percentage of tokens will be reserved and the rest will go to the payer. Reserve tokens are reserved for the project owner by default, but can also be allocated to other wallet addresses by the owner. Once tokens are reserved, anyone can "mint" them, which distributes them to their intended receivers.',
-			issue:
-				fundingCycleRiskProperties.metadataReservedRate ||
-				fundingCycleRiskProperties.metadataMaxReservedRate,
-			issueText: riskWarningText.metadataReservedRate || riskWarningText.metadataMaxReservedRate
-		},
-		{
-			id: 'issuanceRate',
-			label: 'Issuance rate',
-			value: reservedRateText(fundingCycle, fundingCycleMetadata),
-			info: 'Tokens received per ETH paid to the treasury. This can change over time according to the discount rate and reserved tokens amount of future funding cycles.'
-		},
-		{
-			id: 'payments',
-			label: 'Payments',
-			value: fundingCycleMetadata.pausePay ? 'Paused' : 'Enabled'
-		},
-		{
-			id: 'allowMinting',
-			label: 'Token minting',
-			value: fundingCycleMetadata.allowMinting ? 'Enabled' : 'Disabled',
-			info: 'Token minting allows the project owner to mint project tokens at any time.'
-		},
-		{
-			id: 'configuration',
-			label: 'Reconfiguration strategy',
-			value: getBallotStrategyByAddress(fundingCycle.ballot).name,
-			info: 'Rules for determining how funding cycles can be reconfigured.',
-			issue: fundingCycleRiskProperties.ballot,
-			issueText: riskWarningText.ballot
-		}
-	].filter((item) => Boolean(item));
+	$: fundingCycleRiskCount = V2FundingCycleRiskCount(fundingCycle);
 
 	let rightHeaderText: string | null = null;
 	$: {
@@ -179,7 +91,6 @@
 		}
 	}
 
-	$: currency = BigNumber.from(currentDistributionLimitCurrencyType)?.toNumber();
 </script>
 
 <CollapsibleSection alignCaret="center" {expanded}>
@@ -207,7 +118,7 @@
 			{#if distributionLimitValue}
 				<span>{distributionLimitValue}</span>
 			{:else}
-				<Money amount={BigNumber.from(distributionLimit)} {currency} formatWad={false} />
+				<Money amount={BigNumber.from(distributionLimit)} {currency} />
 			{/if}
 		</div>
 		{#each cycleKeyValues as { label, value, info, issue, issueText }}
