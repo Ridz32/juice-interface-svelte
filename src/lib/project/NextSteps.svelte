@@ -6,6 +6,12 @@
 	import DescriptiveNumberedButton from '$lib/create/DescriptiveNumberedButton.svelte';
 	import Trans from '$lib/components/Trans.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import Modal from '$lib/components/Modal.svelte';
+	import IssueErc20 from './IssueERC20.svelte';
+
+	export let close: () => void;
+
+	let currentSubModal = null;
 
 	const projectURL = window.location.origin + '/#'; // + useLocation().pathname
 	const twitterMsg = `Check out my new @juiceboxETH project! ${projectURL}`;
@@ -26,7 +32,9 @@
 			title: 'Issue an ERC-20 token',
 			description:
 				'Create your own ERC-20 token to represent stake in your project. Contributors will receive these tokens when they pay your project.',
-			onClick: implementMe
+			onClick: () => {
+				currentSubModal = IssueErc20;
+			}
 		},
 		{
 			id: NextOptions.payable,
@@ -65,9 +73,12 @@
 	{/each}
 
 	<div class="right">
-		<Button size="md" type="secondary"><Trans>Later</Trans></Button>
+		<Button size="md" type="secondary" on:click={close}><Trans>Later</Trans></Button>
 	</div>
 </section>
+
+<!-- TODO just don't do this, make modals work properly with several modals. Doing this now due to timelimit -->
+<Modal show={currentSubModal} />
 
 <style>
 	h2 {
