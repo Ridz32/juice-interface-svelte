@@ -21,6 +21,7 @@
 	import Popover from '$lib/components/Popover.svelte';
 	import { validateEthAddress, validatePercentage } from '$utils/validators';
 	import { dateToDateInput } from '$utils/formatDate';
+	import Dropdown from '$lib/components/Dropdown.svelte';
 
 	const feePercentage = '2.5';
 	const today = dateToDateInput(new Date());
@@ -193,10 +194,13 @@
 
 <h3>{editingExistingSplit ? 'Editing a split' : 'Add a split'}</h3>
 <section>
-	<Select bind:value={beneficiaryType}>
-		<option value={BeneficiaryType.Address}>Wallet address</option>
-		<option value={BeneficiaryType.ProjectID}>Juicebox project</option>
-	</Select>
+	<Dropdown
+		options={[
+			{ label: 'Wallet address', value: BeneficiaryType.Address },
+			{ label: 'Juicebox Project', value: BeneficiaryType.ProjectID }
+		]}
+		bind:value={beneficiaryType}
+	/>
 	{#if beneficiaryType === BeneficiaryType.Address}
 		<FormField field={addressField} bind:value={address} />
 	{:else}
@@ -244,7 +248,7 @@
 	</p>
 </section>
 <div class="actions">
-	<Button on:click={closeModal} size="md" type="secondary">Cancel</Button>
+	<Button on:click={close} size="md" type="secondary">Cancel</Button>
 	<Button size="md" on:click={addSplit}>{editingExistingSplit ? 'Edit' : 'Add'} split</Button>
 </div>
 
@@ -255,6 +259,7 @@
 	}
 	section {
 		margin: 40px 0;
+		color: var(--text-primary);
 	}
 	label {
 		display: block;
