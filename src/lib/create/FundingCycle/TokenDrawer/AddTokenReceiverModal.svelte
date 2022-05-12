@@ -9,7 +9,6 @@
 	import type { Split } from '$models/v2/splits';
 	import { validateEthAddress, validatePercentage } from '$utils/validators';
 	import { dateToDateInput } from '$utils/formatDate';
-	import { closeModal } from '$lib/components/Modal.svelte';
 
 	const today = dateToDateInput(new Date());
 
@@ -22,6 +21,7 @@
 		}
 	};
 
+	export let close: () => void;
 	// Wether an already existing split is being edited
 	export let split: Split | null = null;
 	export let editingIndex: number | null = null;
@@ -116,7 +116,7 @@
 			percent: splitPercentFrom(rangeValue[0]).toNumber()
 		};
 		onFinish(split);
-		closeModal();
+		close();
 	}
 
 	$: {

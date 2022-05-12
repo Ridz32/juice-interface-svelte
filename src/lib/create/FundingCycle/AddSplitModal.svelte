@@ -7,7 +7,6 @@
 	import PopInfo from '$lib/components/PopInfo.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import Select from '$lib/components/Select.svelte';
-	import { closeModal } from '$lib/components/Modal.svelte';
 	import Range from '$lib/components/Range.svelte';
 	import CurrencyInput from '$lib/components/CurrencyInput.svelte';
 	import type { Split } from '$models/v2/splits';
@@ -44,6 +43,7 @@
 		}
 	};
 
+	export let close: () => void;
 	// The distribution limit dictates if there is a paymount amount field
 	export let distributionLimit: number | null = null;
 	export let currency: Currency | null = null;
@@ -169,7 +169,7 @@
 			projectId: projectId ? projectId.toString() : undefined
 		} as Split;
 		onFinish(split);
-		closeModal();
+		close();
 	}
 
 	$: {
