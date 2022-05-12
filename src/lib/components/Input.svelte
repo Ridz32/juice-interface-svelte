@@ -3,7 +3,10 @@
 </script>
 
 <div class="input-wrapper">
-	<input {...$$props} bind:value />
+	<div class="prefix">
+		<slot name="prefix" />
+	</div>
+	<input {...$$props} bind:value class:hasPrefix={$$slots.prefix}/>
 	<div class="addon">
 		<slot name="addon" />
 	</div>
@@ -43,5 +46,15 @@
 		right: 10px;
 		width: 40px;
 		height: 20px;
+	}
+
+	.prefix {
+		position: absolute;
+		top: 5px;
+		left: 10px;
+	}
+
+	.hasPrefix {
+		text-indent: 15px;
 	}
 </style>
