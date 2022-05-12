@@ -3,7 +3,7 @@
 	import * as constants from '@ethersproject/constants';
 	import { formatDate } from '$utils/formatDate';
 	import type { ProjectMetadataV4 } from '$models/project-metadata';
-	import type { Project } from '$models/subgraph-entities/project';
+	import type { Project } from '$models/subgraph-entities/vX/project';
 	import { getProjectMetadata } from '$data/project';
 
 	import Icon from '$lib/components/Icon.svelte';
@@ -14,12 +14,10 @@
 	export let project: Project;
 	let loading = true;
 	let metadata: ProjectMetadataV4;
-	console.log(project);
 
 	onMount(async () => {
-		metadata = await getProjectMetadata(project.uri);
+		metadata = await getProjectMetadata(project.metadataUri);
 		loading = false;
-		console.log(metadata);
 	});
 
 	// If the total paid is greater than 0, but less than 10 ETH, show two decimal places.

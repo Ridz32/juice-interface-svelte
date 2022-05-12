@@ -1,25 +1,30 @@
 <script lang="ts">
-	import { infiniteProjectsQuery } from '$data/project';
-
+	import { onMount } from 'svelte';
+	import { getProjects } from '$data/project';
 	import Icon from '$lib/components/Icon.svelte';
 	import { sortType } from '$stores/projectsForm';
-	import { onMount } from 'svelte';
-	import type { Project } from '$models/subgraph-entities/project';
+	import type { Project } from '$models/subgraph-entities/vX/project';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
+	import Button from '$lib/components/Button.svelte';
+	import InfiniteScroll from '$lib/components/InfiniteScroll.svelte';
 
 	let loading = false;
-	let projects: Project[] | undefined = undefined;
+	let pageNumber = 0;
+	let projects: Project[] | undefined = [];
+	let newBatch: Project[] | undefined = [];
+	let scrollTarget: HTMLElement;
+
 	const showArchived = false;
-	const pageSize = 25;
+	const pageSize = 10;
 
 	const fetchData = async () => {
 		loading = true;
-		projects = await infiniteProjectsQuery({
+		newBatch = await getProjects({
 			orderBy: $sortType,
+			pageNumber,
 			pageSize,
 			orderDirection: 'desc',
-			state: showArchived ? 'archived' : 'active',
-			terminalVersion: '1.1'
+			state: showArchived ? 'archived' : 'active'
 		});
 		loading = false;
 	};
@@ -31,16 +36,41 @@
 	sortType.subscribe(async () => {
 		await fetchData();
 	});
+
+	$: projects = [...projects, ...newBatch];
+
 </script>
 
-<p>
-	{#if loading}
+<section bind:this={scrollTarget}>
+	{#if !projects.length && loading}
 		<div class="loading">
-			<Icon name="loading" spin={true} />
+			<Icon name="loading" spin />
 		</div>
-	{:else if projects && projects.length > 0}
-		{#each projects as project}
-			<ProjectCard {project} />
-		{/each}
 	{/if}
-</p>
+	{#each projects as project}
+		<ProjectCard {project} />
+	{/each}
+	<InfiniteScroll
+		elementScroll={scrollTarget}
+		hasMore={!!newBatch.length}
+		threshold={100}
+		on:loadMore={() => {
+			console.log('should load more now');
+			pageNumber += 1;
+			fetchData();
+		}}
+	/>
+</section>
+<Button type="link">Load more</Button>
+
+<style>
+	section {
+		max-height: 80vh;
+		overflow-y: scroll;
+	}
+
+	.loading {
+		text-align: center;
+		transform: scale(2);
+	}
+</style>
