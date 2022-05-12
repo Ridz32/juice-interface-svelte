@@ -11,13 +11,12 @@
 
 <style>
 	input {
-		height: 30px;
 		width: 100%;
 		background: transparent;
-		border: 1px solid var(--stroke-tertiary);
+		border: 1px solid var(--stroke-primary);
 		transition: border-color 120ms ease-out;
-		text-indent: 5px;
-		padding: 2.5px;
+		padding: 4px 11px;
+		line-height: 1.5715;
 	}
 
 	input::placeholder {
