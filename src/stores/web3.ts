@@ -110,7 +110,6 @@ export async function initialize(_provider = browser && window['ethereum']): Pro
 		_provider.connector.on('disconnect', (_) => {
 			window.location.reload();
 		});
-
 	} else {
 		const $provider = provider.get();
 		try {
@@ -119,7 +118,6 @@ export async function initialize(_provider = browser && window['ethereum']): Pro
 				connectedAccount.set(account);
 			}
 		} catch (e) {
-			console.log('not connected');
 			connectWallet();
 		}
 	}

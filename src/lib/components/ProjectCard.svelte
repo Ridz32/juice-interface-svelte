@@ -2,7 +2,6 @@
 	import { onMount } from 'svelte';
 	import * as constants from '@ethersproject/constants';
 	import { formatDate } from '$utils/formatDate';
-	// import { getTerminalVersion } from '$utils/v1/terminals';
 	import type { ProjectMetadataV4 } from '$models/project-metadata';
 	import type { Project } from '$models/subgraph-entities/project';
 	import { getProjectMetadata } from '$data/project';
@@ -10,41 +9,42 @@
 	import Icon from '$lib/components/Icon.svelte';
 	import EthAmount from './ETHAmount.svelte';
 	import Popover from './Popover.svelte';
+	import ProjectLogo from './ProjectLogo.svelte';
 
 	export let project: Project;
-
 	let loading = true;
 	let metadata: ProjectMetadataV4;
+	console.log(project);
 
 	onMount(async () => {
 		metadata = await getProjectMetadata(project.uri);
 		loading = false;
+		console.log(metadata);
 	});
 
 	// If the total paid is greater than 0, but less than 10 ETH, show two decimal places.
-	const precision = project.totalPaid?.gt(0) && project.totalPaid.lt(constants.WeiPerEther) ? 2 : 0;
+	const precision =
+		project && project.totalPaid?.gt(0) && project.totalPaid.lt(constants.WeiPerEther) ? 2 : 0;
 	// const terminalVersion = getTerminalVersion(project.terminal);
 	const isArchived = false;
+	const handle = project?.handle ? project.handle : 0;
 </script>
 
 <li>
 	{#if loading}
 		<div class="loading">
-			{project.handle}
+			{handle}
 			<Icon name="loading" spin={true} />
 		</div>
 		<Icon name="loading" spin />
 	{:else}
-		<img src={metadata.logoUri} alt="The project logo" />
+		<ProjectLogo uri={metadata.logoUri} size={110} />
 		<section>
 			<h1>{metadata.name}</h1>
 			<div>
 				<span class="handle">
 					@{project.handle}
 				</span>
-				<!-- <span class="version">
-					V{terminalVersion}
-				</span> -->
 			</div>
 			<EthAmount amount={project.totalPaid} {precision} />
 			<span>since {project.createdAt && formatDate(project.createdAt * 1000, 'yyyy-MM-dd')}</span>
@@ -135,11 +135,11 @@
 		li {
 			flex: 0 0 100%;
 			max-width: 100%;
-            margin: 10px;
+			margin: 10px;
 		}
 
-        .description {
-            width: 400px;
-        }
+		.description {
+			width: 400px;
+		}
 	}
 </style>
