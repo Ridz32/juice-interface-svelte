@@ -70,7 +70,8 @@
 
 	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
 
-	export let info = 'You can edit your project details later on at any time.';
+	export let info =
+		'You can edit your project details after creation at any time, but the transaction will cost gas. All details are optional.';
 
 	function onLogoChange(src: string) {
 		project.update((state: any) => ({
