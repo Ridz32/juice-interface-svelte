@@ -11,16 +11,25 @@
 	};
 </script>
 
-<div
-	style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; max-width: 100vw;"
->
-	<div style="height: 40px; margin-top: 15px;">
-		<div class="ant-space ant-space-horizontal ant-space-align-center" style="gap: 24px;">
-			{#each projectCategory as category}
-				<div class="ant-space-item">
-					<ProjectsTab type={category} title={TAB_TYPE_NAMES[category]} />
-				</div>
-			{/each}
+<nav>
+	{#each projectCategory as category}
+		<div class="tab">
+			<ProjectsTab type={category} title={TAB_TYPE_NAMES[category]} />
 		</div>
-	</div>
-</div>
+	{/each}
+</nav>
+
+<style>
+	nav {
+		display: flex;
+		align-items: center;
+	}
+	.tab {
+		font-size: 14px;
+		margin: 0px 15px;
+	}
+
+	.tab:first-of-type {
+		margin-left: 0;
+	}
+</style>

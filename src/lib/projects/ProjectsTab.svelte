@@ -27,5 +27,7 @@
 	.selected {
 		color: var(--text-primary);
 		border-color: var(--text-primary);
+		font-weight: 600;
+		border-bottom: 2px solid var(--text-primary);
 	}
 </style>

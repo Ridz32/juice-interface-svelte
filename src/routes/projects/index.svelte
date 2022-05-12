@@ -54,19 +54,20 @@
 		text-align: center;
 		transform: scale(2);
 		width: 100vw;
-		margin-top: 4rem;
 	}
 
 	section {
 		max-width: 1000px;
 		margin: auto;
 		margin-top: 40px;
+		padding: 0 20px;
 	}
 	.controls {
 		display: flex;
 		justify-content: space-between;
-		align-items: flex-start;
+		align-items: center;
 		flex-wrap: wrap;
 		max-width: 100vw;
+		height: 80px;
 	}
 </style>

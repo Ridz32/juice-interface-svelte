@@ -76,6 +76,7 @@
 		margin: auto;
 		display: grid;
 		max-width: 1000px;
+		padding: 0 20px;
 		grid-column-gap: 20px;
 		grid-row-gap: 12px;
 		grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
