@@ -1,12 +1,17 @@
 <script lang="ts">
 	export let value: string | number | undefined = undefined;
+	export let label: string = undefined;
 </script>
+
+{#if label}
+	<label for={$$props.id}>{label}</label>
+{/if}
 
 <div class="input-wrapper">
 	<div class="prefix">
 		<slot name="prefix" />
 	</div>
-	<input {...$$props} bind:value on:blur class:hasPrefix={$$slots.prefix}/>
+	<input {...$$props} bind:value on:blur class:hasPrefix={$$slots.prefix} class:hasLabel={label} />
 	<div class="addon">
 		<slot name="addon" />
 	</div>
@@ -55,5 +60,10 @@
 
 	.hasPrefix {
 		text-indent: 15px;
+	}
+
+	.hasLabel {
+		margin-top: 8px;
+		margin-bottom: 16px;
 	}
 </style>
