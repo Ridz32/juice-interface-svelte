@@ -81,9 +81,4 @@
 		grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
 		grid-auto-flow: row;
 	}
-
-	.loading {
-		text-align: center;
-		transform: scale(2);
-	}
 </style>

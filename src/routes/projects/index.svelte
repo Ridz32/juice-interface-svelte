@@ -60,6 +60,7 @@
 	section {
 		max-width: 1000px;
 		margin: auto;
+		margin-top: 40px;
 	}
 	.controls {
 		display: flex;
