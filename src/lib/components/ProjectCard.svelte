@@ -2,7 +2,6 @@
 	import { onMount } from 'svelte';
 	import * as constants from '@ethersproject/constants';
 	import { formatDate } from '$utils/formatDate';
-	// import { getTerminalVersion } from '$utils/v1/terminals';
 	import type { ProjectMetadataV4 } from '$models/project-metadata';
 	import type { Project } from '$models/subgraph-entities/project';
 	import { getProjectMetadata } from '$data/project';
@@ -27,8 +26,7 @@
 	const precision =
 		project && project.totalPaid?.gt(0) && project.totalPaid.lt(constants.WeiPerEther) ? 2 : 0;
 	// const terminalVersion = getTerminalVersion(project.terminal);
-	const isArchived =
-		(project && archivedProjectIds.includes(project.id.toNumber())) || metadata?.archived;
+	const isArchived = false;
 	const handle = project?.handle ? project.handle : 0;
 </script>
 
@@ -40,7 +38,7 @@
 		</div>
 		<Icon name="loading" spin />
 	{:else}
-		<ProjectLogo uri={metadata.logoUri} size={110}/>
+		<ProjectLogo uri={metadata.logoUri} size={110} />
 		<section>
 			<h1>{metadata.name}</h1>
 			<div>

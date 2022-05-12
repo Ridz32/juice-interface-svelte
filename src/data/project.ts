@@ -1,4 +1,4 @@
-import type { BigNumber } from 'ethers';
+import { BigNumber } from 'ethers';
 import { SECONDS_IN_DAY } from '$constants/numbers';
 import axios from 'axios';
 import { consolidateMetadata } from '$models/project-metadata';
@@ -11,24 +11,8 @@ import {
 	type WhereConfig
 } from '$utils/graph';
 import type { ProjectState } from '$models/project-visibility';
-import type { V1TerminalVersion } from '$models/v1/terminals';
-import { getTerminalAddress } from '$utils/v1/terminals';
-import { archivedProjectIds } from '$constants/v1/archivedProjects';
 
 import type { Project, TrendingProject } from '$models/subgraph-entities/project';
-
-// export async function getProjects(opts: ProjectsOptions) {
-//     return querySubgraph(
-//         {
-//             ...(queryOpts(opts) as GraphQueryOpts<'project', EntityKeys<'project'>>),
-//             first: opts.pageSize,
-//             skip:
-//                 opts.pageNumber && opts.pageSize
-//                     ? opts.pageNumber * opts.pageSize
-//                     : undefined,
-//         }
-//     )
-// }
 
 // TODO don't hardcode this here, use the utils/ipfs after issue with @pinata/sdk has been solved
 import { IPFS_GATEWAY_HOSTNAME } from '$constants/ipfs';
@@ -52,7 +36,6 @@ interface ProjectsOptions {
 	pageSize?: number;
 	state?: ProjectState;
 	keys?: (keyof Project)[];
-	terminalVersion?: V1TerminalVersion;
 	searchText?: string;
 }
 
@@ -76,22 +59,7 @@ const queryOpts = (
 > => {
 	const where: WhereConfig<'project'>[] = [];
 
-	const terminalAddress = getTerminalAddress(opts.terminalVersion);
-
-	if (terminalAddress) {
-		where.push({
-			key: 'terminal' as const,
-			value: terminalAddress
-		});
-	}
-
-	if (opts.state === 'archived') {
-		where.push({
-			key: 'id' as const,
-			value: archivedProjectIds,
-			operator: 'in'
-		});
-	} else if (opts.projectId) {
+	if (opts.projectId) {
 		where.push({
 			key: 'id' as const,
 			value: opts.projectId.toString()
