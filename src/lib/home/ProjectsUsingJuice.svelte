@@ -49,7 +49,7 @@
 					<InfoSpaceBetween>
 						<div slot="left">
 							<!-- TODO should be project handle -->
-							<p><b>@{payment.project.id}</b></p>
+							<p>Project {payment.project.id}</p>
 							<ETHAmount amount={payment.amount} precision={4} />
 						</div>
 						<div slot="right">
@@ -92,7 +92,11 @@
 
 	p {
 		margin: 0;
-		font-weight: 500;
+		font-weight: 400;
+	}
+
+	.address {
+		font-weight: 300;
 	}
 
 	.timestamp {
