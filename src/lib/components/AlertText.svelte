@@ -9,6 +9,7 @@
 
 <style>
 	p {
-		color: rgb(216, 170, 1);
+		font-weight: 300;
+		color: var(--text-warn);
 	}
 </style>
