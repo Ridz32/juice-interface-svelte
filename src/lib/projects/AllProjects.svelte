@@ -24,7 +24,8 @@
 			pageNumber,
 			pageSize,
 			orderDirection: 'desc',
-			state: showArchived ? 'archived' : 'active'
+			state: showArchived ? 'archived' : 'active',
+			cv: '2'
 		});
 		loading = false;
 	};
@@ -33,9 +34,10 @@
 		await fetchData();
 	});
 
-	sortType.subscribe(async () => {
-		await fetchData();
-	});
+	// TODO put back in, for now it's double loading on mount
+	// sortType.subscribe(async () => {
+	// 	await fetchData();
+	// });
 
 	$: projects = [...projects, ...newBatch];
 
@@ -55,7 +57,6 @@
 		hasMore={!!newBatch.length}
 		threshold={100}
 		on:loadMore={() => {
-			console.log('should load more now');
 			pageNumber += 1;
 			fetchData();
 		}}
