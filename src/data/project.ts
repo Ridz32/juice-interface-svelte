@@ -11,8 +11,15 @@ import {
 	type WhereConfig
 } from '$utils/graph';
 import type { ProjectState } from '$models/project-visibility';
-
-import type { Project, TrendingProject } from '$models/subgraph-entities/vX/project';
+import { getIpfsCache } from './ipfs';
+import { uploadIpfsJsonCache  } from '$utils/ipfs';
+import {
+    parseTrendingProjectJson,
+    type Project,
+    type TrendingProject,
+    type TrendingProjectJson,
+} from '$models/subgraph-entities/vX/project';
+import { IpfsCacheName } from '$models/ipfs-cache/cache-name';
 
 // TODO don't hardcode this here, use the utils/ipfs after issue with @pinata/sdk has been solved
 import { IPFS_GATEWAY_HOSTNAME } from '$constants/ipfs';
@@ -37,6 +44,7 @@ interface ProjectsOptions {
 	state?: ProjectState;
 	keys?: (keyof Project)[];
 	searchText?: string;
+	cv?: string;
 }
 
 const keys: (keyof Project)[] = [
@@ -63,6 +71,13 @@ const queryOpts = (
 		where.push({
 			key: 'id' as const,
 			value: opts.projectId.toString()
+		});
+	}
+
+	if (opts.cv) {
+		where.push({
+			key: 'cv' as const,
+			value: opts.cv,
 		});
 	}
 
@@ -161,6 +176,12 @@ export async function getLatestPayments(days = 7) {
 				key: 'timestamp',
 				value: nowSeconds - daySeconds,
 				operator: 'gte'
+			},
+			// TODO: this shouldn't be hardcoded here
+			// but will do for now to get v2 projects
+			{
+				key: 'cv',
+				value: '2',
 			}
 		]
 	});
