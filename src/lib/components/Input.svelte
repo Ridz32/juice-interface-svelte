@@ -6,7 +6,7 @@
 	<div class="prefix">
 		<slot name="prefix" />
 	</div>
-	<input {...$$props} bind:value class:hasPrefix={$$slots.prefix}/>
+	<input {...$$props} bind:value on:blur class:hasPrefix={$$slots.prefix}/>
 	<div class="addon">
 		<slot name="addon" />
 	</div>
@@ -44,7 +44,6 @@
 		position: absolute;
 		top: 5px;
 		right: 10px;
-		width: 40px;
 		height: 20px;
 	}
 
