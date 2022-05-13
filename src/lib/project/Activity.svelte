@@ -1,15 +1,12 @@
 <script lang="ts">
-	import { getContext, onMount } from 'svelte';
+	import { getContext } from 'svelte';
 	import type Store from '$utils/Store';
-	import type { Project } from '$models/subgraph-entities/project';
-	import type { ProjectMetadata } from '$models/project-metadata';
 	import Icon from '$lib/components/Icon.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import type { V2ProjectContextType } from '$models/project-type';
 	import ProjectEvent from '$lib/components/ProjectEvent';
 	import { getProjectEvents } from '$data/event';
 	import Dropdown from '$lib/components/Dropdown.svelte';
-	import { projectEvents } from '$data/mockDataV2';
 
 	const project = getContext('PROJECT') as Store<V2ProjectContextType>;
 
@@ -54,8 +51,7 @@
 	}
 
 	$: {
-		// loadEvents(current);
-		events = projectEvents;
+		loadEvents(current);
 	}
 </script>
 
@@ -74,7 +70,6 @@
 			<Icon name="loading" spin />
 		</div>
 	{/if}
-	<p>[Work In Progress - Mock Data to work on UI]</p>
 	{#each events as event}
 		<ProjectEvent {event} />
 	{/each}

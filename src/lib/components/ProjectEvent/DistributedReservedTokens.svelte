@@ -1,6 +1,5 @@
 <script lang="ts">
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
-	import ETHAmount from '$lib/components/ETHAmount.svelte';
 	import { formatHistoricalDate } from '$utils/formatDate';
 	import { getTruncatedAddress } from '$lib/components/Address.svelte';
 	import EtherscanLink from '$lib/components/EtherscanLink.svelte';
@@ -14,7 +13,6 @@
 
 	let events = [];
 
-	// TODO come back here after feedback from Peel.
 	async function loadData() {
 		events = await querySubgraph({
 			entity: 'distributeToReservedTokenSplitEvent',
@@ -30,64 +28,57 @@
 		});
 	}
 
-	onMount(() => {
-		// TODO this is mock data to work with the ui towards, don't forget to remove
-		// events = loadData()
-		events = [
-			{
-				id: '2-17-0xe2875f2cc07bfee2ef54d2b9d84c9a03c0ec4a7f6607f69739ed83474e544d7c-71',
-				timestamp: 1652133829,
-				txHash: '0xe2875f2cc07bfee2ef54d2b9d84c9a03c0ec4a7f6607f69739ed83474e544d7c',
-				beneficiary: '0xabec871602cdb1361d95a301dc1d19a6d3303684',
-				tokenCount: '26250000000000000000000',
-				projectId: 17
-			}
-		];
+	onMount(async () => {
+		await loadData();
 	});
 </script>
 
 <InfoSpaceBetween>
 	<div slot="left">
-		<p><small><Trans>Distribute funds</Trans></small></p>
-		{#each events as e}
-			{#if e.splitProjectId}
-				<span>Project {e.splitProjectId}</span>
-			{:else}
-				<span>
-					{getTruncatedAddress(e.beneficiary)}
-				</span>
+		<p><small><Trans>Distribute reserved tokens</Trans></small></p>
+		<div class="beneficiaries">
+			{#each events as e}
+				{#if e.splitProjectId}
+					<p>Project {e.splitProjectId}</p>
+				{:else}
+					<p>
+						{getTruncatedAddress(e.beneficiary)}
+					</p>
+				{/if}
+			{/each}
+			{#if event.beneficiaryTokenCount}
+				{getTruncatedAddress(event.beneficiary)}
 			{/if}
-		{/each}
-		{#if event.beneficiaryTokenCount}
-			{getTruncatedAddress(event.beneficiary)}
-		{/if}
+		</div>
 	</div>
 	<div slot="right">
 		<p class="timestamp">
 			{event.timestamp && formatHistoricalDate(event.timestamp * 1000)}
 			<EtherscanLink value={event.txHash} type="tx" />
 		</p>
+		<p class="timestamp">called by {getTruncatedAddress(event.caller)}</p>
 		{#each events as e}
-			<span>
+			<p>
 				{formatWad(e.tokenCount)}
-				<!-- <ETHAmount amount={e.amount} precision={4} /> -->
-			</span>
+			</p>
 		{/each}
 		{#if event.beneficiaryTokenCount}
-			<span>
+			<p>
 				{formatWad(event.beneficiaryTokenCount)}
-				<!-- <ETHAmount amount={event.distributedAmount} precision={4} /> -->
-			</span>
+			</p>
 		{/if}
 	</div>
 </InfoSpaceBetween>
 
 <style>
-	div[slot='left'],
 	div[slot='right'] {
+		align-items: end;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
-		/* align-items: center; */
+	}
+
+	.beneficiaries {
+		/* This is to account for the extra Distributed by line */
+		margin-top: 11px;
 	}
 </style>

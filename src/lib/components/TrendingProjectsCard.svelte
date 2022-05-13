@@ -55,8 +55,6 @@
 <style>
 	li {
 		display: flex;
-		flex: 0 0 49%;
-		max-width: 49%;
 		align-items: center;
 		padding: 25px 20px;
 		border: 1px solid var(--stroke-secondary);

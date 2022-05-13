@@ -5,23 +5,28 @@
 	import DeployedErc20Event from './DeployedERC20Event.svelte';
 	import DistributePayouts from './DistributePayouts.svelte';
 	import DistributedReservedTokens from './DistributedReservedTokens.svelte';
+	import RedeemEvent from './RedeemEvent.svelte';
 
 	export let event: ProjectEvent;
 </script>
 
-<div class="projectEvent">
-	{#if event.projectCreateEvent}
+{#if event.projectCreateEvent}
+	<div class="projectEvent">
 		<ProjectCreateEvent event={event.projectCreateEvent} />
-	{:else if event.payEvent}
-		<PayEvent event={event.payEvent} />
-	{:else if event.deployedERC20Event}
-		<DeployedErc20Event event={event.deployedERC20Event} />
-	{:else if event.distributePayoutsEvent}
-		<DistributePayouts event={event.distributePayoutsEvent} />
-	{:else if event.distributeReservedTokensEvent}
+	</div>
+{:else if event.payEvent}
+	<div class="projectEvent"><PayEvent event={event.payEvent} /></div>
+{:else if event.deployedERC20Event}
+	<div class="projectEvent"><DeployedErc20Event event={event.deployedERC20Event} /></div>
+{:else if event.distributePayoutsEvent}
+	<div class="projectEvent"><DistributePayouts event={event.distributePayoutsEvent} /></div>
+{:else if event.distributeReservedTokensEvent}
+	<div class="projectEvent">
 		<DistributedReservedTokens event={event.distributeReservedTokensEvent} />
-	{/if}
-</div>
+	</div>
+{:else if event.redeemEvent}
+	<div class="projectEvent"><RedeemEvent event={event.redeemEvent} /></div>
+{/if}
 
 <style>
 	.projectEvent {
