@@ -1,11 +1,23 @@
 import * as constants from '@ethersproject/constants';
 import { BigNumber } from '@ethersproject/bignumber';
 import { getAddress } from '@ethersproject/address';
+import { parseEther } from '@ethersproject/units';
+import { FUNDING_CYCLE_WARNING_TEXT } from '$constants/fundingWarningText';
 import type {
 	V2FundingCycle,
 	V2FundingCycleMetadata,
 	V2FundingCycleMetadataGlobal
 } from '$models/v2/fundingCycle';
+import { formatDate } from '$utils/formatDate';
+import { formattedNum, formatWad } from '$utils/formatNumber';
+import { detailedTimeString } from '$utils/formatTime';
+import {
+	formatDiscountRate,
+	formatRedemptionRate,
+	formatReservedRate,
+	MAX_DISTRIBUTION_LIMIT,
+	weightedAmount
+} from '$utils/v2/math';
 
 import { invertPermyriad } from '$utils/bigNumbers';
 import unsafeFundingCycleProperties from '$utils/unsafeFundingCycleProperties';
@@ -15,7 +27,6 @@ import { fromWad, parseWad } from '../formatNumber';
 import type { SerializedV2FundAccessConstraint, SerializedV2FundingCycleData } from './serializers';
 import type { FundingCycleRiskFlags } from '$constants/fundingWarningText';
 import { getBallotStrategyByAddress } from '$constants/v2/ballotStrategies/getBallotStrategiesByAddress';
-import { MAX_DISTRIBUTION_LIMIT } from './math';
 
 export const hasDistributionLimit = (
 	fundAccessConstraint: SerializedV2FundAccessConstraint | undefined
@@ -188,3 +199,124 @@ export const V2FundingCycleRiskCount = (fundingCycle: V2FundingCycle): number =>
 	return Object.values(getUnsafeV2FundingCycleProperties(fundingCycle)).filter((v) => v === true)
 		.length;
 };
+
+
+const reservedRateText = (fundingCycle, fundingCycleMetadata) => {
+	const payerRate = formatWad(
+		weightedAmount(
+			fundingCycle?.weight,
+			fundingCycleMetadata?.reservedRate.toNumber(),
+			parseEther('1'),
+			'payer'
+		),
+		{
+			precision: 0
+		}
+	);
+	const reservedRate = formatWad(
+		weightedAmount(
+			fundingCycle?.weight,
+			fundingCycleMetadata?.reservedRate.toNumber(),
+			parseEther('1'),
+			'reserved'
+		),
+		{
+			precision: 0
+		}
+	);
+	const withReservedRate = `${formattedNum(payerRate)} (+ ${formattedNum(
+		reservedRate
+	)} reserved) tokens/ETH`;
+	const withoutReservedRate = `${formattedNum(payerRate)} tokens/ETH`;
+	return BigNumber.from(fundingCycleMetadata?.reservedRate).gt(0)
+		? withReservedRate
+		: withoutReservedRate;
+};
+
+function getDurationText(seconds: BigNumber) {
+	if (!seconds.gt(0)) {
+		return 'Not set';
+	}
+	return detailedTimeString({
+		timeSeconds: seconds.toNumber()
+	});
+}
+
+
+/**
+ * Get funding cycle details list provided a funding cycle
+ * NOTE that the Distribution Limit is not returned by this function
+ */
+export function getFundingCycleDetails(fundingCycle: V2FundingCycle, fundingCycleMetadata: V2FundingCycleMetadata) {
+	const fundingCycleRiskProperties = getUnsafeV2FundingCycleProperties(fundingCycle);
+	const durationSet = fundingCycle.duration.gt(0);
+	const riskWarningText = FUNDING_CYCLE_WARNING_TEXT();
+
+	return [
+		{
+			id: 'duration',
+			label: 'Duration',
+			value: getDurationText(fundingCycle.duration),
+			issue: fundingCycleRiskProperties.duration,
+			issueText: riskWarningText.duration
+		},
+		durationSet && {
+			id: 'start',
+			label: 'Start',
+			value: formatDate(fundingCycle.start.mul(1000))
+		},
+		durationSet && {
+			id: 'end',
+			label: 'End',
+			value: formatDate(fundingCycle.start.add(fundingCycle.duration).mul(1000))
+		},
+		fundingCycle.discountRate && {
+			id: 'discountRate',
+			label: 'Discount rate',
+			value: `${formatDiscountRate(fundingCycle.discountRate)}%`,
+			info: 'The ratio of tokens rewarded per payment amount will decrease by this percentage with each new funding cycle. A higher discount rate will incentivize supporters to pay your project earlier than later.'
+		},
+		fundingCycleMetadata.redemptionRate && {
+			id: 'redemptionRate',
+			label: 'Redemption rate',
+			value: `${formatRedemptionRate(fundingCycleMetadata.redemptionRate)}%`,
+			info: 'This rate determines the amount of overflow that each token can be redeemed for at any given time. On a lower bonding curve, redeeming a token increases the value of each remaining token, creating an incentive to hold tokens longer than others. A redemption rate of 100% means all tokens will have equal value regardless of when they are redeemed.'
+		},
+		fundingCycleMetadata.reservedRate && {
+			id: 'reservedRate',
+			label: 'Reserved tokens',
+			// value: `${formatReservedRate((fundingCycleMetadata.reservedRate)}%`,
+			value: `${formatReservedRate(fundingCycleMetadata.reservedRate)}%`,
+			info: 'Whenever someone pays your project, this percentage of tokens will be reserved and the rest will go to the payer. Reserve tokens are reserved for the project owner by default, but can also be allocated to other wallet addresses by the owner. Once tokens are reserved, anyone can "mint" them, which distributes them to their intended receivers.',
+			issue:
+				fundingCycleRiskProperties.metadataReservedRate ||
+				fundingCycleRiskProperties.metadataMaxReservedRate,
+			issueText: riskWarningText.metadataReservedRate || riskWarningText.metadataMaxReservedRate
+		},
+		{
+			id: 'issuanceRate',
+			label: 'Issuance rate',
+			value: reservedRateText(fundingCycle, fundingCycleMetadata),
+			info: 'Tokens received per ETH paid to the treasury. This can change over time according to the discount rate and reserved tokens amount of future funding cycles.'
+		},
+		{
+			id: 'payments',
+			label: 'Payments',
+			value: fundingCycleMetadata.pausePay ? 'Paused' : 'Enabled'
+		},
+		{
+			id: 'allowMinting',
+			label: 'Token minting',
+			value: fundingCycleMetadata.allowMinting ? 'Enabled' : 'Disabled',
+			info: 'Token minting allows the project owner to mint project tokens at any time.'
+		},
+		{
+			id: 'configuration',
+			label: 'Reconfiguration strategy',
+			value: getBallotStrategyByAddress(fundingCycle.ballot).name,
+			info: 'Rules for determining how funding cycles can be reconfigured.',
+			issue: fundingCycleRiskProperties.ballot,
+			issueText: riskWarningText.ballot
+		}
+	].filter((item) => Boolean(item))
+}

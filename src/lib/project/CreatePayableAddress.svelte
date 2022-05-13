@@ -1,8 +1,9 @@
-<script>
+<script lang="ts">
 	import Button from '$lib/components/Button.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import Trans from '$lib/components/Trans.svelte';
-	import { closeModal } from '$lib/components/Modal.svelte';
+
+	export let close: () => void;
 
 	let isDeploying = false;
 	// TODO contract reader for deploying a new payable address
@@ -28,7 +29,7 @@
 	</p>
 </div>
 <div class="buttons">
-	<Button type="secondary" size="md" on:click={closeModal}>Close</Button>
+	<Button type="secondary" size="md" on:click={close}>Close</Button>
 	<Button type="primary" size="md" disabled={isDeploying} on:click={deploy}
 		>Deploy project payer contract
 		{#if isDeploying}

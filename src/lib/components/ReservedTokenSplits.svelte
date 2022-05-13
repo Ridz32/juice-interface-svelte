@@ -11,10 +11,13 @@
 	import { getTruncatedAddress } from './Address.svelte';
 	import type { V2FundingCycleMetadata } from '$models/v2/fundingCycle';
 	import type { Split } from '$models/v2/splits';
+	import DistributeTokens from '$lib/project/DistributeTokens.svelte';
+	import { openModal } from './Modal.svelte';
+	import OwnerCrown from './OwnerCrown.svelte';
 
 	export let fundingCycleMetadata: V2FundingCycleMetadata;
 	export let reservedTokensSplits: Split[];
-	export let isCreatePreview = false;
+	export let isPreview = false;
 
 	export let tokenSymbol: string | undefined = undefined;
 	export let tokenAddress: string | undefined = undefined;
@@ -42,7 +45,11 @@
 				>
 			</div>
 		</div>
-		<div slot="right"><button disabled={true}>Distribute {tokenSymbol || 'tokens'}</button></div>
+		<div slot="right">
+			<button disabled={isPreview} on:click={() => openModal(DistributeTokens)}
+				>Distribute {tokenSymbol || 'tokens'}</button
+			>
+		</div>
 	</InfoSpaceBetween>
 	{#if tokenAddress}
 		<p class="contract-address">
@@ -62,7 +69,7 @@
 {/each}
 <!-- TODO check if currentAccount is projectOwner -->
 <InfoSpaceBetween>
-	<p slot="left">Project owner {isCreatePreview ? '(you)' : ''} <Icon name="crown" />:</p>
+	<p slot="left">Project owner {isPreview ? '(you)' : ''} <OwnerCrown />:</p>
 	<p slot="right">{100 - totalSplitPercentageTokenSplits}%</p>
 </InfoSpaceBetween>
 
@@ -72,6 +79,7 @@
 		background: transparent;
 		border: 1px solid var(--stroke-disabled);
 		color: var(--text-disabled);
+		cursor: pointer;
 	}
 	div[slot='left'] {
 		display: flex;

@@ -10,6 +10,7 @@
 	import { tokenSymbolText } from '$utils/tokenSymbolText';
 	import type { WeightFunction } from '$utils/math';
 
+	export let onClick: (weiAmount: BigNumber) => void;
 	export let payButton: string = 'Pay';
 	export let payInCurrency: Currency = Currency.ETH;
 	export let reservedRate: number;
@@ -19,14 +20,20 @@
 
 	let currency = Currency.ETH;
 	let receiveText = 'Receive 1,000,000 tokens/1 ETH';
-	let amount: string = '0';
+	let amount: number = 0;
 	let formattedETHAmount: string;
 
-	function setValue(value) {
-		amount = formatWad(value?.detail.value);
-	}
-
 	const converter = getCurrencyConverter();
+
+	function onPay() {
+		let weiAmount: BigNumber;
+		if(currency == Currency.ETH) {
+			weiAmount = parseEther(amount.toString());
+		} else {
+			weiAmount = parseEther(formattedETHAmount);
+		}
+		onClick(weiAmount);
+	}
 
 	function getReceiveText(payInCurrency: Currency) {
 		const formatReceivedTickets = (wei: BigNumber) => {
@@ -36,7 +43,7 @@
 
 		let weiPayAmt = getWeiConverter({
 			currency: payInCurrency,
-			amount: amount.toString()
+			amount: amount?.toString()
 		});
 
 		if (weiPayAmt?.gt(0)) {
@@ -66,7 +73,7 @@
 
 	$: {
 		receiveText = getReceiveText(currency);
-		const ETHAmount = converter.usdToWei(amount.toString());
+		const ETHAmount = converter.usdToWei(amount?.toString());
 		formattedETHAmount = formatWad(ETHAmount, {
 			precision: 9
 		});
@@ -75,12 +82,12 @@
 
 <div class="wrapper">
 	<div class="stacked expand">
-		<CurrencyInput bind:currency on:setValue={setValue} />
+		<CurrencyInput bind:currency bind:inputValue={amount} />
 		<small>{receiveText}</small>
 	</div>
 	<div class="stacked">
 		<!-- TODO need input from pay button, pass in onClick -->
-		<Button size="md" on:click>{payButton}</Button>
+		<Button size="md" on:click={onPay}>{payButton}</Button>
 		{#if currency === Currency.USD}
 			<small>Paid as <ETH />{formattedETHAmount}</small>
 		{/if}

@@ -101,5 +101,4 @@ export const NETWORKS_BY_NAME = Object.values(NETWORKS).reduce(
 	{} as Record<NetworkName, NetworkInfo>
 );
 
-console.log('readNetwork', import.meta.env.VITE_INFURA_NETWORK);
 export const readNetwork = NETWORKS_BY_NAME[import.meta.env.VITE_INFURA_NETWORK as NetworkName];

@@ -18,7 +18,6 @@ v1.3.0
 				props: {
 					...props,
 					...options.props,
-					closeModal
 				}
 			});
 		};
@@ -276,7 +275,7 @@ v1.3.0
 	let onClosed = toVoid;
 
 	const open = (NewComponent, newProps = {}, options = {}, callback = {}) => {
-		Component = bind(NewComponent, newProps);
+		Component = bind(NewComponent, {...newProps, close });
 		state = { ...defaultState, ...options };
 		updateStyleTransition();
 		disableScroll();
@@ -380,9 +379,13 @@ v1.3.0
 	};
 
 	const enableScroll = () => {
-		document.body.style.position = prevBodyPosition || '';
+		// NOTE we're not using `prevBodyPosition` here because
+		// we have a couple of nested modals, so the previous 
+		// state can be fixed and overflow hidden. Fix this
+		// in the future, for now just unset.
+		document.body.style.position = '';
+		document.body.style.overflow = '';
 		document.body.style.top = '';
-		document.body.style.overflow = prevBodyOverflow || '';
 		document.body.style.width = prevBodyWidth || '';
 		window.scrollTo(0, scrollY);
 	};
@@ -496,7 +499,6 @@ v1.3.0
 		max-width: 100%;
 		max-height: 100%;
 		margin: 2rem auto;
-		color: black;
 		background: var(--background-l0);
 	}
 
@@ -530,7 +532,7 @@ v1.3.0
 		top: 50%;
 		width: 1rem;
 		height: 1px;
-		background: black;
+		background: var(--text-primary);
 		transform-origin: center;
 		transition: height 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),
 			background 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
@@ -551,7 +553,7 @@ v1.3.0
 	}
 
 	.close:hover {
-		background: black;
+		background: var(--icon-action-primary);
 	}
 
 	.close:hover:before,

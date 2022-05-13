@@ -13,10 +13,21 @@
 	onMount(() => {
 		file.addEventListener('change', async (e) => {
 			loading = true;
+			const inputElement = e.target as HTMLInputElement;
+			// Return in the case of cancelling
+			// this looks awful, because it is
+			if (!inputElement) {
+				loading = false;
+				return;
+			}
 			// Get the selected file
-			const [file] = (e.target as HTMLInputElement).files;
+			const [file] = inputElement.files;
+			if (!file) {
+				loading = false;
+				return;
+			}
 			// Get the file name and size
-			const { name: fileName, size } = file;
+			const { size } = file;
 			// Convert size in bytes to kilo bytes
 			const fileSize = size / 1000;
 			if (fileSize > 500) {
@@ -55,16 +66,26 @@
 	>Logo
 	<input bind:this={file} id="icon" type="file" />
 	<div>
-		<Icon name="fileImage" />
-		<span>Upload</span>
+		{#if isFileSet}
+			<Icon
+				name="closeCircle"
+				on:click={() => {
+					isFileSet = false;
+				}}
+			/>
+		{:else}
+			<Icon name="fileImage" />
+			<span>Upload</span>
+		{/if}
 	</div>
 </label>
 <div class="preview-wrapper">
 	<img id="output" class={isFileSet && 'file-preview'} src="" alt="Uploaded logo" />
-	<a class="file-name" />
+	<!-- NOTE: {" "} to suppress linter warning of empty a -->
+	<a class="file-name" class:hide={!isFileSet} href="/">{" "}</a>
 </div>
 {#if problem}
-	<Icon name="exclamation-circle" />
+	<Icon name="exclamationCircle" />
 	{problem}
 {/if}
 
@@ -80,6 +101,10 @@
 	}
 
 	img {
+		display: none;
+	}
+
+	.hide {
 		display: none;
 	}
 	.preview-wrapper {

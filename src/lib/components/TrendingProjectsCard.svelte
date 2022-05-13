@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TrendingProject } from '$models/subgraph-entities/project';
+	import type { TrendingProject } from '$models/subgraph-entities/vX/project';
 	import { getProjectMetadata } from '$data/project';
 	import { SECONDS_IN_DAY } from '$constants/numbers';
 	import Icon from '$lib/components/Icon.svelte';
@@ -37,7 +37,7 @@
 
 <li>
 	<div class="rank">{rank + 1}</div>
-	{#await getProjectMetadata(project.uri)}
+	{#await getProjectMetadata(project.metadataUri)}
 		<p><Icon name="loading" spin /></p>
 	{:then result}
 		<img src={result.logoUri} alt="The project logo" />

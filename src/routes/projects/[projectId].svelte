@@ -154,6 +154,7 @@ import Activity from '$lib/project/Activity.svelte';
 			issue = e.message;
 		}
 	});
+	console.log($project)
 </script>
 
 <section>

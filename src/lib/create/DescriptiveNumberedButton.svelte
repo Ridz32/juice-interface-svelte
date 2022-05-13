@@ -1,13 +1,14 @@
 <script>
 	import Icon from '$lib/components/Icon.svelte';
 	export let description;
+	export let disabled;
 	export let number;
 	export let onClick;
 	export let title;
 	export let visited;
 </script>
 
-<div role="button" class={visited ? 'visited' : ''} on:click={onClick}>
+<div role="button" class:disabled class:visited on:click={!disabled && onClick}>
 	<div class="number">{number}</div>
 	<div class="details">
 		<div class="title">{title}</div>
@@ -28,7 +29,7 @@
 	.icon {
 		align-self: center;
 		margin-left: auto;
-		fill: rgb(24, 180, 199);
+		fill: var(--text-action-primary);
 		width: 15px;
 		height: 15px;
 		/* padding-left: 20px; */
@@ -51,11 +52,15 @@
 		padding: 15px;
 		border-radius: 1px;
 		font-weight: 500;
-		color: rgb(24, 180, 199);
-		border-color: rgb(24, 180, 199);
+		color: var(--text-action-primary);
+		border-color: var(--text-action-primary);
 		border-style: solid;
 		border-width: 1px;
 		margin-bottom: 16px;
+	}
+
+	div[role='button'].disabled {
+		cursor: not-allowed;
 	}
 
 	div[role='button'].visited {

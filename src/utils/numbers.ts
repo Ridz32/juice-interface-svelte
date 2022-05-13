@@ -68,7 +68,6 @@ export function numberWithUnit(n: number | string, float = 6) {
 		i++;
 		_n = _n / 1000;
 	}
-	console.log(_n, n);
 	return [Number(_n.toFixed(float)), units[i]];
 }
 

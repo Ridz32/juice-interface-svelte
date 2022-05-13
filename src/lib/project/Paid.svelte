@@ -17,6 +17,7 @@
 	import PayHeadsUp from '$lib/components/PayHeadsUp.svelte';
 	import PayCheckout from '$lib/project/PayCheckout.svelte';
 	import { weightedAmount } from '$utils/v2/math';
+	import type { BigNumber } from 'ethers';
 
 	const projectsContext = getContext('PROJECT') as Store<V2ProjectContextType>;
 
@@ -27,16 +28,14 @@
 	const owner = $projectsContext.projectOwnerAddress;
 	const metadata = $projectsContext.projectMetadata;
 	const tokenSymbol = $projectsContext.tokenSymbol;
-	const tokenAddress = $projectsContext.tokenAddress;
 
 	const ownerBalance = getEthBalance(owner);
 
-	async function payTreasury() {
+	async function payTreasury(weiAmount: BigNumber) {
 		// TODO contract
 		openModal(
 			bind(PayCheckout, {
-				tokenSymbol,
-				payDisclosure: metadata.payDisclosure,
+				weiAmount
 			})
 		);
 		// setTimeout(() => {
@@ -153,7 +152,7 @@
 	</div>
 	<div class="payment">
 		<Pay
-			on:click={() => openModal(bind(PayHeadsUp, { click: payTreasury }))}
+			onClick={(weiAmount) => openModal(bind(PayHeadsUp, { click: () => payTreasury(weiAmount) }))}
 			payButton={metadata.payButton}
 			reservedRate={fcMetadata.reservedRate.toNumber()}
 			token={tokenSymbol}
@@ -162,8 +161,6 @@
 		/>
 	</div>
 </section>
-
-<Modal show={$modal} />
 
 <style>
 	section {

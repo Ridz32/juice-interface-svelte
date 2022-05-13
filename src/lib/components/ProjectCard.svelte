@@ -2,27 +2,27 @@
 	import { onMount } from 'svelte';
 	import * as constants from '@ethersproject/constants';
 	import { formatDate } from '$utils/formatDate';
-	// import { getTerminalVersion } from '$utils/v1/terminals';
 	import type { ProjectMetadataV4 } from '$models/project-metadata';
-	import type { Project } from '$models/subgraph-entities/project';
+	import type { Project } from '$models/subgraph-entities/vX/project';
 	import { getProjectMetadata } from '$data/project';
 
 	import Icon from '$lib/components/Icon.svelte';
 	import EthAmount from './ETHAmount.svelte';
 	import Popover from './Popover.svelte';
+	import ProjectLogo from './ProjectLogo.svelte';
 
 	export let project: Project;
-
 	let loading = true;
 	let metadata: ProjectMetadataV4;
 
 	onMount(async () => {
-		metadata = await getProjectMetadata(project.uri);
+		metadata = await getProjectMetadata(project.metadataUri);
 		loading = false;
 	});
 
 	// If the total paid is greater than 0, but less than 10 ETH, show two decimal places.
-	const precision = project.totalPaid?.gt(0) && project.totalPaid.lt(constants.WeiPerEther) ? 2 : 0;
+	const precision =
+		project && project.totalPaid?.gt(0) && project.totalPaid.lt(constants.WeiPerEther) ? 2 : 0;
 	// const terminalVersion = getTerminalVersion(project.terminal);
 	const isArchived = false;
 </script>
@@ -30,21 +30,16 @@
 <li>
 	{#if loading}
 		<div class="loading">
-			{project.handle}
-			<Icon name="loading" spin={true} />
+			<Icon name="loading" spin />
 		</div>
-		<Icon name="loading" spin />
 	{:else}
-		<img src={metadata.logoUri} alt="The project logo" />
+		<ProjectLogo uri={metadata.logoUri} size={110} />
 		<section>
 			<h1>{metadata.name}</h1>
 			<div>
 				<span class="handle">
-					@{project.handle}
+					Project {project.id}
 				</span>
-				<!-- <span class="version">
-					V{terminalVersion}
-				</span> -->
 			</div>
 			<EthAmount amount={project.totalPaid} {precision} />
 			<span>since {project.createdAt && formatDate(project.createdAt * 1000, 'yyyy-MM-dd')}</span>
@@ -98,10 +93,10 @@
 		height: 110px;
 	}
 	.archived {
-		position: 'absolute';
+		position: absolute;
 		top: 0;
 		right: 0;
-		padding: '2px 4px';
+		padding: 2px 4px;
 		background: var(--background-l1);
 		font-size: 0.7rem;
 		color: var(--text-tertiary);
@@ -119,10 +114,12 @@
 		font-weight: 500;
 	}
 	.loading {
-		display: 'flex';
+		display: flex;
 		flex: 1;
-		justify-content: 'space-between';
-		align-items: 'center';
+		justify-content: center;
+		align-items: center;
+		color: var(--text-header);
+		transform: scale(2);
 	}
 	/* .version {
 		font-weight: 500;
@@ -135,11 +132,11 @@
 		li {
 			flex: 0 0 100%;
 			max-width: 100%;
-            margin: 10px;
+			margin: 10px;
 		}
 
-        .description {
-            width: 400px;
-        }
+		.description {
+			width: 400px;
+		}
 	}
 </style>

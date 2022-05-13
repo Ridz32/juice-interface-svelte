@@ -6,8 +6,6 @@
 	import FormField from '$lib/components/FormField.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
 	import Icon from '$lib/components/Icon.svelte';
-	import Select from '$lib/components/Select.svelte';
-	import { closeModal } from '$lib/components/Modal.svelte';
 	import Range from '$lib/components/Range.svelte';
 	import CurrencyInput from '$lib/components/CurrencyInput.svelte';
 	import type { Split } from '$models/v2/splits';
@@ -22,6 +20,7 @@
 	import Popover from '$lib/components/Popover.svelte';
 	import { validateEthAddress, validatePercentage } from '$utils/validators';
 	import { dateToDateInput } from '$utils/formatDate';
+	import Dropdown from '$lib/components/Dropdown.svelte';
 
 	const feePercentage = '2.5';
 	const today = dateToDateInput(new Date());
@@ -44,6 +43,7 @@
 		}
 	};
 
+	export let close: () => void;
 	// The distribution limit dictates if there is a paymount amount field
 	export let distributionLimit: number | null = null;
 	export let currency: Currency | null = null;
@@ -169,7 +169,7 @@
 			projectId: projectId ? projectId.toString() : undefined
 		} as Split;
 		onFinish(split);
-		closeModal();
+		close();
 	}
 
 	$: {
@@ -193,10 +193,13 @@
 
 <h3>{editingExistingSplit ? 'Editing a split' : 'Add a split'}</h3>
 <section>
-	<Select bind:value={beneficiaryType}>
-		<option value={BeneficiaryType.Address}>Wallet address</option>
-		<option value={BeneficiaryType.ProjectID}>Juicebox project</option>
-	</Select>
+	<Dropdown
+		options={[
+			{ label: 'Wallet address', value: BeneficiaryType.Address },
+			{ label: 'Juicebox Project', value: BeneficiaryType.ProjectID }
+		]}
+		bind:value={beneficiaryType}
+	/>
 	{#if beneficiaryType === BeneficiaryType.Address}
 		<FormField field={addressField} bind:value={address} />
 	{:else}
@@ -244,7 +247,7 @@
 	</p>
 </section>
 <div class="actions">
-	<Button on:click={closeModal} size="md" type="secondary">Cancel</Button>
+	<Button on:click={close} size="md" type="secondary">Cancel</Button>
 	<Button size="md" on:click={addSplit}>{editingExistingSplit ? 'Edit' : 'Add'} split</Button>
 </div>
 
@@ -255,6 +258,8 @@
 	}
 	section {
 		margin: 40px 0;
+		color: var(--text-primary);
+		max-width: 500px;
 	}
 	label {
 		display: block;

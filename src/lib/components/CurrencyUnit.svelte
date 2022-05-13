@@ -10,7 +10,7 @@
 
 <div
 	role="button"
-	style="cursor: pointer; color: rgb(24, 180, 199); background: rgba(50, 200, 219, 0.267); font-weight: 500; white-space: nowrap; padding: 1px 6px; margin-left: 0px; margin-right: 0px; border-radius: 1px;"
+	style="cursor: pointer; color: var(--text-action-primary); background: var(--text-action-secondary);; font-weight: 500; white-space: nowrap; padding: 1px 6px; margin-left: 0px; margin-right: 0px; border-radius: 1px;"
 	on:click={() => (index = (index + 1) % options.length)}
 >
 	{selected}<span

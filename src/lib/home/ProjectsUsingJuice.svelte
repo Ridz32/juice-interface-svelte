@@ -7,6 +7,7 @@
 	import { formatHistoricalDate } from '$utils/formatDate';
 	import { getTruncatedAddress } from '$lib/components/Address.svelte';
 	import Trans from '$lib/components/Trans.svelte';
+	import { getProjects } from '$data/project';
 
 	async function getLatestPayments() {
 		return await querySubgraph({
@@ -21,7 +22,8 @@
 			],
 			first: 20,
 			orderDirection: 'desc',
-			orderBy: 'timestamp'
+			orderBy: 'timestamp',
+			where: []
 		});
 	}
 </script>
@@ -29,7 +31,7 @@
 <section>
 	<div class="left">
 		<h1><Trans>Projects using Juicebox</Trans></h1>
-		{#await []}
+		{#await getProjects({ pageSize: 4 })}
 			<Icon name="loading" spin={true} />
 		{:then projects}
 			{#each projects as project}
@@ -49,7 +51,7 @@
 					<InfoSpaceBetween>
 						<div slot="left">
 							<!-- TODO should be project handle -->
-							<p><b>@{payment.project.id}</b></p>
+							<p>Project {payment.project.id}</p>
 							<ETHAmount amount={payment.amount} precision={4} />
 						</div>
 						<div slot="right">
@@ -92,7 +94,11 @@
 
 	p {
 		margin: 0;
-		font-weight: 500;
+		font-weight: 400;
+	}
+
+	.address {
+		font-weight: 300;
 	}
 
 	.timestamp {

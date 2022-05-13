@@ -79,7 +79,7 @@
 	a {
 		color: var(--text-color);
 		text-decoration: none;
-		border-bottom: 1px solid rgb(24, 180, 199);
+		border-bottom: 1px solid var(--text-action-primary);
 	}
 
 	p {

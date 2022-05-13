@@ -1,32 +1,116 @@
 <script lang="ts">
+	import { getContext, onMount } from 'svelte';
+	import type { BigNumber } from 'ethers';
+	import type { V2ProjectContextType } from '$models/project-type';
+	import type Store from '$utils/Store';
+	import { formatWad } from '$utils/formatNumber';
+	import { weightedAmount } from '$utils/v2/math';
+	import {
+		getUnsafeV2FundingCycleProperties,
+		V2FundingCycleRiskCount
+	} from '$utils/v2/fundingCycle';
+	import { FUNDING_CYCLE_WARNING_TEXT } from '$constants/fundingWarningText';
 	import Input from '$lib/components/Input.svelte';
-	import { closeModal } from '$lib/components/Modal.svelte';
+	import InfoBox from '$lib/components/InfoBox.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
 	import Trans from '$lib/components/Trans.svelte';
+	import UploadField from '$lib/components/UploadField.svelte';
+	import Button from '$lib/components/Button.svelte';
+	import Checkbox from '$lib/components/Checkbox.svelte';
+	import { bind, openModal } from '$lib/components/Modal.svelte';
+	import PendingTransaction from '$lib/components/PendingTransaction.svelte';
 
-	export let amountString: string = '';
-	export let tokenSymbol: string = '';
-	export let payDisclosure: string = '';
+	const projectContext = getContext('PROJECT') as Store<V2ProjectContextType>;
 
-	let memo;
+	export let close: () => {}
+	export let weiAmount: BigNumber;
+
+	const project = $projectContext;
+	const metadata = $projectContext.projectMetadata;
+	const fundingCycle = $projectContext.fundingCycle;
+	const fundingCycleMetadata = $projectContext.fundingCycleMetadata;
+
+	$: amountString = formatWad(weiAmount);
+	// TODO we need to prepend memo with something to align with the snapshot
+	// re decentralisation
+	let memo: string;
 	let checked = false;
-	// TODO get the correct data
-	let buyerTokens = 300;
-	let reservedTokens = 100;
+	let erc20 = false;
+	let receivedTickets: string;
+	let ownerTickets: string;
+	let customBeneficiary: string;
+	let riskCount: number;
+	let warnings = [];
+
+	function autosize() {
+		const textarea = document.querySelector('textarea');
+		setTimeout(function () {
+			textarea.style.cssText = 'height:auto; padding:0';
+			textarea.style.cssText = 'height:' + textarea.scrollHeight + 'px';
+		}, 0);
+	}
+
+	function payProject() {
+		// TODO contract
+		console.log('🛠 TODO payProject');
+		openModal(bind(PendingTransaction));
+	}
+
+	onMount(() => {
+		// TODO there's something weird here with the reserved rate
+		// PLS HELP, I CANNOT FIGURE OUT WHAT IS GOING ON
+		receivedTickets = weightedAmount(
+			fundingCycle?.weight,
+			fundingCycleMetadata.reservedRate.toNumber(),
+			weiAmount,
+			'payer'
+		);
+		ownerTickets = weightedAmount(
+			fundingCycle?.weight,
+			fundingCycleMetadata.reservedRate.toNumber(),
+			weiAmount,
+			'reserved'
+		);
+		// Get the risk properties for the InfoBox
+		const risk = getUnsafeV2FundingCycleProperties(fundingCycle);
+		riskCount = V2FundingCycleRiskCount(fundingCycle);
+		warnings = Object.keys(risk)
+			.filter((k) => risk[k])
+			.map((k) => FUNDING_CYCLE_WARNING_TEXT()[k]);
+		// Autosize the textarea for memo
+		const textarea = document.querySelector('textarea');
+		textarea.addEventListener('keydown', autosize);
+	});
 </script>
 
 <main>
-	<h3><Trans>Pay {tokenSymbol}</Trans></h3>
+	<h3><Trans>Pay {project.tokenSymbol || ''}</Trans></h3>
 	<p>
 		<Trans
-			>Paying <b>{tokenSymbol}</b> is not an investment — it's a way to support the project. Any value
-			or utility of the tokens you receive is determined by Baguette.</Trans
+			>Paying <b>{project.tokenSymbol || ''}</b> is not an investment — it's a way to support the
+			project. Any value or utility of the tokens you receive is determined by {metadata.name}.</Trans
 		>
 	</p>
 
-	{#if payDisclosure}
-		<h4>Notice from {tokenSymbol}:</h4>
-		<p>{payDisclosure}</p>
+	{#if metadata.payDisclosure}
+		<h4>Notice from {project.tokenSymbol}:</h4>
+		<p>{metadata.payDisclosure}</p>
+	{/if}
+	{#if riskCount}
+		<InfoBox>
+			<b><Trans>Potential risks</Trans></b>
+			<p class="secondary">
+				<Trans
+					>Some properties of the project's current funding cycle may indicate risk for
+					contributors.</Trans
+				>
+			</p>
+			<ul>
+				{#each warnings as warning}
+					<li>{warning}</li>
+				{/each}
+			</ul>
+		</InfoBox>
 	{/if}
 	<table>
 		<tbody
@@ -36,31 +120,66 @@
 			><tr
 				><th colspan="1"><span>Tokens for you</span></th><td colspan="1"
 					><span
-						><div>{buyerTokens}</div>
+						><div>{formatWad(receivedTickets, { precision: 0 })}</div>
 						<div /></span
 					></td
 				></tr
 			><tr
-				><th colspan="1"><span>{tokenSymbol} reserved</span></th><td colspan="1"
-					><span>{reservedTokens}</span></td
+				><th colspan="1"><span>{project.tokenSymbol || 'Tokens'} reserved</span></th><td colspan="1"
+					><span>{formatWad(ownerTickets, { precision: 0 })}</span></td
 				></tr
 			></tbody
 		>
 	</table>
-	<label for="memo">Memo</label>
-	<Input bind:value={memo} placeholder="(Optioal) Add a memo to this payment on-chain" />
-
-	<div class="beneficiary">
-		<p>Custom token beneficiary</p>
+	<div class="item">
+		<label for="memo">Memo</label>
+		<textarea
+			bind:value={memo}
+			rows="1"
+			disabled={memo?.length >= 256}
+			placeholder="(Optioal) Add a memo to this payment on-chain"
+		/>
+		<p class="right">{(memo || '').length} / 256</p>
+	</div>
+	<UploadField
+		onChange={(url) => {
+			if (url) {
+				memo = `${url}   ${memo || ''}`;
+				autosize();
+			}
+		}}
+	/>
+	<div class="row">
+		<label for="tokenBeneficiary">Custom token beneficiary</label>
 		<Toggle bind:checked />
 	</div>
-	<small>Mint tokes to a custom address.</small>
+	<small><Trans>Mint tokens to a custom address.</Trans></small>
+	{#if checked}
+		<Input
+			bind:value={customBeneficiary}
+			placeholder={'juicebox.eth / 0x0000000000000000000000000000000000000000'}
+		/>
+	{/if}
 
-	<div class="ant-modal-footer" style="margin-top: 1rem">
-		<button type="button" class="ant-btn" on:click={closeModal}>
-			<span>Close</span>
-		</button>
-		<button type="button" class="ant-btn ant-btn-primary"><span>Pay</span></button>
+	<div class="item">
+		<p><b>Receive ERC-20</b></p>
+		<div class="row">
+			<div class="checkbox-wrapper">
+				<Checkbox bind:checked={erc20} />
+			</div>
+			<p>
+				<Trans>
+					Check this to mint this project's ERC-20 tokens to your wallet. Leave unchecked to have
+					your token balance tracked by Juicebox, saving gas on this transaction. You can always
+					claim your ERC-20 tokens later.
+				</Trans>
+			</p>
+		</div>
+	</div>
+
+	<div class="right">
+		<Button on:click={close} type="secondary" size="md">Close</Button>
+		<Button on:click={payProject} type="primary" size="md">Pay</Button>
 	</div>
 </main>
 
@@ -98,14 +217,45 @@
 	}
 
 	p {
+		font-weight: 300;
 		margin: 0;
 	}
-	.beneficiary {
-		display: flex;
-		margin-top: 1rem;
-		/* font-weight: 300; */
-	}
-	.beneficiary p {
+
+	label {
+		margin: 10px 0px;
 		margin-right: 10px;
+	}
+
+	small {
+		font-weight: 300;
+		font-size: 0.8rem;
+	}
+	textarea {
+		border: 1px solid var(--stroke-primary);
+		width: 100%;
+		height: auto;
+		background: transparent;
+		min-height: 28px;
+	}
+	ul {
+		margin-top: 20px;
+	}
+	.row {
+		align-items: center;
+		margin-top: 1rem;
+		display: flex;
+	}
+	.row p {
+		margin-right: 10px;
+	}
+	.item {
+		margin: 20px 0px;
+	}
+	.right {
+		float: right;
+	}
+
+	.secondary {
+		color: var(--text-secondary);
 	}
 </style>

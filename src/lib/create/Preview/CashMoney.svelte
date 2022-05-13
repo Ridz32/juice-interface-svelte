@@ -35,6 +35,7 @@
 	<div slot="right">
 		{#if currentDistributionLimitType === DistributionLimitType.None}
 			<PopInfo
+				placement="left"
 				message="The target for this funding cycle is 0, meaning all funds in Juicebox are currently considered overflow. Overflow can be redeemed by token holders, but not distributed."
 				><p>100% Overflow</p></PopInfo
 			>

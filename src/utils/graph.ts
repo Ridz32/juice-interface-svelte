@@ -14,20 +14,20 @@ import {
 	parseParticipantJson,
 	type Participant,
 	type ParticipantJson
-} from '$models/subgraph-entities/participant';
+} from '$models/subgraph-entities/vX/participant';
 import {
 	parsePayEventJson,
 	type PayEvent,
 	type PayEventJson
-} from '$models/subgraph-entities/pay-event';
+} from '$models/subgraph-entities/vX/pay-event';
 import { parsePrintPremineEventJson } from '$models/subgraph-entities/print-premine-event';
 import {
 	parsePrintReservesEventJson,
 	type PrintReservesEvent,
 	type PrintReservesEventJson
 } from '$models/subgraph-entities/print-reserves-event';
-import { parseProjectJson, type Project } from '$models/subgraph-entities/project';
-import type { ProjectJson } from '$models/subgraph-entities/project';
+import { parseProjectJson, type Project } from '$models/subgraph-entities/vX/project';
+import type { ProjectJson } from '$models/subgraph-entities/vX/project';
 import {
 	parseRedeemEventJson,
 	type RedeemEvent,
@@ -192,8 +192,11 @@ export const formatGraphQuery = <E extends EntityKey, K extends EntityKeys<E>>(
 	)} } }`;
 };
 
-// const subgraphUrl = `https://gateway.thegraph.com/api/${import.meta.env.VITE_SUBGRAPH_API_KEY}/subgraphs/id/${import.meta.env.VITE_SUBGRAPH_ID}`;
-const subgraphUrl = `https://api.studio.thegraph.com/query/2231/juicebox-dev-rinkeby/0.1.12`
+// const subgraphUrl = `https://gateway.thegraph.com/api/${
+// 	import.meta.env.VITE_SUBGRAPH_API_KEY
+// }/subgraphs/id/${import.meta.env.VITE_SUBGRAPH_ID}`;
+
+const subgraphUrl = import.meta.env.VITE_SUBGRAPH_URL;
 
 export const trimHexZero = (hexStr: string) => hexStr.replace('0x0', '0x');
 
@@ -299,7 +302,7 @@ export async function querySubgraph<E extends EntityKey, K extends EntityKeys<E>
 		throw new Error('import.meta.env.VITE_SUBGRAPH_URL is missing');
 	}
 
-	if (!opts) return [];
+	if (!opts) return [];;
 
 	const response = await axios.post<{
 		errors?: SubgraphError | SubgraphError[];
