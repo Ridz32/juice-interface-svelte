@@ -8,8 +8,6 @@
 	import RedeemEvent from './RedeemEvent.svelte';
 
 	export let event: ProjectEvent;
-
-	console.log(event);
 </script>
 
 {#if event.projectCreateEvent}
