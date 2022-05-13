@@ -1,7 +1,9 @@
 <script>
+	import Checkbox from '$lib/components/Checkbox.svelte';
 	import Collapse from '$lib/components/Collapse.svelte';
 	import Dropdown from '$lib/components/Dropdown.svelte';
-	import { sortType, searchFilter } from '$stores/projectsForm';
+	import Icon from '$lib/components/Icon.svelte';
+	import { sortType, showArchived } from '$stores/projectsForm';
 
 	const SORT_TYPES_MAP = {
 		totalPaid: 'Total Raised',
@@ -16,22 +18,45 @@
 	});
 </script>
 
-<!-- <div class="filter-and-sort"> -->
-<Collapse class="collapse">Filter</Collapse>
-	{#each $searchFilter as filter}
-		<label>
-			<input type="checkbox" bind:checked={filter.selected} />
-			{filter.filterType}
-		</label>
-	{/each}
 <div class="filter-and-sort">
-	<Dropdown {options} bind:value={$sortType} />
+	<Collapse>
+		<div class="filter">
+			<Icon name="filter" /> Filter
+		</div>
+		<div slot="content">
+			<span>
+				<Checkbox bind:checked={$showArchived} /> Archived
+			</span>
+		</div>
+	</Collapse>
+	<div class="dropdown">
+		<Dropdown {options} bind:value={$sortType} />
+	</div>
 </div>
+
 <style>
-	.filter-and-sort {
-		position: absolute;
-		z-index: 20;
-		right: 0;
+	.dropdown {
 		width: 180px;
+		margin-left: 30px;
+	}
+	.filter-and-sort {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		width: 360px;
+	}
+
+	.filter {
+		display: flex;
+		align-items: center;
+		width: 75px;
+		justify-content: space-between;
+	}
+
+	span {
+		display: flex;
+		align-items: center;
+		padding: 12px 18px;
+		font-weight: 300;
 	}
 </style>
