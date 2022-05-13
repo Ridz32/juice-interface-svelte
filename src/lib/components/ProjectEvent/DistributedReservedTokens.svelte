@@ -48,7 +48,7 @@
 
 <InfoSpaceBetween>
 	<div slot="left">
-		<p><small><Trans>Distribute funds</Trans></small></p>
+		<p><small><Trans>Distribute reserved tokens</Trans></small></p>
 		{#each events as e}
 			{#if e.splitProjectId}
 				<span>Project {e.splitProjectId}</span>
