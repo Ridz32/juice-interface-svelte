@@ -20,7 +20,7 @@
 
 <div class="filter-and-sort">
 	<Collapse>
-		<div class="filter">
+		<div class="filter" class:active={$showArchived}>
 			<Icon name="filter" /> Filter
 		</div>
 		<div slot="content">
@@ -35,6 +35,9 @@
 </div>
 
 <style>
+	.active {
+		color: var(--icon-action-primary);
+	}
 	.dropdown {
 		width: 180px;
 		margin-left: 30px;
