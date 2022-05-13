@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 	import type Store from '$utils/Store';
 	import type { Project } from '$models/subgraph-entities/project';
 	import type { ProjectMetadata } from '$models/project-metadata';
@@ -7,6 +7,10 @@
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import type { V2ProjectContextType } from '$models/project-type';
 	import PayEvent from './PayEvent.svelte';
+	import { getProjectEvents } from '$data/event';
+
+	const project = getContext('PROJECT') as Store<V2ProjectContextType>;
+	let events = [];
 
 	enum ActivityType {
 		PAY = 'PAY',
@@ -15,13 +19,20 @@
 		RESERVES = 'RESERVES'
 	}
 
-	// const projectContext = getContext('PROJECT') as Store<V2ProjectContextType>;
-	// const project = projectContext.project;
-	// const payEvents = $project.payEvents;
+	onMount(async () => {
+		// Certain this should be projectId, but getting error from subgraph
+		events = await getProjectEvents(
+			[
+				{ key: 'projectId', value: $project.projectId.toNumber() },
+				{ key: 'cv', value: '2' }
+			],
+			0,
+			50
+		);
+	});
 
 	export let loading: boolean = false;
 	export let current: ActivityType = ActivityType.PAY;
-	export let payEvents = [];
 </script>
 
 <section>
@@ -29,9 +40,9 @@
 		<InfoSpaceBetween>
 			<div slot="left">
 				<h4>Activity</h4>
-				<div class="icon">
+				<!-- <div class="icon">
 					<Icon name="download" />
-				</div>
+				</div> -->
 			</div>
 			<div slot="right">
 				<p
@@ -73,8 +84,8 @@
 		<Icon name="loading" spin />
 	{/if}
 	{#if current === ActivityType.PAY}
-		{#each payEvents as payment}
-			<PayEvent {payment} />
+		{#each events as event}
+			<PayEvent payment={event} />
 		{/each}
 	{:else if current === ActivityType.REDEEM}
 		<p>Todo</p>

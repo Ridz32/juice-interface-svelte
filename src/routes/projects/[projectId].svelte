@@ -23,7 +23,7 @@
 	import { ETH_PAYOUT_SPLIT_GROUP } from '$constants/v2/splits';
 	import { ETH_TOKEN_ADDRESS } from '$constants/v2/juiceboxTokens';
 	import { getProjectMetadata } from '$data/project';
-import Activity from '$lib/project/Activity.svelte';
+	import Activity from '$lib/project/Activity.svelte';
 
 	let project = new Store<V2ProjectContextType>({} as any);
 
@@ -147,14 +147,14 @@ import Activity from '$lib/project/Activity.svelte';
 
 			console.log($project);
 
-		$project.projectOwnerAddress = ret;
+			$project.projectOwnerAddress = ret;
 
 			loading = false;
 		} catch (e) {
 			issue = e.message;
 		}
 	});
-	console.log($project)
+	console.log($project);
 </script>
 
 <section>
@@ -175,11 +175,12 @@ import Activity from '$lib/project/Activity.svelte';
 				<div class="row">
 					<Details />
 					<!-- WIP -->
-					<!-- {#await getPaymentsForProject($project.projectId)}
-						<Activity loading={true} />
-					{:then payEvents}
-						<Activity {payEvents} />
-					{/await} -->
+					<!-- {#await getPaymentsForProject($project.projectId)} -->
+						<!-- <Activity loading={true} /> -->
+					<!-- {:then payEvents} -->
+						<!-- <Activity {payEvents} /> -->
+						<Activity />
+					<!-- {/await} -->
 				</div>
 			</div>
 			<div style="text-align: center; padding: 20px;">
