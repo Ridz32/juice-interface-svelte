@@ -2,6 +2,7 @@
 	import ProjectCreateEvent from './ProjectCreateEvent.svelte';
 	import type { ProjectEvent } from '$models/subgraph-entities/vX/project-event';
 	import PayEvent from './PayEvent.svelte';
+	import DeployedErc20Event from './DeployedERC20Event.svelte';
 
 	export let event: ProjectEvent;
 </script>
@@ -11,6 +12,8 @@
 		<ProjectCreateEvent event={event.projectCreateEvent} />
 	{:else if event.payEvent}
 		<PayEvent event={event.payEvent} />
+	{:else if event.deployedERC20Event}
+		<DeployedErc20Event event={event.deployedERC20Event} />
 	{/if}
 </div>
 
@@ -44,8 +47,8 @@
 	}
 	:global(.amount) {
 		font-size: 1rem;
-        line-height: 1.4;
+		line-height: 1.4;
 		font-weight: 400;
-        color: var(--text-primary);
+		color: var(--text-primary);
 	}
 </style>
