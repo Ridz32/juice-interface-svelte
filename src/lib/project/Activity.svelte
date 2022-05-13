@@ -9,6 +9,7 @@
 	import ProjectEvent from '$lib/components/ProjectEvent';
 	import { getProjectEvents } from '$data/event';
 	import Dropdown from '$lib/components/Dropdown.svelte';
+	import { projectEvents } from '$data/mockDataV2';
 
 	const project = getContext('PROJECT') as Store<V2ProjectContextType>;
 
@@ -53,7 +54,8 @@
 	}
 
 	$: {
-		loadEvents(current);
+		// loadEvents(current);
+		events = projectEvents;
 	}
 </script>
 
