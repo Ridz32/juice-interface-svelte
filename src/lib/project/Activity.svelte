@@ -6,7 +6,7 @@
 	import Icon from '$lib/components/Icon.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import type { V2ProjectContextType } from '$models/project-type';
-	import PayEvent from './PayEvent.svelte';
+	import ProjectEvent from '$lib/components/ProjectEvent';
 	import { getProjectEvents } from '$data/event';
 	import Dropdown from '$lib/components/Dropdown.svelte';
 
@@ -74,7 +74,7 @@
 	{/if}
 	<p>[Work In Progress]</p>
 	{#each events as event}
-		<PayEvent payment={event} />
+		<ProjectEvent {event} />
 	{/each}
 </section>
 
