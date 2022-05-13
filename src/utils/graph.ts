@@ -274,7 +274,10 @@ export const formatGraphQuery = <E extends EntityKey, K extends EntityKeys<E>>(
 		)} } }`
 }
 
-const subgraphUrl = import.meta.env.VITE_SUBGRAPH_URL;
+// const subgraphUrl = import.meta.env.VITE_SUBGRAPH_URL;
+// NOTE: this is a temporary hardcode due to fleek not liking url's and the graph url
+// changing quite often 
+const subgraphUrl = 'https://api.studio.thegraph.com/query/26884/juicebox-v2-rinkeby/v0.0.4'
 
 export const trimHexZero = (hexStr: string) => hexStr.replace('0x0', '0x')
 
