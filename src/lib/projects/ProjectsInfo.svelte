@@ -9,9 +9,9 @@
 	>
 </div>
 
-<p style="max-width: 800px; margin-bottom: 20px;">
+<p>
 	<span>
-		<Icon name="info" />
+		<Icon name="infoCircle" />
 	</span>
 	The Juicebox protocol is open to anyone, and project configurations can vary widely. There are risks
 	associated with interacting with all projects on the protocol. Projects built on the protocol are not
@@ -22,5 +22,13 @@
 <style>
 	h1 {
 		color: var(--text-header);
+	}
+
+	p {
+		max-width: 800px;
+		margin-bottom: 20px;
+		font-size: 14px;
+		font-weight: 300;
+		line-height: 1.4;
 	}
 </style>

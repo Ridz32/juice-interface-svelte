@@ -3,7 +3,7 @@
 
 	import Icon from '$lib/components/Icon.svelte';
 	import TrendingProjectsCard from '$lib/components/TrendingProjectsCard.svelte';
-	import type { TrendingProject } from '$models/subgraph-entities/project';
+	import type { TrendingProject } from '$models/subgraph-entities/vX/project';
 	import { onMount } from 'svelte';
 
 	export let trendingProjectCount = 12;
@@ -18,25 +18,41 @@
 	});
 </script>
 
-<p>
-	{#if trendingProjectsLoading}
-		<div class="loading">
-			<Icon name="loading" spin={true} />
-		</div>
-	{:else}
-		<ul>
-			{#each trendingProjects as project, rank}
-				<TrendingProjectsCard {rank} {project} days={trendingWindowDays} />
-			{/each}
-		</ul>
-		<span>
-			<Icon name="info" />
-		</span>
+{#if trendingProjectsLoading}
+	<div class="loading">
+		<Icon name="loading" spin={true} />
+	</div>
+{:else}
+	<section>
+		{#each trendingProjects as project, rank}
+			<TrendingProjectsCard {rank} {project} days={trendingWindowDays} />
+		{/each}
+	</section>
+	<p>
+		<Icon name="infoCircle" />
 		Rankings based on number of contributions and volume gained in the last 7 days.
 		<a
 			href="https://github.com/jbx-protocol/juice-interface/blob/main/src/hooks/v1/Projects.ts#L229"
 			target="_blank"
 			rel="noopener noreferrer">See code</a
 		>
-	{/if}
-</p>
+	</p>
+{/if}
+
+<style>
+	section {
+		margin: auto;
+		margin-bottom: 40px;
+		display: grid;
+		max-width: 1000px;
+		grid-column-gap: 20px;
+		grid-row-gap: 12px;
+		grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+		grid-auto-flow: row;
+	}
+
+	p {
+		font-weight: 300;
+		font-size: 14px;
+	}
+</style>

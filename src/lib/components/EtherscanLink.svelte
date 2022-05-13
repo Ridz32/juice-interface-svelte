@@ -27,7 +27,9 @@
 {#if type === 'tx'}
 	<Popover message={'See transaction'}>
 		<ExternalLink {href}>
-			<Icon name="link" />
+			<div class="link">
+				<Icon name="link" />
+			</div>
 		</ExternalLink>
 	</Popover>
 {:else}
@@ -35,3 +37,14 @@
 		<ExternalLink {href}>{truncatedValue ?? value}</ExternalLink>
 	</Popover>
 {/if}
+
+<style>
+	.link {
+		color: var(--text-primary);
+	}
+
+	.link:hover {
+		color: var(--text-action-primary);
+		transition: color 0.2s ease-in-out;
+	}
+</style>

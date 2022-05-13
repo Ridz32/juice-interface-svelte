@@ -34,7 +34,7 @@
 							role="img"
 							aria-label="menu"
 							class="anticon anticon-menu"
-							style="color: var(--text-primary) font-size: 20px; padding-top: 6px; padding-left: 10px;"
+							style="color: var(--text-primary); font-size: 20px; padding-top: 6px; padding-left: 10px;"
 						>
 							<Icon name="hamburger" />
 						</span>

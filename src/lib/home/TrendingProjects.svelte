@@ -52,7 +52,6 @@
 	article {
 		margin: auto;
 		max-width: 1200px;
-		display: flex;
 	}
 
 	section {
@@ -66,10 +65,13 @@
 	}
 
 	ul {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 10px;
-		padding-inline-start: 0px;
+		margin: auto;
+		display: grid;
+		grid-column-gap: 20px;
+		grid-row-gap: 12px;
+		grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+		grid-auto-flow: row;
+		padding-bottom: 20px;
 	}
 
 	.loading {
@@ -85,6 +87,9 @@
 	}
 
 	@media (min-width: 992px) {
+		article {
+			display: flex;
+		}
 		img {
 			display: block;
 			height: 550px;

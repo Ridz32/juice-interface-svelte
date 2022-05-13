@@ -1,88 +1,78 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
 	import type Store from '$utils/Store';
-	import type { Project } from '$models/subgraph-entities/project';
-	import type { ProjectMetadata } from '$models/project-metadata';
 	import Icon from '$lib/components/Icon.svelte';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import type { V2ProjectContextType } from '$models/project-type';
-	import PayEvent from './PayEvent.svelte';
+	import ProjectEvent from '$lib/components/ProjectEvent';
+	import { getProjectEvents } from '$data/event';
+	import Dropdown from '$lib/components/Dropdown.svelte';
 
-	enum ActivityType {
-		PAY = 'PAY',
-		REDEEM = 'REDEEM',
-		WITHDRAW = 'WITHDRAW',
-		RESERVES = 'RESERVES'
+	const project = getContext('PROJECT') as Store<V2ProjectContextType>;
+
+	enum ActivityFilter {
+		all = 'All events',
+		payEvent = 'Paid',
+		redeemEvent = 'Redeemed',
+		distributePayoutsEvent = 'Distributed Funds',
+		distributeReservedTokensEvent = 'Distributed Tokens',
+		deployedERC20Event = 'ERC20 Deployed',
+		projectCreateEvent = 'Project Created'
 	}
 
-	// const projectContext = getContext('PROJECT') as Store<V2ProjectContextType>;
-	// const project = projectContext.project;
-	// const payEvents = $project.payEvents;
-
 	export let loading: boolean = false;
-	export let current: ActivityType = ActivityType.PAY;
-	export let payEvents = [];
+	export let current: ActivityFilter = ActivityFilter['All events'];
+
+	let events = [];
+
+	const options = Object.keys(ActivityFilter).map((key) => ({
+		label: ActivityFilter[key],
+		value: key
+	}));
+
+	async function loadEvents(current: string) {
+		loading = true;
+		let where = [
+			{ key: 'projectId', value: $project.projectId.toNumber() },
+			{ key: 'cv', value: '2' }
+		];
+
+		if (current && current !== 'all') {
+			where.push({
+				key: current,
+				// TODO fix type error
+				operator: 'not',
+				value: null
+			});
+		}
+		// TODO fix type error
+		events = await getProjectEvents(where, 0, 50);
+		loading = false;
+	}
+
+	$: {
+		loadEvents(current);
+	}
 </script>
 
 <section>
 	<header>
 		<InfoSpaceBetween>
-			<div slot="left">
-				<h4>Activity</h4>
-				<div class="icon">
-					<Icon name="download" />
-				</div>
-			</div>
+			<h4 slot="left">Activity</h4>
 			<div slot="right">
-				<p
-					class:current={ActivityType.PAY === current}
-					on:click={() => {
-						current = ActivityType.PAY;
-					}}
-				>
-					Pay
-				</p>
-				<p
-					class:current={ActivityType.REDEEM === current}
-					on:click={() => {
-						current = ActivityType.REDEEM;
-					}}
-				>
-					Redeem
-				</p>
-				<p
-					class:current={ActivityType.WITHDRAW === current}
-					on:click={() => {
-						current = ActivityType.WITHDRAW;
-					}}
-				>
-					Withdraw
-				</p>
-				<p
-					class:current={ActivityType.RESERVES === current}
-					on:click={() => {
-						current = ActivityType.RESERVES;
-					}}
-				>
-					Reserves
-				</p>
+				<p><Icon name="download" /></p>
+				<Dropdown {options} bind:value={current} size="sm" />
 			</div>
 		</InfoSpaceBetween>
 	</header>
 	{#if loading}
-		<Icon name="loading" spin />
+		<div class="loading">
+			<Icon name="loading" spin />
+		</div>
 	{/if}
-	{#if current === ActivityType.PAY}
-		{#each payEvents as payment}
-			<PayEvent {payment} />
-		{/each}
-	{:else if current === ActivityType.REDEEM}
-		<p>Todo</p>
-	{:else if current === ActivityType.WITHDRAW}
-		<p>Todo</p>
-	{:else}
-		<p>Todo</p>
-	{/if}
+	{#each events as event}
+		<ProjectEvent {event} />
+	{/each}
 </section>
 
 <style>
@@ -95,40 +85,38 @@
 		margin-top: 40px;
 	}
 
+	header {
+		margin-bottom: 20px;
+	}
+
 	h4 {
 		font-weight: 600;
 		color: var(--text-header);
 	}
 
-	div[slot='left'],
 	div[slot='right'] {
-		display: flex;
-		gap: 20px;
-	}
-
-	div[slot='left'] {
-		display: flex;
-		align-items: baseline;
-	}
-
-	div[slot='right'] {
-		text-transform: uppercase;
+		width: 230px;
 		font-weight: 300;
-		color: var(--text-tertiary);
+		display: flex;
+		align-items: end;
+	}
+
+	div[slot='right'] p {
+		margin: 0;
+		margin-right: 10px;
+		transform: scale(1.2);
 	}
 
 	div[slot='right'] p:hover {
 		cursor: pointer;
 	}
 
-	.current {
-		font-weight: 600;
-		color: var(--text-secondary);
-	}
-
-	.icon {
-		font-size: 1rem;
-		color: var(--text-action-primary);
+	.loading {
+		color: var(--text-header);
+		margin-top: 50px;
+		text-align: center;
+		transform: scale(1.5);
+		width: 100%;
 	}
 
 	@media (max-width: 768px) {

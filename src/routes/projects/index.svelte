@@ -9,6 +9,7 @@
 
 	import {
 		selectedProjectsTab,
+		scrollTarget,
 		hasSearched,
 		searchResults,
 		isSearching,
@@ -18,48 +19,64 @@
 	import ProjectsSearchResults from '$lib/projects/ProjectsSearchResults.svelte';
 </script>
 
-<section
-	class="ant-layout"
-	style="display: flex; flex-direction: column; height: 100%; background: transparent;"
->
-	<div class="ant-layout-content">
-		<div style="max-width: 1080px; margin: 0px auto; padding: 20px;">
-			<ProjectsInfo />
-			<ProjectsSearch />
-			{#if $hasSearched}
-				<ProjectsSearchResults
-					projects={$searchResults}
-					loading={$isSearching}
-					searchText={$searchText}
-				/>
-			{:else}
-				<div class="controls">
-					<ProjectsTabs />
-					{#if $selectedProjectsTab === 'all'}
-						<ProjectsFilterAndSort />
-					{/if}
-				</div>
-
-				{#if $selectedProjectsTab === 'trending'}
-					<TrendingProjects />
-				{:else if $selectedProjectsTab === 'holdings'}
-					<HoldingsProjects />
-				{:else if $selectedProjectsTab === 'myprojects'}
-					<MyProjects />
-				{:else if $selectedProjectsTab === 'all'}
-					<AllProjects />
+<div bind:this={$scrollTarget} class="wrapper">
+	<section id="projects">
+		<ProjectsInfo />
+		<ProjectsSearch />
+		{#if $hasSearched}
+			<ProjectsSearchResults
+				projects={$searchResults}
+				loading={$isSearching}
+				searchText={$searchText}
+			/>
+		{:else}
+			<div class="controls">
+				<ProjectsTabs />
+				{#if $selectedProjectsTab === 'all'}
+					<ProjectsFilterAndSort />
 				{/if}
+			</div>
+
+			{#if $selectedProjectsTab === 'trending'}
+				<TrendingProjects />
+			{:else if $selectedProjectsTab === 'holdings'}
+				<HoldingsProjects />
+			{:else if $selectedProjectsTab === 'myprojects'}
+				<MyProjects />
+			{:else if $selectedProjectsTab === 'all'}
+				<AllProjects />
 			{/if}
-		</div>
-	</div>
-</section>
+		{/if}
+	</section>
+</div>
 
 <style>
+	:global(#projects .loading) {
+		position: absolute;
+		left: 0;
+		text-align: center;
+		transform: scale(2);
+		width: 100vw;
+	}
+
+	section {
+		max-width: 1000px;
+		margin: auto;
+		margin-top: 40px;
+		padding: 0 20px;
+	}
 	.controls {
 		display: flex;
 		justify-content: space-between;
-		align-items: flex-start;
+		align-items: center;
 		flex-wrap: wrap;
 		max-width: 100vw;
+		height: 80px;
+		position: relative;
+	}
+
+	.wrapper {
+		height: 100vh;
+		overflow-y: scroll;
 	}
 </style>

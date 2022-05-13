@@ -2,6 +2,7 @@
 	import { slide } from 'svelte/transition';
 	import { createEventDispatcher } from 'svelte';
 
+	export let size: 'sm' | 'md' | 'lg' = 'md';
 	export let options: { [key: string]: any }[];
 	export let value = options[0].value;
 
@@ -12,7 +13,7 @@
 	function selectedItem(optionValue) {
 		value = optionValue;
 		isOpen = false;
-        dispatch('select', { value });
+		dispatch('select', { value });
 	}
 
 	$: selectedOption = options.find((option) => option.value === value);
@@ -20,7 +21,7 @@
 
 <div class="custom-select">
 	<div
-		class="select-selected"
+		class={`select-selected ${size}`}
 		on:click={() => {
 			isOpen = !isOpen;
 		}}
@@ -48,7 +49,6 @@
 		position: relative;
 		border: 1px solid var(--stroke-primary);
 		border-radius: 2px;
-		height: 32px;
 	}
 
 	.dropdown {
@@ -67,7 +67,7 @@
 	}
 
 	.active {
-		font-weight: 600px;
+		font-weight: 600;
 	}
 	.active,
 	.select-item:hover {
@@ -78,24 +78,38 @@
 		background-color: transparent;
 	}
 
-	/* Style the arrow inside the select element: */
-	.select-selected:after {
-		position: absolute;
-		content: '';
-		top: 14px;
-		right: 10px;
-		width: 0;
-		height: 0;
-		border: 6px solid transparent;
-		border-color: var(--text-primary) transparent transparent transparent;
-	}
-
 	.select-selected {
 		color: var(--text-primary);
-		padding: 4px 12px;
 		font-weight: 300 !important;
 		border: 1px solid transparent;
 		border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
 		cursor: pointer;
+	}
+
+	.select-selected.sm {
+		padding: 1px 12px;
+	}
+
+	.select-selected.md {
+		padding: 4px 12px;
+	}
+
+	/* Style the arrow inside the select element: */
+	.select-selected:after {
+		position: absolute;
+		content: '';
+		width: 0;
+		height: 0;
+		border: 6px solid transparent;
+		border-color: var(--text-primary) transparent transparent transparent;
+		right: 10px;
+	}
+
+	.select-selected.sm:after {
+		top: 11px;
+	}
+
+	.select-selected.md:after {
+		top: 14px;
 	}
 </style>

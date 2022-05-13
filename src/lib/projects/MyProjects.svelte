@@ -4,7 +4,7 @@
 
 	import { connectedAccount } from '$stores/web3';
 	import { myProjectsQuery } from '$data/project';
-	import type { Project } from '$models/subgraph-entities/project';
+	import type { Project } from '$models/subgraph-entities/vX/project';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import ProjectCount from './ProjectCount.svelte';
 
@@ -43,3 +43,4 @@
 		</a>
 	{/if}
 </div>
+

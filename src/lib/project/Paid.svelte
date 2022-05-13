@@ -2,7 +2,7 @@
 	import { getContext } from 'svelte';
 	import { modal } from '$stores';
 	import type { V2ProjectContextType } from '$models/project-type';
-	import { Currency } from '$constants';
+	import { Currency, DistributionLimitType } from '$constants';
 	import { getEthBalance } from '$data/eth';
 	import type Store from '$utils/Store';
 	import Icon from '$lib/components/Icon.svelte';
@@ -18,6 +18,7 @@
 	import PayCheckout from '$lib/project/PayCheckout.svelte';
 	import { weightedAmount } from '$utils/v2/math';
 	import type { BigNumber } from 'ethers';
+	import { getDistributionLimitType } from '$utils/v2/distributions';
 
 	const projectsContext = getContext('PROJECT') as Store<V2ProjectContextType>;
 
@@ -30,6 +31,8 @@
 	const tokenSymbol = $projectsContext.tokenSymbol;
 
 	const ownerBalance = getEthBalance(owner);
+
+	const distributionLimitType = getDistributionLimitType($projectsContext.distributionLimit);
 
 	async function payTreasury(weiAmount: BigNumber) {
 		// TODO contract
@@ -74,22 +77,23 @@
 				</div>
 			</div>
 		</InfoSpaceBetween>
-		{#if $projectsContext.distributionLimit.gt(0)}
-			<InfoSpaceBetween>
-				<div slot="left">
-					<h4><Trans>Distributed</Trans></h4>
-					<Popover
-						placement="right"
-						message="The amount that has been distributed from the Juicebox balance
+		<InfoSpaceBetween>
+			<div slot="left">
+				<h4><Trans>Distributed</Trans></h4>
+				<Popover
+					placement="right"
+					message="The amount that has been distributed from the Juicebox balance
             in this funding cycle, out of the current funding target. No
             more than the funding target can be distributed in a single
             funding cycle—any remaining ETH in Juicebox is overflow, until
             the next cycle begins."
-					>
-						<Icon name="questionCircle" />
-					</Popover>
-				</div>
-				<div slot="right">
+				>
+					<Icon name="questionCircle" />
+				</Popover>
+			</div>
+
+			<div slot="right">
+				{#if distributionLimitType === DistributionLimitType.Specific}
 					{#if $projectsContext.distributionLimitCurrency === Currency.ETH}
 						<h4 class="amount-main">
 							<ETHAmount amount={$projectsContext.usedDistributionLimit} precision={2} padEnd /> / <ETHAmount
@@ -107,25 +111,25 @@
 							/>
 						</span>
 					{/if}
-				</div>
-			</InfoSpaceBetween>
-			<!-- TODO range / i.e. progressbar that takes in targetAmount overflowAmountinTargetCurrency and balanceInTargetCurrency-->
-			<!-- <Range showValueBox={false} /> -->
-		{:else}
-			<InfoSpaceBetween>
-				<div slot="left" />
-				<div slot="right">
+				{:else if distributionLimitType === DistributionLimitType.None}
 					<Popover
 						slot="right"
 						message="The target for this funding cycle is 0, meaning all funds in Juicebox are currently
-			considered overflow. Overflow can be redeemed by token holders, but not distributed."
+		considered overflow. Overflow can be redeemed by token holders, but not distributed."
 					>
 						<Trans>100% overflow</Trans>
 					</Popover>
-				</div>
-			</InfoSpaceBetween>
-		{/if}
-		<!-- {/if} -->
+				{:else}
+					<ETHAmount amount={$projectsContext.usedDistributionLimit} />/ NO LIMIT
+				{/if}
+			</div>
+		</InfoSpaceBetween>
+		<!-- TODO range / i.e. progressbar that takes in targetAmount overflowAmountinTargetCurrency and balanceInTargetCurrency-->
+		<!-- <Range showValueBox={false} /> -->
+		<InfoSpaceBetween>
+			<div slot="left" />
+			<div slot="right" />
+		</InfoSpaceBetween>
 
 		<InfoSpaceBetween>
 			<div slot="left">

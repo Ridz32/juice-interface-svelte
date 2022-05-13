@@ -119,7 +119,7 @@
 				</div>
 				<div style="margin-left: 10px;">
 					<div
-						style="text-transform: uppercase; color: var(--text-primary) font-size: 0.8rem; font-weight: 500;"
+						style="text-transform: uppercase; color: var(--text-primary); font-size: 0.8rem; font-weight: 500;"
 					>
 						<span><span>US$</span>170,300</span> / <span><span>US$</span>170,300</span>
 					</div>

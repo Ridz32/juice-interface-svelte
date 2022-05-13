@@ -23,7 +23,9 @@
 				<EtherscanLink value={payment.txHash} type="tx" />
 			</p>
 			<!-- TODO formatted address with ENS, look at FormattedAddress.tsx -->
-			<p class="address">{getTruncatedAddress(payment.beneficiary)}</p>
+			{#if payment.beneficiary}
+				<p class="address">{getTruncatedAddress(payment.beneficiary)}</p>
+			{/if}
 		</div>
 	</InfoSpaceBetween>
 </div>

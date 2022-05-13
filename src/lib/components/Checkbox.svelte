@@ -1,4 +1,8 @@
-<input type="checkbox" {...$$props} />
+<script lang="ts">
+	export let checked: boolean = false;
+</script>
+
+<input type="checkbox" {...$$props} bind:checked />
 
 <style>
 	input[type='checkbox'] {
@@ -17,8 +21,8 @@
 
 	input[type='checkbox']::before {
 		content: '';
-		width: 15px;
-		height: 15px;
+		width: 9px;
+		height: 9px;
 		transform: scale(0);
 		transition: 120ms transform ease-in-out;
 		box-shadow: inset 20px 20px var(--icon-action-primary);
@@ -27,5 +31,6 @@
 
 	input[type='checkbox']:checked::before {
 		transform: scale(1);
+		transform: rotate(10deg)
 	}
 </style>
