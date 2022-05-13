@@ -13,7 +13,7 @@
 
 	let events = [];
 
-    // TODO come back here after feedback from Peel.
+	// TODO come back here after feedback from Peel.
 	async function loadData() {
 		events = await querySubgraph({
 			entity: 'distributeToPayoutSplitEvent',
@@ -48,43 +48,49 @@
 <InfoSpaceBetween>
 	<div slot="left">
 		<p><small><Trans>Distribute funds</Trans></small></p>
-		{#each events as e}
-			{#if e.splitProjectId}
-				<span>Project {e.splitProjectId}</span>
-			{:else}
-				<span>
-					{getTruncatedAddress(e.beneficiary)}
-				</span>
+		<div class="beneficiaries">
+			{#each events as e}
+				{#if e.splitProjectId}
+					<p>Project {e.splitProjectId}</p>
+				{:else}
+					<p>
+						{getTruncatedAddress(e.beneficiary)}
+					</p>
+				{/if}
+			{/each}
+			{#if event.distributedAmount}
+				{getTruncatedAddress(event.beneficiary)}
 			{/if}
-		{/each}
-		{#if event.distributedAmount}
-			{getTruncatedAddress(event.beneficiary)}
-		{/if}
+		</div>
 	</div>
 	<div slot="right">
 		<p class="timestamp">
 			{event.timestamp && formatHistoricalDate(event.timestamp * 1000)}
 			<EtherscanLink value={event.txHash} type="tx" />
 		</p>
+		<p class="timestamp">called by {getTruncatedAddress(event.caller)}</p>
 		{#each events as e}
-			<span>
+			<p>
 				<ETHAmount amount={e.amount} precision={4} />
-			</span>
+			</p>
 		{/each}
 		{#if event.distributedAmount}
-			<span>
+			<p>
 				<ETHAmount amount={event.distributedAmount} precision={4} />
-			</span>
+			</p>
 		{/if}
 	</div>
 </InfoSpaceBetween>
 
 <style>
-	div[slot='left'],
 	div[slot='right'] {
+		align-items: end;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
-		/* align-items: center; */
+	}
+
+	.beneficiaries {
+		/* This is to account for the extra Distributed by line */
+		margin-top: 11px;
 	}
 </style>
