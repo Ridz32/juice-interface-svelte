@@ -27,36 +27,38 @@
 	const isArchived = false;
 </script>
 
-<li>
-	{#if loading}
-		<div class="loading">
-			<Icon name="loading" spin />
-		</div>
-	{:else}
-		<ProjectLogo uri={metadata.logoUri} size={110} />
-		<section>
-			<h1>{metadata.name}</h1>
-			<div>
-				<span class="handle">
-					Project {project.id}
-				</span>
+<a href="/projects/{project.id}">
+	<li>
+		{#if loading}
+			<div class="loading">
+				<Icon name="loading" spin />
 			</div>
-			<EthAmount amount={project.totalPaid} {precision} />
-			<span>since {project.createdAt && formatDate(project.createdAt * 1000, 'yyyy-MM-dd')}</span>
-			{#if metadata.description}
-				<!-- TODO the popover isn't seen... -->
-				<Popover message={metadata.description} placement="right">
-					<div class="description">
-						{metadata.description}
-					</div>
-				</Popover>
-			{/if}
-			{#if isArchived}
-				<div class="archived">ARCHIVED</div>
-			{/if}
-		</section>
-	{/if}
-</li>
+		{:else}
+			<ProjectLogo uri={metadata.logoUri} size={110} />
+			<section>
+				<h1>{metadata.name}</h1>
+				<div>
+					<span class="handle">
+						Project {project.id}
+					</span>
+				</div>
+				<EthAmount amount={project.totalPaid} {precision} />
+				<span>since {project.createdAt && formatDate(project.createdAt * 1000, 'yyyy-MM-dd')}</span>
+				{#if metadata.description}
+					<!-- TODO the popover isn't seen... -->
+					<Popover message={metadata.description} placement="right">
+						<div class="description">
+							{metadata.description}
+						</div>
+					</Popover>
+				{/if}
+				{#if isArchived}
+					<div class="archived">ARCHIVED</div>
+				{/if}
+			</section>
+		{/if}
+	</li>
+</a>
 
 <style>
 	li {

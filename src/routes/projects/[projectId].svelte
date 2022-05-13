@@ -176,10 +176,10 @@
 					<Details />
 					<!-- WIP -->
 					<!-- {#await getPaymentsForProject($project.projectId)} -->
-						<!-- <Activity loading={true} /> -->
+					<!-- <Activity loading={true} /> -->
 					<!-- {:then payEvents} -->
-						<!-- <Activity {payEvents} /> -->
-						<Activity />
+					<!-- <Activity {payEvents} /> -->
+					<Activity />
 					<!-- {/await} -->
 				</div>
 			</div>
