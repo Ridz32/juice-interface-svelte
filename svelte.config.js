@@ -16,13 +16,9 @@ const config = {
 
 	kit: {
 		adapter: adapter(),
-		// Override http methods in the Todo forms
-		methodOverride: {
-			allowed: ['PATCH', 'DELETE']
+		prerender: {
+			default: true
 		},
-		// prerender: {
-		// 	default: true
-		// },
 		vite: {
 			// https://github.com/sveltejs/kit/issues/928
 			// This is for lingui to work, I know it says ssr
