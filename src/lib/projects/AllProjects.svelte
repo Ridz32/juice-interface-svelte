@@ -2,20 +2,21 @@
 	import { onMount } from 'svelte';
 	import { getProjects } from '$data/project';
 	import Icon from '$lib/components/Icon.svelte';
-	import { sortType } from '$stores/projectsForm';
 	import type { Project } from '$models/subgraph-entities/vX/project';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
-	import Button from '$lib/components/Button.svelte';
 	import InfiniteScroll from '$lib/components/InfiniteScroll.svelte';
-	import { scrollTarget } from '$stores/projectsForm';
+	import { scrollTarget, showArchived, sortType } from '$stores/projectsForm';
 
 	let loading = false;
 	let pageNumber = 0;
 	let projects: Project[] | undefined = [];
 	let newBatch: Project[] | undefined = [];
-	// let scrollTarget: HTMLElement;
 
-	const showArchived = false;
+	let previousFetch = {
+		showArchived: false,
+		orderBy: 'totalPaid'
+	};
+
 	const pageSize = 10;
 
 	const fetchData = async () => {
@@ -25,7 +26,7 @@
 			pageNumber,
 			pageSize,
 			orderDirection: 'desc',
-			state: showArchived ? 'archived' : 'active',
+			state: $showArchived ? 'archived' : 'active',
 			cv: '2'
 		});
 		loading = false;
@@ -35,12 +36,17 @@
 		await fetchData();
 	});
 
-	// TODO put back in, for now it's double loading on mount
-	// sortType.subscribe(async () => {
-	// 	await fetchData();
-	// });
-
 	$: projects = [...projects, ...newBatch];
+	$: {
+		if (previousFetch.orderBy !== $sortType || previousFetch.showArchived !== $showArchived) {
+			pageNumber = 0;
+			projects = [];
+			fetchData().then(() => {
+				previousFetch.orderBy = $sortType;
+				previousFetch.showArchived = $showArchived;
+			});
+		}
+	}
 </script>
 
 <section>
