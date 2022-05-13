@@ -74,7 +74,7 @@
 			<Icon name="loading" spin />
 		</div>
 	{/if}
-	<p>[Work In Progress]</p>
+	<p>[Work In Progress - Mock Data to work on UI]</p>
 	{#each events as event}
 		<ProjectEvent {event} />
 	{/each}

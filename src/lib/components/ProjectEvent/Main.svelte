@@ -3,6 +3,7 @@
 	import type { ProjectEvent } from '$models/subgraph-entities/vX/project-event';
 	import PayEvent from './PayEvent.svelte';
 	import DeployedErc20Event from './DeployedERC20Event.svelte';
+	import DistributePayouts from './DistributePayouts.svelte';
 
 	export let event: ProjectEvent;
 </script>
@@ -14,6 +15,8 @@
 		<PayEvent event={event.payEvent} />
 	{:else if event.deployedERC20Event}
 		<DeployedErc20Event event={event.deployedERC20Event} />
+	{:else if event.distributePayoutsEvent}
+		<DistributePayouts event={event.distributePayoutsEvent} />
 	{/if}
 </div>
 
