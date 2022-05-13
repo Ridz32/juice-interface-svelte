@@ -49,6 +49,10 @@
 		visibility: visible;
 		transition: all 0.5s cubic-bezier(0.75, -0.02, 0.2, 0.97);
 	}
+
+	#popover {
+		border: 1px solid var(--stroke-tertiary);
+	}
 	#popover .message {
 		font-weight: 300;
 		font-size: 12px;
