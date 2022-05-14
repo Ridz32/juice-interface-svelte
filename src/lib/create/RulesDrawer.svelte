@@ -18,6 +18,7 @@
 	import ReconBox from '$lib/components/ReconBox.svelte';
 	import type Store from '$utils/Store';
 	import type { V2ProjectContextType } from '$models/project-type';
+	import { getBallotStrategyByAddress } from '$constants/v2/ballotStrategies/getBallotStrategiesByAddress';
 
 	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
 	let dirty = getContext('SHOW_DIRTY') as {
@@ -30,7 +31,9 @@
 	let pausePay = $project.fundingCycleMetadata.pausePay;
 	let allowMinting = $project.fundingCycleMetadata.allowMinting;
 
-	let selected = DEFAULT_BALLOT_STRATEGY;
+	let selected = $project.fundingCycle.ballot
+		? getBallotStrategyByAddress($project.fundingCycle.ballot)
+		: DEFAULT_BALLOT_STRATEGY;
 	let customBallotAddress: Address | undefined;
 	let disabled = false;
 
