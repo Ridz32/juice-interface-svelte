@@ -2,7 +2,7 @@ import * as constants from '@ethersproject/constants';
 import { BigNumber } from '@ethersproject/bignumber';
 import { getAddress } from '@ethersproject/address';
 import { parseEther } from '@ethersproject/units';
-import { FUNDING_CYCLE_WARNING_TEXT } from '$constants/fundingWarningText';
+import { FUNDING_CYCLE_WARNING_TEXT, RESERVED_RATE_WARNING_THRESHOLD_PERCENT } from '$constants/fundingWarningText';
 import type {
 	V2FundingCycle,
 	V2FundingCycleMetadata,
@@ -176,11 +176,15 @@ export const decodeV2FundingCycleMetadata = (packedMetadata: BigNumber): V2Fundi
  * If a value in the returned object is true, it is potentially unsafe.
  */
 export const getUnsafeV2FundingCycleProperties = (
-	fundingCycle: V2FundingCycle
+	fundingCycle: V2FundingCycle,
+	fundingCycleMetadata: V2FundingCycleMetadata = undefined,
 ): FundingCycleRiskFlags => {
-	const metadata = decodeV2FundingCycleMetadata(fundingCycle.metadata);
+	console.log(fundingCycleMetadata)
+	const metadata = fundingCycleMetadata ? fundingCycleMetadata : decodeV2FundingCycleMetadata(fundingCycle.metadata);
 	const ballotAddress = getBallotStrategyByAddress(fundingCycle.ballot).address;
 	const reservedRatePercentage = parseFloat(fromWad(metadata?.reservedRate));
+	console.log(metadata)
+	console.log(reservedRatePercentage);
 	const allowMinting = Boolean(metadata?.allowMinting);
 
 	return unsafeFundingCycleProperties({
@@ -248,9 +252,10 @@ function getDurationText(seconds: BigNumber) {
  * NOTE that the Distribution Limit is not returned by this function
  */
 export function getFundingCycleDetails(fundingCycle: V2FundingCycle, fundingCycleMetadata: V2FundingCycleMetadata) {
-	const fundingCycleRiskProperties = getUnsafeV2FundingCycleProperties(fundingCycle);
+	const fundingCycleRiskProperties = getUnsafeV2FundingCycleProperties(fundingCycle, fundingCycleMetadata);
 	const durationSet = fundingCycle.duration.gt(0);
 	const riskWarningText = FUNDING_CYCLE_WARNING_TEXT();
+	const formattedReservedRate = formatReservedRate(fundingCycleMetadata.reservedRate)
 
 	return [
 		{
@@ -285,12 +290,9 @@ export function getFundingCycleDetails(fundingCycle: V2FundingCycle, fundingCycl
 		fundingCycleMetadata.reservedRate && {
 			id: 'reservedRate',
 			label: 'Reserved tokens',
-			// value: `${formatReservedRate((fundingCycleMetadata.reservedRate)}%`,
-			value: `${formatReservedRate(fundingCycleMetadata.reservedRate)}%`,
+			value: `${formattedReservedRate}%`,
 			info: 'Whenever someone pays your project, this percentage of tokens will be reserved and the rest will go to the payer. Reserve tokens are reserved for the project owner by default, but can also be allocated to other wallet addresses by the owner. Once tokens are reserved, anyone can "mint" them, which distributes them to their intended receivers.',
-			issue:
-				fundingCycleRiskProperties.metadataReservedRate ||
-				fundingCycleRiskProperties.metadataMaxReservedRate,
+			issue: parseFloat(formattedReservedRate) > RESERVED_RATE_WARNING_THRESHOLD_PERCENT,
 			issueText: riskWarningText.metadataReservedRate || riskWarningText.metadataMaxReservedRate
 		},
 		{
@@ -308,6 +310,8 @@ export function getFundingCycleDetails(fundingCycle: V2FundingCycle, fundingCycl
 			id: 'allowMinting',
 			label: 'Token minting',
 			value: fundingCycleMetadata.allowMinting ? 'Enabled' : 'Disabled',
+			issue: fundingCycleRiskProperties.allowMinting,
+			issueText: riskWarningText.allowMinting,
 			info: 'Token minting allows the project owner to mint project tokens at any time.'
 		},
 		{
