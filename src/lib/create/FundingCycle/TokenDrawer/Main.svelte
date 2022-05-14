@@ -66,7 +66,7 @@
 	<HeavyBorderBox>
 		<RedemptionRate
 			bind:redemptionRate
-			disabled={currentDistributionLimitType !== DistributionLimitType.Specific}
+			disabled={currentDistributionLimitType === DistributionLimitType.Infinite}
 		/>
 	</HeavyBorderBox>
 	<Button on:click={saveTokenConfiguration}>Save token configuration</Button>

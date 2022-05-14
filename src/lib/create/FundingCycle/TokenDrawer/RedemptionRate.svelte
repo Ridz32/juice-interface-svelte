@@ -25,7 +25,7 @@
 </header>
 {#if disabled}
 	<AlertText>
-		Disabled when your project's distribution limit isn't <b>Specifc</b>
+		Disabled when your funding cycle's distribution limit is <b>No limit</b> (infinite)
 	</AlertText>
 {/if}
 {#if checked}

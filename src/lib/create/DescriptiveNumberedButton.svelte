@@ -1,7 +1,7 @@
 <script>
 	import Icon from '$lib/components/Icon.svelte';
 	export let description;
-	export let disabled;
+	export let disabled = false;
 	export let number;
 	export let onClick;
 	export let title;

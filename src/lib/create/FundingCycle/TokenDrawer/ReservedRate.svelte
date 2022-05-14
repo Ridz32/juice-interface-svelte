@@ -74,7 +74,7 @@
 		initialIssuanceRate
 	)} tokens / ETH for contributors. ${formattedNum(
 		initialReservedTokensPerEth
-	)} tokens / ETH will be reserved by the project.`}
+	)} tokens / 1 ETH will be reserved by the project.`}
 />
 <br />
 <p>

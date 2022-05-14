@@ -64,10 +64,7 @@ You can reconfigure your project's next funding cycle (Funding Cycle #2) at any 
 					<h1>Token</h1>
 					<InfoBox
 						info={`
-    By default, the issuance rate for your project's token is
-    1,000,000 tokens / 1 ETH. For example, a 1 ETH contribution to
-    your project will return 1,000,000 tokens. You can manipulate the
-    issuance rate with the following configurations.`}
+    By default, the issuance rate for your project's token during funding cycle #1 is 1,000,000 tokens / 1 ETH. For example, a 1 ETH contribution to your project will return 1,000,000 tokens. You can manipulate the issuance rate with the following configurations.`}
 					/>
 					<br />
 				</header>

@@ -46,8 +46,8 @@
 	<Range bind:values={rangeValue} max={20} step={0.1} />
 {/if}
 <p>
-	The issuance rate will decrease by this percentage with each new funding cycle. A higher discount
-	rate will incentivize supporters to pay your project earlier than later.
+	Your project token's issuance rate will decrease by this percentage every funding cycle. A higher
+	discount rate will incentivize supporters to pay your project earlier.
 </p>
 {#if rangeValue[0] > 0}
 	<InfoBox>
