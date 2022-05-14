@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { ethers, type ContractTransaction } from 'ethers';
 	import { setContext } from 'svelte';
+	import { goto } from '$app/navigation';
 	import { modal } from '$stores';
 	import { BigNumber } from '@ethersproject/bignumber';
 	import * as constants from '@ethersproject/constants';
@@ -21,13 +22,13 @@
 	import { contracts, transactContract } from '$utils/web3/contractReader';
 	import { V2ContractName } from '$models/v2/contracts';
 	import { JUICEBOX_MONEY_METADATA_DOMAIN } from '$constants/v2/metadataDomain';
-	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import { fromWad } from '$utils/formatNumber';
 	import { V2_CURRENCY_ETH } from '$utils/v2/currency';
 	import FinalPreview from './FinalPreview.svelte';
 
 	let project = new Store<V2ProjectContextType>();
 	// Populate project with default data
+	// TODO fix the type...
 	project.set({
 		projectId: undefined,
 		isPreviewMode: false,
@@ -188,6 +189,9 @@
 
 		console.log('Created project [ID]:', projectId.toNumber());
 
+		// Go to projects page
+		goto(`/projects/${projectId}?newDeploy=true`);
+
 		deploying = false;
 	}
 
@@ -208,7 +212,11 @@
 			{#if isReviewPanel}
 				<main>
 					<FinalPreview />
-					<Button {disabled} on:click={$connectedAccount ? deployProject : () => walletConnect()}>
+					<Button
+						{disabled}
+						loading={deploying}
+						on:click={$connectedAccount ? deployProject : () => walletConnect()}
+					>
 						{#if $connectedAccount}
 							{#if deploying}
 								...

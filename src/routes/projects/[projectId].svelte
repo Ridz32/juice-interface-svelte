@@ -7,13 +7,15 @@
 
 <script lang="ts">
 	import { BigNumber } from 'ethers';
-	import Head from '$lib/project/Head.svelte';
-	import Details from '$lib/project/Details.svelte';
+	import { modal } from '$stores';
+	import { onMount, setContext } from 'svelte';
 	import Button from '$lib/components/Button.svelte';
+	import Details from '$lib/project/Details.svelte';
+	import Head from '$lib/project/Head.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import Issue from '$lib/components/Issue.svelte';
+	import Modal, { openModal } from '$lib/components/Modal.svelte';
 	import Paid from '$lib/project/Paid.svelte';
-	import { onMount, setContext } from 'svelte';
 	import Store from '$utils/Store';
 
 	import { page } from '$app/stores';
@@ -24,6 +26,7 @@
 	import { ETH_TOKEN_ADDRESS } from '$constants/v2/juiceboxTokens';
 	import { getProjectMetadata } from '$data/project';
 	import Activity from '$lib/project/Activity.svelte';
+	import NextSteps from '$lib/project/NextSteps.svelte';
 
 	let project = new Store<V2ProjectContextType>({} as any);
 
@@ -31,6 +34,8 @@
 
 	let loading = true;
 	let issue: string | false = false;
+
+	const isNewDeploy = $page.url.searchParams.get('newDeploy');
 
 	onMount(async () => {
 		try {
@@ -150,6 +155,12 @@
 		} catch (e) {
 			issue = e.message;
 		}
+
+		// TODO probably need to go through above and figure out appropiate error messages on
+		// a per stage basis
+		if (isNewDeploy) {
+			openModal(NextSteps);
+		}
 	});
 	console.log($project);
 </script>
@@ -186,6 +197,7 @@
 		>
 	</div>
 </section>
+<Modal show={$modal} />
 
 <style>
 	section {

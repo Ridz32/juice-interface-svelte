@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Chart from './Chart.svelte';
 	import { getContext, onMount } from 'svelte';
-	import { modal } from '$stores';
 	import * as constants from '@ethersproject/constants';
 	import type Store from '$utils/Store';
 	import { connectedAccount } from '$stores/web3';
@@ -21,7 +20,7 @@
 	import ReservedTokenSplits from '$lib/components/ReservedTokenSplits.svelte';
 	import { serializeV2FundingCycleData } from '$utils/v2/serializers';
 	import { hasFundingDuration } from '$utils/v2/fundingCycle';
-	import Modal, { openModal } from '$lib/components/Modal.svelte';
+	import { openModal } from '$lib/components/Modal.svelte';
 	import UpcomingFundingCycle from './UpcomingFundingCycle.svelte';
 	import FundingCycleHistory from './FundingCycleHistory.svelte';
 	import ManageToken from './ManageToken.svelte';
@@ -170,7 +169,6 @@
 		</div>
 	</div>
 </section>
-<Modal show={$modal} />
 
 <!-- NOTE: keeping this to add back the Chart at later date -->
 
