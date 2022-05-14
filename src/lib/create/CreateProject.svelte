@@ -10,6 +10,7 @@
 	import type { V2ProjectContextType } from '$models/project-type';
 	import { Tab, Tabs, TabList, TabPanel } from './Tabs';
 	import Button from '$lib/components/Button.svelte';
+	import Icon from '$lib/components/Icon.svelte';
 	import FundingCycle from './FundingCycle';
 	import Preview from './Preview';
 	import ProjectDetails from './ProjectDetails.svelte';
@@ -25,6 +26,8 @@
 	import { fromWad } from '$utils/formatNumber';
 	import { V2_CURRENCY_ETH } from '$utils/v2/currency';
 	import FinalPreview from './FinalPreview.svelte';
+	import BannerNotice from '$lib/components/BannerNotice.svelte';
+	import ExternalLink from '$lib/components/ExternalLink.svelte';
 
 	let project = new Store<V2ProjectContextType>();
 	// Populate project with default data
@@ -200,6 +203,13 @@
 	$: disabled = !$project.projectMetadata.name || deploying;
 </script>
 
+<BannerNotice>
+	<span>
+		<Icon name="exclamationCircle" /> Your project will be created on the Juicebox V2 contracts. <br> This
+		is a prototyping interface for experimental features, for production deployments please visit
+		<ExternalLink href="juicebox.money">juicebox.money</ExternalLink>
+	</span>
+</BannerNotice>
 <div id="create">
 	<h1>Design your project 🎨</h1>
 	<Tabs>
