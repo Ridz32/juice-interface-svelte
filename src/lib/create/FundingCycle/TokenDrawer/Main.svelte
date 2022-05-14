@@ -95,7 +95,6 @@
 	:global(#tokenDrawer header) {
 		margin-bottom: 1rem;
 	}
-	h1,
 	:global(#tokenDrawer h3) {
 		color: var(--text-header);
 	}

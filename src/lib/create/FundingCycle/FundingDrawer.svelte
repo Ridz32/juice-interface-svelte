@@ -274,25 +274,6 @@
 		font-weight: 400;
 	}
 
-	/* TODO think of nice input/select abstraction, this css has been repeated in FundingCycleInput and FormField */
-	select {
-		display: block;
-		background: transparent;
-		border: 1px solid #d9d9d9;
-		border-radius: 2px;
-		color: var(--text-primary);
-		font-variant: tabular-nums;
-		font-family: inherit;
-		font-size: 14px;
-		font-weight: 300;
-		width: 150px;
-		padding: 4px 11px;
-		margin-top: 10px;
-		line-height: 1.5715;
-		transition: all 0.3s;
-		width: 100%;
-	}
-
 	.issue {
 		color: var(--text-failure);
 	}

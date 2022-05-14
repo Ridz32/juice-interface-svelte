@@ -142,10 +142,6 @@
 <Button {disabled} on:click={onSaveRules}>Save rules</Button>
 
 <style>
-	h1 {
-		color: var(--text-header);
-	}
-
 	p {
 		font-weight: 300;
 		color: var(--text-secondary);
