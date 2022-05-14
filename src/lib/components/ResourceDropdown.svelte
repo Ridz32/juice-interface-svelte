@@ -4,8 +4,8 @@
 	import Icon from './Icon.svelte';
 	import Trans from './Trans.svelte';
 
-    export let isMobile: boolean = false;
-    let isOpen: boolean = false;
+	export let isMobile: boolean = false;
+	let isOpen: boolean = false;
 
 	const resources = [
 		{
@@ -27,12 +27,18 @@
 		{
 			label: 'Peel',
 			href: 'https://discord.com/invite/XvmfY4Hkcz'
+		},
+		{
+			label: 'Bannyverse',
+			href: 'https://app.bannyverse.xyz'
 		}
 	];
 </script>
 
 <Collapse bind:isOpen>
-	<button class:isMobile><Trans>Resources</Trans> <Icon name="down" direction={isOpen ? 's' : 'n'} /></button>
+	<button class:isMobile
+		><Trans>Resources</Trans> <Icon name="down" direction={isOpen ? 's' : 'n'} /></button
+	>
 	<nav slot="content">
 		{#each resources as resource}
 			<ExternalLink href={resource.href}>{resource.label}</ExternalLink>
@@ -52,29 +58,29 @@
 		align-items: center;
 		font-weight: 600;
 		color: var(--text-primary);
-        line-height: 0px;
+		line-height: 0px;
 		margin: 24px 10px 0px;
 	}
 
-    .isMobile {
-        margin: 0;
-        padding: 0;
-    }
+	.isMobile {
+		margin: 0;
+		padding: 0;
+	}
 
-    nav {
-        display: flex;
-        flex-direction: column;
+	nav {
+		display: flex;
+		flex-direction: column;
 		background: var(--background-l0);
-        max-width: 120px;
-        border: 1px solid var(--stroke-primary);
-    }
+		max-width: 120px;
+		border: 1px solid var(--stroke-primary);
+	}
 
-    :global(nav[slot="content"] a) {
-        cursor: pointer;
-        align-items: center;
-        line-height: 40px;
-        font-weight: 500;
-        color: var(--text-primary);
-        padding: 0px 15px;
-    }
+	:global(nav[slot='content'] a) {
+		cursor: pointer;
+		align-items: center;
+		line-height: 40px;
+		font-weight: 500;
+		color: var(--text-primary);
+		padding: 0px 15px;
+	}
 </style>
