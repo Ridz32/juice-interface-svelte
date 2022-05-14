@@ -59,7 +59,7 @@
 	.md {
 		height: 32px;
 		font-size: 14px;
-		font-weight: 300;
+		font-weight: 500;
 		padding: 0px 20px;
 		margin-top: 0;
 	}

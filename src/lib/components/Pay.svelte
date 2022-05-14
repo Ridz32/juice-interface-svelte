@@ -10,6 +10,7 @@
 	import { tokenSymbolText } from '$utils/tokenSymbolText';
 	import type { WeightFunction } from '$utils/math';
 
+	export let disabled = false;
 	export let onClick: (weiAmount: BigNumber) => void;
 	export let payButton: string = 'Pay';
 	export let payInCurrency: Currency = Currency.ETH;
@@ -87,7 +88,7 @@
 	</div>
 	<div class="stacked">
 		<!-- TODO need input from pay button, pass in onClick -->
-		<Button size="md" on:click={onPay}>{payButton}</Button>
+		<Button {disabled} size="md" on:click={onPay}>{payButton}</Button>
 		{#if currency === Currency.USD}
 			<small>Paid as <ETH />{formattedETHAmount}</small>
 		{/if}

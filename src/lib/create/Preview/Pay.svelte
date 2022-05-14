@@ -13,6 +13,7 @@
 
 <Pay
 	{payButton}
+	disabled
 	onClick={() => console.info('🛠 TODO pay in create preview')}
 	payInCurrency={currency}
 	reservedRate={$project.fundingCycleMetadata.reservedRate.toNumber()}
