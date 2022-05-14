@@ -73,6 +73,9 @@
 	{#each events as event}
 		<ProjectEvent {event} />
 	{/each}
+	{#if !events.length}
+		<p class="noActivity">No activity yet</p>
+	{/if}
 </section>
 
 <style>
@@ -92,6 +95,12 @@
 	h4 {
 		font-weight: 600;
 		color: var(--text-header);
+	}
+
+	.noActivity {
+		border-top: 1px solid var(--stroke-tertiary);
+		padding-top: 20px;
+		font-weight: 300;
 	}
 
 	div[slot='right'] {
