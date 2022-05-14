@@ -1,26 +1,17 @@
 <script lang="ts">
 	import { BigNumber } from '@ethersproject/bignumber';
-	import { parseEther } from '@ethersproject/units';
 	// TODO move
 	import CollapsibleSection from '$lib/create/CollapsibleSection.svelte';
-	import { formattedNum } from '$utils/formatNumber';
 	import Icon from '$lib/components/Icon.svelte';
 	import Money from '$lib/components/Money.svelte';
 	import PopInfo from '$lib/components/PopInfo.svelte';
 	import Popover from '$lib/components/Popover.svelte';
-	import { formatWad } from '$utils/formatNumber';
+	import Trans from '$lib/components/Trans.svelte';
 
 	import { detailedTimeUntil } from '$utils/formatTime';
-	import {
-		MAX_DISTRIBUTION_LIMIT,
-		weightedAmount
-	} from '$utils/v2/math';
+	import { MAX_DISTRIBUTION_LIMIT } from '$utils/v2/math';
 	import { getBallotStrategyByAddress } from '$constants/v2/ballotStrategies/getBallotStrategiesByAddress';
-	import {
-		getFundingCycleDetails,
-		V2FundingCycleRiskCount
-	} from '$utils/v2/fundingCycle';
-	import Trans from './Trans.svelte';
+	import { getFundingCycleDetails, V2FundingCycleRiskCount } from '$utils/v2/fundingCycle';
 	import type { V2FundingCycle, V2FundingCycleMetadata } from '$models/v2/fundingCycle';
 	import type { Currency } from '$constants';
 
@@ -41,38 +32,6 @@
 		return null;
 	}
 
-	const reservedRateText = (fundingCycle, fundingCycleMetadata) => {
-		const payerRate = formatWad(
-			weightedAmount(
-				fundingCycle?.weight,
-				fundingCycleMetadata?.reservedRate.toNumber(),
-				parseEther('1'),
-				'payer'
-			),
-			{
-				precision: 0
-			}
-		);
-		const reservedRate = formatWad(
-			weightedAmount(
-				fundingCycle?.weight,
-				fundingCycleMetadata?.reservedRate.toNumber(),
-				parseEther('1'),
-				'reserved'
-			),
-			{
-				precision: 0
-			}
-		);
-		const withReservedRate = `${formattedNum(payerRate)} (+ ${formattedNum(
-			reservedRate
-		)} reserved) tokens/ETH`;
-		const withoutReservedRate = `${formattedNum(payerRate)} tokens/ETH`;
-		return BigNumber.from(fundingCycleMetadata?.reservedRate).gt(0)
-			? withReservedRate
-			: withoutReservedRate;
-	};
-
 	$: currency = BigNumber.from(currentDistributionLimitCurrencyType)?.toNumber();
 	$: currentBallotStrategy = getBallotStrategyByAddress(fundingCycle.ballot);
 	$: cycleKeyValues = getFundingCycleDetails(fundingCycle, fundingCycleMetadata);
@@ -90,7 +49,6 @@
 				: `{formattedTimeLeft} left`;
 		}
 	}
-
 </script>
 
 <CollapsibleSection alignCaret="center" {expanded}>
@@ -113,42 +71,45 @@
 		{/if}
 	</div>
 	<div class="current-cycle">
-		<div class="gap">
-			<b><Trans>Distribution limit</Trans>:</b>
-			{#if distributionLimitValue}
-				<span>{distributionLimitValue}</span>
-			{:else}
-				<Money amount={BigNumber.from(distributionLimit)} {currency} />
-			{/if}
+		<div class="row">
+			<div class="gap">
+				<b><Trans>Distribution limit</Trans>:</b>
+				{#if distributionLimitValue}
+					<span>{distributionLimitValue}</span>
+				{:else}
+					<Money amount={BigNumber.from(distributionLimit)} {currency} />
+				{/if}
+			</div>
+			{#each cycleKeyValues as { label, value, info, issue, issueText }}
+				{#if info}
+					<div class="title gap">
+						<PopInfo message={info}><p><b>{label}</b></p></PopInfo>:<span class:risk={issue}
+							>{value}</span
+						>
+						{#if issue}
+							<span class="risk">
+								<Popover message={issueText}>
+									<Icon name="exclamationCircle" />
+								</Popover>
+							</span>
+						{/if}
+					</div>
+				{:else}
+					<p class="gap">
+						<b>{label}:</b>
+						<span class:risk={issue}>{value}</span>
+						{#if issue}
+							<span class="risk">
+								<Popover message={issueText}>
+									<Icon name="exclamationCircle" />
+								</Popover>
+							</span>
+						{/if}
+					</p>
+				{/if}
+			{/each}
 		</div>
-		{#each cycleKeyValues as { label, value, info, issue, issueText }}
-			{#if info}
-				<div class="title gap">
-					<PopInfo message={info}><p><b>{label}</b></p></PopInfo>:<span class:risk={issue}
-						>{value}</span
-					>
-					{#if issue}
-						<span class="risk">
-							<Popover message={issueText}>
-								<Icon name="exclamationCircle" />
-							</Popover>
-						</span>
-					{/if}
-				</div>
-			{:else}
-				<p class="gap">
-					<b>{label}:</b>
-					<span class:risk={issue}>{value}</span>
-					{#if issue}
-						<span class="risk">
-							<Popover message={issueText}>
-								<Icon name="exclamationCircle" />
-							</Popover>
-						</span>
-					{/if}
-				</p>
-			{/if}
-		{/each}
+
 		<small class="recon-info">Address: {currentBallotStrategy.address}</small>
 		<small class="recon-info">{currentBallotStrategy.description}</small>
 	</div>
@@ -172,7 +133,7 @@
 	}
 
 	.current-cycle .gap {
-		margin: 10px 0px;
+		margin: 5px 0px;
 		font-weight: 500;
 		color: var(--text-secondary);
 	}
@@ -193,6 +154,12 @@
 
 	.recon-info {
 		font-weight: 300;
+	}
+
+	.row {
+		display: grid;
+		grid-auto-flow: row;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 	}
 
 	span {
