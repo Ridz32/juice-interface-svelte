@@ -20,6 +20,10 @@
 	import type { V2ProjectContextType } from '$models/project-type';
 
 	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
+	let dirty = getContext('SHOW_DIRTY') as {
+		showDirty: Store<boolean>;
+		check: (arg1: any, arg2: any) => void;
+	};
 
 	export let close: () => void;
 
@@ -29,6 +33,12 @@
 	let selected = DEFAULT_BALLOT_STRATEGY;
 	let customBallotAddress: Address | undefined;
 	let disabled = false;
+
+	const initialState = {
+		pausePay,
+		allowMinting,
+		selected
+	};
 
 	function selectBallotStrategy(strategy: BallotStrategy) {
 		selected = strategy;
@@ -62,6 +72,11 @@
 			selected.address = customBallotAddress;
 			disabled = !validate(customBallotAddress);
 		}
+		dirty?.check(initialState, {
+			pausePay,
+			allowMinting,
+			selected
+		});
 	}
 </script>
 

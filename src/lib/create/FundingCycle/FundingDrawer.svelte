@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type Store from '$utils/Store';
 	import AddSplitModal from './AddSplitModal.svelte';
 	import AlertText from '$lib/components/AlertText.svelte';
 	import HeavyBorderBox from '$lib/components/HeavyBorderBox.svelte';
@@ -7,7 +8,6 @@
 	import Button from '$lib/components/Button.svelte';
 	import CurrencyInput from '$lib/components/CurrencyInput.svelte';
 	import DisplaySplit from '$lib/components/Split.svelte';
-	import type Store from '$utils/Store';
 	import type { V2ProjectContextType } from '$models/project-type';
 	import { bind, openModal } from '$lib/components/Modal.svelte';
 	import { BigNumber } from 'ethers';
@@ -20,6 +20,10 @@
 	import Dropdown from '$lib/components/Dropdown.svelte';
 
 	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
+	let dirty = getContext('SHOW_DIRTY') as {
+		showDirty: Store<boolean>;
+		check: (arg1: any, arg2: any) => void;
+	};
 
 	export let close: () => void;
 
@@ -31,6 +35,8 @@
 	let splits = $project.payoutSplits;
 	let totalSplitsPercentage = getTotalSplitsPercentage(splits);
 
+	let initialState: {};
+
 	onMount(() => {
 		if ($project.fundingCycle.duration.gt(0)) {
 			duration = $project.fundingCycle.duration;
@@ -39,6 +45,13 @@
 		distributionLimit = $project.distributionLimit;
 		distributionLimitType = getDistributionLimitType($project.distributionLimit);
 		distributionLimitCurrency = $project.distributionLimitCurrency;
+
+		initialState = {
+			duration,
+			distributionLimit,
+			distributionLimitType,
+			distributionLimitCurrency
+		};
 	});
 
 	$: {
@@ -54,6 +67,15 @@
 				break;
 		}
 		totalSplitsPercentage = getTotalSplitsPercentage(splits || []);
+	}
+
+	$: {
+		dirty?.check(initialState, {
+			duration,
+			distributionLimit,
+			distributionLimitType,
+			distributionLimitCurrency
+		});
 	}
 
 	function setValue(e: any) {
@@ -92,7 +114,7 @@
 			distributionLimitCurrency: CurrencyValue[distributionLimitCurrency].toNumber(),
 			payoutSplits: splits
 		}));
-		close(true);
+		close();
 	}
 </script>
 

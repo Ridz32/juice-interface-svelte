@@ -5,6 +5,8 @@
 	import UnsavedChangesModal from './UnsavedChangesModal.svelte';
 	import { setContext } from 'svelte';
 
+	// NOTE this is a bit back to front, ideally I'd like the outer on:click to be intercepted
+	// at Drawer inner component level to check if dirty _once_, and not continuesly on each update.
 	const showDirty = new Store(false);
 	setContext('SHOW_DIRTY', {
 		showDirty,

@@ -16,10 +16,13 @@
 		redemptionRateFrom,
 		reservedRateFrom
 	} from '$utils/v2/math';
-	import InfoBox from '$lib/components/InfoBox.svelte';
 	import { getDistributionLimitType } from '$utils/v2/distributions';
 
 	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
+	let dirty = getContext('SHOW_DIRTY') as {
+		showDirty: Store<boolean>;
+		check: (arg1: any, arg2: any) => void;
+	};
 
 	export let close: () => void;
 
@@ -30,6 +33,13 @@
 	let reservedRate = parseFloat(formatReservedRate($project.fundingCycleMetadata.reservedRate));
 
 	let splits = $project.reservedTokensSplits;
+
+	const initialState = {
+		discountRate,
+		redemptionRate,
+		reservedRate,
+		splits
+	};
 
 	function saveTokenConfiguration() {
 		project.update((current) => ({
@@ -49,6 +59,15 @@
 	}
 
 	$: currentDistributionLimitType = getDistributionLimitType($project.distributionLimit);
+
+	$: {
+		dirty?.check(initialState, {
+			discountRate,
+			redemptionRate,
+			reservedRate,
+			splits
+		});
+	}
 </script>
 
 <slot name="header" />
