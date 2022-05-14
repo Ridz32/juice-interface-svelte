@@ -1,10 +1,22 @@
 <script lang="ts">
 	import { fly, fade } from 'svelte/transition';
+	import { bind, openModal } from './Modal.svelte';
+	import UnsavedChangesModal from './UnsavedChangesModal.svelte';
 
 	export let shown = false;
 
-	function close() {
-		shown = false;
+	function close(isDirty = undefined) {
+		if (isDirty) {
+			openModal(
+				bind(UnsavedChangesModal, {
+					closeResource: () => {
+						shown = false;
+					}
+				})
+			);
+		} else {
+			shown = false;
+		}
 	}
 </script>
 

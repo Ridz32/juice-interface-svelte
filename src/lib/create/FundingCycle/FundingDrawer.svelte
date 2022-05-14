@@ -92,7 +92,7 @@
 			distributionLimitCurrency: CurrencyValue[distributionLimitCurrency].toNumber(),
 			payoutSplits: splits
 		}));
-		close();
+		close(true);
 	}
 </script>
 
