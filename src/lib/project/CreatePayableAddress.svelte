@@ -4,15 +4,17 @@
 	import Trans from '$lib/components/Trans.svelte';
 
 	export let close: () => void;
+	export let onSuccess: () => void = () => {};
 
 	let isDeploying = false;
-	// TODO contract reader for deploying a new payable address
+	// TODO contract write for deploying a new payable address
 	function deploy() {
 		isDeploying = true;
 		console.info('Not implemented yet');
 		setTimeout(() => {
 			isDeploying = false;
-			closeModal();
+			onSuccess();
+			close();
 		}, 2000);
 	}
 </script>
@@ -45,6 +47,10 @@
 
 	h2 {
 		color: var(--text-header);
+	}
+
+	.content {
+		max-width: 480px;
 	}
 
 	.buttons {

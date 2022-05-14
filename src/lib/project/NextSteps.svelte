@@ -8,6 +8,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import Modal, { bind } from '$lib/components/Modal.svelte';
 	import IssueErc20 from './IssueERC20.svelte';
+	import CreatePayableAddress from './CreatePayableAddress.svelte';
 
 	export let close: () => void;
 
@@ -44,7 +45,13 @@
 			id: NextOptions.payable,
 			title: 'Create a payable address',
 			description: 'Create an Ethereum address that can be used to pay your project directly.',
-			onClick: implementMe
+			onClick: () => {
+				currentSubModal = bind(CreatePayableAddress, {
+					onSuccess: () => {
+						done[NextOptions.payable] = true;
+					}
+				});
+			}
 		},
 		{
 			id: NextOptions.twitter,
