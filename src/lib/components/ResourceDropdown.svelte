@@ -3,7 +3,8 @@
 	import Icon from './Icon.svelte';
 	import Trans from './Trans.svelte';
 
-    let isOpen: boolean;
+    export let isMobile: boolean = false;
+    let isOpen: boolean = false;
 
 	const resources = [
 		{
@@ -30,7 +31,7 @@
 </script>
 
 <Collapse bind:isOpen>
-	<button><Trans>Resources</Trans> <Icon name="down" direction={isOpen ? 's' : 'n'} /></button>
+	<button class:isMobile><Trans>Resources</Trans> <Icon name="down" direction={isOpen ? 's' : 'n'} /></button>
 	<nav slot="content">
 		{#each resources as resource}
 			<a href={resource.href}>{resource.label}</a>
@@ -53,6 +54,11 @@
         line-height: 0px;
 		margin: 24px 10px 0px;
 	}
+
+    .isMobile {
+        margin: 0;
+        padding: 0;
+    }
 
     nav {
         display: flex;

@@ -3,6 +3,7 @@
 	import { toggleTheme } from './DarkmodeToggle.svelte';
 
 	import Icon from './Icon.svelte';
+	import ResourceDropdown from './ResourceDropdown.svelte';
 
 	let showMenu = false;
 </script>
@@ -67,19 +68,7 @@
 								>
 							</div>
 							<!-- TODO resource dropdown -->
-							<!-- <div
-								role="menuitem"
-								class="ant-menu-submenu-title ant-space-item"
-								tabindex="-1"
-								aria-expanded="false"
-								aria-haspopup="true"
-								data-menu-id="rc-menu-uuid-90877-1-undefined"
-								aria-controls="rc-menu-uuid-90877-1-undefined-popup"
-								style="padding-left: 0px;"
-							>
-								<span class="ant-menu-title-content">Resources </span>
-								<Icon direction="w" name="down" />
-							</div> -->
+							<ResourceDropdown isMobile />
 						</div>
 						<div eventkey="tmp_key-2" style="margin-left: 15px; margin-top: 15px">
 							<li
