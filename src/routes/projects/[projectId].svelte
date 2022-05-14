@@ -29,13 +29,10 @@
 
 	setContext('PROJECT', project);
 
-	// const converter = getCurrencyConverter();
-
 	let loading = true;
 	let issue: string | false = false;
 
 	onMount(async () => {
-		// $project = mockProject;
 		try {
 			await new Promise((r) => setTimeout(r, 1000));
 			$project.projectId = BigNumber.from($page.params.projectId);
@@ -174,13 +171,7 @@
 				<Paid />
 				<div class="row">
 					<Details />
-					<!-- WIP -->
-					<!-- {#await getPaymentsForProject($project.projectId)} -->
-					<!-- <Activity loading={true} /> -->
-					<!-- {:then payEvents} -->
-					<!-- <Activity {payEvents} /> -->
 					<Activity />
-					<!-- {/await} -->
 				</div>
 			</div>
 			<div style="text-align: center; padding: 20px;">
