@@ -29,7 +29,7 @@
 <p class="sub-header">CURRENT</p>
 <HeavyBorderBox>
 	<FundingCycleDetails
-		expanded
+		expanded={true}
 		fundingCycle={$project.fundingCycle}
 		fundingCycleMetadata={$project.fundingCycleMetadata}
 		distributionLimit={$project.distributionLimit}

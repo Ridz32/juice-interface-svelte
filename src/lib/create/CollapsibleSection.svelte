@@ -17,7 +17,7 @@
 </button>
 
 {#if expanded}
-	<div transition:slide>
+	<div in:slide>
 		<slot />
 	</div>
 {/if}
