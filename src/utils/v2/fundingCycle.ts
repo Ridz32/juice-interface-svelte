@@ -179,12 +179,9 @@ export const getUnsafeV2FundingCycleProperties = (
 	fundingCycle: V2FundingCycle,
 	fundingCycleMetadata: V2FundingCycleMetadata = undefined,
 ): FundingCycleRiskFlags => {
-	console.log(fundingCycleMetadata)
 	const metadata = fundingCycleMetadata ? fundingCycleMetadata : decodeV2FundingCycleMetadata(fundingCycle.metadata);
 	const ballotAddress = getBallotStrategyByAddress(fundingCycle.ballot).address;
-	const reservedRatePercentage = parseFloat(fromWad(metadata?.reservedRate));
-	console.log(metadata)
-	console.log(reservedRatePercentage);
+	const reservedRatePercentage = fundingCycleMetadata ? parseFloat(formatReservedRate(metadata?.reservedRate)) : parseFloat(fromWad(metadata?.reservedRate));
 	const allowMinting = Boolean(metadata?.allowMinting);
 
 	return unsafeFundingCycleProperties({
@@ -199,8 +196,9 @@ export const getUnsafeV2FundingCycleProperties = (
  * Return number of risk indicators for a funding cycle.
  * 0 if we deem a project "safe" to contribute to.
  */
-export const V2FundingCycleRiskCount = (fundingCycle: V2FundingCycle): number => {
-	return Object.values(getUnsafeV2FundingCycleProperties(fundingCycle)).filter((v) => v === true)
+export const V2FundingCycleRiskCount = (fundingCycle: V2FundingCycle, fundingCycleMetadata: V2FundingCycleMetadata = undefined): number => {
+	const unsafeProperties = getUnsafeV2FundingCycleProperties(fundingCycle, fundingCycleMetadata);
+	return Object.values(unsafeProperties).filter((v) => v === true)
 		.length;
 };
 
@@ -292,8 +290,8 @@ export function getFundingCycleDetails(fundingCycle: V2FundingCycle, fundingCycl
 			label: 'Reserved tokens',
 			value: `${formattedReservedRate}%`,
 			info: 'Whenever someone pays your project, this percentage of tokens will be reserved and the rest will go to the payer. Reserve tokens are reserved for the project owner by default, but can also be allocated to other wallet addresses by the owner. Once tokens are reserved, anyone can "mint" them, which distributes them to their intended receivers.',
-			issue: parseFloat(formattedReservedRate) > RESERVED_RATE_WARNING_THRESHOLD_PERCENT,
-			issueText: riskWarningText.metadataReservedRate || riskWarningText.metadataMaxReservedRate
+			issue: fundingCycleRiskProperties.metadataReservedRate || fundingCycleRiskProperties.metadataMaxReservedRate,
+			issueText: (fundingCycleRiskProperties.metadataReservedRate && riskWarningText.metadataReservedRate) || riskWarningText.metadataMaxReservedRate
 		},
 		{
 			id: 'issuanceRate',

@@ -36,7 +36,7 @@
 	$: currentBallotStrategy = getBallotStrategyByAddress(fundingCycle.ballot);
 	$: cycleKeyValues = getFundingCycleDetails(fundingCycle, fundingCycleMetadata);
 	$: distributionLimitValue = getDistributionValue(distributionLimit);
-	$: fundingCycleRiskCount = V2FundingCycleRiskCount(fundingCycle);
+	$: fundingCycleRiskCount = V2FundingCycleRiskCount(fundingCycle, fundingCycleMetadata);
 
 	let rightHeaderText: string | null = null;
 	$: {
