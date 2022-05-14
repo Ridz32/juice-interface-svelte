@@ -1,28 +1,46 @@
 <script lang="ts">
+	import Store from '$utils/Store';
 	import { fly, fade } from 'svelte/transition';
 	import { bind, openModal } from './Modal.svelte';
 	import UnsavedChangesModal from './UnsavedChangesModal.svelte';
+	import { setContext } from 'svelte';
+
+	const showDirty = new Store(false);
+	setContext('SHOW_DIRTY', {
+		showDirty,
+		check: (initialState: { [x: string]: any } = {}, currentState: { [x: string]: any } = {}) => {
+			// For each key in initialState, check if any value is different
+			// from the values in currentState. Short-circuit if any value is different.
+			$showDirty = Object.keys(initialState).some((key) => {
+				return initialState[key] !== currentState[key];
+			});
+		}
+	});
 
 	export let shown = false;
 
-	function close(isDirty = undefined) {
-		if (isDirty) {
+	function close() {
+		// Reset the dirty state
+		showDirty.set(false);
+		shown = false;
+	}
+
+	function checkDirty() {
+		if ($showDirty) {
 			openModal(
 				bind(UnsavedChangesModal, {
-					closeResource: () => {
-						shown = false;
-					}
+					closeResource: close
 				})
 			);
 		} else {
-			shown = false;
+			close();
 		}
 	}
 </script>
 
 {#if shown}
 	<!-- The element that makes the whole page besides drawer darkish  -->
-	<div class="overlay" in:fade={{ duration: 100 }} out:fade on:click={close} />
+	<div class="overlay" in:fade={{ duration: 100 }} out:fade on:click={checkDirty} />
 
 	<div class="drawer-container" in:fly={{ x: 120 }} out:fly={{ x: 120 }}>
 		<!-- TODO close button (X) in top right -->
