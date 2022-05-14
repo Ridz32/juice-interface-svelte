@@ -217,7 +217,7 @@
 	}
 
 	p {
-		font-weight: 300;
+		font-weight: 400;
 		margin-bottom: 0;
 		display: inline;
 	}
@@ -250,7 +250,7 @@
 
 	.distribution-limit p {
 		font-size: 18px;
-		font-weight: 400;
+		font-weight: 600;
 	}
 
 	.distribution-limit h4 {
@@ -271,7 +271,7 @@
 
 	.info-item p {
 		font-size: 18px;
-		font-weight: 300;
+		font-weight: 400;
 		color: var(--text-primary);
 	}
 </style>
