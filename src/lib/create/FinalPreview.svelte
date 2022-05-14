@@ -6,18 +6,16 @@
 	import Icon from '$lib/components/Icon.svelte';
 	import ProjectLogo from '$lib/components/ProjectLogo.svelte';
 	import Trans from '$lib/components/Trans.svelte';
-	import PopInfo from '$lib/components/PopInfo.svelte';
 	import Popover from '$lib/components/Popover.svelte';
 	import { formatSplitPercent } from '$utils/v2/math';
 	import { getDistributionLimitType } from '$utils/v2/distributions';
 	import { getFundingCycleDetails } from '$utils/v2/fundingCycle';
 	import { metadataFields } from './ProjectDetails.svelte';
-	import { Currency, DistributionLimitType } from '$constants';
+	import { DistributionLimitType } from '$constants';
 	import Money from '$lib/components/Money.svelte';
 	import { getBallotStrategyByAddress } from '$constants/v2/ballotStrategies/getBallotStrategiesByAddress';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import { getTruncatedAddress } from '$lib/components/Address.svelte';
-	import { reservedTokensSplits } from './stores';
 
 	const project = getContext('PROJECT') as Store<V2ProjectContextType>;
 
@@ -29,12 +27,9 @@
 	const currentBallotStrategy = getBallotStrategyByAddress($project.fundingCycle.ballot);
 
 	const hiddenFCDetails = ['start', 'end'];
+	const hiddenPreview = ['description'];
 
 	$: distributionLimitType = getDistributionLimitType($project.distributionLimit);
-	// $: {
-	//     console.log(distributionLimitType)
-	//     console.log(distributionLimit)
-	// }
 </script>
 
 <section>
@@ -44,14 +39,16 @@
 	<p><Trans>These attributes can be changed at any time.</Trans></p>
 	<div class="details">
 		<div class="info-item">
-			<h4><Trans>Name</Trans></h4>
+			<h4><Trans>Logo</Trans></h4>
 			<ProjectLogo uri={$project.projectMetadata.logoUri} />
 		</div>
 		{#each metadataFields as field}
-			<div class="info-item">
-				<h4>{field.label}</h4>
-				<p>{$project.projectMetadata[field.id] || '--'}</p>
-			</div>
+			{#if !hiddenPreview.includes(field.id)}
+				<div class="info-item">
+					<h4>{field.label}</h4>
+					<p>{$project.projectMetadata[field.id] || '--'}</p>
+				</div>
+			{/if}
 		{/each}
 	</div>
 	<div class="fundingCycle">
@@ -126,6 +123,14 @@
 						<p>{detail.value}</p>
 						{#if detail.id === 'configuration'}
 							<small class="recon-info">{currentBallotStrategy.address}</small>
+						{/if}
+						{#if detail.issue}
+						<span>
+
+							<Popover message={detail.issueText} placement="right">
+								<Icon name="exclamationCircle" />
+							</Popover>
+						</span>
 						{/if}
 					</div>
 				{/if}
@@ -214,6 +219,11 @@
 	p {
 		font-weight: 300;
 		margin-bottom: 0;
+		display: inline;
+	}
+	span {
+		font-size: 18px;
+		color: var(--text-warn);
 	}
 
 	p[slot='left'] {
@@ -252,8 +262,8 @@
 		display: flex;
 		flex-wrap: wrap;
 		margin-top: 40px;
-        column-gap: 40px;
-    }
+		column-gap: 40px;
+	}
 
 	.split-item {
 		min-width: 500px;
