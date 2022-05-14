@@ -77,6 +77,10 @@
 		cursor: pointer;
 	}
 
+	a {
+		color: unset;
+	}
+
 	h1 {
 		font-size: 18px;
 	}
