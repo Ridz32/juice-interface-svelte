@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Collapse from './Collapse.svelte';
+	import ExternalLink from './ExternalLink.svelte';
 	import Icon from './Icon.svelte';
 	import Trans from './Trans.svelte';
 
@@ -34,7 +35,7 @@
 	<button class:isMobile><Trans>Resources</Trans> <Icon name="down" direction={isOpen ? 's' : 'n'} /></button>
 	<nav slot="content">
 		{#each resources as resource}
-			<a href={resource.href}>{resource.label}</a>
+			<ExternalLink href={resource.href}>{resource.label}</ExternalLink>
 		{/each}
 	</nav>
 </Collapse>
@@ -68,7 +69,7 @@
         border: 1px solid var(--stroke-primary);
     }
 
-    a {
+    :global(nav[slot="content"] a) {
         cursor: pointer;
         align-items: center;
         line-height: 40px;
