@@ -5,7 +5,7 @@
 	export let options: { [key: string]: any }[] = [];
 	export let value = options[0]?.value;
 
-	let isOpen = false;
+	export let isOpen = false;
 </script>
 
 <div class="wrapper">
@@ -36,9 +36,8 @@
 
 	.dropdown {
 		position: absolute;
-		width: 200px;
 		margin-top: 10px;
-		background: var(--background-l1);
+		background: var(--background-l0);
 		z-index: 900;
 		box-shadow: 0 8px 12px var(--boxShadow-primary);
 	}

@@ -9,9 +9,9 @@
 	import type Store from '$utils/Store';
 	import Trans from './Trans.svelte';
 	import Collapse from './Collapse.svelte';
+	import ResourceDropdown from './ResourceDropdown.svelte';
 
 	const i18n = getContext('i18n') as Store<I18n>;
-	let changeLangOpened = false;
 </script>
 
 <header>
@@ -26,7 +26,7 @@
 		<a href="/projects"><Trans>Projects</Trans></a>
 		<a href="#faq"><Trans>FAQ</Trans></a>
 		<a href="https://discord.gg/6jXrJSyDFf"><Trans>Discord</Trans></a>
-		<!-- <a><Trans>Resources</Trans></a> -->
+		<ResourceDropdown />
 	</nav>
 	<div class="right-nav">
 		<Collapse>
@@ -58,6 +58,7 @@
 		flex: 1 1 0%;
 		gap: 24px;
 		line-height: 64px;
+		display: flex;
 	}
 
 	nav a {

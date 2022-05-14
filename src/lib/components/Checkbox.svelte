@@ -12,9 +12,8 @@
 		width: 20px;
 		height: 20px;
 		border: 1px solid var(--stroke-action-primary);
-		border-radius: var(--radius-sm);
-		background-color: var(--background-l2);
-
+		border-radius: 3px;
+		background-color: var(--background-l0);
 		display: grid;
 		place-content: center;
 	}
