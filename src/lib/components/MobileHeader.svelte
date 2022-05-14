@@ -227,9 +227,6 @@
 	header {
 		z-index: 1;
 	}
-	span[aria-label='menu'] {
-		transform: scale(1.5);
-	}
 
 	.ant-menu-root {
 		border: none;

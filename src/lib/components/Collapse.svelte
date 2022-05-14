@@ -10,6 +10,7 @@
 
 <div class="wrapper">
 	<div
+		class="label"
 		on:click={() => {
 			isOpen = !isOpen;
 		}}
@@ -24,6 +25,10 @@
 </div>
 
 <style>
+	.label {
+		display: flex;
+		align-items: center;
+	}
 	.wrapper {
 		cursor: pointer;
 		position: relative;
