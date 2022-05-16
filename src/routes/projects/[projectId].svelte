@@ -130,7 +130,6 @@
 			});
 
 			/****/
-
 			[$project.distributionLimit, $project.distributionLimitCurrency] = await readContract(
 				V2ContractName.JBController,
 				'distributionLimitOf',
@@ -146,7 +145,7 @@
 					: []
 			);
 
-			// /****/
+			/****/
 
 			const ret = await readContract(
 				V2ContractName.JBProjects,

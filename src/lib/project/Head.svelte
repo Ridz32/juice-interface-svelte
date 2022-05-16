@@ -35,7 +35,7 @@
 	};
 </script>
 
-<!-- <section>
+<section>
 	<div class="logo-wrapper">
 		<img src={metadata.logoUri} alt="JuiceboxDAO logo" />
 	</div>
@@ -65,7 +65,7 @@
 		<div
 			style="display: flex; flex-wrap: wrap; padding-top: 8px; padding-bottom: 4px; font-weight: 500;"
 		>
-			<span class="project-handle">@{$project.handle}</span>
+			<!-- <span class="project-handle">@{$project.handle}</span> -->
 			{#if metadata?.infoUri}
 				<a href={metadata.infoUri} target="_blank" rel="noopener noreferrer"
 					>{prettyUrl(metadata.infoUri)}</a
@@ -88,7 +88,7 @@
 
 		<Paragraph description={metadata?.description || ''} characterLimit={250} />
 	</div>
-</section> -->
+</section>
 
 <Drawer bind:shown={drawerShown}>
 	<ToolsDrawer />

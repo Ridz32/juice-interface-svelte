@@ -32,7 +32,6 @@
 	main {
 		margin: 0 auto;
 		box-sizing: border-box;
-		overflow: hidden;
 		height: 100%;
 	}
 </style>

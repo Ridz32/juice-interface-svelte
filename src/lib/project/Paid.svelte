@@ -17,18 +17,18 @@
 	import PayHeadsUp from '$lib/components/PayHeadsUp.svelte';
 	import PayCheckout from '$lib/project/PayCheckout.svelte';
 	import { weightedAmount } from '$utils/v2/math';
-	import type { BigNumber } from 'ethers';
+	import { BigNumber } from 'ethers';
 	import { getDistributionLimitType } from '$utils/v2/distributions';
 
 	const projectsContext = getContext('PROJECT') as Store<V2ProjectContextType>;
 
-	const currentFC = $projectsContext.fundingCycle;
-	const fcMetadata = $projectsContext.fundingCycleMetadata;
-	const balanceInCurrency = $projectsContext.balanceInDistributionLimitCurrency;
-	const balance = $projectsContext.ETHBalance;
-	const owner = $projectsContext.projectOwnerAddress;
-	const metadata = $projectsContext.projectMetadata;
-	const tokenSymbol = $projectsContext.tokenSymbol;
+	$: currentFC = $projectsContext.fundingCycle;
+	$: fcMetadata = $projectsContext.fundingCycleMetadata;
+	$: balanceInCurrency = $projectsContext.balanceInDistributionLimitCurrency;
+	$: balance = $projectsContext.ETHBalance;
+	$: owner = $projectsContext.projectOwnerAddress;
+	$: metadata = $projectsContext.projectMetadata;
+	$: tokenSymbol = $projectsContext.tokenSymbol;
 
 	const ownerBalance = getEthBalance(owner);
 
@@ -55,14 +55,14 @@
 	<div class="stats">
 		<InfoSpaceBetween>
 			<div slot="left">
-				<h4>In Juicebox</h4>
+				<h4>In Treasury</h4>
 				<Popover placement="right" message="The balance of this project in the Juicebox contract.">
 					<Icon name="questionCircle" />
 				</Popover>
 			</div>
 			<div slot="right">
 				<div class="amount">
-					{#if $projectsContext?.distributionLimitCurrency === Currency.ETH}
+					{#if BigNumber.from($projectsContext?.distributionLimitCurrency).eq(Currency.ETH)}
 						<h4 class="amount-main">
 							<ETHAmount amount={balanceInCurrency} precision={2} padEnd />
 						</h4>
