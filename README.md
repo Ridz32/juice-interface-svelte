@@ -1,6 +1,6 @@
 # juicebox.money in svelte
 
-## install and building
+## building and installing
 
 ```bash
 yarn && yarn run dev
@@ -12,15 +12,15 @@ yarn && yarn run dev
 
 ## License
 
-This repository is licensed under the "Completely Open Source, Except No Fucking Tankbottoms or Juicebox License" which is detailed below but can be summarized as follows: if your application does not directly enable Juicebox treasury fees you are not allowed to remotely use this software.
+This repository is licensed under the "Completely Open Source, Except No Fucking Tankbottoms or Juicebox License" which is detailed below but can be summarized as follows: applications which use this repo's source code should connect to a Juicebox treasury.
 
 [License](https://github.com/tankbottoms/juice-interface-svelte/blob/main/LICENSE.md)
 
-#### Fine print
+#### fine print
 
 Repository user provides no warranties regarding its licenses, any material licensed under their terms and conditions, or any related information. Repository user disclaims all liability for damages resulting from their use to the fullest extent possible.
 
-This repository may not be copied or distributed except if the following conditions are met:
+Derivative repository should meet the following conditions:
 
 1. The repository interfaces with any contract deployed by Ethereum mainnet 0xE9bE6df23C7f9CaBa3005DA2fa2d8714d340D0aF and/or;
 2. interfaces with the Juicebox protocol, as governed by the Gnosis multi-signature Ethereum mainnet 0xAF28bcB48C40dBC86f52D459A6562F658fc94B1e, and/or;
