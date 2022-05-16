@@ -17,11 +17,11 @@
 	// TODO # of tokens user has for contract address
 	let userTokens: number = 3000;
 
-    onMount(() => {
-        // TODO contract read
-        // Pre set the amount to the max amount of tokens the user has
-        amount = userTokens;
-    });
+	onMount(() => {
+		// TODO contract read
+		// Pre set the amount to the max amount of tokens the user has
+		amount = userTokens;
+	});
 
 	function claimTokens() {
 		// TODO contract call to claim the tokesn of logged in user
@@ -62,7 +62,8 @@
 				<span> {formattedNum(userTokens)}</span>
 			</p>
 			<p class="secondary">
-				<Trans>{$project.tokenSymbol || ''} ERC-20 address</Trans>: <span>
+				<Trans>{$project.tokenSymbol || ''} ERC-20 address</Trans>:
+				<span>
 					{getTruncatedAddress($project.tokenAddress)}
 				</span>
 			</p>
@@ -95,7 +96,7 @@
 		border-radius: var(--radius-sm);
 	}
 
-    span {
-        color: var(--text-primary);
-    }
+	span {
+		color: var(--text-primary);
+	}
 </style>

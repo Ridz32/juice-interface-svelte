@@ -334,7 +334,8 @@
 					Receive 56,035 JBX/1 ETH
 					<div>
 						or <span
-							><span style="color: var(--text-action-primary); cursor: pointer; padding: 0.5rem 0px;"
+							><span
+								style="color: var(--text-action-primary); cursor: pointer; padding: 0.5rem 0px;"
 								>buy JBX on exchange<span
 									role="img"
 									aria-label="question-circle"

@@ -17,7 +17,7 @@ v1.3.0
 				...options,
 				props: {
 					...props,
-					...options.props,
+					...options.props
 				}
 			});
 		};
@@ -275,7 +275,7 @@ v1.3.0
 	let onClosed = toVoid;
 
 	const open = (NewComponent, newProps = {}, options = {}, callback = {}) => {
-		Component = bind(NewComponent, {...newProps, close });
+		Component = bind(NewComponent, { ...newProps, close });
 		state = { ...defaultState, ...options };
 		updateStyleTransition();
 		disableScroll();
@@ -380,7 +380,7 @@ v1.3.0
 
 	const enableScroll = () => {
 		// NOTE we're not using `prevBodyPosition` here because
-		// we have a couple of nested modals, so the previous 
+		// we have a couple of nested modals, so the previous
 		// state can be fixed and overflow hidden. Fix this
 		// in the future, for now just unset.
 		document.body.style.position = '';

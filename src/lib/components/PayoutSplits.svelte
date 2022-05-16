@@ -96,7 +96,9 @@
 		</div>
 		<!-- TODO check when this is supposed to be disabled and not -->
 		<div slot="right">
-			<button on:click={() => openModal(DistributeFunds)} disabled={isPreview}>Distribute funds</button>
+			<button on:click={() => openModal(DistributeFunds)} disabled={isPreview}
+				>Distribute funds</button
+			>
 		</div>
 	</InfoSpaceBetween>
 {/if}

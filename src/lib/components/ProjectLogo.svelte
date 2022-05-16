@@ -20,7 +20,7 @@
 
 	.project-logo {
 		overflow: hidden;
-        border-radius: var(--radius-xl);
+		border-radius: var(--radius-xl);
 	}
 
 	.no-logo {

@@ -118,12 +118,8 @@
 				graphSize - graphPad
 			}px; height: ${graphSize - graphPad}px`}
 		/>
-		<div class="label">
-			% tokens redeemed
-		</div>
-		<div class="label y-label" style={`width: ${graphSize}px`}>
-			Token redeem value
-		</div>
+		<div class="label">% tokens redeemed</div>
+		<div class="label y-label" style={`width: ${graphSize}px`}>Token redeem value</div>
 	</div>
 
 	<p>
@@ -136,7 +132,6 @@
 </div>
 
 <style>
-
 	:global(.dcg-container) {
 		background: var(--background-l2) !important;
 	}

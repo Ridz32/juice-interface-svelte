@@ -154,7 +154,9 @@
 </section>
 <div class="actions">
 	<Button on:click={closeModal} size="md" type="secondary">Cancel</Button>
-	<Button size="md" on:click={addSplit}>{editingExistingSplit ? 'Save' : 'Add'} token receiver</Button>
+	<Button size="md" on:click={addSplit}
+		>{editingExistingSplit ? 'Save' : 'Add'} token receiver</Button
+	>
 </div>
 
 <style>

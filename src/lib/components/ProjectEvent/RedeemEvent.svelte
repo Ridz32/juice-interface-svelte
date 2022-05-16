@@ -1,13 +1,13 @@
 <script lang="ts">
-    import { getContext } from 'svelte';
-    import type Store from '$utils/Store';
+	import { getContext } from 'svelte';
+	import type Store from '$utils/Store';
 	import InfoSpaceBetween from '$lib/components/InfoSpaceBetween.svelte';
 	import ETHAmount from '$lib/components/ETHAmount.svelte';
 	import { formatHistoricalDate } from '$utils/formatDate';
 	import { getTruncatedAddress } from '$lib/components/Address.svelte';
 	import EtherscanLink from '$lib/components/EtherscanLink.svelte';
 	import type { RedeemEvent } from '$models/subgraph-entities/vX/redeem-event';
-    import type { V2ProjectContextType } from '$models/project-type';
+	import type { V2ProjectContextType } from '$models/project-type';
 	import { formatWad } from '$utils/formatNumber';
 	import { tokenSymbolText } from '$utils/tokenSymbolText';
 

@@ -12,10 +12,10 @@
 	},
 	"lint-staged": {
 		"*.{ts,svelte,html,json}": [
-		  "prettier --write",
-		  "git add"
+			"prettier --write",
+			"git add"
 		]
-	  },
+	},
 	"scripts": {
 		"dev": "svelte-kit dev --port 8080",
 		"build": "svelte-kit build && node scripts/ipfs-fallback.js",

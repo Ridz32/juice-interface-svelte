@@ -17,7 +17,7 @@
 	<div role="button" on:click={() => onRemove(split)}>
 		<Icon name="closeCircle" />
 	</div>
-	{#if split.projectId && split.projectId != "0x00"}
+	{#if split.projectId && split.projectId != '0x00'}
 		<li>
 			<p><b>Project ID:</b></p>
 			{split.projectId}

@@ -6,7 +6,6 @@
 	export let config;
 	const store = new Store(i18n);
 
-    
 	$: {
 		store.set(i18n);
 	}

@@ -97,11 +97,11 @@
 		color: var(--text-header);
 	}
 
-    .withdrawn {
-        font-size: 0.8rem;
-        font-weight: 300;
-        color: var(--text-primary);
-    }
+	.withdrawn {
+		font-size: 0.8rem;
+		font-weight: 300;
+		color: var(--text-primary);
+	}
 
 	.wrapper {
 		border-bottom: 1px solid var(--stroke-tertiary);

@@ -14,7 +14,7 @@
 	 * This component is used to display the distribution splits for a project
 	 * in places like the Preview panel on the create layout, or Detail
 	 * panel on the project detail layout.
-	 * 
+	 *
 	 * For the component to edit/remove split, see Split.svelte.
 	 */
 
@@ -28,7 +28,7 @@
 <InfoSpaceBetween>
 	<!-- TODO crown if Project owner (i.e. the logged in user) -->
 	<div slot="left">
-		{#if split.projectId && split.projectId != "0x00"}
+		{#if split.projectId && split.projectId != '0x00'}
 			<p>
 				@{split.projectId}:
 			</p>

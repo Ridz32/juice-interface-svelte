@@ -32,7 +32,9 @@
 		{$i18n._(message, props)}
 	{/if}
 {:else}
-	<div bind:this={data} style="position: fixed; opacity: 0; top: -1000px; left: -1000px"><slot /></div>
+	<div bind:this={data} style="position: fixed; opacity: 0; top: -1000px; left: -1000px">
+		<slot />
+	</div>
 	{textMessage}
 {/if}
 

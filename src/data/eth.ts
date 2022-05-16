@@ -3,10 +3,10 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { fromWad } from '$utils/formatNumber';
 
 // import useContractReader from './contractReader/ContractReader'
-// TODO: useContractReader or price feed 
+// TODO: useContractReader or price feed
 export function getEtherPrice() {
 	console.warn('getEtherPrice is not implemented, default value 3000 returned');
-    return 2500;
+	return 2500;
 	// return parseFloat(fromWad(BigNumber.from('3000000000')));
 	//   const [price, setPrice] = useState<number>()
 

@@ -69,12 +69,12 @@
 		box-shadow: 0 0 0 2px rgb(0 0 0 / 10%);
 	}
 
-	input[disabled=true],
-	label[disabled=true] {
+	input[disabled='true'],
+	label[disabled='true'] {
 		cursor: not-allowed;
 	}
 
-	label[disabled=true]:after {
+	label[disabled='true']:after {
 		box-shadow: none;
 	}
 </style>

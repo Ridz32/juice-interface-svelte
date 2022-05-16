@@ -156,7 +156,7 @@
 
 	onMount(async () => {
 		// pastFundingCycles = await loadPastFundingCycles();
-		pastFundingCycles = [currentFundingCycle, currentFundingCycle, currentFundingCycle]
+		pastFundingCycles = [currentFundingCycle, currentFundingCycle, currentFundingCycle];
 	});
 
 	const allCyclesLoaded = pastFundingCycles.length >= currentFundingCycle.number.toNumber() - 1;
@@ -184,7 +184,6 @@
 						fundingCycleMetadata: {
 							redemptionRate: BigNumber.from(0),
 							reservedRate: BigNumber.from(0)
-
 						},
 						distributionLimit: BigNumber.from(0),
 						currentDistributionLimitCurrencyType: 1
