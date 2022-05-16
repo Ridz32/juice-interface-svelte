@@ -30,7 +30,7 @@
 	const { projectId, fundingCycle: currentFundingCycle } = $project;
 	// const projectId = undefined;
 	// const currentFundingCycle = undefined;
-	const contracts = {};
+	const contracts = {} as Record<'string', Store>;
 	let pastFundingCycles: V2FundingCycle[] = [];
 
 	// Fill in gaps between first funding cycle of each configuration:

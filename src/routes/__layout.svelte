@@ -5,8 +5,8 @@
 	import { onMount } from 'svelte';
 	import { loadLocale } from '$lib/provider/LanguageProvider';
 	import Intl from '$lib/provider/Intl.svelte';
-	import Modal from '$lib/components/Modal.svelte';
 	import SwitchNetworkModal from '$lib/components/SwitchNetworkModal.svelte';
+	import { connectedAccount } from '$stores/web3';
 
 	onMount(async () => {
 		await loadLocale();
@@ -23,7 +23,9 @@
 		<MobileHeader />
 		<slot />
 	</main>
-	<SwitchNetworkModal />
+	{#if $connectedAccount}
+		<SwitchNetworkModal />
+	{/if}
 </Intl>
 
 <style>

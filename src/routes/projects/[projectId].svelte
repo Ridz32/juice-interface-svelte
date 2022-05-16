@@ -39,7 +39,6 @@
 
 	onMount(async () => {
 		try {
-			await new Promise((r) => setTimeout(r, 1000));
 			$project.projectId = BigNumber.from($page.params.projectId);
 			const [cid] = await transactContract(V2ContractName.JBProjects, 'metadataContentOf', [
 				$project.projectId,
@@ -153,6 +152,7 @@
 
 			loading = false;
 		} catch (e) {
+			console.log(e);
 			issue = e.message;
 		}
 
