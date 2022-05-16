@@ -14,7 +14,7 @@
 </script>
 
 <svelte:head>
-	<title>JuiceboxDAO</title>
+	<title>Juicebox</title>
 </svelte:head>
 
 <Intl config={{}}>
@@ -33,5 +33,6 @@
 		margin: 0 auto;
 		box-sizing: border-box;
 		overflow: hidden;
+		height: 100%;
 	}
 </style>

@@ -24,6 +24,7 @@
 	export let currentDistributionLimitCurrencyType: Currency;
 
 	function getDistributionValue(distributionLimit: BigNumber) {
+		distributionLimit = distributionLimit || BigNumber.from(0);
 		if (!distributionLimit.gt(0)) {
 			return 'Zero';
 		} else if (distributionLimit.eq(MAX_DISTRIBUTION_LIMIT)) {
@@ -35,7 +36,7 @@
 	$: currency = BigNumber.from(currentDistributionLimitCurrencyType)?.toNumber();
 	$: currentBallotStrategy = getBallotStrategyByAddress(fundingCycle.ballot);
 	$: cycleKeyValues = getFundingCycleDetails(fundingCycle, fundingCycleMetadata);
-	$: distributionLimitValue = getDistributionValue(distributionLimit);
+	$: distributionLimitValue = getDistributionValue(distributionLimit || BigNumber.from(0));
 	$: fundingCycleRiskCount = V2FundingCycleRiskCount(fundingCycle, fundingCycleMetadata);
 
 	let rightHeaderText: string | null = null;

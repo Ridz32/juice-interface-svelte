@@ -20,13 +20,19 @@
 
 	import { page } from '$app/stores';
 	import type { V2ProjectContextType } from '$lib/create/stores';
-	import { transactContract } from '$utils/web3/contractReader';
+	import { contracts, readContract } from '$utils/web3/contractReader';
 	import { V2ContractName } from '$models/v2/contracts';
 	import { ETH_PAYOUT_SPLIT_GROUP } from '$constants/v2/splits';
 	import { ETH_TOKEN_ADDRESS } from '$constants/v2/juiceboxTokens';
 	import { getProjectMetadata } from '$data/project';
 	import Activity from '$lib/project/Activity.svelte';
 	import NextSteps from '$lib/project/NextSteps.svelte';
+	import { JUICEBOX_MONEY_METADATA_DOMAIN } from '$constants/v2/metadataDomain';
+	import { querySubgraph } from '$utils/graph';
+	import { ipfsCidUrl } from '$utils/ipfs';
+	import axios from 'axios';
+	import { consolidateMetadata } from '$models/project-metadata';
+	import Loading from '$lib/components/Loading.svelte';
 
 	let project = new Store<V2ProjectContextType>({} as any);
 
@@ -40,22 +46,25 @@
 	onMount(async () => {
 		try {
 			$project.projectId = BigNumber.from($page.params.projectId);
-			const [cid] = await transactContract(V2ContractName.JBProjects, 'metadataContentOf', [
+			const metadataCID = await readContract(V2ContractName.JBProjects, 'metadataContentOf', [
 				$project.projectId,
-				0
+				JUICEBOX_MONEY_METADATA_DOMAIN
 			]);
-			const metadata = await getProjectMetadata(cid);
+
+			const url = ipfsCidUrl(metadataCID);
+			const response = await axios.get(url);
+			const metadata = consolidateMetadata(response.data);
 			$project.projectMetadata = metadata;
 
 			/****/
-			[$project.fundingCycle, $project.fundingCycleMetadata] = await transactContract(
+			[$project.fundingCycle, $project.fundingCycleMetadata] = await readContract(
 				V2ContractName.JBController,
 				'currentFundingCycleOf',
 				[$project.projectId]
 			);
 
 			/****/
-			const [splitResult] = await transactContract(
+			const splitResult = await readContract(
 				V2ContractName.JBSplitsStore,
 				'splitsOf',
 				$project.projectId && $project?.fundingCycle?.configuration?.toString()
@@ -79,8 +88,8 @@
 			});
 			/****/
 
-			const [terminals] =
-				(await transactContract(
+			const terminals =
+				(await readContract(
 					V2ContractName.JBDirectory,
 					'terminalsOf',
 					$project.projectId ? [$project.projectId.toHexString()] : []
@@ -89,14 +98,14 @@
 			$project.primaryTerminal = terminals?.[0];
 
 			/****/
-			[$project.tokenAddress] = await transactContract(
+			$project.tokenAddress = await readContract(
 				V2ContractName.JBTokenStore,
 				'tokenOf',
 				$project.projectId ? [$project.projectId.toHexString()] : []
 			);
 
 			/****/
-			const [value] = await transactContract(
+			const value = await readContract(
 				V2ContractName.JBSplitsStore,
 				'splitsOf',
 				$project.projectId && $project.fundingCycle?.configuration?.toString()
@@ -107,6 +116,7 @@
 					  ]
 					: null
 			);
+			console.log(value);
 
 			$project.payoutSplits = value.map((split) => {
 				return {
@@ -121,7 +131,7 @@
 
 			/****/
 
-			[$project.distributionLimit, $project.distributionLimitCurrency] = await transactContract(
+			[$project.distributionLimit, $project.distributionLimitCurrency] = await readContract(
 				V2ContractName.JBController,
 				'distributionLimitOf',
 				$project.projectId &&
@@ -136,9 +146,9 @@
 					: []
 			);
 
-			/****/
+			// /****/
 
-			const [ret] = await transactContract(
+			const ret = await readContract(
 				V2ContractName.JBProjects,
 				'ownerOf',
 				$project.projectId ? [BigNumber.from($project.projectId).toHexString()] : null
@@ -162,7 +172,6 @@
 			openModal(NextSteps);
 		}
 	});
-	console.log($project);
 </script>
 
 <section>
@@ -172,9 +181,7 @@
 				{issue}
 			</Issue>
 		{:else if loading}
-			<div class="loading">
-				<Icon name="loading" spin />
-			</div>
+			<Loading height={500} />
 		{:else}
 			<div>
 				<Head />
@@ -208,16 +215,11 @@
 	}
 
 	.content {
+		height: 100%;
 		max-width: 1080px;
 		margin: 0px auto;
 		padding: 20px;
 		width: 100%;
-	}
-
-	.loading {
-		text-align: center;
-		font-size: 2rem;
-		color: var(--text-header);
 	}
 
 	.row {

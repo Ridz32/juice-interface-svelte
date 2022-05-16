@@ -35,7 +35,7 @@
 	};
 </script>
 
-<section>
+<!-- <section>
 	<div class="logo-wrapper">
 		<img src={metadata.logoUri} alt="JuiceboxDAO logo" />
 	</div>
@@ -65,13 +65,13 @@
 		<div
 			style="display: flex; flex-wrap: wrap; padding-top: 8px; padding-bottom: 4px; font-weight: 500;"
 		>
-			<!-- <span class="project-handle">@{$project.handle}</span> -->
-			{#if metadata.infoUri}
+			<span class="project-handle">@{$project.handle}</span>
+			{#if metadata?.infoUri}
 				<a href={metadata.infoUri} target="_blank" rel="noopener noreferrer"
 					>{prettyUrl(metadata.infoUri)}</a
 				>
 			{/if}
-			{#if metadata.twitter}
+			{#if metadata?.twitter}
 				<a
 					href={'https://twitter.com/' + metadata.twitter}
 					target="_blank"
@@ -79,16 +79,16 @@
 					><span style="social-icon"><Icon name="twitter" /></span>@{metadata.twitter}</a
 				>
 			{/if}
-			{#if metadata.discord}
+			{#if metadata?.discord}
 				<a href={linkUrl(metadata.discord)} target="_blank" rel="noopener noreferrer"
 					><span class="social-icon"><Icon name="discord" /></span>Discord</a
 				>
 			{/if}
 		</div>
 
-		<Paragraph description={metadata.description} characterLimit={250} />
+		<Paragraph description={metadata?.description || ''} characterLimit={250} />
 	</div>
-</section>
+</section> -->
 
 <Drawer bind:shown={drawerShown}>
 	<ToolsDrawer />

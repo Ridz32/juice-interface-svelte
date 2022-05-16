@@ -5,52 +5,83 @@ import { ethers } from 'ethers';
 import type { NetworkName } from '$models/network-name';
 import type { JsonRpcProvider, JsonRpcSigner } from '@ethersproject/providers';
 
-import JBChainlinkV3PriceFeed from '../../deployments/rinkeby/JBChainlinkV3PriceFeed';
-import JBETHERC20SplitsPayerDeployer from '../../deployments/rinkeby/JBETHERC20SplitsPayerDeployer';
-import JBReconfigurationBufferBallot from '../../deployments/rinkeby/JBReconfigurationBufferBallot';
-import JBCurrencies from '../../deployments/rinkeby/JBCurrencies';
-import JBProjects from '../../deployments/rinkeby/JBProjects';
-import JBController from '../../deployments/rinkeby/JBController';
-import JBETHPaymentTerminal from '../../deployments/rinkeby/JBETHPaymentTerminal';
-import JBFundingCycleStore from '../../deployments/rinkeby/JBFundingCycleStore';
-import JBSingleTokenPaymentTerminalStore from '../../deployments/rinkeby/JBSingleTokenPaymentTerminalStore';
-import JBDirectory from '../../deployments/rinkeby/JBDirectory';
-import JBOperatorStore from '../../deployments/rinkeby/JBOperatorStore';
-import JBSplitsStore from '../../deployments/rinkeby/JBSplitsStore';
-import JBETHERC20ProjectPayerDeployer from '../../deployments/rinkeby/JBETHERC20ProjectPayerDeployer';
-import JBPrices from '../../deployments/rinkeby/JBPrices';
-import JBTokenStore from '../../deployments/rinkeby/JBTokenStore';
+import MainnetJBProjects from '../../deployments/mainnet/JBProjects';
+import MainnetJBController from '../../deployments/mainnet/JBController';
+import MainnetJBETHPaymentTerminal from '../../deployments/mainnet/JBETHPaymentTerminal';
+import MainnetJBFundingCycleStore from '../../deployments/mainnet/JBFundingCycleStore';
+import MainnetJBSingleTokenPaymentTerminalStore from '../../deployments/mainnet/JBSingleTokenPaymentTerminalStore';
+import MainnetJBDirectory from '../../deployments/mainnet/JBDirectory';
+import MainnetJBOperatorStore from '../../deployments/mainnet/JBOperatorStore';
+import MainnetJBSplitsStore from '../../deployments/mainnet/JBSplitsStore';
+import MainnetJBETHERC20ProjectPayerDeployer from '../../deployments/mainnet/JBETHERC20ProjectPayerDeployer';
+import MainnetJBPrices from '../../deployments/mainnet/JBPrices';
+import MainnetJBTokenStore from '../../deployments/mainnet/JBTokenStore';
+
+import RinkebyJBProjects from '../../deployments/rinkeby/JBProjects';
+import RinkebyJBController from '../../deployments/rinkeby/JBController';
+import RinkebyJBETHPaymentTerminal from '../../deployments/rinkeby/JBETHPaymentTerminal';
+import RinkebyJBFundingCycleStore from '../../deployments/rinkeby/JBFundingCycleStore';
+import RinkebyJBSingleTokenPaymentTerminalStore from '../../deployments/rinkeby/JBSingleTokenPaymentTerminalStore';
+import RinkebyJBDirectory from '../../deployments/rinkeby/JBDirectory';
+import RinkebyJBOperatorStore from '../../deployments/rinkeby/JBOperatorStore';
+import RinkebyJBSplitsStore from '../../deployments/rinkeby/JBSplitsStore';
+import RinkebyJBETHERC20ProjectPayerDeployer from '../../deployments/rinkeby/JBETHERC20ProjectPayerDeployer';
+import RinkebyJBPrices from '../../deployments/rinkeby/JBPrices';
+import RinkebyJBTokenStore from '../../deployments/rinkeby/JBTokenStore';
 
 export const contracts = {
-	JBController,
-	JBDirectory,
-	JBETHPaymentTerminal,
-	JBFundingCycleStore,
-	JBOperatorStore,
-	JBPrices,
-	JBProjects,
-	JBSplitsStore,
-	JBTokenStore,
-	JBSingleTokenPaymentTerminalStore,
-	JBETHERC20ProjectPayerDeployer
+	mainnet: {
+		JBController: MainnetJBController,
+		JBDirectory: MainnetJBDirectory,
+		JBETHPaymentTerminal: MainnetJBETHPaymentTerminal,
+		JBFundingCycleStore: MainnetJBFundingCycleStore,
+		JBOperatorStore: MainnetJBOperatorStore,
+		JBPrices: MainnetJBPrices,
+		JBProjects: MainnetJBProjects,
+		JBSplitsStore: MainnetJBSplitsStore,
+		JBTokenStore: MainnetJBTokenStore,
+		JBSingleTokenPaymentTerminalStore: MainnetJBSingleTokenPaymentTerminalStore,
+		JBETHERC20ProjectPayerDeployer: MainnetJBETHERC20ProjectPayerDeployer
+	},
+	rinkeby: {
+		JBController: RinkebyJBController,
+		JBDirectory: RinkebyJBDirectory,
+		JBETHPaymentTerminal: RinkebyJBETHPaymentTerminal,
+		JBFundingCycleStore: RinkebyJBFundingCycleStore,
+		JBOperatorStore: RinkebyJBOperatorStore,
+		JBPrices: RinkebyJBPrices,
+		JBProjects: RinkebyJBProjects,
+		JBSplitsStore: RinkebyJBSplitsStore,
+		JBTokenStore: RinkebyJBTokenStore,
+		JBSingleTokenPaymentTerminalStore: RinkebyJBSingleTokenPaymentTerminalStore,
+		JBETHERC20ProjectPayerDeployer: RinkebyJBETHERC20ProjectPayerDeployer
+	}
 };
 
-export async function transactContract(
+export async function readContract(
 	contractName: V2ContractName,
 	functionName: string,
-	args: Any[],
-	prompt = false,
+	args: Any[] = []
+) {
+	const contract = new ethers.Contract(
+		contracts[readNetwork.name][contractName].address,
+		contracts[readNetwork.name][contractName].abi,
+		new ethers.providers.JsonRpcProvider(readNetwork.rpcUrl)
+	);
+	return await contract[functionName](...args);
+}
+
+export async function writeContract(
+	contractName: V2ContractName,
+	functionName: string,
+	args: Any[] = [],
 	opts = {}
 ): Promise<any> {
 	const _provider = provider.get();
 	const contract = new ethers.Contract(
-		contracts[contractName].address,
-		contracts[contractName].abi,
+		contracts[readContract.name][contractName].address,
+		contracts[readContract.name][contractName].abi,
 		_provider.getSigner()
 	);
-	if (prompt) {
-		return await contract[functionName](...args, opts);
-	} else {
-		return await contract.functions[functionName](...args);
-	}
+	return await contract[functionName](...args, opts);
 }

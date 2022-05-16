@@ -19,7 +19,7 @@
 	<div class="info-text">
 		<h1>{$project.projectMetadata.name || 'Untitled project'}</h1>
 		<div class="social-list">
-			<p>{$project.projectMetadata.infoUri || ''}</p>
+			<p>{$project.projectMetadata?.infoUri || ''}</p>
 			{#if $project.projectMetadata.twitter}
 				<p>
 					<Icon name="twitter" />

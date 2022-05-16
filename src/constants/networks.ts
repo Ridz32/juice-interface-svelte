@@ -29,13 +29,13 @@ export const NETWORKS: Record<number, NetworkInfo> = {
 		rpcUrl: `https://mainnet.infura.io/v3/${infuraId}`,
 		blockExplorer: 'https://etherscan.io/'
 	},
-	42: {
-		name: NetworkName.kovan,
-		color: '#7003DD',
-		chainId: 42,
-		rpcUrl: `https://kovan.infura.io/v3/${infuraId}`,
-		blockExplorer: 'https://kovan.etherscan.io/',
-		faucet: 'https://gitter.im/kovan-testnet/faucet' //https://faucet.kovan.network/
+	3: {
+		name: NetworkName.ropsten,
+		color: '#F60D09',
+		chainId: 3,
+		faucet: 'https://faucet.ropsten.be/',
+		blockExplorer: 'https://ropsten.etherscan.io/',
+		rpcUrl: `https://ropsten.infura.io/v3/${infuraId}`
 	},
 	4: {
 		name: NetworkName.rinkeby,
@@ -45,14 +45,6 @@ export const NETWORKS: Record<number, NetworkInfo> = {
 		faucet: 'https://faucet.rinkeby.io/',
 		blockExplorer: 'https://rinkeby.etherscan.io/'
 	},
-	3: {
-		name: NetworkName.ropsten,
-		color: '#F60D09',
-		chainId: 3,
-		faucet: 'https://faucet.ropsten.be/',
-		blockExplorer: 'https://ropsten.etherscan.io/',
-		rpcUrl: `https://ropsten.infura.io/v3/${infuraId}`
-	},
 	5: {
 		name: NetworkName.goerli,
 		color: '#0975F6',
@@ -60,6 +52,14 @@ export const NETWORKS: Record<number, NetworkInfo> = {
 		faucet: 'https://goerli-faucet.slock.it/',
 		blockExplorer: 'https://goerli.etherscan.io/',
 		rpcUrl: `https://goerli.infura.io/v3/${infuraId}`
+	},
+	42: {
+		name: NetworkName.kovan,
+		color: '#7003DD',
+		chainId: 42,
+		rpcUrl: `https://kovan.infura.io/v3/${infuraId}`,
+		blockExplorer: 'https://kovan.etherscan.io/',
+		faucet: 'https://gitter.im/kovan-testnet/faucet' //https://faucet.kovan.network/
 	},
 	100: {
 		name: NetworkName.xdai,

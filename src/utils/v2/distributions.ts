@@ -83,6 +83,7 @@ export function getTotalSplitsPercentage(splits: Split[]) {
 }
 
 export function getDistributionLimitType(distributionLimit: BigNumber) {
+  distributionLimit = distributionLimit || BigNumber.from(0);
 	if (distributionLimit.eq(0)) {
 		return DistributionLimitType.None;
 	}
