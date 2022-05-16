@@ -6,6 +6,8 @@ import { IpfsCacheName } from '$models/ipfs-cache/cache-name';
 import { consolidateMetadata, type ProjectMetadataV4 } from '$models/project-metadata';
 import { readNetwork } from '$constants/networks';
 import { IPFS_GATEWAY_HOSTNAME } from '$constants/ipfs';
+import { dev } from '$app/env';
+import { IPFS_FIREBASE_CLOUD_FUNCTION } from '$constants/firebase';
 
 const pinata_api_key = import.meta.env.VITE_PINATA_PINNER_KEY as string;
 const pinata_secret_api_key = import.meta.env.VITE_PINATA_PINNER_SECRET as string;
@@ -19,17 +21,13 @@ if (!pinata_api_key || !pinata_secret_api_key) {
 const pinata = pinataClient(pinata_api_key, pinata_secret_api_key);
 
 export const IPFS_TAGS = {
-	[IpfsCacheName.trending]:
-		(import.meta.env.NODE_ENV === 'production' ? 'trending_projects_' : 'DEV_trending_projects_') +
-		readNetwork.name,
-	METADATA:
-		import.meta.env.NODE_ENV === 'production'
-			? 'juicebox_project_metadata'
-			: 'DEV_juicebox_project_metadata',
-	LOGO:
-		import.meta.env.NODE_ENV === 'production'
-			? 'juicebox_project_logo'
-			: 'DEV_juicebox_project_logo'
+	[IpfsCacheName.trendingV2]: `${dev ? 'DEV_trending_projects_v2_' : 'trending_projects_v2_'}${
+		readNetwork.name
+	}`,
+
+	METADATA: dev ? 'DEV_juicebox_project_metadata' : 'juicebox_project_metadata',
+
+	LOGO: dev ? 'DEV_juicebox_project_logo' : 'juicebox_project_logo'
 };
 
 // keyvalues will be upserted to existing metadata. A null value will remove an existing keyvalue
@@ -40,7 +38,10 @@ export const logoNameForHandle = (handle: string) => `juicebox-@${handle}-logo`;
 
 export const metadataNameForHandle = (handle: string) => `juicebox-@${handle}-metadata`;
 
-export const ipfsCidUrl = (hash: string) => `https://${IPFS_GATEWAY_HOSTNAME}/ipfs/${hash}`;
+export const ipfsCidUrl = (hash: string) => {
+	hash = hash.match(/\/ipfs\/\w+$/) ? hash.match(/\w+$/)?.[0] : hash;
+	return `https://${IPFS_GATEWAY_HOSTNAME}/ipfs/${hash}`;
+};
 
 export const cidFromUrl = (url: string | undefined) => url?.split('/').pop();
 

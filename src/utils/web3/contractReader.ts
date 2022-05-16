@@ -1,7 +1,7 @@
 import type { V2ContractName, V2Contracts } from '$models/v2/contracts';
 import { readNetwork } from '$constants/networks';
 import { provider, getConnectedAccount, connectedAccount } from '$stores/web3';
-import { ethers } from 'ethers';
+import { ethers, type ContractTransaction } from 'ethers';
 import type { NetworkName } from '$models/network-name';
 import type { JsonRpcProvider, JsonRpcSigner } from '@ethersproject/providers';
 
@@ -63,6 +63,7 @@ export async function readContract(
 	functionName: string,
 	args: Any[] = []
 ) {
+	console.log(contractName, functionName, args);
 	const contract = new ethers.Contract(
 		contracts[readNetwork.name][contractName].address,
 		contracts[readNetwork.name][contractName].abi,
@@ -76,11 +77,11 @@ export async function writeContract(
 	functionName: string,
 	args: Any[] = [],
 	opts = {}
-): Promise<any> {
+): Promise<ContractTransaction> {
 	const _provider = provider.get();
 	const contract = new ethers.Contract(
-		contracts[readContract.name][contractName].address,
-		contracts[readContract.name][contractName].abi,
+		contracts[readNetwork.name][contractName].address,
+		contracts[readNetwork.name][contractName].abi,
 		_provider.getSigner()
 	);
 	return await contract[functionName](...args, opts);

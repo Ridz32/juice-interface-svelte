@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Trans from '$lib/components/Trans.svelte';
+	import type { ContractTransaction } from 'ethers';
 
+	export let txnResponse: ContractTransaction;
 	export let close: () => void;
 
-	onMount(() => {
-		setTimeout(() => {
-			console.log('TODO implement pending transaction functionality');
-			close();
-		}, 3000);
+	onMount(async () => {
+		await txnResponse.wait();
+		close();
 	});
 </script>
 

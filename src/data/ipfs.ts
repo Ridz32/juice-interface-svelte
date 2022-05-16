@@ -24,7 +24,7 @@ export async function getIpfsCache<T extends IpfsCacheName>(
     opts: IpfsCacheOpts<T> = { ttl: 12 }
 ) {
     const list = await getPinnedListByTag(tag);
-    if (!list.count) {
+    if (!list.count || !list.rows.length) {
         console.log("No cache exists for tag", tag);
         return;
     }

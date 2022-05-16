@@ -12,12 +12,12 @@ import {
 } from '$utils/graph';
 import type { ProjectState } from '$models/project-visibility';
 import { getIpfsCache } from './ipfs';
-import { uploadIpfsJsonCache  } from '$utils/ipfs';
+import { uploadIpfsJsonCache } from '$utils/ipfs';
 import {
-    parseTrendingProjectJson,
-    type Project,
-    type TrendingProject,
-    type TrendingProjectJson,
+	parseTrendingProjectJson,
+	type Project,
+	type TrendingProject,
+	type TrendingProjectJson
 } from '$models/subgraph-entities/vX/project';
 import { IpfsCacheName } from '$models/ipfs-cache/cache-name';
 
@@ -51,7 +51,7 @@ const keys: (keyof Project)[] = [
 	'metadataUri',
 	'currentBalance',
 	'totalPaid',
-	'totalRedeemed',
+	'totalRedeemed'
 ];
 
 const queryOpts = (
@@ -165,7 +165,7 @@ export async function getLatestPayments(days = 7) {
 				key: 'timestamp',
 				value: nowSeconds - daySeconds,
 				operator: 'gte'
-			},
+			}
 		]
 	});
 }
@@ -174,11 +174,18 @@ export async function getProjectsFromIds(ids: string[]) {
 	return await querySubgraph({
 		entity: 'project',
 		keys,
-		where: {
-			key: 'id',
-			value: ids,
-			operator: 'in'
-		}
+		where: [
+			{
+				key: 'id',
+				value: ids,
+				operator: 'in'
+			},
+			{
+				key: 'cv',
+				value: '2',
+				operator: 'contains'
+			}
+		]
 	});
 }
 
@@ -275,42 +282,46 @@ export function infiniteProjectsQuery(opts: ProjectsOptions) {
 }
 
 export async function getTrendingProjects(days: number, count: number) {
-    console.info('Loading trending cache')
-    const cache = await getIpfsCache(IpfsCacheName.trending, { ttl: 12, deserialize: data => data.map(parseTrendingProjectJson) });
+	console.info('Loading trendingV2 cache');
+	const cache = await getIpfsCache(IpfsCacheName.trendingV2, {
+		ttl: 12,
+		deserialize: (data) => data.map(parseTrendingProjectJson)
+	});
 
-    if (cache && cache.length >= count) {
-        console.info('Using trending cache')
-        return cache.slice(0, count);
-    }
+	if (cache && cache.length >= count) {
+		console.info('Using trendingV2 cache');
+		return cache.slice(0, count);
+	}
 
-    console.info('Trending cache missing or expired')
+	console.info('trendingV2 cache missing or expired');
 
-    const payments = await getLatestPayments(days);
-    const projectStats = getProjectStatsFromPayments(payments);
-    // Now get the project data for all the projectStats
-    const projectsQuery = await getProjectsFromIds(Object.keys(projectStats));
-    const trendingProjects = getTrendingProjectsFromProjectsAndStats(projectsQuery, projectStats).slice(
-        0,
-        count
-    );
+	const payments = await getLatestPayments(days);
+	const projectStats = getProjectStatsFromPayments(payments);
+	// Now get the project data for all the projectStats
+	const projectsQuery = await getProjectsFromIds(Object.keys(projectStats));
+	const trendingProjects = getTrendingProjectsFromProjectsAndStats(
+		projectsQuery,
+		projectStats
+	).slice(0, count);
 
-    if (trendingProjects.length) {
-        // Update the cache
-        const serialized = trendingProjects.map(p =>
-            Object.entries(p).reduce(
-                (acc, [key, val]) => ({
-                    ...acc,
-                    // Serialize all BigNumbers to strings
-                    [key]: BigNumber.isBigNumber(val) ? val.toString() : val,
-                }),
-                {} as TrendingProjectJson,
-            ),
-        )
-        console.log(serialized)
-        uploadIpfsJsonCache(IpfsCacheName.trending, serialized).then(() => {
-            console.info("Uploaded new trending cache")
-        });
-    }
+	if (trendingProjects.length) {
+		// Update the cache
+		const serialized = trendingProjects.map((p) => ({
+			projectId: p.id.match(/\w+$/)?.[0] || p.id,
+			...Object.entries(p).reduce(
+				(acc, [key, val]) => ({
+					...acc,
+					// Serialize all BigNumbers to strings
+					[key]: BigNumber.isBigNumber(val) ? val.toString() : val
+				}),
+				{} as TrendingProjectJson
+			)
+		}));
+		console.log(serialized);
+		uploadIpfsJsonCache(IpfsCacheName.trendingV2, serialized).then(() => {
+			console.info('Uploaded new trending cache');
+		});
+	}
 
-    return trendingProjects;
+	return trendingProjects;
 }

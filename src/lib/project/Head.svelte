@@ -10,6 +10,7 @@
 	import ToolsDrawer from './ToolsDrawer.svelte';
 	import { openModal } from '$lib/components/Modal.svelte';
 	import ProjectConfiguration from './ProjectConfiguration.svelte';
+	import { ipfsCidUrl } from '$utils/ipfs';
 
 	let drawerShown = false;
 

@@ -5,7 +5,6 @@
 	import Icon from '$lib/components/Icon.svelte';
 	import EthAmount from './ETHAmount.svelte';
 
-
 	export let days: number;
 	export let rank: number;
 	export let project: TrendingProject;
@@ -35,24 +34,29 @@
 	}
 </script>
 
-<li>
-	<div class="rank">{rank + 1}</div>
-	{#await getProjectMetadata(project.metadataUri)}
-		<p><Icon name="loading" spin /></p>
-	{:then result}
-		<img src={result.logoUri} alt="The project logo" />
-		<section>
-			<h1>{result.name}</h1>
-			<EthAmount amount={project.trendingVolume} /> <span>last {days} days</span>
-			<b>{getPercentGainText()}</b>
-			<p>{project.trendingPaymentsCount} payment(s)</p>
-		</section>
-	{:catch error}
-		<p style="color: var(--text-failure)">{error}</p>
-	{/await}
-</li>
+<a href="/projects/{project.projectId}">
+	<li>
+		<div class="rank">{rank + 1}</div>
+		{#await getProjectMetadata(project.metadataUri)}
+			<p><Icon name="loading" spin /></p>
+		{:then result}
+			<img src={result.logoUri} alt="The project logo" />
+			<section>
+				<h1>{result.name}</h1>
+				<EthAmount amount={project.trendingVolume} /> <span>last {days} days</span>
+				<b>{getPercentGainText()}</b>
+				<p>{project.trendingPaymentsCount} payment(s)</p>
+			</section>
+		{:catch error}
+			<p style="color: var(--text-failure)">{error}</p>
+		{/await}
+	</li>
+</a>
 
 <style>
+	a {
+		color: inherit;
+	}
 	li {
 		display: flex;
 		align-items: center;
@@ -60,10 +64,10 @@
 		border: 1px solid var(--stroke-secondary);
 	}
 
-    li:hover {
-        border-color: var(--stroke-primary);
-        cursor: pointer;
-    }
+	li:hover {
+		border-color: var(--stroke-primary);
+		cursor: pointer;
+	}
 
 	h1 {
 		font-size: 18px;
@@ -79,9 +83,9 @@
 		overflow: hidden;
 	}
 
-    p {
-        margin: 0;
-    }
+	p {
+		margin: 0;
+	}
 
 	p,
 	span {

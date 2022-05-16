@@ -6,8 +6,8 @@
 import { BigNumber } from "ethers";
 
 export enum Currency {
-	ETH = 1,
-	USD = 2,
+	ETH = 0,
+	USD = 1,
 }
 
 export const CurrencyName = {

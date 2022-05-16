@@ -19,10 +19,16 @@
 	import Checkbox from '$lib/components/Checkbox.svelte';
 	import { bind, openModal } from '$lib/components/Modal.svelte';
 	import PendingTransaction from '$lib/components/PendingTransaction.svelte';
+	import { contracts, writeContract } from '$utils/web3/contractReader';
+	import { readNetwork } from '$constants/networks';
+	import { ETH_TOKEN_ADDRESS } from '$constants/v2/juiceboxTokens';
+	import { connectedAccount, walletConnect } from '$stores/web3';
+	import { randomBytes } from 'ethers/lib/utils';
+	import { V2ContractName } from '$models/v2/contracts';
 
 	const projectContext = getContext('PROJECT') as Store<V2ProjectContextType>;
 
-	export let close: () => {}
+	export let close: () => {};
 	export let weiAmount: BigNumber;
 
 	const project = $projectContext;
@@ -50,10 +56,36 @@
 		}, 0);
 	}
 
-	function payProject() {
-		// TODO contract
-		console.log('🛠 TODO payProject');
-		openModal(bind(PendingTransaction));
+	async function payProject() {
+		try {
+			if (!$connectedAccount) return await walletConnect();
+
+			console.log({ $connectedAccount });
+			const txnResponse = await writeContract(
+				V2ContractName?.JBETHPaymentTerminal,
+				'pay',
+				[
+					$projectContext.projectId,
+					weiAmount,
+					ETH_TOKEN_ADDRESS,
+					$connectedAccount,
+					0,
+					erc20,
+					memo || '',
+					randomBytes(1) //delegateMetadata
+				],
+				{
+					value: weiAmount
+				}
+			);
+			openModal(
+				bind(PendingTransaction, {
+					txnResponse
+				})
+			);
+		} catch (error) {
+			console.error(error);
+		}
 	}
 
 	onMount(() => {

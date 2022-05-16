@@ -13,12 +13,12 @@ export const getIpfsFileByCid = functions.https.onRequest((request, response) =>
 	cors({ origin: true })(request, response, async () => {
 		// TODO: restrict cross origin
 
-		if (request.method !== 'POST') {
+		if (request.method !== 'GET') {
 			response.status(404).end();
 			return;
 		}
 
-		const cid = request.body.cid;
+		const cid = request.query.cid as string;
 
 		if (!cid) {
 			response.status(400).end();

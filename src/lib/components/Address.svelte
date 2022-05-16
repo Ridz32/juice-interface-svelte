@@ -6,7 +6,7 @@
 
 <script lang="ts">
 	let data: HTMLElement;
-	$: {
+	$: if (data) {
 		data.innerText = getTruncatedAddress(data?.innerText);
 	}
 </script>

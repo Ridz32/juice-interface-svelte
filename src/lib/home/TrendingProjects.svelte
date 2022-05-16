@@ -5,6 +5,7 @@
 	import TrendingProjectsCard from '$lib/components/TrendingProjectsCard.svelte';
 	import Trans from '$lib/components/Trans.svelte';
 	import { getTrendingProjects, trendingProjectsQuery } from '$data/project';
+	import Loading from '$lib/components/Loading.svelte';
 
 	export let days = 7;
 	export let count = 6;
@@ -28,9 +29,7 @@
 				<Trans message="Trending projects" />
 			</h1>
 			{#if trendingProjectsLoading}
-				<div class="loading">
-					<Icon name="loading" spin={true} />
-				</div>
+				<Loading height={300} />
 			{:else}
 				<ul>
 					{#each trendingProjects as project, rank}

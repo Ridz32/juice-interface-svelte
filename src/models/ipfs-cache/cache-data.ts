@@ -3,9 +3,9 @@ import type { TrendingProject, TrendingProjectJson } from '$models/subgraph-enti
 import { IpfsCacheName } from './cache-name';
 
 export type IpfsCacheJsonData = {
-	[IpfsCacheName.trending]: TrendingProjectJson[];
+	[IpfsCacheName.trendingV2]: TrendingProjectJson[];
 };
 
 export type IpfsCacheData = {
-	[IpfsCacheName.trending]: TrendingProject[];
+	[IpfsCacheName.trendingV2]: TrendingProject[];
 };

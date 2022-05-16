@@ -30,7 +30,7 @@
 		},
 		{
 			label: 'Bannyverse',
-			href: 'https://app.bannyverse.xyz'
+			href: 'https://bannyverse.xyz'
 		}
 	];
 </script>

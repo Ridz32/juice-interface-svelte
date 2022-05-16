@@ -30,7 +30,8 @@
 	$: metadata = $projectsContext.projectMetadata;
 	$: tokenSymbol = $projectsContext.tokenSymbol;
 
-	const ownerBalance = getEthBalance(owner);
+	$: ownerBalance = owner ? getEthBalance(owner) : BigNumber.from(0);
+	$: console.log($projectsContext);
 
 	const distributionLimitType = getDistributionLimitType($projectsContext.distributionLimit);
 

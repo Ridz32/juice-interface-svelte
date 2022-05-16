@@ -160,7 +160,7 @@ disconnected.subscribe((value) => {
 });
 
 // Commented to disable auto-connect
-if (browser && !disconnected.get()) {
-	setTimeout(() => walletConnect(true));
-	getConnectedAccount();
-}
+// if (browser && !disconnected.get()) {
+// 	setTimeout(() => walletConnect(true));
+// 	getConnectedAccount();
+// }

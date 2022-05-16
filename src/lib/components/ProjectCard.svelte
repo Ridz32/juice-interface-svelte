@@ -27,7 +27,7 @@
 	const isArchived = false;
 </script>
 
-<a href="/projects/{project.id}">
+<a href="/projects/{project.id.match(/\w+$/)?.[0] || project.id}">
 	<li>
 		{#if loading}
 			<div class="loading">

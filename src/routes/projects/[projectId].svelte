@@ -33,6 +33,10 @@
 	import axios from 'axios';
 	import { consolidateMetadata } from '$models/project-metadata';
 	import Loading from '$lib/components/Loading.svelte';
+	import { Currency } from '$constants';
+	import { getCurrencyConverter } from '$data/currency';
+	import { V2CurrencyName } from '$utils/v2/currency';
+	import type { V2CurrencyOption } from '$models/v2/currencyOption';
 
 	let project = new Store<V2ProjectContextType>({} as any);
 
@@ -116,7 +120,6 @@
 					  ]
 					: null
 			);
-			console.log(value);
 
 			$project.payoutSplits = value.map((split) => {
 				return {
@@ -147,17 +150,35 @@
 
 			/****/
 
-			const ret = await readContract(
+			const owner = await readContract(
 				V2ContractName.JBProjects,
 				'ownerOf',
 				$project.projectId ? [BigNumber.from($project.projectId).toHexString()] : null
 			);
 
-			$project.projectOwnerAddress = ret;
+			$project.projectOwnerAddress = owner;
 
-			console.log($project);
+			const ETHBalance = await readContract(
+				V2ContractName.JBSingleTokenPaymentTerminalStore,
+				'balanceOf',
+				$project.primaryTerminal && $project.projectId
+					? [$project.primaryTerminal, $project.projectId]
+					: null
+			);
 
-			$project.projectOwnerAddress = ret;
+			// if ETH, no conversion necessary
+			if (BigNumber.from($project.distributionLimitCurrency)?.eq(Currency.ETH)) {
+				$project.balanceInDistributionLimitCurrency = BigNumber.from(ETHBalance);
+			} else {
+				const converter = getCurrencyConverter();
+				$project.balanceInDistributionLimitCurrency = converter.wadToCurrency(
+					BigNumber.from(ETHBalance),
+					V2CurrencyName(
+						BigNumber.from($project.distributionLimitCurrency)?.toNumber() as V2CurrencyOption
+					),
+					V2CurrencyName(Currency.ETH as V2CurrencyOption)
+				);
+			}
 
 			loading = false;
 		} catch (e) {
