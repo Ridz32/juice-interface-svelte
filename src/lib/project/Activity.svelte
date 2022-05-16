@@ -7,6 +7,7 @@
 	import ProjectEvent from '$lib/components/ProjectEvent';
 	import { getProjectEvents } from '$data/event';
 	import Dropdown from '$lib/components/Dropdown.svelte';
+	import type { WhereConfig } from '$utils/graph';
 
 	const project = getContext('PROJECT') as Store<V2ProjectContextType>;
 
@@ -32,8 +33,9 @@
 
 	async function loadEvents(current: string) {
 		loading = true;
-		let where = [
+		let where: WhereConfig<'projectEvent'>[] = [
 			{ key: 'projectId', value: $project.projectId.toNumber() },
+			// TODO fix type error
 			{ key: 'cv', value: '2' }
 		];
 
@@ -47,6 +49,8 @@
 		}
 		// TODO fix type error
 		events = await getProjectEvents(where, 0, 50);
+
+		console.log(events);
 		loading = false;
 	}
 
