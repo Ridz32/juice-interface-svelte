@@ -23,7 +23,7 @@
 		<MobileHeader />
 		<slot />
 	</main>
-	{#if $connectedAccount}
+	{#if $connectedAccount && false}
 		<SwitchNetworkModal />
 	{/if}
 </Intl>
