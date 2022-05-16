@@ -20,7 +20,7 @@
 	import { uploadProjectMetadata } from '$utils/ipfs';
 	import { DEFAULT_BALLOT_STRATEGY } from '$constants/v2/ballotStrategies';
 	import { Currency, CurrencyValue } from '$constants';
-	import { contracts, transactContract } from '$utils/web3/contractReader';
+	import { contracts, writeContract } from '$utils/web3/contractReader';
 	import { V2ContractName } from '$models/v2/contracts';
 	import { JUICEBOX_MONEY_METADATA_DOMAIN } from '$constants/v2/metadataDomain';
 	import { fromWad } from '$utils/formatNumber';
@@ -99,7 +99,8 @@
 		ballotState: undefined,
 		primaryTerminalCurrentOverflow: undefined,
 		totalTokenSupply: undefined,
-		loading: undefined
+		loading: undefined,
+		terminals: [],
 	});
 
 	let deploying = false;
@@ -137,7 +138,7 @@
 
 		const fundAccessConstraints = [
 			{
-				terminal: contracts.JBETHPaymentTerminal.address, // address probably
+				terminal: contracts[readNetwork.name].JBETHPaymentTerminal.address, // address probably
 				token: '0x000000000000000000000000000000000000eeee', // address
 				distributionLimit: $project.distributionLimit ?? '0' ?? fromWad(MAX_DISTRIBUTION_LIMIT),
 				distributionLimitCurrency: (1).toString() ?? V2_CURRENCY_ETH,
@@ -168,13 +169,13 @@
 				}
 			],
 			fundAccessConstraints,
-			[contracts.JBETHPaymentTerminal.address],
+			[contracts[readNetwork.name].JBETHPaymentTerminal.address],
 			``
 		];
 
 		console.log('Deploying with arguments', args);
 
-		const txnResponse: ContractTransaction = await transactContract(
+		const txnResponse: ContractTransaction = await writeContract(
 			V2ContractName.JBController,
 			'launchProjectFor',
 			args
@@ -207,7 +208,7 @@
 	<span>
 		<Icon name="exclamationCircle" /> Your project will be created on the Juicebox V2 contracts. <br> This
 		is a prototyping interface for experimental features, for production deployments please visit
-		<ExternalLink href="juicebox.money">juicebox.money</ExternalLink>
+		<ExternalLink href="https://juicebox.money">juicebox.money</ExternalLink>
 	</span>
 </BannerNotice>
 <div id="create">
