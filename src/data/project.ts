@@ -11,18 +11,11 @@ import {
 	type WhereConfig
 } from '$utils/graph';
 import type { ProjectState } from '$models/project-visibility';
-import { getIpfsCache } from './ipfs';
-import { uploadIpfsJsonCache } from '$utils/ipfs';
-import {
-	parseTrendingProjectJson,
-	type Project,
-	type TrendingProject,
-	type TrendingProjectJson
-} from '$models/subgraph-entities/vX/project';
-import { IpfsCacheName } from '$models/ipfs-cache/cache-name';
+import type { Project, TrendingProject } from '$models/subgraph-entities/vX/project';
 
 // TODO don't hardcode this here, use the utils/ipfs after issue with @pinata/sdk has been solved
 import { IPFS_GATEWAY_HOSTNAME } from '$constants/ipfs';
+import { ipfsCidToFirebaseUrl } from '$utils/ipfs';
 const ipfsCidUrl = (hash: string) => `https://${IPFS_GATEWAY_HOSTNAME}/ipfs/${hash}`;
 
 type ProjectStat = Record<
@@ -112,7 +105,7 @@ export async function getProjectMetadata(metadataUri: string | undefined) {
 		console.error('No metadataUri provided');
 		return;
 	}
-	const url = ipfsCidUrl(metadataUri);
+	const url = ipfsCidToFirebaseUrl(metadataUri);
 	const response = await axios.get(url);
 	return consolidateMetadata(response.data);
 }
@@ -222,7 +215,7 @@ export async function myProjectsQuery(wallet: string | undefined) {
 						},
 						{
 							key: 'cv',
-							value: '2',
+							value: '2'
 						}
 					]
 			  }
@@ -295,46 +288,5 @@ export function infiniteProjectsQuery(opts: ProjectsOptions) {
 }
 
 export async function getTrendingProjects(days: number, count: number) {
-	console.info('Loading trendingV2 cache');
-	const cache = await getIpfsCache(IpfsCacheName.trendingV2, {
-		ttl: 12,
-		deserialize: (data) => data.map(parseTrendingProjectJson)
-	});
-
-	if (cache && cache.length >= count) {
-		console.info('Using trendingV2 cache');
-		return cache.slice(0, count);
-	}
-
-	console.info('trendingV2 cache missing or expired');
-
-	const payments = await getLatestPayments(days);
-	const projectStats = getProjectStatsFromPayments(payments);
-	// Now get the project data for all the projectStats
-	const projectsQuery = await getProjectsFromIds(Object.keys(projectStats));
-	const trendingProjects = getTrendingProjectsFromProjectsAndStats(
-		projectsQuery,
-		projectStats
-	).slice(0, count);
-
-	if (trendingProjects.length) {
-		// Update the cache
-		const serialized = trendingProjects.map((p) => ({
-			projectId: p.id.match(/\w+$/)?.[0] || p.id,
-			...Object.entries(p).reduce(
-				(acc, [key, val]) => ({
-					...acc,
-					// Serialize all BigNumbers to strings
-					[key]: BigNumber.isBigNumber(val) ? val.toString() : val
-				}),
-				{} as TrendingProjectJson
-			)
-		}));
-		console.log(serialized);
-		uploadIpfsJsonCache(IpfsCacheName.trendingV2, serialized).then(() => {
-			console.info('Uploaded new trending cache');
-		});
-	}
-
-	return trendingProjects;
+	return trendingProjectsQuery(count, days);
 }

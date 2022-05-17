@@ -10,13 +10,18 @@
 	import EthAmount from './ETHAmount.svelte';
 	import Popover from './Popover.svelte';
 	import ProjectLogo from './ProjectLogo.svelte';
+	import { ipfsCidToFirebaseUrl } from '$utils/ipfs';
 
 	export let project: Project;
 	let loading = true;
 	let metadata: ProjectMetadataV4;
 
 	onMount(async () => {
-		metadata = await getProjectMetadata(project.metadataUri);
+		try {
+			metadata = await getProjectMetadata(project.metadataUri);
+		} catch (error) {
+			console.log(error);
+		}
 		loading = false;
 	});
 
@@ -33,7 +38,7 @@
 			<div class="loading">
 				<Icon name="loading" spin />
 			</div>
-		{:else}
+		{:else if metadata}
 			<ProjectLogo uri={metadata.logoUri} size={110} />
 			<section>
 				<h1>{metadata.name}</h1>
@@ -56,6 +61,8 @@
 					<div class="archived">ARCHIVED</div>
 				{/if}
 			</section>
+		{:else}
+			<div>Faild to get project</div>
 		{/if}
 	</li>
 </a>

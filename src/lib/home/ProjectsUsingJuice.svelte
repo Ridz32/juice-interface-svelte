@@ -18,12 +18,17 @@
 				'note',
 				'timestamp',
 				'id',
-				{ entity: 'project', keys: ['id'] }
+				{ entity: 'project', keys: ['id', 'projectId'] }
 			],
 			first: 20,
 			orderDirection: 'desc',
 			orderBy: 'timestamp',
-			where: []
+			where: [
+				{
+					key: 'cv',
+					value: '2'
+				}
+			]
 		});
 	}
 </script>
@@ -51,7 +56,7 @@
 					<InfoSpaceBetween>
 						<div slot="left">
 							<!-- TODO should be project handle -->
-							<p>Project {payment.project.id}</p>
+							<p>Project {payment.project.projectId}</p>
 							<ETHAmount amount={payment.amount} precision={4} />
 						</div>
 						<div slot="right">

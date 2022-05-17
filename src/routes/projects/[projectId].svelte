@@ -56,9 +56,7 @@
 				JUICEBOX_MONEY_METADATA_DOMAIN
 			]);
 
-			const url = ipfsCidUrl(metadataCID);
-			const response = await axios.get(url);
-			const metadata = consolidateMetadata(response.data);
+			const metadata = await getProjectMetadata(metadataCID);
 			$project.projectMetadata = metadata;
 
 			/****/

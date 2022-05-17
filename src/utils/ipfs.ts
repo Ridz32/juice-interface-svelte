@@ -43,6 +43,14 @@ export const ipfsCidUrl = (hash: string) => {
 	return `https://${IPFS_GATEWAY_HOSTNAME}/ipfs/${hash}`;
 };
 
+export const ipfsUrlToCid = (url: string) => {
+	return url.replace(/^https:\/\/[^/]+\/ipfs\//, '');
+};
+
+export const ipfsCidToFirebaseUrl = (cid: string) => {
+	return `${IPFS_FIREBASE_CLOUD_FUNCTION}?cid=${cid}`;
+};
+
 export const cidFromUrl = (url: string | undefined) => url?.split('/').pop();
 
 export const pinFileToIpfs = (file: File | Blob | string, metadata?: PinataMetadata) => {

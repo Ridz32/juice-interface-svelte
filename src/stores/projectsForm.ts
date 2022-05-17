@@ -4,7 +4,7 @@ import type {
 	ProjectCategory,
 	ProjectSortType
 } from '$models/project-visibility';
-import type { Project } from '$models/subgraph-entities/project';
+import type { Project } from '$models/subgraph-entities/vX/project';
 
 export const selectedProjectsTab = new Store<ProjectCategory>('all');
 export const sortType = new Store<ProjectSortType>('totalPaid');
