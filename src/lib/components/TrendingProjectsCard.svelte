@@ -4,6 +4,7 @@
 	import { SECONDS_IN_DAY } from '$constants/numbers';
 	import Icon from '$lib/components/Icon.svelte';
 	import EthAmount from './ETHAmount.svelte';
+	import ProjectLogo from './ProjectLogo.svelte';
 
 	export let days: number;
 	export let rank: number;
@@ -40,7 +41,9 @@
 		{#await getProjectMetadata(project.metadataUri)}
 			<p><Icon name="loading" spin /></p>
 		{:then result}
-			<img src={result.logoUri} alt="The project logo" />
+			<div class="logo">
+				<ProjectLogo uri={result.logoUri} size={70} />
+			</div>
 			<section>
 				<h1>{result.name}</h1>
 				<EthAmount amount={project.trendingVolume} /> <span>last {days} days</span>
@@ -92,9 +95,10 @@
 		font-weight: 300;
 	}
 
-	img {
+	.logo {
 		width: 70px;
 		height: 70px;
+		margin-right: 1rem;
 	}
 
 	.rank {
