@@ -26,6 +26,7 @@
 		<a href="/projects"><Trans>Projects</Trans></a>
 		<a href="#faq"><Trans>FAQ</Trans></a>
 		<a href="https://discord.gg/6jXrJSyDFf"><Trans>Discord</Trans></a>
+		<a href="/nft-tool"><Trans>NFT-tool</Trans></a>
 		<ResourceDropdown />
 	</nav>
 	<div class="right-nav">

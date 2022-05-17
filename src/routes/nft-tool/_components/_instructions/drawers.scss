@@ -1,0 +1,96 @@
+.close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    display: block;
+    padding: 20px;
+    color: rgba(0, 0, 0, 0.45);
+    font-weight: 700;
+    font-size: 16px;
+    font-style: normal;
+    line-height: 1;
+    text-align: center;
+    text-transform: none;
+    text-decoration: none;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    transition: color 0.3s;
+    text-rendering: auto;
+}
+
+.drawer-title {
+    color: #E9A53E;
+    margin-bottom: 25px;
+}
+
+.description {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: var(--text-gray);
+    margin-bottom: 12px;
+
+    a {
+        color: var(--text-header);
+    }
+}
+
+.label {
+    margin-bottom: 20px;
+    display: flex;
+    color: var(--text-header);
+    font-size: 16px;
+    font-weight: 500;
+
+    .label-icon {
+        display: flex;
+        align-items: center;
+        margin-left: 15px;
+    }
+}
+
+.output-form {
+    display: flex;
+    flex-direction: column;
+
+    .output-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 6px;
+
+        .input {
+            margin-left: 15px;
+            flex-basis: 100%;
+        }
+    }
+}
+
+.card-text {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.compound-input {
+    display: flex;
+    margin: 6px 0;
+    align-items: center;
+
+    .input {
+        margin: 0 6px;
+        max-width: 60px;
+    }
+
+    .text {
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 24px;
+    }
+}

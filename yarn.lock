@@ -2399,9 +2399,9 @@
     "tiny-glob" "^0.2.9"
 
 "@sveltejs/kit@^1.0.0-next.324":
-  "integrity" "sha512-/CGW9rQpHQLBb2EcMw08yelD/C9hTsypymctUWdhryMTI8n1VWb0gkUcSHsz8n8oAAbKLXqwyHqeLATfcIMg2w=="
-  "resolved" "https://registry.npmjs.org/@sveltejs/kit/-/kit-1.0.0-next.324.tgz"
-  "version" "1.0.0-next.324"
+  "integrity" "sha512-HPMF1oYBfyOG6wfU0Y6F4SID8jphue9yF+PXJqVTDBL5Z2WBG2ogum6MavE8aWhq+g2H6w5y0jNT8+8DO2KTCA=="
+  "resolved" "https://registry.npmjs.org/@sveltejs/kit/-/kit-1.0.0-next.334.tgz"
+  "version" "1.0.0-next.334"
   dependencies:
     "@sveltejs/vite-plugin-svelte" "^1.0.0-next.32"
     "chokidar" "^3.5.3"
@@ -5694,11 +5694,6 @@
     "d" "^1.0.1"
     "ext" "^1.1.2"
 
-"esbuild-darwin-arm64@0.14.38":
-  "integrity" "sha512-eqF+OejMI3mC5Dlo9Kdq/Ilbki9sQBw3QlHW3wjLmsLh+quNfHmGMp3Ly1eWm981iGBMdbtSS9+LRvR2T8B3eQ=="
-  "resolved" "https://registry.npmjs.org/esbuild-darwin-arm64/-/esbuild-darwin-arm64-0.14.38.tgz"
-  "version" "0.14.38"
-
 "esbuild@^0.14.27":
   "integrity" "sha512-12fzJ0fsm7gVZX1YQ1InkOE5f9Tl7cgf6JPYXRJtPIoE0zkWAbHdPHVPPaLi9tYAcEBqheGzqLn/3RdTOyBfcA=="
   "resolved" "https://registry.npmjs.org/esbuild/-/esbuild-0.14.38.tgz"
@@ -6516,6 +6511,13 @@
   dependencies:
     "flat-cache" "^2.0.1"
 
+"file-selector@^0.2.2":
+  "integrity" "sha512-ZDsQNbrv6qRi1YTDOEWzf5J2KjZ9KMI1Q2SGeTkCJmNNW25Jg4TW4UMcmoqcg4WrAyKRcpBXdbWRxkfrOzVRbA=="
+  "resolved" "https://registry.npmjs.org/file-selector/-/file-selector-0.2.4.tgz"
+  "version" "0.2.4"
+  dependencies:
+    "tslib" "^2.0.3"
+
 "file-uri-to-path@1.0.0":
   "integrity" "sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw=="
   "resolved" "https://registry.npmjs.org/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz"
@@ -6744,11 +6746,6 @@
   "integrity" "sha1-FQStJSMVjKpA20onh8sBQRmU6k8="
   "resolved" "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   "version" "1.0.0"
-
-"fsevents@~2.3.1", "fsevents@~2.3.2":
-  "integrity" "sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA=="
-  "resolved" "https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz"
-  "version" "2.3.2"
 
 "function-bind@^1.1.1":
   "integrity" "sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A=="
@@ -13275,6 +13272,20 @@
     "svelte-preprocess" "^4.0.0"
     "typescript" "*"
 
+"svelte-feather-icons@^4.0.0":
+  "integrity" "sha512-4ieUsjp+VYa1r6y80jDt9zRiRUZyJNbESpRdHdJJhiBubyuXX96A7f1UZSK4olxzP6Qsg5ZAuyZlnmvD+/swAA=="
+  "resolved" "https://registry.npmjs.org/svelte-feather-icons/-/svelte-feather-icons-4.0.0.tgz"
+  "version" "4.0.0"
+  dependencies:
+    "svelte" "^3.38.2"
+
+"svelte-file-dropzone@^1.0.0-dev.1":
+  "integrity" "sha512-u0kxaUsgXiNBye0EzP+NlyA2/AlgtvtvmP6ywfDxBx8kRzld7Yeo34KIKTpD/R7qYy4YhqTu0OA1V0fwY1/IoQ=="
+  "resolved" "https://registry.npmjs.org/svelte-file-dropzone/-/svelte-file-dropzone-1.0.0-dev.1.tgz"
+  "version" "1.0.0-dev.1"
+  dependencies:
+    "file-selector" "^0.2.2"
+
 "svelte-hmr@^0.14.11":
   "integrity" "sha512-R9CVfX6DXxW1Kn45Jtmx+yUe+sPhrbYSUp7TkzbW0jI5fVPn6lsNG9NEs5dFg5qRhFNAoVdRw5qQDLALNKhwbQ=="
   "resolved" "https://registry.npmjs.org/svelte-hmr/-/svelte-hmr-0.14.11.tgz"
@@ -13308,7 +13319,7 @@
   "resolved" "https://registry.npmjs.org/svelte-range-slider-pips/-/svelte-range-slider-pips-2.0.3.tgz"
   "version" "2.0.3"
 
-"svelte@^3.2.0", "svelte@^3.23.0", "svelte@^3.24.0", "svelte@^3.25.1", "svelte@^3.44.0", "svelte@^3.46.0", "svelte@>=3.19.0":
+"svelte@^3.2.0", "svelte@^3.23.0", "svelte@^3.24.0", "svelte@^3.25.1", "svelte@^3.38.2", "svelte@^3.44.0", "svelte@^3.46.0", "svelte@>=3.19.0":
   "integrity" "sha512-fN2YRm/bGumvjUpu6yI3BpvZnpIm9I6A7HR4oUNYd7ggYyIwSA/BX7DJ+UXXffLp6XNcUijyLvttbPVCYa/3xQ=="
   "resolved" "https://registry.npmjs.org/svelte/-/svelte-3.48.0.tgz"
   "version" "3.48.0"
@@ -13591,7 +13602,7 @@
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz"
   "version" "1.14.1"
 
-"tslib@^2", "tslib@^2.0.0", "tslib@^2.1.0", "tslib@^2.2.0", "tslib@^2.3.1":
+"tslib@^2", "tslib@^2.0.0", "tslib@^2.0.3", "tslib@^2.1.0", "tslib@^2.2.0", "tslib@^2.3.1":
   "integrity" "sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ=="
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.4.0.tgz"
   "version" "2.4.0"

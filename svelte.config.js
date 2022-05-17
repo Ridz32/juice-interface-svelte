@@ -10,9 +10,11 @@ const config = {
 		// Macros added for @lingui/macro
 		babel: { plugins: ['macros'] }
 	}),
-	experimental: {
-		prebundleSvelteLibraries: true
-	},
+
+	// disabled to make svelte-file-dropzone package work
+	// experimental: {
+	// 	prebundleSvelteLibraries: true
+	// },
 
 	kit: {
 		adapter: adapter(),

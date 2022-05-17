@@ -70,6 +70,13 @@
 	--radius-md: 1px;
 	--radius-lg: 1px;
 	--radius-xl: 1px;
+
+	/* NFT-tool */
+	--color-gray-100: #e0e0e0;
+	--switch-color: #52b1c4;
+	--background-white: #FBF9F6;
+	--color-gray-transparent: rgba(0, 0, 0, 0.33);
+	--text-gray: #aaa;
 }
 
 .darkmode {
@@ -144,6 +151,13 @@
 	--radius-md: 1px;
 	--radius-lg: 1px;
 	--radius-xl: 1px;
+
+	/* NFT-tool */
+	--color-gray-100: #e0e0e0;
+	--switch-color: #52b1c4;
+	--background-white: #FBF9F6;
+	--color-gray-transparent: rgba(0, 0, 0, 0.33);
+	--text-gray: #aaa;
 }
 
 body {

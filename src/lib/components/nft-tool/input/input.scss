@@ -1,0 +1,54 @@
+.input-item {
+  &.margin {
+    margin: 25px 0;
+  }
+
+  label {
+    color: var(--text-header);
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 7px;
+    display: flex;
+
+    .label-icon {
+      display: flex;
+      align-items: center;
+      margin-left: 15px;
+    }
+  }
+
+
+  input {
+    box-sizing: border-box;
+    margin: 0;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    min-width: 0;
+    padding: 4px 11px;
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 14px;
+    line-height: 1.5715;
+    background-color: var(--background-l0);
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+    transition: all 0.3s;
+
+    &:focus {
+      outline-width: 0;
+      box-shadow: 0 0 0 1px var(--stroke-action-secondary);
+      border-color: var(--stroke-action-secondary);
+      border-radius: 1px;
+    }
+  }
+
+  .has-error {
+    border-color: var(--text-failure);
+  }
+
+  .description {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
+    margin-top: 6px
+  }
+}

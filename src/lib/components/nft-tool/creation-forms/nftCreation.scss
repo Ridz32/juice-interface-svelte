@@ -1,0 +1,80 @@
+.description {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: var(--text-gray);
+    margin-bottom: 12px;
+}
+
+.required-fields {
+    color: var(--text-gray);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.price-fixed-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+
+    .price-fixed-input {
+        flex-grow: 1;
+        margin-left: 20px;
+    }
+}
+
+.contract-input {
+    margin-top: 8px;
+    margin-left: 25px;
+}
+
+.properties-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-column-gap: 18px;
+
+    .range {
+        display: flex;
+        align-items: center;
+
+        .text {
+            color: var(--text-gray);
+            font-size: 14px;
+            margin: 0 12px;
+        }
+    }
+}
+
+.range-container {
+    grid-column-gap: 6px;
+}
+
+.add-button-container {
+    margin-top: 10px;
+    margin-left: auto;
+}
+
+.switch-item {
+    margin-bottom: 24px;
+
+    .switch-title {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+
+        span {
+            color: var(--text-header);
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            margin-left: 16px;
+        }
+
+        .title-icon {
+            display: flex;
+            align-items: center;
+            margin-left: 9px;
+        }
+    }
+}
