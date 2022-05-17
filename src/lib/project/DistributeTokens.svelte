@@ -10,6 +10,12 @@
 	import SimpleSplits from '$lib/components/SimpleSplits.svelte';
 	import { formattedNum } from '$utils/formatNumber';
 	import OwnerCrown from '$lib/components/OwnerCrown.svelte';
+	import { writeContract } from '$utils/web3/contractReader';
+	import { V2ContractName } from '$models/v2/contracts';
+	import { openModal, bind } from '$lib/components/Modal.svelte';
+	import PendingTransaction from '$lib/components/PendingTransaction.svelte';
+	import { connectedAccount, walletConnect } from '$stores/web3';
+	import { getTruncatedAddress } from '$lib/components/Address.svelte';
 
 	export let close: () => {};
 	// TODO show the reserved amounts... could probably send
@@ -24,16 +30,29 @@
 
 	const reservedAmount = 5500;
 
-	// TODO contract write for distributing funds
-	function distributeFunds() {
-		console.log('TODO: distributeFunds');
+	async function distributeTokens() {
+		await walletConnect();
+		const txnResponse = await writeContract(
+			V2ContractName.JBController,
+			'distributeReservedTokensOf',
+			[$project.projectId, 'distribute tokens']
+		);
+
+		openModal(
+			bind(PendingTransaction, {
+				txnResponse
+			})
+		);
 	}
 </script>
 
 <ActionModal {title}>
 	<InfoSpaceBetween>
 		<p slot="left">Reserved {$project.tokenSymbol || ''}:</p>
-		<p slot="right">{formattedNum(reservedAmount)} {$project.tokenSymbol || 'tokens'}</p>
+		<p slot="right">
+			{formattedNum($project.reservedTokenBalance)}
+			{$project.tokenSymbol || 'tokens'}
+		</p>
 	</InfoSpaceBetween>
 
 	<h4>{$project.tokenSymbol || ''} recipients</h4>
@@ -43,12 +62,17 @@
 		{/each}
 	{/if}
 	<InfoSpaceBetween>
-		<p slot="left">Project owner <OwnerCrown />:</p>
+		<p slot="left">
+			{$project.projectOwnerAddress === $connectedAccount
+				? '(you)'
+				: getTruncatedAddress($project.projectOwnerAddress)}
+			<OwnerCrown />:
+		</p>
 		<p slot="right">{100 - totalSplitPercentageTokenSplits}%</p>
 	</InfoSpaceBetween>
 	<div slot="footer">
 		<Button type="secondary" size="md" on:click={close}>Close</Button>
-		<Button type="primary" size="md" on:click={distributeFunds}>Distribute funds</Button>
+		<Button type="primary" size="md" on:click={distributeTokens}>Distribute funds</Button>
 	</div>
 </ActionModal>
 

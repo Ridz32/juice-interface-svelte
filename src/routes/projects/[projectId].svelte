@@ -166,6 +166,16 @@
 
 			/****/
 
+			$project.reservedTokenBalance = await readContract(
+				V2ContractName.JBController,
+				'reservedTokenBalanceOf',
+				$project.projectId && $project.fundingCycleMetadata.reservedRate
+					? [$project.projectId, $project.fundingCycleMetadata.reservedRate]
+					: []
+			);
+
+			/****/
+
 			const owner = await readContract(
 				V2ContractName.JBProjects,
 				'ownerOf',

@@ -11,6 +11,7 @@
 	import { openModal } from '$lib/components/Modal.svelte';
 	import ProjectConfiguration from './ProjectConfiguration.svelte';
 	import { ipfsCidUrl } from '$utils/ipfs';
+import ProjectLogo from '$lib/components/ProjectLogo.svelte';
 
 	let drawerShown = false;
 
@@ -38,7 +39,8 @@
 
 <section>
 	<div class="logo-wrapper">
-		<img src={metadata.logoUri} alt="JuiceboxDAO logo" />
+		<!-- <img src={metadata.logoUri} alt="JuiceboxDAO logo" /> -->
+		<ProjectLogo uri={metadata.logoUri} size={130} />
 	</div>
 
 	<div class="info-wrapper">

@@ -18,6 +18,16 @@
 	import type { V2ProjectContextType } from '$models/project-type';
 	import Input from '$lib/components/Input.svelte';
 	import OwnerCrown from '$lib/components/OwnerCrown.svelte';
+	import { V2_CURRENCY_USD } from '$utils/v2/currency';
+	import { getCurrencyConverter, getWeiConverter } from '$data/currency';
+	import { formatWad, parseWad } from '$utils/formatNumber';
+	import { writeContract } from '$utils/web3/contractReader';
+	import { V2ContractName } from '$models/v2/contracts';
+	import { ETH_TOKEN_ADDRESS } from '$constants/v2/juiceboxTokens';
+	import { bind, openModal } from '$lib/components/Modal.svelte';
+	import PendingTransaction from '$lib/components/PendingTransaction.svelte';
+	import { connectedAccount, walletConnect } from '$stores/web3';
+	import { getTruncatedAddress } from '$lib/components/Address.svelte';
 
 	export let close: () => {};
 	let amount: number;
@@ -37,12 +47,47 @@
 	}
 
 	function setMax() {
-		console.log('TODO: setMax to available balance');
-		amount = totalAfterFee;
+		amount = Number(formatWad(totalAfterFee));
 	}
 
-	function distributeFunds() {
-		console.log('TODO: distributeFunds');
+	async function distributeFunds() {
+		await walletConnect();
+		const converter = getCurrencyConverter();
+
+		const unusedFunds = $project.distributionLimit?.sub($project.usedDistributionLimit ?? 0) ?? 0;
+		const distributable = $project.balanceInDistributionLimitCurrency?.gt(unusedFunds)
+			? unusedFunds
+			: $project.balanceInDistributionLimitCurrency;
+
+		if (!$project.distributionLimitCurrency || !distributable) return;
+
+		const minAmount = (
+			BigNumber.from($project.distributionLimitCurrency).eq(V2_CURRENCY_USD)
+				? converter.usdToWei(distributable.toString())
+				: parseWad(distributable)
+		)?.sub(1e12); // Arbitrary value subtracted
+		if (!minAmount) return;
+
+		const minReturnedTokens = 0; // TODO will need a field for this in WithdrawModal for v2
+
+		const txnResponse = await writeContract(
+			V2ContractName.JBETHPaymentTerminal,
+			'distributePayoutsOf',
+			[
+				$project.projectId,
+				parseWad(amount),
+				BigNumber.from($project.distributionLimitCurrency).toNumber(),
+				ETH_TOKEN_ADDRESS,
+				minReturnedTokens,
+				'distribute payout'
+			]
+		);
+
+		openModal(
+			bind(PendingTransaction, {
+				txnResponse
+			})
+		);
 	}
 </script>
 
@@ -54,14 +99,14 @@
 				<Money
 					currency={$project.distributionLimitCurrency}
 					amount={BigNumber.from(totalFunds)}
-					formatWad={false}
+					formatWad={true}
 				/>
 			</p>
 		</InfoSpaceBetween>
 		<InfoSpaceBetween>
 			<p slot="left">JBX Fee (2.5%):</p>
 			<p slot="right">
-				-<Money currency={$project.distributionLimitCurrency} amount={fee} formatWad={false} />
+				-<Money currency={$project.distributionLimitCurrency} amount={fee} formatWad={true} />
 			</p>
 		</InfoSpaceBetween>
 		<hr />
@@ -73,7 +118,7 @@
 					<Money
 						currency={$project.distributionLimitCurrency}
 						amount={totalAfterFee}
-						formatWad={false}
+						formatWad={true}
 					/>
 				</b>
 			</p>
@@ -90,7 +135,12 @@
 		<SimpleSplits {split} />
 	{/each}
 	<InfoSpaceBetween>
-		<p slot="left">Project owner <OwnerCrown />:</p>
+		<p slot="left">
+			{$project.projectOwnerAddress === $connectedAccount
+				? '(you)'
+				: getTruncatedAddress($project.projectOwnerAddress)}
+			<OwnerCrown />:
+		</p>
 		<p slot="right">
 			{100 - totalSplitPercentagePayoutSplits}%
 			{#if distributionLimitType === DistributionLimitType.Specific}
@@ -103,10 +153,11 @@
 		</p>
 	</InfoSpaceBetween>
 	<p class="info"><Icon name="infoCircle" /> Recipients will receive payouts in ETH.</p>
-
 	<div slot="footer">
 		<Button type="secondary" size="md" on:click={close}>Close</Button>
-		<Button type="primary" size="md" on:click={distributeFunds}>Distribute funds</Button>
+		<Button type="primary" size="md" on:click={distributeFunds}
+			>Distribute {$project.tokenSymbol || 'tokens'}</Button
+		>
 	</div>
 </ActionModal>
 

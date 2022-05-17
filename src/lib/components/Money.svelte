@@ -8,7 +8,7 @@
 	import UsdAmount from './USDAmount.svelte';
 	import { V2_CURRENCY_USD } from '$utils/v2/currency';
 
-	export let currency: Currency = Currency.ETH;
+	export let currency: Currency | BigNumber = Currency.ETH;
 	export let amount: BigNumber | number = BigNumber.from('0');
 	export let formatWad = true;
 	export let precision = 0;

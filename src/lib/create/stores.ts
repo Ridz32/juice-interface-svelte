@@ -59,6 +59,8 @@ export type V2ProjectContextType = {
 	totalTokenSupply: BigNumber | undefined;
 
 	loading: V2ProjectLoadingStates;
+
+	reservedTokenBalance?: BigNumber;
 };
 
 const fundingCycleData: V2FundingCycleData = {

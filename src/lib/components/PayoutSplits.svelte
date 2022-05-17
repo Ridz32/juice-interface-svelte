@@ -35,7 +35,6 @@
 
 	if (usedDistributionLimit) {
 		const untapped = distributionLimit.sub(usedDistributionLimit);
-		console.log({ distributableAmount });
 		distributableAmount = balanceInDistributionLimitCurrency?.gt(untapped)
 			? untapped
 			: balanceInDistributionLimitCurrency;

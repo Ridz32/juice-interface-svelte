@@ -41,6 +41,8 @@ export type V2ProjectContextType = {
 	totalTokenSupply: BigNumber | undefined;
 
 	loading: V2ProjectLoadingStates;
+
+	reservedTokenBalance?: BigNumber;
 };
 
 export type ProjectType = 'standard' | 'bidpool';
