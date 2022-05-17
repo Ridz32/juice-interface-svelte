@@ -12,7 +12,7 @@
 </script>
 
 <div class="container">
-  <h2>Create your NFT</h2>
+  <h2>Create NFTs</h2>
 
   <Tabs items={tabs} />
 </div>
