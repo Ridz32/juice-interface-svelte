@@ -14,7 +14,7 @@ export const replaceFavicon = (icon: string | null): void => {
 		$icon.remove();
 	}
 
-	$head.insertAdjacentHTML('beforeend', `<link  rel="icon" href="${icon || '/favicon.png'}" />`);
+	$head.insertAdjacentHTML('beforeend', `<link  rel="icon" href="${icon || '/favicon.svg'}" />`);
 };
 
 export const setCaret = ($target: HTMLElement): void => {

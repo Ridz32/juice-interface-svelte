@@ -3,7 +3,7 @@
 	import Popover from './Popover.svelte';
 
 	export let message: string;
-	export let placement = "right";
+	export let placement = 'right';
 </script>
 
 <div>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
 
-    export let description: string;
+	export let description: string;
 	export let characterLimit: number;
 
 	let expanded = false;
@@ -21,11 +21,11 @@
 	<div class="content">
 		<p>
 			{!expanded && CHARACTER_LIMIT_EXCEEDED ? shortDescription : description}
-            {#if CHARACTER_LIMIT_EXCEEDED}
-                <Button type="link" on:click={() => toggleExpanded()}>
-                    {expanded ? 'Read less' : 'Read more'}
-                </Button>
-            {/if}
+			{#if CHARACTER_LIMIT_EXCEEDED}
+				<Button type="link" on:click={() => toggleExpanded()}>
+					{expanded ? 'Read less' : 'Read more'}
+				</Button>
+			{/if}
 		</p>
 	</div>
 </div>
@@ -34,7 +34,7 @@
 	.content {
 		max-width: '700px';
 		display: 'inline';
-        color: var(--text-secondary);
-        font-weight: 300;
+		color: var(--text-secondary);
+		font-weight: 300;
 	}
 </style>

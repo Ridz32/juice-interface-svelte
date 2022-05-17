@@ -2,7 +2,10 @@ import * as constants from '@ethersproject/constants';
 import { BigNumber } from '@ethersproject/bignumber';
 import { getAddress } from '@ethersproject/address';
 import { parseEther } from '@ethersproject/units';
-import { FUNDING_CYCLE_WARNING_TEXT, RESERVED_RATE_WARNING_THRESHOLD_PERCENT } from '$constants/fundingWarningText';
+import {
+	FUNDING_CYCLE_WARNING_TEXT,
+	RESERVED_RATE_WARNING_THRESHOLD_PERCENT
+} from '$constants/fundingWarningText';
 import type {
 	V2FundingCycle,
 	V2FundingCycleMetadata,
@@ -177,11 +180,15 @@ export const decodeV2FundingCycleMetadata = (packedMetadata: BigNumber): V2Fundi
  */
 export const getUnsafeV2FundingCycleProperties = (
 	fundingCycle: V2FundingCycle,
-	fundingCycleMetadata: V2FundingCycleMetadata = undefined,
+	fundingCycleMetadata: V2FundingCycleMetadata = undefined
 ): FundingCycleRiskFlags => {
-	const metadata = fundingCycleMetadata ? fundingCycleMetadata : decodeV2FundingCycleMetadata(fundingCycle.metadata);
+	const metadata = fundingCycleMetadata
+		? fundingCycleMetadata
+		: decodeV2FundingCycleMetadata(fundingCycle.metadata);
 	const ballotAddress = getBallotStrategyByAddress(fundingCycle.ballot).address;
-	const reservedRatePercentage = fundingCycleMetadata ? parseFloat(formatReservedRate(metadata?.reservedRate)) : parseFloat(fromWad(metadata?.reservedRate));
+	const reservedRatePercentage = fundingCycleMetadata
+		? parseFloat(formatReservedRate(metadata?.reservedRate))
+		: parseFloat(fromWad(metadata?.reservedRate));
 	const allowMinting = Boolean(metadata?.allowMinting);
 
 	return unsafeFundingCycleProperties({
@@ -196,12 +203,13 @@ export const getUnsafeV2FundingCycleProperties = (
  * Return number of risk indicators for a funding cycle.
  * 0 if we deem a project "safe" to contribute to.
  */
-export const V2FundingCycleRiskCount = (fundingCycle: V2FundingCycle, fundingCycleMetadata: V2FundingCycleMetadata = undefined): number => {
+export const V2FundingCycleRiskCount = (
+	fundingCycle: V2FundingCycle,
+	fundingCycleMetadata: V2FundingCycleMetadata = undefined
+): number => {
 	const unsafeProperties = getUnsafeV2FundingCycleProperties(fundingCycle, fundingCycleMetadata);
-	return Object.values(unsafeProperties).filter((v) => v === true)
-		.length;
+	return Object.values(unsafeProperties).filter((v) => v === true).length;
 };
-
 
 const reservedRateText = (fundingCycle, fundingCycleMetadata) => {
 	const payerRate = formatWad(
@@ -244,16 +252,21 @@ function getDurationText(seconds: BigNumber) {
 	});
 }
 
-
 /**
  * Get funding cycle details list provided a funding cycle
  * NOTE that the Distribution Limit is not returned by this function
  */
-export function getFundingCycleDetails(fundingCycle: V2FundingCycle, fundingCycleMetadata: V2FundingCycleMetadata) {
-	const fundingCycleRiskProperties = getUnsafeV2FundingCycleProperties(fundingCycle, fundingCycleMetadata);
+export function getFundingCycleDetails(
+	fundingCycle: V2FundingCycle,
+	fundingCycleMetadata: V2FundingCycleMetadata
+) {
+	const fundingCycleRiskProperties = getUnsafeV2FundingCycleProperties(
+		fundingCycle,
+		fundingCycleMetadata
+	);
 	const durationSet = fundingCycle.duration.gt(0);
 	const riskWarningText = FUNDING_CYCLE_WARNING_TEXT();
-	const formattedReservedRate = formatReservedRate(fundingCycleMetadata.reservedRate)
+	const formattedReservedRate = formatReservedRate(fundingCycleMetadata.reservedRate);
 
 	return [
 		{
@@ -290,8 +303,12 @@ export function getFundingCycleDetails(fundingCycle: V2FundingCycle, fundingCycl
 			label: 'Reserved tokens',
 			value: `${formattedReservedRate}%`,
 			info: 'Whenever someone pays your project, this percentage of tokens will be reserved and the rest will go to the payer. Reserve tokens are reserved for the project owner by default, but can also be allocated to other wallet addresses by the owner. Once tokens are reserved, anyone can "mint" them, which distributes them to their intended receivers.',
-			issue: fundingCycleRiskProperties.metadataReservedRate || fundingCycleRiskProperties.metadataMaxReservedRate,
-			issueText: (fundingCycleRiskProperties.metadataReservedRate && riskWarningText.metadataReservedRate) || riskWarningText.metadataMaxReservedRate
+			issue:
+				fundingCycleRiskProperties.metadataReservedRate ||
+				fundingCycleRiskProperties.metadataMaxReservedRate,
+			issueText:
+				(fundingCycleRiskProperties.metadataReservedRate && riskWarningText.metadataReservedRate) ||
+				riskWarningText.metadataMaxReservedRate
 		},
 		{
 			id: 'issuanceRate',
@@ -320,5 +337,5 @@ export function getFundingCycleDetails(fundingCycle: V2FundingCycle, fundingCycl
 			issue: fundingCycleRiskProperties.ballot,
 			issueText: riskWarningText.ballot
 		}
-	].filter((item) => Boolean(item))
+	].filter((item) => Boolean(item));
 }

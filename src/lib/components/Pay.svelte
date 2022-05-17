@@ -28,7 +28,7 @@
 
 	function onPay() {
 		let weiAmount: BigNumber;
-		if(currency == Currency.ETH) {
+		if (currency == Currency.ETH) {
 			weiAmount = parseEther(amount.toString());
 		} else {
 			weiAmount = parseEther(formattedETHAmount);

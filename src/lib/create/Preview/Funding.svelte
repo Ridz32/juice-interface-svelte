@@ -7,8 +7,18 @@
 	import ReservedTokenSplits from '$lib/components/ReservedTokenSplits.svelte';
 	import type { V2ProjectContextType } from '$models/project-type';
 	import type Store from '$utils/Store';
+	import { BigNumber } from 'ethers';
+	import { connectedAccount } from '$stores/web3';
 
 	let project = getContext('PROJECT') as Store<V2ProjectContextType>;
+
+	$: untapped = ($project.distributionLimit ?? BigNumber.from(0)).sub(
+		$project.usedDistributionLimit || BigNumber.from(0)
+	);
+
+	$: reservedTokens = $project.balanceInDistributionLimitCurrency?.gt(untapped)
+		? untapped
+		: $project.balanceInDistributionLimitCurrency || BigNumber.from(0);
 </script>
 
 <div class="title yellow">
@@ -47,6 +57,10 @@
 <HeavyBorderBox>
 	<ReservedTokenSplits
 		isPreview
+		{reservedTokens}
+		projectOwnerAddress={$project.projectOwnerAddress ||
+			$connectedAccount ||
+			'0x0000000000000000000000000000000000000000'}
 		fundingCycleMetadata={$project.fundingCycleMetadata}
 		reservedTokensSplits={$project.reservedTokensSplits}
 	/>

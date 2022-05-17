@@ -125,12 +125,11 @@
 							<small class="recon-info">{currentBallotStrategy.address}</small>
 						{/if}
 						{#if detail.issue}
-						<span>
-
-							<Popover message={detail.issueText} placement="right">
-								<Icon name="exclamationCircle" />
-							</Popover>
-						</span>
+							<span>
+								<Popover message={detail.issueText} placement="right">
+									<Icon name="exclamationCircle" />
+								</Popover>
+							</span>
 						{/if}
 					</div>
 				{/if}

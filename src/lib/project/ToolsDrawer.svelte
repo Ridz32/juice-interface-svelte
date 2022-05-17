@@ -1,7 +1,7 @@
 <script lang="ts">
 	import CurrencyInput from '$lib/components/CurrencyInput.svelte';
 	import Button from '$lib/components/Button.svelte';
-	import Icon from "$lib/components/Icon.svelte";
+	import Icon from '$lib/components/Icon.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Trans from '$lib/components/Trans.svelte';
 	import { openModal } from '$lib/components/Modal.svelte';
@@ -111,6 +111,6 @@
 	}
 
 	.item:last-of-type {
-		border: unset
+		border: unset;
 	}
 </style>

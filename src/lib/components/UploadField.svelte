@@ -82,7 +82,7 @@
 <div class="preview-wrapper">
 	<img id="output" class={isFileSet && 'file-preview'} src="" alt="Uploaded logo" />
 	<!-- NOTE: {" "} to suppress linter warning of empty a -->
-	<a class="file-name" class:hide={!isFileSet} href="/">{" "}</a>
+	<a class="file-name" class:hide={!isFileSet} href="/">{' '}</a>
 </div>
 {#if problem}
 	<Icon name="exclamationCircle" />

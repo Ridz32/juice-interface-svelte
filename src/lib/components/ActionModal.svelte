@@ -21,11 +21,11 @@
 		color: var(--text-header);
 		margin-bottom: 40px;
 	}
-    main {
-        max-width: 450px;
-    }
+	main {
+		max-width: 450px;
+	}
 	footer {
-        margin-top: 40px;
+		margin-top: 40px;
 		float: right;
 	}
 </style>

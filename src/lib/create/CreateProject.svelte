@@ -100,7 +100,7 @@
 		primaryTerminalCurrentOverflow: undefined,
 		totalTokenSupply: undefined,
 		loading: undefined,
-		terminals: [],
+		terminals: []
 	});
 
 	let deploying = false;
@@ -206,8 +206,10 @@
 
 <BannerNotice>
 	<span>
-		<Icon name="exclamationCircle" /> Your project will be created on the Juicebox V2 contracts. <br> This
-		is a prototyping interface for experimental features, for production deployments please visit
+		<Icon name="exclamationCircle" /> Your project will be created on the Juicebox V2 contracts.
+		<br />
+		This is a prototyping interface for experimental features, for production deployments please
+		visit
 		<ExternalLink href="https://juicebox.money">juicebox.money</ExternalLink>
 	</span>
 </BannerNotice>

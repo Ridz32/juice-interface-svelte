@@ -2,7 +2,7 @@ import { querySubgraph, querySubgraphExhaustive, type WhereConfig } from '$utils
 
 export function getProjectEvents(where: WhereConfig<'projectEvent'>[], skip = 0, first = 50) {
 	return querySubgraph({
-        first,
+		first,
 		skip,
 		entity: 'projectEvent',
 		keys: [

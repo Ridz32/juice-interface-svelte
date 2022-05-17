@@ -25,11 +25,11 @@
 		transform: scale(0);
 		transition: 120ms transform ease-in-out;
 		box-shadow: inset 20px 20px var(--icon-action-primary);
-        clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+		clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
 	}
 
 	input[type='checkbox']:checked::before {
 		transform: scale(1);
-		transform: rotate(10deg)
+		transform: rotate(10deg);
 	}
 </style>

@@ -10,6 +10,6 @@
 		box-shadow: var(--background-l1) 10px 10px;
 		border-radius: 1px;
 		stroke: none;
-		color: var(--text-primary)
+		color: var(--text-primary);
 	}
 </style>

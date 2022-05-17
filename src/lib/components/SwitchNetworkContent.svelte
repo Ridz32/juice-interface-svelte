@@ -1,10 +1,10 @@
 <script lang="ts">
 	export let close: () => void;
 
-    export let networkName: string;
-    export let networkOptions: { label: string; href: string }[];
+	export let networkName: string;
+	export let networkOptions: { label: string; href: string }[];
 
-    console.log(networkOptions);
+	console.log(networkOptions);
 </script>
 
 <section>
@@ -16,11 +16,11 @@
 </section>
 
 <style>
-    section {
-        padding: 4rem;
-    }
+	section {
+		padding: 4rem;
+	}
 
-    h2 {
-        color: var(--text-header);
-    }
+	h2 {
+		color: var(--text-header);
+	}
 </style>

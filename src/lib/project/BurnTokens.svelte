@@ -12,22 +12,22 @@
 
 	const project = getContext('PROJECT') as Store<V2ProjectContextType>;
 
-    export let close: () => {};
-    
-    let amount: number;
-    let title = `Burn ${$project.tokenSymbol || ''} tokens`;
-    // TODO contract read for current users project.tokenAddress
-    const userBalance = 0;
+	export let close: () => {};
+
+	let amount: number;
+	let title = `Burn ${$project.tokenSymbol || ''} tokens`;
+	// TODO contract read for current users project.tokenAddress
+	const userBalance = 0;
 
 	function burnTokens() {
 		// TODO contract call to burn tokens for user
 		console.log('TODO call contract to burn tokens');
 	}
-    function setMax() {
-        // TODO contract read to know what max tokens are of current user
-        console.log('TODO set max tokens to burn');
-        amount = userBalance;
-    }
+	function setMax() {
+		// TODO contract read to know what max tokens are of current user
+		console.log('TODO set max tokens to burn');
+		amount = userBalance;
+	}
 </script>
 
 <ActionModal {title}>
@@ -58,8 +58,8 @@
 		<strong>This project has no overflow,</strong> so you will not receive any ETH for burning tokens.
 	</p>
 	<Input type="number" placeholder="0" bind:value={amount}>
-        <div slot="addon" role="button" on:click={setMax}>MAX</div>
-    </Input>
+		<div slot="addon" role="button" on:click={setMax}>MAX</div>
+	</Input>
 	<div slot="footer">
 		<Button type="secondary" size="md" on:click={close}>Close</Button>
 		<Button type="primary" size="md" on:click={burnTokens}>{title}</Button>
@@ -70,8 +70,8 @@
 	p {
 		font-weight: 300;
 	}
-    /* TODO move this to reusable place */
-    div[slot='addon'] {
+	/* TODO move this to reusable place */
+	div[slot='addon'] {
 		cursor: pointer;
 		color: var(--text-action-primary);
 		text-align: center;

@@ -1,7 +1,5 @@
 export function tweet(message: string) {
-  const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
-    message,
-  )}`
+	const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(message)}`;
 
-  window.open(twitterUrl, '_blank')
+	window.open(twitterUrl, '_blank');
 }

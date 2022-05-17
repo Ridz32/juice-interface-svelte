@@ -4,7 +4,7 @@
 </a>
 
 <style>
-    a {
-        font-weight: 600;
-    }
+	a {
+		font-weight: 600;
+	}
 </style>

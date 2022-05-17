@@ -3,11 +3,11 @@
  * and will be refactored once a natural structure has emerged.
  */
 
-import { BigNumber } from "ethers";
+import { BigNumber } from 'ethers';
 
 export enum Currency {
 	ETH = 0,
-	USD = 1,
+	USD = 1
 }
 
 export const CurrencyName = {
@@ -18,7 +18,7 @@ export const CurrencyName = {
 export const CurrencyValue = {
 	[Currency.ETH]: BigNumber.from(1),
 	[Currency.USD]: BigNumber.from(2)
-}
+};
 
 export enum DistributionLimitType {
 	None = 0,
