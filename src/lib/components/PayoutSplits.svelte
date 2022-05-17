@@ -11,9 +11,11 @@
 	import type { Split } from '$models/v2/splits';
 	import { getEthBalance } from '$data/eth';
 	import { getDistributionLimitType } from '$utils/v2/distributions';
-	import { openModal } from '$lib/components/Modal.svelte';
+	import { bind } from '$lib/components/Modal.svelte';
 	import DistributeFunds from '$lib/project/DistributeFunds.svelte';
 	import OwnerCrown from './OwnerCrown.svelte';
+	import { getTruncatedAddress } from './Address.svelte';
+	import { modal } from '$stores';
 
 	export let currency: Currency = Currency.ETH;
 	export let distributionLimit: BigNumber = BigNumber.from(0);
@@ -33,9 +35,11 @@
 
 	if (usedDistributionLimit) {
 		const untapped = distributionLimit.sub(usedDistributionLimit);
+		console.log({distributableAmount})
 		distributableAmount = balanceInDistributionLimitCurrency?.gt(untapped)
 			? untapped
 			: balanceInDistributionLimitCurrency;
+		console.log(balanceInDistributionLimitCurrency?.gt(untapped), untapped, balanceInDistributionLimitCurrency)
 	}
 
 	if (projectOwnerAddress) {
@@ -81,7 +85,7 @@
 			{/if}
 			{#if projectOwnerAddress}
 				{#await getEthBalance(projectOwnerAddress)}
-					<Icon name="loadng" spin />
+					<Icon name="loading" spin />
 				{:then amount}
 					<p><small><Money {amount} precision={2} /> <OwnerCrown /> owner balance</small></p>
 				{/await}
@@ -96,7 +100,15 @@
 		</div>
 		<!-- TODO check when this is supposed to be disabled and not -->
 		<div slot="right">
-			<button on:click={() => openModal(DistributeFunds)} disabled={isPreview}>Distribute funds</button>
+			<button
+				on:click={() =>
+					modal.set(
+						bind(DistributeFunds, {
+							totalFunds: distributableAmount
+						})
+					)}
+				disabled={distributableAmount.gte(distributionLimit)}>Distribute funds</button
+			>
 		</div>
 	</InfoSpaceBetween>
 {/if}
@@ -107,7 +119,10 @@
 </h4>
 {#if payoutSplits.length === 0}
 	<InfoSpaceBetween>
-		<p slot="left">Project owner {isPreview ? '(you)' : ''} <OwnerCrown /> :</p>
+		<p slot="left">
+			{isPreview ? '(you)' : getTruncatedAddress(projectOwnerAddress)}
+			<OwnerCrown /> :
+		</p>
 		<p slot="right">
 			{#if distributionLimitType !== DistributionLimitType.Infinite}
 				100%
@@ -143,6 +158,10 @@
 		border: 1px solid var(--stroke-disabled);
 		color: var(--text-disabled);
 		cursor: pointer;
+	}
+	button:not(:disabled) {
+		border: 1px solid var(--stroke-disabled);
+		color: var(--text-primary);
 	}
 	div[slot='left'] {
 		display: flex;

@@ -19,6 +19,7 @@
 	import { weightedAmount } from '$utils/v2/math';
 	import { BigNumber } from 'ethers';
 	import { getDistributionLimitType } from '$utils/v2/distributions';
+	import { V2_CURRENCY_ETH } from '$utils/v2/currency';
 
 	const projectsContext = getContext('PROJECT') as Store<V2ProjectContextType>;
 
@@ -69,7 +70,7 @@
 						</h4>
 					{:else}
 						<span class="amount-sub">
-							<ETHAmount amount={balance} precision={2} padEnd />
+							<ETHAmount amount={balance || BigNumber.from(0)} precision={2} padEnd />
 						</span>
 						<h4 class="amount-main">
 							<USDAmount amount={balanceInCurrency} precision={2} padEnd />
@@ -95,7 +96,7 @@
 
 			<div slot="right">
 				{#if distributionLimitType === DistributionLimitType.Specific}
-					{#if $projectsContext.distributionLimitCurrency === Currency.ETH}
+					{#if BigNumber.from($projectsContext.distributionLimitCurrency).eq(V2_CURRENCY_ETH)}
 						<h4 class="amount-main">
 							<ETHAmount amount={$projectsContext.usedDistributionLimit} precision={2} padEnd /> / <ETHAmount
 								amount={$projectsContext.distributionLimit}

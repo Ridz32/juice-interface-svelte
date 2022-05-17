@@ -27,11 +27,9 @@
 	const totalSplitPercentagePayoutSplits = getTotalSplitsPercentage($project.payoutSplits || []);
 	const distributionLimitType = getDistributionLimitType($project.distributionLimit);
 
-	// TODO contract reader total funds
-	// MOCK Data
-	const totalFunds = '500'; // as formatted value
-	const fee = amountFromPercent({ percent: 2.5, amount: totalFunds });
-	const totalAfterFee = parseFloat(totalFunds) - fee;
+	export let totalFunds: BigNumber; // as formatted value
+	const fee = amountFromPercent({ percent: 2.5, amount: totalFunds.toString() });
+	const totalAfterFee = parseFloat(totalFunds.toString()) - fee;
 
 	function getOwnerAmountPayoutSplits(summedSplitsPercent: number) {
 		const remainingPercent = 100 - summedSplitsPercent;

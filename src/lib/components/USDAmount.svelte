@@ -6,7 +6,7 @@
 	import USD from '$lib/components/USD.svelte';
 	import Popover from './Popover.svelte';
 
-	export let amount;
+	export let amount: BigNumber | number;
 	export let precision = 0;
 	export let padEnd = false;
 

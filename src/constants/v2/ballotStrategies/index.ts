@@ -11,7 +11,7 @@ export type BallotStrategy = {
 
 const BALLOT_ADDRESSES: { [k: string]: { [j: string]: string } } = {
 	THREE_DAY: {
-		rinkeby: '0xcA65D0348E6d53BD29d52e298140375cbC6d3C0D',
+		rinkeby: '0xf91150aa07a1AC707148420713cefd299b8D094A',
 		mainnet: '0x5eaBF1D7A8c6942534cCb3489Ff221b2CBc0255b'
 	}
 	// TODO waiting on 7-day buffer contract to be deployed.

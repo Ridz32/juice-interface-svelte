@@ -82,6 +82,15 @@
 	].filter(Boolean);
 
 	let currentTab = tabs[0].key;
+
+	console.log($projectContext.usedDistributionLimit);
+	const untapped = ($projectContext.distributionLimit ?? BigNumber.from(0)).sub(
+		$projectContext.usedDistributionLimit
+	);
+
+	const reservedTokens = $projectContext.balanceInDistributionLimitCurrency?.gt(untapped)
+		? untapped
+		: $projectContext.balanceInDistributionLimitCurrency;
 </script>
 
 <section bind:clientWidth>
@@ -155,10 +164,12 @@
 				</HeavyBorderBox>
 				<HeavyBorderBox>
 					<ReservedTokenSplits
+						{reservedTokens}
 						fundingCycleMetadata={fcMetadata}
 						{reservedTokensSplits}
 						{tokenSymbol}
 						{tokenAddress}
+						projectOwnerAddress={$projectContext.projectOwnerAddress}
 					/>
 				</HeavyBorderBox>
 			{:else if currentTab === 'upcoming'}

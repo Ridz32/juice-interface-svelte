@@ -20,7 +20,7 @@
 
 	import { page } from '$app/stores';
 	import type { V2ProjectContextType } from '$lib/create/stores';
-	import { contracts, readContract } from '$utils/web3/contractReader';
+	import { contracts, readContract, readContractByAddress } from '$utils/web3/contractReader';
 	import { V2ContractName } from '$models/v2/contracts';
 	import { ETH_PAYOUT_SPLIT_GROUP } from '$constants/v2/splits';
 	import { ETH_TOKEN_ADDRESS } from '$constants/v2/juiceboxTokens';
@@ -35,8 +35,9 @@
 	import Loading from '$lib/components/Loading.svelte';
 	import { Currency } from '$constants';
 	import { getCurrencyConverter } from '$data/currency';
-	import { V2CurrencyName } from '$utils/v2/currency';
+	import { V2CurrencyName, V2_CURRENCY_ETH, V2_CURRENCY_USD } from '$utils/v2/currency';
 	import type { V2CurrencyOption } from '$models/v2/currencyOption';
+	import ERC20ContractAbi from '$constants/ERC20ContractAbi';
 
 	let project = new Store<V2ProjectContextType>({} as any);
 
@@ -102,11 +103,19 @@
 			$project.primaryTerminal = terminals?.[0];
 
 			/****/
-			$project.tokenAddress = await readContract(
-				V2ContractName.JBTokenStore,
-				'tokenOf',
-				$project.projectId ? [$project.projectId.toHexString()] : []
-			);
+			try {
+				$project.tokenAddress = await readContract(
+					V2ContractName.JBTokenStore,
+					'tokenOf',
+					$project.projectId ? [$project.projectId.toHexString()] : []
+				);
+
+				$project.tokenSymbol = await readContractByAddress(
+					$project.tokenAddress,
+					ERC20ContractAbi,
+					'symbol'
+				);
+			} catch (error) {}
 
 			/****/
 			const value = await readContract(
@@ -149,6 +158,15 @@
 			);
 
 			/****/
+			$project.usedDistributionLimit = await readContract(
+				V2ContractName.JBSingleTokenPaymentTerminalStore,
+				'usedDistributionLimitOf',
+				$project.primaryTerminal && $project.projectId && $project.fundingCycle?.number
+					? [$project.primaryTerminal, $project.projectId, $project.fundingCycle?.number]
+					: null
+			);
+
+			/****/
 
 			const owner = await readContract(
 				V2ContractName.JBProjects,
@@ -167,9 +185,7 @@
 			);
 
 			// if ETH, no conversion necessary
-			if (BigNumber.from($project.distributionLimitCurrency)?.eq(Currency.ETH)) {
-				$project.balanceInDistributionLimitCurrency = BigNumber.from(ETHBalance);
-			} else {
+			if (BigNumber.from($project.distributionLimitCurrency)?.eq(V2_CURRENCY_USD)) {
 				const converter = getCurrencyConverter();
 				$project.balanceInDistributionLimitCurrency = converter.wadToCurrency(
 					BigNumber.from(ETHBalance),
@@ -178,6 +194,8 @@
 					),
 					V2CurrencyName(Currency.ETH as V2CurrencyOption)
 				);
+			} else {
+				$project.balanceInDistributionLimitCurrency = BigNumber.from(ETHBalance);
 			}
 
 			loading = false;

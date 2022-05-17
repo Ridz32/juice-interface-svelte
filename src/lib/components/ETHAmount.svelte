@@ -15,6 +15,8 @@
 	export let precision = 0;
 	export let padEnd = false;
 
+	$: amount = amount || BigNumber.from(0)
+
 	// const isMaxUint =
 	//   BigNumber.isBigNumber(amount) &&
 	//   (amount.eq(constants.MaxUint256) || amount.eq(MAX_DISTRIBUTION_LIMIT))

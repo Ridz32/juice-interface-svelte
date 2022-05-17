@@ -6,7 +6,7 @@
 	import SimpleSplits from './SimpleSplits.svelte';
 	import Trans from './Trans.svelte';
 	import { getTotalSplitsPercentage } from '$utils/v2/distributions';
-	import { BigNumber } from 'ethers';
+	import type { BigNumber } from 'ethers';
 	import { formatWad } from '$utils/formatNumber';
 	import { getTruncatedAddress } from './Address.svelte';
 	import type { V2FundingCycleMetadata } from '$models/v2/fundingCycle';
@@ -14,22 +14,17 @@
 	import DistributeTokens from '$lib/project/DistributeTokens.svelte';
 	import { openModal } from './Modal.svelte';
 	import OwnerCrown from './OwnerCrown.svelte';
+	import { connectedAccount } from '$stores/web3';
 
 	export let fundingCycleMetadata: V2FundingCycleMetadata;
 	export let reservedTokensSplits: Split[];
 	export let isPreview = false;
 
+	export let reservedTokens: BigNumber;
 	export let tokenSymbol: string | undefined = undefined;
 	export let tokenAddress: string | undefined = undefined;
 	export let hideHeader: boolean = false;
-
-	// TODO contract readerr
-	//   const reservedTokens = getProjectReservedTokens({
-	//     projectId,
-	//     reservedRate,
-	//   })
-
-	const reservedTokens = BigNumber.from('0x02a5a058fc295ed00000');
+	export let projectOwnerAddress: string;
 
 	$: totalSplitPercentageTokenSplits = getTotalSplitsPercentage(reservedTokensSplits || []);
 </script>
@@ -69,7 +64,10 @@
 {/each}
 <!-- TODO check if currentAccount is projectOwner -->
 <InfoSpaceBetween>
-	<p slot="left">Project owner {isPreview ? '(you)' : ''} <OwnerCrown />:</p>
+	<p slot="left">
+		{$connectedAccount === projectOwnerAddress ? '(you)' : getTruncatedAddress(projectOwnerAddress)}
+		<OwnerCrown />:
+	</p>
 	<p slot="right">{100 - totalSplitPercentageTokenSplits}%</p>
 </InfoSpaceBetween>
 
@@ -80,6 +78,10 @@
 		border: 1px solid var(--stroke-disabled);
 		color: var(--text-disabled);
 		cursor: pointer;
+	}
+	button:not(:disabled) {
+		border: 1px solid var(--stroke-disabled);
+		color: var(--text-primary);
 	}
 	div[slot='left'] {
 		display: flex;
