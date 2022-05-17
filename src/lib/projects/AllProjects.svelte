@@ -26,7 +26,7 @@
 			pageNumber,
 			pageSize,
 			orderDirection: 'desc',
-			state: showArchived ? 'archived' : 'active'
+			state: showArchived ? 'archived' : 'active',
 		});
 		loading = false;
 	};

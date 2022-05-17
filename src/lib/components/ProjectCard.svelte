@@ -39,7 +39,7 @@
 				<h1>{metadata.name}</h1>
 				<div>
 					<span class="handle">
-						Project {project.id}
+						Project {project.projectId}
 					</span>
 				</div>
 				<EthAmount amount={project.totalPaid} {precision} />

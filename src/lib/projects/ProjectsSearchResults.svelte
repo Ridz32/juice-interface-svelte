@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Icon from '$lib/components/Icon.svelte';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
-	import type { Project } from '$models/subgraph-entities/project';
+	import type { Project } from '$models/subgraph-entities/vX/project';
 
 	export let projects: Project[];
 	export let searchText: string;

@@ -46,12 +46,14 @@ interface ProjectsOptions {
 
 const keys: (keyof Project)[] = [
 	'id',
+	'projectId',
 	'owner',
 	'createdAt',
 	'metadataUri',
 	'currentBalance',
 	'totalPaid',
-	'totalRedeemed'
+	'totalRedeemed',
+	'cv'
 ];
 
 const queryOpts = (
@@ -60,7 +62,12 @@ const queryOpts = (
 	| GraphQueryOpts<'project', EntityKeys<'project'>>
 	| InfiniteGraphQueryOpts<'project', EntityKeys<'project'>>
 > => {
-	const where: WhereConfig<'project'>[] = [];
+	const where: WhereConfig<'project'>[] = [
+		{
+			key: 'cv',
+			value: '2'
+		}
+	];
 
 	if (opts.projectId) {
 		where.push({
@@ -207,11 +214,17 @@ export async function myProjectsQuery(wallet: string | undefined) {
 			? {
 					entity: 'project',
 					keys,
-					where: {
-						key: 'owner',
-						operator: 'in',
-						value: [wallet]
-					}
+					where: [
+						{
+							key: 'owner',
+							operator: 'in',
+							value: [wallet]
+						},
+						{
+							key: 'cv',
+							value: '2',
+						}
+					]
 			  }
 			: null
 	);

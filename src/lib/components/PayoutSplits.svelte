@@ -35,11 +35,15 @@
 
 	if (usedDistributionLimit) {
 		const untapped = distributionLimit.sub(usedDistributionLimit);
-		console.log({distributableAmount})
+		console.log({ distributableAmount });
 		distributableAmount = balanceInDistributionLimitCurrency?.gt(untapped)
 			? untapped
 			: balanceInDistributionLimitCurrency;
-		console.log(balanceInDistributionLimitCurrency?.gt(untapped), untapped, balanceInDistributionLimitCurrency)
+		console.log(
+			balanceInDistributionLimitCurrency?.gt(untapped),
+			untapped,
+			balanceInDistributionLimitCurrency
+		);
 	}
 
 	if (projectOwnerAddress) {
@@ -107,7 +111,7 @@
 							totalFunds: distributableAmount
 						})
 					)}
-				disabled={distributableAmount.gte(distributionLimit)}>Distribute funds</button
+				disabled={distributableAmount?.gte(distributionLimit)}>Distribute funds</button
 			>
 		</div>
 	</InfoSpaceBetween>

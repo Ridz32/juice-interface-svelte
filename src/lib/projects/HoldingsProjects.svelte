@@ -6,8 +6,9 @@
 	import { connectedAccount } from '$stores/web3';
 	import { holdingsProjectsQuery } from '$data/project';
 	import ProjectCount from './ProjectCount.svelte';
+	import type { ProjectV2 } from '$models/subgraph-entities/vX/project';
 
-	let projects: Project[] | undefined = undefined;
+	let projects: ProjectV2[] | undefined = undefined;
 	let holdingsProjectsLoading = true;
 
 	onMount(async () => {

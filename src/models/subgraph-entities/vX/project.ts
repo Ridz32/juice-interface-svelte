@@ -53,21 +53,13 @@ type BaseProject = {
 	deployedERC20Events: Partial<DeployedERC20Event>[];
 };
 
-export type ProjectV1 = {
-	terminal: string;
-	metadataUri: string;
-	metadataDomain: null;
-	handle: string;
-} & BaseProject;
-
 export type ProjectV2 = {
-	terminal: null;
 	metadataUri: string;
 	metadataDomain: BigNumber;
-	handle: null;
+	cv: '2';
 } & BaseProject;
 
-export type Project = ProjectV1 | ProjectV2; // Separate entity used for testing
+export type Project = ProjectV2; // Separate entity used for testing
 
 export type ProjectJson = Partial<
 	Record<
@@ -84,6 +76,7 @@ export type ProjectJson = Partial<
 			| 'deployedERC20Events'
 			| 'distributeToPayoutModEvents'
 			| 'distributeToTicketModEvents'
+			| 'cv'
 		>,
 		string
 	> & {
@@ -96,6 +89,7 @@ export type ProjectJson = Partial<
 		deployedERC20Events: DeployedERC20EventJson[];
 		distributeToPayoutModEvents: DistributeToPayoutModEventJson[];
 		distributeToTicketModEvents: DistributeToTicketModEventJson[];
+		cv: '2';
 	}
 >;
 
@@ -115,12 +109,13 @@ export const parseProjectJson = (project: ProjectJson): Partial<Project> => ({
 	distributeToPayoutModEvents:
 		project.distributeToPayoutModEvents?.map(parseDistributeToPayoutModEvent) ?? undefined,
 	distributeToTicketModEvents:
-		project.distributeToTicketModEvents?.map(parseDistributeToTicketModEvent) ?? undefined
+		project.distributeToTicketModEvents?.map(parseDistributeToTicketModEvent) ?? undefined,
+	cv: project.cv ?? '2'
 });
 
 export type TrendingProject = Pick<
 	Project,
-	'id' | 'projectId' | 'createdAt' | 'terminal' | 'totalPaid' | 'handle' | 'metadataUri'
+	'id' | 'projectId' | 'createdAt' | 'totalPaid' | 'metadataUri'
 > & {
 	trendingVolume: BigNumber;
 	trendingScore: BigNumber;
@@ -129,7 +124,7 @@ export type TrendingProject = Pick<
 
 export type TrendingProjectJson = Pick<
 	TrendingProject,
-	'id' | 'projectId' | 'createdAt' | 'terminal' | 'handle' | 'metadataUri' | 'trendingPaymentsCount'
+	'id' | 'projectId' | 'createdAt' | 'metadataUri' | 'trendingPaymentsCount'
 > & {
 	trendingVolume: string;
 	trendingScore: string;

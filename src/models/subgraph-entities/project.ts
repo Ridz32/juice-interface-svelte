@@ -35,19 +35,13 @@ import {
 	type PrintReservesEventJson
 } from './print-reserves-event';
 
-export type TrendingProject = Pick<
-	Project,
-	'id' | 'createdAt' | 'uri' | 'terminal' | 'totalPaid' | 'handle'
-> & {
+export type TrendingProject = Pick<Project, 'id' | 'createdAt' | 'totalPaid'> & {
 	trendingVolume: BigNumber;
 	trendingScore: BigNumber;
 	trendingPaymentsCount: number;
 };
 
-export type TrendingProjectJson = Pick<
-	TrendingProject,
-	'createdAt' | 'trendingPaymentsCount' | 'handle' | 'uri' | 'terminal'
-> & {
+export type TrendingProjectJson = Pick<TrendingProject, 'createdAt' | 'trendingPaymentsCount'> & {
 	id: string;
 	trendingVolume: string;
 	trendingScore: string;
@@ -83,16 +77,12 @@ export type ProjectJson = Partial<
 >;
 
 export interface Project {
-	id: BigNumber;
-	handle: string;
-	creator: string;
+	id: string;
 	createdAt: number;
-	uri: string;
 	totalPaid: BigNumber;
 	totalRedeemed: BigNumber;
 	currentBalance: BigNumber;
 	participants: Partial<Participant>[];
-	terminal: string;
 	payEvents: Partial<PayEvent>[];
 	printPremineEvents: Partial<PrintPremineEvent>[];
 	tapEvents: Partial<TapEvent>[];
@@ -105,7 +95,7 @@ export interface Project {
 
 export const parseProjectJson = (project: ProjectJson): Partial<Project> => ({
 	...project,
-	id: project.id ? BigNumber.from(project.id) : undefined,
+	id: project.id ? project.id : undefined,
 	createdAt: project.createdAt ? parseInt(project.createdAt) : undefined,
 	currentBalance: project.currentBalance ? BigNumber.from(project.currentBalance) : undefined,
 	totalPaid: project.totalPaid ? BigNumber.from(project.totalPaid) : undefined,
@@ -125,7 +115,7 @@ export const parseProjectJson = (project: ProjectJson): Partial<Project> => ({
 
 export const parseTrendingProjectJson = (project: TrendingProjectJson): TrendingProject => ({
 	...project,
-	id: BigNumber.from(project.id),
+	id: project.id,
 	totalPaid: BigNumber.from(project.totalPaid),
 	trendingScore: BigNumber.from(project.trendingScore),
 	trendingVolume: BigNumber.from(project.trendingVolume)
